@@ -73,7 +73,7 @@ $giper_baza_flex_field $mol_view
 							text/uri-list <= list_item_uri* \
 						Sub <= List_item_dump* $giper_baza_unit_sand_dump
 							land <= land
-							sand <= list_sand* $giper_baza_sand
+							sand <= list_sand* $giper_baza_unit_sand
 				<= List_pick $mol_select
 					enabled <= enabled true
 					value? <=> list_pick? null

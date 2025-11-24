@@ -84,9 +84,9 @@ namespace $.$$ {
 			padding: $mol_gap.text,
 		},
 		
-		Unit_tip: {
-			color: $mol_theme.shade,
-		},
+		// Unit_tip: {
+		// 	color: $mol_theme.shade,
+		// },
 		
 		Unit_tag: {
 			color: $mol_theme.shade,
