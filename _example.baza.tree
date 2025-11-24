@@ -8,9 +8,13 @@ Speech *
 	.Meetup -> Meetup
 	.Title text
 	.Descr Text
-	.Speaker Speaker
+	.Speaker_snap Speaker_snap
 
 Speaker *
 	\Докладчик
 	.Name text
 	.Photo Blob
+
+Speaker_snap Speaker
+	\Снепшот докладчика
+	.Live -> Speaker
