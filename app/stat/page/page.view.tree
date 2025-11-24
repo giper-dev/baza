@@ -1,4 +1,4 @@
-$hyoo_crus_app_stat_page $mol_page
+$giper_baza_app_stat_page $mol_page
 	title \📊 Stat
 	head /
 		<= Domain $mol_chip title <= domain \

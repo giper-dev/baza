@@ -1,9 +1,9 @@
-$hyoo_crus_glob_book $mol_book2_catalog
+$giper_baza_glob_book $mol_book2_catalog
 	menu_title \🌐 Glob
 	param \link
-	Spread* <= Land* $hyoo_crus_land_page
-		land <= land* $hyoo_crus_land
-		node <= node* $hyoo_crus_dict
+	Spread* <= Land* $giper_baza_land_page
+		land <= land* $giper_baza_land
+		node <= node* $giper_baza_dict
 		Close <= Spread_close
 	menu_foot /
 		<= Wipe_pick $mol_pick
@@ -17,7 +17,7 @@ $hyoo_crus_glob_book $mol_book2_catalog
 		<= Update $mol_button_open
 			hint \Upload dump
 			files? <=> update? /
-		<= Land_add $hyoo_crus_land_grab
+		<= Land_add $giper_baza_land_grab
 			hint \Grab new Land
 			align_hor \left
-			grab? <=> land_add? null $hyoo_crus_rank_preset
+			grab? <=> land_add? null $giper_baza_rank_preset

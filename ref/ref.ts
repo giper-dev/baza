@@ -1,5 +1,5 @@
 namespace $ {
 	
-	export let $hyoo_crus_ref = $hyoo_crus_link
+	export let $giper_baza_ref = $giper_baza_link
 
 }

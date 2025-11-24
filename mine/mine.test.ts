@@ -1,13 +1,13 @@
 namespace $ {
 	$mol_test_mocks.push( $=> {
-		class $hyoo_crus_mine_mock extends $.$hyoo_crus_mine {
+		class $giper_baza_mine_mock extends $.$giper_baza_mine {
 			
 			/** Updates Units in storage */
-			override units_save( diff: $hyoo_crus_mine_diff ) {}
+			override units_save( diff: $giper_baza_mine_diff ) {}
 			
 			/** Loads Units from storage */
 			override units_load() {
-				return [] as $hyoo_crus_unit_base[]
+				return [] as $giper_baza_unit_base[]
 			}
 			
 			/** Loads Ball from storage */
@@ -16,6 +16,6 @@ namespace $ {
 			}
 			
 		}
-		$.$hyoo_crus_mine = $hyoo_crus_mine_mock
+		$.$giper_baza_mine = $giper_baza_mine_mock
 	} )
 }

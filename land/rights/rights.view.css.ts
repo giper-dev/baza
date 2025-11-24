@@ -1,6 +1,6 @@
 namespace $.$$ {
 	
-	$mol_style_define( $hyoo_crus_land_rights, {
+	$mol_style_define( $giper_baza_land_rights, {
 		
 		Gift_peer: {
 			flex: {

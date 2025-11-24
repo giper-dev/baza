@@ -3,8 +3,8 @@ namespace $ {
 		
 		'save and load buffers'( $ ) {
 			
-			const land = $hyoo_crus_land.make({ $ })
-			const file = land.Data( $hyoo_crus_file )
+			const land = $giper_baza_land.make({ $ })
+			const file = land.Data( $giper_baza_file )
 			
 			const source = new Uint8Array( 2**15 + 1 )
 			source[ 2**15 ] = 255 
@@ -18,8 +18,8 @@ namespace $ {
 		
 		async 'save and load blobs'( $ ) {
 			
-			const land = $hyoo_crus_land.make({ $ })
-			const file = land.Data( $hyoo_crus_file )
+			const land = $giper_baza_land.make({ $ })
+			const file = land.Data( $giper_baza_file )
 				
 			const source = new Uint8Array( 2**16 + 1 )
 			source[ 2**16 + 1 ] = 255 

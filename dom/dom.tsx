@@ -1,20 +1,20 @@
 /** @jsx $mol_jsx */
 /** @jsxFrag $mol_jsx_frag */
 namespace $ {
-	export class $hyoo_crus_dom extends $hyoo_crus_node {
+	export class $giper_baza_dom extends $giper_baza_node {
 		
 		dom( next?: ( Element | Attr | Text )[] ): ( Element | Attr | Text )[] {
 			
 			const land = this.land()
-			const doms = land.Node( $hyoo_crus_dom )
-			const regs = land.Node( $hyoo_crus_atom_text )
+			const doms = land.Node( $giper_baza_dom )
+			const regs = land.Node( $giper_baza_atom_text )
 			
 			if( next ) {
 				
 				const ids = new Set< string >()
 				for( const node of next ) {
 					if(!( node instanceof this.$.$mol_dom_context.Element )) continue
-					let id = $hyoo_crus_link.check( node.id )
+					let id = $giper_baza_link.check( node.id )
 					if( !id || ids.has( id ) ) node.id = id = ''
 					ids.add( id )
 				}
@@ -24,7 +24,7 @@ namespace $ {
 
 				function flush() {
 					if( !texts.length ) return 
-					for( const token of texts.matchAll( $hyoo_crus_text_tokens ) ) {
+					for( const token of texts.matchAll( $giper_baza_text_tokens ) ) {
 						sample.push( token[0] )
 					}
 					texts = ''
@@ -100,7 +100,7 @@ namespace $ {
 					next: sample,
 					equal: ( next, prev )=> {
 						if( typeof next === 'string' ) {
-							const p = $hyoo_crus_vary_cast_text( land.sand_decode( prev ) )
+							const p = $giper_baza_vary_cast_text( land.sand_decode( prev ) )
 							if( !p ) return false
 							return p.startsWith( next ) || next.startsWith( p )
 						} else if( next.nodeType === next.ATTRIBUTE_NODE ) {
@@ -112,15 +112,15 @@ namespace $ {
 					drop: ( prev, lead )=> land.sand_wipe( prev ),
 					insert: ( next, lead )=> {
 						return land.post(
-							lead?.self() ?? $hyoo_crus_link.hole,
+							lead?.self() ?? $giper_baza_link.hole,
 							this.head(),
 							typeof next === 'string'
-								? $hyoo_crus_link.hole
+								? $giper_baza_link.hole
 								: next.nodeType === next.ATTRIBUTE_NODE
-									? $hyoo_crus_link.hole
-									: $hyoo_crus_link.check( ( next as Element ).id )
-										? new $hyoo_crus_link( ( next as Element ).id )
-										: $hyoo_crus_link.hole,
+									? $giper_baza_link.hole
+									: $giper_baza_link.check( ( next as Element ).id )
+										? new $giper_baza_link( ( next as Element ).id )
+										: $giper_baza_link.hole,
 							val( next ),
 							tag( next ),
 						)
@@ -128,14 +128,14 @@ namespace $ {
 					update: ( next, prev, lead )=> ( typeof next !== 'string' || next === land.sand_decode( prev ) )
 						? prev
 						: land.post(
-							lead?.self() ?? $hyoo_crus_link.hole,
+							lead?.self() ?? $giper_baza_link.hole,
 							prev.head(),
 							prev.self(),
 							val( next ),
 							tag( next ),
 						),
 					replace: ( next, prev, lead )=> land.post(
-						lead?.self() ?? $hyoo_crus_link.hole,
+						lead?.self() ?? $giper_baza_link.hole,
 						prev.head(),
 						prev.self(),
 						val( next ),
@@ -181,7 +181,7 @@ namespace $ {
 						: {}
 					
 					const content = unit.tag() === 'term'
-						? $hyoo_crus_vary_cast_text( land.sand_decode( unit ) )
+						? $giper_baza_vary_cast_text( land.sand_decode( unit ) )
 						: doms.Item( unit.self() ).dom()
 					
 					return <Tag { ... attrs } id={ unit.self().str } >{ content }</Tag>
@@ -205,11 +205,11 @@ namespace $ {
 
 		@ $mol_mem_key
 		selection(
-			lord: $hyoo_crus_link,
-			next?: readonly( readonly[ $hyoo_crus_link /*self*/, number /*pos*/ ] )[],
-		): readonly( readonly[ $hyoo_crus_link /*self*/, number /*pos*/ ] )[]  {
+			lord: $giper_baza_link,
+			next?: readonly( readonly[ $giper_baza_link /*self*/, number /*pos*/ ] )[],
+		): readonly( readonly[ $giper_baza_link /*self*/, number /*pos*/ ] )[]  {
 
-			const base = this.$.$hyoo_crus_glob.Land( lord ).Data( $hyoo_crus_home )
+			const base = this.$.$giper_baza_glob.Land( lord ).Data( $giper_baza_home )
 			
 			if( next ) {
 				
@@ -220,7 +220,7 @@ namespace $ {
 				
 				return base.Selection()?.val()?.split( '|' ).map( point => {
 					const chunks = point.split( ':' )
-					return [ new $hyoo_crus_link( chunks[0] ), Number( chunks[1] ) || 0 ]
+					return [ new $giper_baza_link( chunks[0] ), Number( chunks[1] ) || 0 ]
 				} ) ?? [ [ this.head(), 0 ], [ this.head(), 0 ] ]
 					
 			}

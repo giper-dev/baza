@@ -1,4 +1,4 @@
-name: $hyoo_crus_app
+name: $giper_baza_app
 
 on:
   workflow_dispatch:
@@ -13,9 +13,9 @@ jobs:
     steps:
     - uses: hyoo-ru/mam_build@master2
       with:
-        package: 'hyoo/crus'
+        package: 'giper/baza'
         modules: 'app/run'
     - uses: hyoo-ru/gh-deploy@v4.4.1
       if: github.ref == 'refs/heads/master'
       with:
-        folder: 'hyoo/crus/app/run/-'
+        folder: 'giper/baza/app/run/-'

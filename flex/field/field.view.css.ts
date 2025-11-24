@@ -1,6 +1,6 @@
 namespace $.$$ {
 	
-	$mol_style_define( $hyoo_crus_flex_field, {
+	$mol_style_define( $giper_baza_flex_field, {
 		
 		flex: {
 			grow: 1,
@@ -46,7 +46,7 @@ namespace $.$$ {
 			},
 		},
 		
-		$hyoo_crus_flex_form: {
+		$giper_baza_flex_form: {
 			padding: $mol_gap.block,
 			flex: {
 				grow: 1,

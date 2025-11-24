@@ -3,12 +3,12 @@ namespace $ {
 	const Passives = new WeakMap< $mol_rest_port, Set< string > >()
 	
 	/** Glob synchronizer */
-	export class $hyoo_crus_yard extends $mol_object {
+	export class $giper_baza_yard extends $mol_object {
 		
 		/** Whole global graph database which contains Lands */
 		@ $mol_mem
 		glob() {
-			return null! as $hyoo_crus_glob
+			return null! as $giper_baza_glob
 		}
 		
 		lands_news = new $mol_wire_set< string >()
@@ -22,12 +22,12 @@ namespace $ {
 		
 		@ $mol_mem
 		master_current() {
-			return this.$.$hyoo_crus_yard.masters[ this.master_cursor() ]
+			return this.$.$giper_baza_yard.masters[ this.master_cursor() ]
 		}
 		
 		@ $mol_action
 		master_next() {
-			this.master_cursor( ( this.master_cursor() + 1 ) % this.$.$hyoo_crus_yard.masters.length )
+			this.master_cursor( ( this.master_cursor() + 1 ) % this.$.$giper_baza_yard.masters.length )
 		}
 		
 		@ $mol_mem
@@ -123,8 +123,8 @@ namespace $ {
 		@ $mol_mem
 		sync_news() {
 			
-			const glob = this.$.$hyoo_crus_glob
-			const lands = [ ... this.lands_news ].map( link => glob.Land( new $hyoo_crus_link( link ) ) )
+			const glob = this.$.$giper_baza_glob
+			const lands = [ ... this.lands_news ].map( link => glob.Land( new $giper_baza_link( link ) ) )
 			
 			try {
 				for( const port of this.masters() ) {
@@ -148,7 +148,7 @@ namespace $ {
 		@ $mol_mem_key
 		sync_port_lands( port: $mol_rest_port ) {
 			for( const land of this.port_lands_active( port ) ) {
-				this.sync_port_land([ port, new $hyoo_crus_link( land ) ])
+				this.sync_port_land([ port, new $giper_baza_link( land ) ])
 			}
 		}
 		
@@ -181,12 +181,12 @@ namespace $ {
 		@ $mol_action
 		port_income( port: $mol_rest_port, msg: Uint8Array< ArrayBuffer > ) {
 			
-			const pack = $mol_wire_sync( $hyoo_crus_pack ).from( msg ) as $hyoo_crus_pack
+			const pack = $mol_wire_sync( $giper_baza_pack ).from( msg ) as $giper_baza_pack
 			const parts =  $mol_wire_sync( pack ).parts()
 			
 			for( const [ land, part ] of parts ) {
 					
-				const Land = this.$.$hyoo_crus_glob.Land( new $hyoo_crus_link( land ) )
+				const Land = this.$.$giper_baza_glob.Land( new $giper_baza_link( land ) )
 				
 				forget: {
 					
@@ -196,7 +196,7 @@ namespace $ {
 					
 					this.port_lands_active( port ).delete( land )
 					
-					if( this.$.$hyoo_crus_log() ) $mol_wire_sync( this.$ ).$mol_log3_done({
+					if( this.$.$giper_baza_log() ) $mol_wire_sync( this.$ ).$mol_log3_done({
 						place: this,
 						message: '➕ Take Free',
 						port: $mol_key( port ),
@@ -210,7 +210,7 @@ namespace $ {
 				
 				if( part.units.length ) {
 					
-					if( this.$.$hyoo_crus_log() ) $mol_wire_sync( this.$ ).$mol_log3_rise({
+					if( this.$.$giper_baza_log() ) $mol_wire_sync( this.$ ).$mol_log3_rise({
 						place: this,
 						message: '➕ Take Unit',
 						port: $mol_key( port ),
@@ -222,7 +222,7 @@ namespace $ {
 					
 				} else {
 					
-					if( this.$.$hyoo_crus_log() ) $mol_wire_sync( this.$ ).$mol_log3_rise({
+					if( this.$.$giper_baza_log() ) $mol_wire_sync( this.$ ).$mol_log3_rise({
 						place: this,
 						message: '➕ Take Face',
 						port: $mol_key( port ),
@@ -239,14 +239,14 @@ namespace $ {
 		@ $mol_action
 		face_port_sync(
 			port: $mol_rest_port,
-			income: $hyoo_crus_pack_parts, 
+			income: $giper_baza_pack_parts, 
 		) {
 			
 			const actives = this.port_lands_active( port )
 			const passives = this.port_lands_passive( port )
 			
 			for( const [ land, part ] of income ) {
-				const land_link = new $hyoo_crus_link( land )
+				const land_link = new $giper_baza_link( land )
 				
 				if( !passives.has( land ) ) actives.add( land )
 				
@@ -256,12 +256,12 @@ namespace $ {
 				if( !port_faces ) this.face_port_land(
 					[ port, land_link ],
 					port_faces = $mol_mem_cached( ()=> this.face_port_land([ port, land_link ]) )
-						|| new $hyoo_crus_face_map,
+						|| new $giper_baza_face_map,
 				)
 				port_faces.sync( faces )
 			
 				for( let unit of part.units ) {
-					if( unit instanceof $hyoo_crus_auth_pass ) continue
+					if( unit instanceof $giper_baza_auth_pass ) continue
 					port_faces.peer_time( unit.lord().peer().str, unit.time(), unit.tick() )
 				}
 				
@@ -270,7 +270,7 @@ namespace $ {
 		}
 		
 		@ $mol_mem_key
-		sync_land( land: $hyoo_crus_link ) {
+		sync_land( land: $giper_baza_link ) {
 			for( const port of this.masters() ) {
 				this.port_lands_passive( port ).add( land.str )
 				this.sync_port_land([ port, land ])
@@ -279,14 +279,14 @@ namespace $ {
 		}
 		
 		@ $mol_action
-		forget_land( land: $hyoo_crus_land ) {
+		forget_land( land: $giper_baza_land ) {
 			
-			const faces = new $hyoo_crus_face_map
+			const faces = new $giper_baza_face_map
 			faces.stat = land.faces.stat.clone()
 			
-			const pack = $hyoo_crus_pack.make([[
+			const pack = $giper_baza_pack.make([[
 				land.link().str,
-				new $hyoo_crus_pack_part( [], faces )
+				new $giper_baza_pack_part( [], faces )
 			]]).asArray()
 			
 			for( const port of this.ports() ) {
@@ -294,7 +294,7 @@ namespace $ {
 				if( !this.port_lands_passive( port ).has( land.link().str ) ) continue
 				this.port_lands_passive( port ).delete( land.link().str )
 				
-				if( this.$.$hyoo_crus_log() ) this.$.$mol_log3_done({
+				if( this.$.$giper_baza_log() ) this.$.$mol_log3_done({
 					place: this,
 					message: '🔱 Send Free',
 					port: $mol_key( port ),
@@ -308,7 +308,7 @@ namespace $ {
 		}
 		
 		@ $mol_mem_key
-		sync_port_land( [ port, land ]: [ $mol_rest_port, $hyoo_crus_link ] ) {
+		sync_port_land( [ port, land ]: [ $mol_rest_port, $giper_baza_link ] ) {
 			
 			try {
 			
@@ -317,13 +317,13 @@ namespace $ {
 				const faces = this.face_port_land([ port, land ])
 				if( !faces ) return
 				
-				const Land = this.$.$hyoo_crus_glob.Land( land )
+				const Land = this.$.$giper_baza_glob.Land( land )
 				Land.saving()
 				
 				const units = Land.diff_units( faces )
 				if( !units.length ) return
 				
-				if( this.$.$hyoo_crus_log() ) this.$.$mol_log3_rise({
+				if( this.$.$giper_baza_log() ) this.$.$mol_log3_rise({
 					place: this,
 					message: '🔱 Send Unit',
 					port: $mol_key( port ),
@@ -331,9 +331,9 @@ namespace $ {
 					units,
 				})
 				
-				const pack = $hyoo_crus_pack.make([[
+				const pack = $giper_baza_pack.make([[
 					Land.link().str,
-					new $hyoo_crus_pack_part( units )
+					new $giper_baza_pack_part( units )
 				]])
 				
 				port.send_bin( pack.asArray() )
@@ -346,11 +346,11 @@ namespace $ {
 		}
 		
 		@ $mol_mem_key
-		init_port_land( [ port, land ]: [ $mol_rest_port, $hyoo_crus_link ] ) {
+		init_port_land( [ port, land ]: [ $mol_rest_port, $giper_baza_link ] ) {
 			// $mol_wire_solid() 
-			const Land = this.$.$hyoo_crus_glob.Land( land )
+			const Land = this.$.$giper_baza_glob.Land( land )
 			Land.loading()
-			if( this.$.$hyoo_crus_log() ) this.$.$mol_log3_come({
+			if( this.$.$giper_baza_log() ) this.$.$mol_log3_come({
 				place: this,
 				message: '🔱 Send Face',
 				port: $mol_key( port ),
@@ -362,8 +362,8 @@ namespace $ {
 		
 		@ $mol_mem_key
 		face_port_land(
-			[ port, land ]: [ $mol_rest_port, $hyoo_crus_link ],
-			next = null as null | $hyoo_crus_face_map
+			[ port, land ]: [ $mol_rest_port, $giper_baza_link ],
+			next = null as null | $giper_baza_face_map
 		) {
 			$mol_wire_solid()
 			return next

@@ -1,18 +1,18 @@
 namespace $ {
 	/** Mergeable dictionary node with any keys mapped to any embedded Node types */
-	export class $hyoo_crus_dict extends $hyoo_crus_list_vary {
+	export class $giper_baza_dict extends $giper_baza_list_vary {
 		
-		static tag = $hyoo_crus_unit_sand_tag[ $hyoo_crus_unit_sand_tag.keys ] as keyof typeof $hyoo_crus_unit_sand_tag
+		static tag = $giper_baza_unit_sand_tag[ $giper_baza_unit_sand_tag.keys ] as keyof typeof $giper_baza_unit_sand_tag
 		
 		/** List of Vary keys. */
 		@ $mol_mem
-		keys(): readonly $hyoo_crus_vary_type[] {
+		keys(): readonly $giper_baza_vary_type[] {
 			return this.items_vary()
 		}
 		
 		/** Inner Node by key. */
-		dive< Node extends typeof $hyoo_crus_node >(
-			key: $hyoo_crus_vary_type,
+		dive< Node extends typeof $giper_baza_node >(
+			key: $giper_baza_vary_type,
 			Node: Node,
 			auto?: any,
 		) {
@@ -21,23 +21,23 @@ namespace $ {
 			return unit ? this.land().Node( Node ).Item( unit.self() ) : null
 		}
 		
-		static schema = {} as Record< string, typeof $hyoo_crus_node >
+		static schema = {} as Record< string, typeof $giper_baza_node >
 		
 		/** Mergeable dictionary node with defined keys mapped to different embedded Node types */
 		static with<
-			This extends typeof $hyoo_crus_dict,
-			const Schema extends Record< string, { tag: keyof typeof $hyoo_crus_unit_sand_tag, new(): {} } >
+			This extends typeof $giper_baza_dict,
+			const Schema extends Record< string, { tag: keyof typeof $giper_baza_unit_sand_tag, new(): {} } >
 		>( this: This, schema: Schema ) {
 			
-			const $hyoo_crus_dict_with = class $hyoo_crus_dict_with extends ( this as any ) {
+			const $giper_baza_dict_with = class $giper_baza_dict_with extends ( this as any ) {
 				// static get schema() { return { ... this.schema, ... schema } }
 				
 				static toString() {
 					
-					if( this !== $hyoo_crus_dict_with ) return super.toString()
+					if( this !== $giper_baza_dict_with ) return super.toString()
 					
 					const params = Object.entries( schema ).map( ([ name, type ])=> `${name}: ${type}` )
-					return '$hyoo_crus_dict.with<{' + params.join( ', ' ) + '}>'
+					return '$giper_baza_dict.with<{' + params.join( ', ' ) + '}>'
 					
 				}
 				
@@ -49,7 +49,7 @@ namespace $ {
 
 			for( const Field in schema ) {
 				
-				Object.defineProperty( $hyoo_crus_dict_with.prototype, Field, {
+				Object.defineProperty( $giper_baza_dict_with.prototype, Field, {
 					value: function( this: InstanceType< This >, auto?: any ) {
 						return this.dive( Field, schema[ Field ] as any, auto )
 					}
@@ -58,7 +58,7 @@ namespace $ {
 				// $mol_wire_field( Entity.prototype, Field as any )
 			}
 			
-			return Object.assign( $hyoo_crus_dict_with, { schema: { ... this.schema, ... schema } } )
+			return Object.assign( $giper_baza_dict_with, { schema: { ... this.schema, ... schema } } )
 			
 		}
 		
@@ -92,20 +92,20 @@ namespace $ {
 	}
 	
 	/** Mergeable dictionary with any keys mapped to any embedded Node types */
-	export function $hyoo_crus_dict_to<
-		Value extends { tag: keyof typeof $hyoo_crus_unit_sand_tag, new(): {} }
+	export function $giper_baza_dict_to<
+		Value extends { tag: keyof typeof $giper_baza_unit_sand_tag, new(): {} }
 	>( Value: Value ) {
 		
-		return class $hyoo_crus_dict_to extends $hyoo_crus_dict {
+		return class $giper_baza_dict_to extends $giper_baza_dict {
 			
 			Value = Value
 			
-			key( key: $hyoo_crus_vary_type, auto?: any ) {
-				return this.dive( key, this.Value as any as typeof $hyoo_crus_node, auto ) as InstanceType< Value >
+			key( key: $giper_baza_vary_type, auto?: any ) {
+				return this.dive( key, this.Value as any as typeof $giper_baza_node, auto ) as InstanceType< Value >
 			}
 			
 			static toString() {
-				return this === $hyoo_crus_dict_to ? '$hyoo_crus_dict_to<' + Value + '>' : super.toString()
+				return this === $giper_baza_dict_to ? '$giper_baza_dict_to<' + Value + '>' : super.toString()
 			}
 			
 		}

@@ -1,8 +1,8 @@
 namespace $.$$ {
-	export class $hyoo_crus_flex_field extends $.$hyoo_crus_flex_field {
+	export class $giper_baza_flex_field extends $.$giper_baza_flex_field {
 		
 		override dict_node() {
-			return this.node() as $hyoo_crus_dict
+			return this.node() as $giper_baza_dict
 		}
 		
 		@ $mol_mem
@@ -24,8 +24,8 @@ namespace $.$$ {
 			}
 		}
 		
-		override enum( next?: $hyoo_crus_vary_type ) {
-			return this.node( next as any )?.cast( $hyoo_crus_atom_vary ).vary( next ) ?? null
+		override enum( next?: $giper_baza_vary_type ) {
+			return this.node( next as any )?.cast( $giper_baza_atom_vary ).vary( next ) ?? null
 		}
 		
 		@ $mol_mem
@@ -34,32 +34,32 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem_key
-		override enum_label( option: $hyoo_crus_vary_type ) {
-			return $hyoo_crus_vary_cast_text( option ) ?? ''
+		override enum_label( option: $giper_baza_vary_type ) {
+			return $giper_baza_vary_cast_text( option ) ?? ''
 		}
 		
 		bool( next?: boolean ) {
-			return this.node( next as any )?.cast( $hyoo_crus_atom_bool ).val( next ) ?? false
+			return this.node( next as any )?.cast( $giper_baza_atom_bool ).val( next ) ?? false
 		}
 		
 		int( next?: number ) {
-			return Number( this.node( next as any )?.cast( $hyoo_crus_atom_bint ).val( next === undefined ? undefined : BigInt( next ) ) ?? Number.NaN )
+			return Number( this.node( next as any )?.cast( $giper_baza_atom_bint ).val( next === undefined ? undefined : BigInt( next ) ) ?? Number.NaN )
 		}
 		
 		real( next?: number ) {
-			return this.node( next as any )?.cast( $hyoo_crus_atom_real ).val( next ) ?? Number.NaN
+			return this.node( next as any )?.cast( $giper_baza_atom_real ).val( next ) ?? Number.NaN
 		}
 		
 		str( next?: string ) {
-			return this.node( next as any )?.cast( $hyoo_crus_atom_text ).val( next ) ?? ''
+			return this.node( next as any )?.cast( $giper_baza_atom_text ).val( next ) ?? ''
 		}
 		
 		time( next?: $mol_time_moment ) {
-			return this.node( next as any )?.cast( $hyoo_crus_atom_time ).val( next ) ?? null!
+			return this.node( next as any )?.cast( $giper_baza_atom_time ).val( next ) ?? null!
 		}
 		
-		link( next?: $hyoo_crus_link ) {
-			this.node( next as any )?.cast( $hyoo_crus_atom_link ).val( next ) ?? null
+		link( next?: $giper_baza_link ) {
+			this.node( next as any )?.cast( $giper_baza_atom_link ).val( next ) ?? null
 			return null
 		}
 		
@@ -74,20 +74,20 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		link_value() {
-			return this.node()?.cast( $hyoo_crus_atom_vary ).vary() ?? null
+			return this.node()?.cast( $giper_baza_atom_vary ).vary() ?? null
 		}
 		
 		link_options() {
 			return this.prop().Enum()?.remote()?.items_vary() ?? []
 		}
 		
-		link_label( link: $hyoo_crus_vary_type ) {
-			if( link instanceof $hyoo_crus_link ) return this.$.$hyoo_crus_glob.Node( link, $hyoo_crus_flex_thing ).Title()?.val() ?? link.str
-			return $hyoo_crus_vary_cast_text( link ) ?? ''
+		link_label( link: $giper_baza_vary_type ) {
+			if( link instanceof $giper_baza_link ) return this.$.$giper_baza_glob.Node( link, $giper_baza_flex_thing ).Title()?.val() ?? link.str
+			return $giper_baza_vary_cast_text( link ) ?? ''
 		}
 		
 		link_remote() {
-			return ( this.node().cast( $hyoo_crus_atom_link_to( ()=> $hyoo_crus_dict ) ) ).remote()!
+			return ( this.node().cast( $giper_baza_atom_link_to( ()=> $giper_baza_dict ) ) ).remote()!
 		}
 		
 		@ $mol_action
@@ -95,7 +95,7 @@ namespace $.$$ {
 			
 			if( !rights ) return null
 			
-			const node =  this.node( 'auto' as any ).cast( $hyoo_crus_flex_thing_link )
+			const node =  this.node( 'auto' as any ).cast( $giper_baza_flex_thing_link )
 			const Target = this.prop().Target()?.remote()
 			
 			if( rights === 'local' ) {
@@ -106,10 +106,10 @@ namespace $.$$ {
 			
 			const preset = ( {
 				deny: [],
-				read: [[ null, $hyoo_crus_rank_read ]],
-				post: [[ null, $hyoo_crus_rank_post( 'just' ) ]],
-				pull: [[ null, $hyoo_crus_rank_pull( 'just' ) ]],
-			} as Record< string, $hyoo_crus_rank_preset > )[ rights as any ]
+				read: [[ null, $giper_baza_rank_read ]],
+				post: [[ null, $giper_baza_rank_post( 'just' ) ]],
+				pull: [[ null, $giper_baza_rank_pull( 'just' ) ]],
+			} as Record< string, $giper_baza_rank_preset > )[ rights as any ]
 			
 			if( preset ) {
 				const remote = node.ensure( preset )!
@@ -121,12 +121,12 @@ namespace $.$$ {
 		}
 		
 		text( next?: string ) {
-			return this.node( next as any )?.cast( $hyoo_crus_text ).value( next ) ?? ''
+			return this.node( next as any )?.cast( $giper_baza_text ).value( next ) ?? ''
 		}
 		
 		@ $mol_mem
 		dict_title() {
-			return this.node().cast( $hyoo_crus_entity ).Title()?.val() || this.node().link().str
+			return this.node().cast( $giper_baza_entity ).Title()?.val() || this.node().link().str
 		}
 		
 		@ $mol_mem
@@ -138,44 +138,44 @@ namespace $.$$ {
 			]
 		}
 		
-		list_pick( next?: $hyoo_crus_link ) {
+		list_pick( next?: $giper_baza_link ) {
 			if( !next ) return null
-			this.node( next as any )?.cast( $hyoo_crus_list_vary ).add( next )
+			this.node( next as any )?.cast( $giper_baza_list_vary ).add( next )
 			return null
 		}
 		
 		@ $mol_mem
 		list_item_add() {
-			const target = this.node( null as any ).cast( $hyoo_crus_list_link_to( ()=> $hyoo_crus_flex_thing ) ).local_make()
+			const target = this.node( null as any ).cast( $giper_baza_list_link_to( ()=> $giper_baza_flex_thing ) ).local_make()
 			target.Kind(null)?.remote( this.prop().Target()?.remote() )
 		}
 		
 		@ $mol_mem_key
-		list_sand( sand: $hyoo_crus_unit_sand ) {
+		list_sand( sand: $giper_baza_unit_sand ) {
 			return sand
 		}
 		
-		list_item_value( sand: $hyoo_crus_unit_sand ) {
-			return $hyoo_crus_vary_cast_text( this.land().sand_decode( sand ) ) ?? ''
+		list_item_value( sand: $giper_baza_unit_sand ) {
+			return $giper_baza_vary_cast_text( this.land().sand_decode( sand ) ) ?? ''
 		}
 		
 		list_item_adopt( transfer : DataTransfer ) {
-			let val: $hyoo_crus_vary_type = transfer.getData( "text/plain" )
-			if( this.prop().Target()?.val() ) val = $hyoo_crus_vary_cast_link( val )
+			let val: $giper_baza_vary_type = transfer.getData( "text/plain" )
+			if( this.prop().Target()?.val() ) val = $giper_baza_vary_cast_link( val )
 			return val
 		}
 
-		list_item_receive( sand: $hyoo_crus_unit_sand, value: string ) {
-			const list = this.node()!.cast( $hyoo_crus_list_vary )
-			this.node()?.cast( $hyoo_crus_list_vary ).splice( [ value ], list.units().indexOf( sand ) )
+		list_item_receive( sand: $giper_baza_unit_sand, value: string ) {
+			const list = this.node()!.cast( $giper_baza_list_vary )
+			this.node()?.cast( $giper_baza_list_vary ).splice( [ value ], list.units().indexOf( sand ) )
 		}
 		
 		list_receive( value: string ) {
-			const list = this.node()!.cast( $hyoo_crus_list_vary )
-			this.node()?.cast( $hyoo_crus_list_vary ).splice( [ value ] )
+			const list = this.node()!.cast( $giper_baza_list_vary )
+			this.node()?.cast( $giper_baza_list_vary ).splice( [ value ] )
 		}
 		
-		list_item_drag_end( sand: $hyoo_crus_unit_sand, event: DragEvent ) {
+		list_item_drag_end( sand: $giper_baza_unit_sand, event: DragEvent ) {
 			if( event.dataTransfer?.dropEffect !== 'move' ) return
 			this.land().sand_wipe( sand )
 		}

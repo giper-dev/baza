@@ -3,9 +3,9 @@ namespace $ {
 		
 		'Change sequences'( $ ) {
 			
-			const land = $hyoo_crus_land.make({ $ })
-			const text = land.Data( $hyoo_crus_text )
-			const list = land.Data( $hyoo_crus_list_vary )
+			const land = $giper_baza_land.make({ $ })
+			const text = land.Data( $giper_baza_text )
+			const list = land.Data( $giper_baza_list_vary )
 			$mol_assert_equal( text.str(), '' )
 			$mol_assert_equal( list.items_vary(), [] )
 			
@@ -41,8 +41,8 @@ namespace $ {
 		
 		async 'str: Offset <=> Point'( $ ) {
 			
-			const land = $hyoo_crus_land.make({ $ })
-			const text = land.Data( $hyoo_crus_text )
+			const land = $giper_baza_land.make({ $ })
+			const text = land.Data( $giper_baza_text )
 			
 			text.str( 'fooBar' )
 			const [ first, second ] = text.units()
@@ -60,18 +60,18 @@ namespace $ {
 			$mol_assert_equal( text.point_by_offset( 6 ), [ second.self(), 3 ] )
 			$mol_assert_equal( text.offset_by_point([ second.self(), 3 ]), [ second.self(), 6 ] )
 			
-			$mol_assert_equal( text.point_by_offset( 7 ), [ $hyoo_crus_link.hole, 1 ] )
-			$mol_assert_equal( text.offset_by_point([ $hyoo_crus_link.hole, 1 ]), [ $hyoo_crus_link.hole, 7 ] )
+			$mol_assert_equal( text.point_by_offset( 7 ), [ $giper_baza_link.hole, 1 ] )
+			$mol_assert_equal( text.offset_by_point([ $giper_baza_link.hole, 1 ]), [ $giper_baza_link.hole, 7 ] )
 			
 		},
 
 		async 'text: Offset <=> Point'( $ ) {
 			
-			const land = $hyoo_crus_land.make({ $ })
-			const text = land.Data( $hyoo_crus_text )
+			const land = $giper_baza_land.make({ $ })
+			const text = land.Data( $giper_baza_text )
 			
 			text.text( 'foo bar\n666 777' )
-			const [ first, second ] = text.nodes( $hyoo_crus_text )
+			const [ first, second ] = text.nodes( $giper_baza_text )
 			
 			$mol_assert_equal( text.point_by_offset( 0 ), [ first.units()[0].self(), 0 ] )
 			$mol_assert_equal( text.offset_by_point([ first.units()[0].self(), 0 ]), [ first.units()[0].self(), 0 ] )
@@ -83,11 +83,11 @@ namespace $ {
 
 		async 'Merge different sequences'( $ ) {
 			
-			const land1 = $hyoo_crus_land.make({ $ })
-			const land2 = $hyoo_crus_land.make({ $ })
+			const land1 = $giper_baza_land.make({ $ })
+			const land2 = $giper_baza_land.make({ $ })
 			
-			const text1 = land1.Node( $hyoo_crus_text ).Data()
-			const text2 = land2.Node( $hyoo_crus_text ).Data()
+			const text1 = land1.Node( $giper_baza_text ).Data()
+			const text2 = land2.Node( $giper_baza_text ).Data()
 			
 			text1.str( 'foo bar.' )
 			land2.faces.stat.time = land1.faces.stat.time
@@ -109,19 +109,19 @@ namespace $ {
 		
 		async 'Merge same insertions with different changes to same place'( $ ) {
 			
-			const base = $hyoo_crus_land.make({ $ })
-			base.Data( $hyoo_crus_text ).str( '( )' )
+			const base = $giper_baza_land.make({ $ })
+			base.Data( $giper_baza_text ).str( '( )' )
 			
-			const left = $hyoo_crus_land.make({ $ })
+			const left = $giper_baza_land.make({ $ })
 			left.diff_apply( base.diff_units() )
-			left.Data( $hyoo_crus_text ).str( '( [ f ] )' )
-			left.Data( $hyoo_crus_text ).str( '( [ foo ] )' )
+			left.Data( $giper_baza_text ).str( '( [ f ] )' )
+			left.Data( $giper_baza_text ).str( '( [ foo ] )' )
 			
-			const right = $hyoo_crus_land.make({ $ })
+			const right = $giper_baza_land.make({ $ })
 			right.diff_apply( base.diff_units() )
 			right.faces.sync( left.faces )
-			right.Data( $hyoo_crus_text ).str( '( [ f ] )' )
-			right.Data( $hyoo_crus_text ).str( '( [ fu ] )' )
+			right.Data( $giper_baza_text ).str( '( [ f ] )' )
+			right.Data( $giper_baza_text ).str( '( [ fu ] )' )
 			
 			const left_delta = left.diff_units( base.faces )
 			const right_delta = right.diff_units( base.faces )
@@ -130,8 +130,8 @@ namespace $ {
 			right.diff_apply( left_delta )
 	
 			$mol_assert_equal(
-				left.Data( $hyoo_crus_text ).str(),
-				right.Data( $hyoo_crus_text ).str(),
+				left.Data( $giper_baza_text ).str(),
+				right.Data( $giper_baza_text ).str(),
 				'( [ fu ] [ foo ] )',
 			)
 			

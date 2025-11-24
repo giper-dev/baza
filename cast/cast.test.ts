@@ -4,9 +4,9 @@ namespace $ {
 		
 		'Atom <=> List'( $ ) {
 			
-			const land = $hyoo_crus_land.make({ $ })
-			const reg = land.Node( $hyoo_crus_atom_vary ).Data()
-			const list = land.Node( $hyoo_crus_list_vary ).Data()
+			const land = $giper_baza_land.make({ $ })
+			const reg = land.Node( $giper_baza_atom_vary ).Data()
+			const list = land.Node( $giper_baza_list_vary ).Data()
 			
 			reg.vary( 1 )
 			$mol_assert_equal( list.items_vary(), [1] )
@@ -27,22 +27,22 @@ namespace $ {
 		
 		'Atom <=> Dict'( $ ) {
 			
-			const land = $hyoo_crus_land.make({ $ })
-			const reg = land.Node( $hyoo_crus_atom_vary ).Data()
-			const dict = land.Node( $hyoo_crus_dict ).Data()
+			const land = $giper_baza_land.make({ $ })
+			const reg = land.Node( $giper_baza_atom_vary ).Data()
+			const dict = land.Node( $giper_baza_dict ).Data()
 			
 			reg.vary( 1 )
 			$mol_assert_equal( dict.keys(), [1] )
 			
-			dict.dive( 2, $hyoo_crus_atom_vary, null )!.vary( 'foo' )
+			dict.dive( 2, $giper_baza_atom_vary, null )!.vary( 'foo' )
 			$mol_assert_equal( reg.vary(), 2 )
 			
 			dict.has( 1, false )
 			$mol_assert_equal( reg.vary(), 2 )
 			
 			reg.vary( 3 )
-			$mol_assert_equal( dict.dive( 2, $hyoo_crus_atom_vary )?.vary() ?? null, null )
-			$mol_assert_equal( dict.dive( 3, $hyoo_crus_atom_vary )!.vary(), 'foo' )
+			$mol_assert_equal( dict.dive( 2, $giper_baza_atom_vary )?.vary() ?? null, null )
+			$mol_assert_equal( dict.dive( 3, $giper_baza_atom_vary )!.vary(), 'foo' )
 			
 		},
 		

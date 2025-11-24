@@ -1,11 +1,11 @@
 namespace $ {
 
-	export class $hyoo_crus_stat_ranges extends $hyoo_crus_dict.with({
-		Seconds: $hyoo_crus_stat_series,
-		Minutes: $hyoo_crus_stat_series,
-		Hours: $hyoo_crus_stat_series,
-		Days: $hyoo_crus_stat_series,
-		Years: $hyoo_crus_stat_series,
+	export class $giper_baza_stat_ranges extends $giper_baza_dict.with({
+		Seconds: $giper_baza_stat_series,
+		Minutes: $giper_baza_stat_series,
+		Hours: $giper_baza_stat_series,
+		Days: $giper_baza_stat_series,
+		Years: $giper_baza_stat_series,
 	}) {
 		
 		_last_instant = 0
@@ -35,7 +35,7 @@ namespace $ {
 		@ $mol_mem
 		series() {
 			
-			function pick( Series: $hyoo_crus_stat_series, length: number, range: number ) {
+			function pick( Series: $giper_baza_stat_series, length: number, range: number ) {
 				
 				let series = Array.from( { length }, ( _, i )=> Series.key( BigInt( i ) )?.val() ?? 0 )
 				

@@ -1,6 +1,6 @@
-$hyoo_crus_land_page $mol_page
-	land $hyoo_crus_land
-	node $hyoo_crus_dict
+$giper_baza_land_page $mol_page
+	land $giper_baza_land
+	node $giper_baza_dict
 	tools /
 		<= Encrypted $mol_check_icon
 			hint \Encryption
@@ -9,16 +9,16 @@ $hyoo_crus_land_page $mol_page
 			enabled <= encrypted false
 		<= Close null
 	body /
-		<= Flex $hyoo_crus_flex_form
+		<= Flex $giper_baza_flex_form
 			node <= node
 		<= Raw $mol_labeler
 			Content <= Raw_content $mol_list rows /
-				<= Raw_data $hyoo_crus_node_dump
+				<= Raw_data $giper_baza_node_dump
 					title \Data
 					node <= node
-				<= Raw_meta $hyoo_crus_node_dump
+				<= Raw_meta $giper_baza_node_dump
 					title \Tine
-					node <= node_meta $hyoo_crus_node
+					node <= node_meta $giper_baza_node
 		- <= Text $mol_textarea
 			value? <=> text? \
 			selection? <=> selection? /

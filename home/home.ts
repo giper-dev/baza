@@ -1,12 +1,12 @@
 namespace $ {
 
 	/** Land where Lord is King. Contains only main info. */
-	export class $hyoo_crus_home extends $hyoo_crus_entity.with({
-		Selection: $hyoo_crus_atom_text,
-		Hall: $hyoo_crus_atom_link_to( ()=> $hyoo_crus_dict ),
+	export class $giper_baza_home extends $giper_baza_entity.with({
+		Selection: $giper_baza_atom_text,
+		Hall: $giper_baza_atom_link_to( ()=> $giper_baza_dict ),
 	}) {
 		
-		hall_by< Node extends typeof $hyoo_crus_dict >(
+		hall_by< Node extends typeof $giper_baza_dict >(
 			Node: Node,
 			auto?: null,
 		) {

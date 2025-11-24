@@ -1,8 +1,8 @@
 namespace $ {
 	
-	export function $hyoo_crus_unit_gift_sort( gifts: $hyoo_crus_unit_gift[] ) {
+	export function $giper_baza_unit_gift_sort( gifts: $giper_baza_unit_gift[] ) {
 		
-		const dict = new Map< string, $hyoo_crus_unit_gift >()
+		const dict = new Map< string, $giper_baza_unit_gift >()
 		const graph = new $mol_graph< string, void >()
 		
 		for( const gift of gifts ) {
@@ -20,7 +20,7 @@ namespace $ {
 	}
 	
 	/** Given Rank and Secret */
-	export class $hyoo_crus_unit_gift extends $hyoo_crus_unit_base {
+	export class $giper_baza_unit_gift extends $giper_baza_unit_base {
 		
 		static length() {
 			return 48
@@ -33,13 +33,13 @@ namespace $ {
 			return sand
 		}
 		
-		rank( next?: typeof $hyoo_crus_rank.Value ) {
+		rank( next?: typeof $giper_baza_rank.Value ) {
 			
-			if( next !== undefined ) this.uint8( 0, $hyoo_crus_unit_kind.gift )
+			if( next !== undefined ) this.uint8( 0, $giper_baza_unit_kind.gift )
 			
-			const res = this.uint8( 1, next ) as typeof $hyoo_crus_rank.Value
+			const res = this.uint8( 1, next ) as typeof $giper_baza_rank.Value
 			
-			if( res < $hyoo_crus_rank_deny || res > $hyoo_crus_rank_rule ) {
+			if( res < $giper_baza_rank_deny || res > $giper_baza_rank_rule ) {
 				$mol_fail( new RangeError( `Wrong rank ${ res }` ) )
 			}
 			
@@ -47,14 +47,14 @@ namespace $ {
 		}
 		
 		tier() {
-			return ( this.rank() & $hyoo_crus_rank_tier.rule ) as $hyoo_crus_rank_tier
+			return ( this.rank() & $giper_baza_rank_tier.rule ) as $giper_baza_rank_tier
 		}
 		
 		rate() {
-			return ( this.rank() & $hyoo_crus_rank_rate.just ) as $hyoo_crus_rank_rate
+			return ( this.rank() & $giper_baza_rank_rate.just ) as $giper_baza_rank_rate
 		}
 		
-		mate( next?: $hyoo_crus_link ) {
+		mate( next?: $giper_baza_link ) {
 			return this.id12( 20, next )
 		}
 		
@@ -76,14 +76,14 @@ namespace $ {
 				kind: this.kind(),
 				lord: this.lord(),
 				mate: this.mate(),
-				tier: $hyoo_crus_rank_tier[ this.tier() ],
+				tier: $giper_baza_rank_tier[ this.tier() ],
 				rate: this.rate(),
 				time: this.moment().toString( 'YYYY-MM-DD hh:mm:ss' ),
 			}
 		}
 		
 		tier_min() {
-			return $hyoo_crus_rank_tier.rule
+			return $giper_baza_rank_tier.rule
 		}
 		
 		[ $mol_dev_format_head ]() {
@@ -94,7 +94,7 @@ namespace $ {
 				' 🏅 ',
 				$mol_dev_format_auto( this.mate() ),
 				this.code().some( v => v ) ? ' 🔐' : ' 👀',
-				$hyoo_crus_rank_tier[ this.tier() ],
+				$giper_baza_rank_tier[ this.tier() ],
 				':',
 				this.rate(),
 				' ',

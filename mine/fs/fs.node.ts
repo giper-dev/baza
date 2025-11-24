@@ -1,10 +1,10 @@
 namespace $ {
-	export class $hyoo_crus_mine_fs extends $hyoo_crus_mine {
+	export class $giper_baza_mine_fs extends $giper_baza_mine {
 		
 		@ $mol_memo.method
 		static root() {
 			
-			const root = this.$.$mol_file.relative( '.crus' )
+			const root = this.$.$mol_file.relative( '.baza' )
 			
 			this.$.$mol_log3_rise({
 				place: this,
@@ -16,40 +16,40 @@ namespace $ {
 		}
 		
 		@ $mol_mem_key
-		static rock_file( hash: $hyoo_crus_link ) {
+		static rock_file( hash: $giper_baza_link ) {
 			return this.root().resolve( `rock/${ hash.str.slice( 0, 2 ) }/${ hash }.blob` )
 		}
 		
 		@ $mol_mem_key
-		static rock( hash: $hyoo_crus_link, next?: Uint8Array< ArrayBuffer > ): Uint8Array< ArrayBuffer > | null {
+		static rock( hash: $giper_baza_link, next?: Uint8Array< ArrayBuffer > ): Uint8Array< ArrayBuffer > | null {
 			const buf = this.rock_file( hash ).buffer( next )
 			if( next ) return buf
-			if( hash.str === $hyoo_crus_link.hash_bin( buf ).str ) return buf
+			if( hash.str === $giper_baza_link.hash_bin( buf ).str ) return buf
 			return null
 		}
 		
 		@ $mol_mem_key
-		static units_file( land: $hyoo_crus_link ) { $hyoo_crus_land
+		static units_file( land: $giper_baza_link ) { $giper_baza_land
 			const dir = this.root().resolve( `unit/${ land.str.slice( 0, 2 ) }` )
 			dir.exists( true )
-			return dir.resolve( `${ land }.crus` )
+			return dir.resolve( `${ land }.baza` )
 		}
 		
 		@ $mol_mem_key
-		static units_offsets( land: $hyoo_crus_link ) {
+		static units_offsets( land: $giper_baza_link ) {
 			$mol_wire_solid() 
 			return new Map< string, number >()
 		}
 		
 		static units_sizes = new Map< string, number >()
 		
-		static units_save( land: $hyoo_crus_link, units: readonly $hyoo_crus_unit_base[] ) {
+		static units_save( land: $giper_baza_link, units: readonly $giper_baza_unit_base[] ) {
 			
 			const descr = this.units_file( land ).open( 'create', 'read_write' )
 			try {
 				
 				const offsets = this.units_offsets( land )
-				const append = [] as $hyoo_crus_unit_base[]
+				const append = [] as $giper_baza_unit_base[]
 				
 				for( const unit of units ) {
 					const off = offsets.get( unit.path() )
@@ -65,7 +65,7 @@ namespace $ {
 				
 				let size = this.units_sizes.get( land.str ) ?? 0
 				let offset = size
-				size += append.length * $hyoo_crus_unit_base.size
+				size += append.length * $giper_baza_unit_base.size
 				descr.truncate(size)
 				this.units_sizes.set( land.str, size )
 				
@@ -84,7 +84,7 @@ namespace $ {
 		}
 		
 		@ $mol_action
-		static async units_load( land: $hyoo_crus_link ) {
+		static async units_load( land: $giper_baza_link ) {
 			
 			const descr = this.units_file( land ).open( 'create', 'read_write' )
 			try {
@@ -93,14 +93,14 @@ namespace $ {
 				if( !buf.length ) return []
 				
 				this.units_sizes.set( land.str, buf.length )
-				const pack = $hyoo_crus_pack.from( buf )
+				const pack = $giper_baza_pack.from( buf )
 				const { lands, rocks } = pack.parts( land )
 				const units = lands[ land.str ]?.units ?? []
 				
 				const offsets = this.units_offsets( land )
 				
 				for( let i = 0; i < units.length; ++i ) {
-					offsets.set( units[i].key(), i * $hyoo_crus_unit_base.size )
+					offsets.set( units[i].key(), i * $giper_baza_unit_base.size )
 					this.units_persisted.add( units[i] )
 				}
 				

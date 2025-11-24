@@ -1,9 +1,9 @@
 namespace $ {
 
 	/** Entity dictionary Model with Title property included by default */
-	export class $hyoo_crus_entity extends $hyoo_crus_dict.with( {
+	export class $giper_baza_entity extends $giper_baza_dict.with( {
 		/** Entity Title - default property for use */
-		Title: $hyoo_crus_atom_text,
+		Title: $giper_baza_atom_text,
 	}) {
 		
 		@ $mol_mem

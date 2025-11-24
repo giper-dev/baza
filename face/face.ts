@@ -1,8 +1,8 @@
 namespace $ {
 	
-	export type $hyoo_crus_face_data = Iterable< readonly [ peer: string, face: $hyoo_crus_face ] >
+	export type $giper_baza_face_data = Iterable< readonly [ peer: string, face: $giper_baza_face ] >
 	
-	export class $hyoo_crus_face extends Object {
+	export class $giper_baza_face extends Object {
 		
 		static length() {
 			return 16 as const
@@ -17,11 +17,11 @@ namespace $ {
 		}
 		
 		clone() {
-			return new $hyoo_crus_face( this.time, this.tick, this.summ )
+			return new $giper_baza_face( this.time, this.tick, this.summ )
 		}
 		
 		get moment() {
-			return $hyoo_crus_time_moment( this.time )
+			return $giper_baza_time_moment( this.time )
 		}
 		
 		get time_tick() {
@@ -46,7 +46,7 @@ namespace $ {
 			return $mol_dev_format_span( {},
 				$mol_dev_format_native( this ),
 				$mol_dev_format_shade(
-					' ', $hyoo_crus_time_dump( this.time ),
+					' ', $giper_baza_time_dump( this.time ),
 					' #', this.tick,
 					' @', this.summ,
 				)
@@ -57,13 +57,13 @@ namespace $ {
 	}
 	
 	/** Statistics about Units in Land. it's total Units count & dictionary which maps Peer to Time */
-	export class $hyoo_crus_face_map extends Map< string, $hyoo_crus_face > {
+	export class $giper_baza_face_map extends Map< string, $giper_baza_face > {
 		
 		/** Cumulative face for all peers. */
-		stat = new $hyoo_crus_face
+		stat = new $giper_baza_face
 		
 		constructor(
-			entries?: $hyoo_crus_face_data
+			entries?: $giper_baza_face_data
 		) {
 			super()
 			if( entries ) this.sync( entries )
@@ -71,12 +71,12 @@ namespace $ {
 	
 		
 		clone() {
-			return new $hyoo_crus_face_map( this )
+			return new $giper_baza_face_map( this )
 		}
 		
 		/** Synchronize this clock with another. */
-		sync( right: $hyoo_crus_face_data ) {
-			if( right instanceof $hyoo_crus_face_map ) this.stat = right.stat.clone()
+		sync( right: $giper_baza_face_data ) {
+			if( right instanceof $giper_baza_face_map ) this.stat = right.stat.clone()
 			for( const [ peer, face ] of right ) {
 				this.peer_time( peer, face.time, face.tick )
 				this.peer_summ( peer, face.summ )
@@ -94,7 +94,7 @@ namespace $ {
 			
 			let prev = this.get( peer )
 			if( prev ) prev.sync_time( time, tick )
-			else this.set( peer, new $hyoo_crus_face( time, tick ) )
+			else this.set( peer, new $giper_baza_face( time, tick ) )
 			
 		}
 		
@@ -108,7 +108,7 @@ namespace $ {
 			
 			let prev = this.get( peer )
 			if( prev ) prev.sync_summ( summ )
-			else this.set( peer, new $hyoo_crus_face( 0, 0, summ ) )
+			else this.set( peer, new $giper_baza_face( 0, 0, summ ) )
 			
 		}
 		
@@ -122,7 +122,7 @@ namespace $ {
 		/** Generates new time for peer that greater then other seen. */
 		@ $mol_action
 		tick() {
-			const now = $hyoo_crus_time_now()
+			const now = $giper_baza_time_now()
 			if( this.stat.time < now ) {
 				this.stat.time = now
 				this.stat.tick = 0

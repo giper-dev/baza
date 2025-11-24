@@ -1,16 +1,16 @@
 namespace $ {
 
 	/** Reactive convergent list. */
-	export class $hyoo_crus_list_vary extends $hyoo_crus_node {
+	export class $giper_baza_list_vary extends $giper_baza_node {
 		
-		static tag = $hyoo_crus_unit_sand_tag[ $hyoo_crus_unit_sand_tag.vals ] as keyof typeof $hyoo_crus_unit_sand_tag
+		static tag = $giper_baza_unit_sand_tag[ $giper_baza_unit_sand_tag.vals ] as keyof typeof $giper_baza_unit_sand_tag
 		
 		/** All Vary in the list. */
 		@ $mol_mem
 		items_vary(
-			next?: readonly $hyoo_crus_vary_type[],
-			tag: keyof typeof $hyoo_crus_unit_sand_tag = 'term',
-		): readonly $hyoo_crus_vary_type[] {
+			next?: readonly $giper_baza_vary_type[],
+			tag: keyof typeof $giper_baza_unit_sand_tag = 'term',
+		): readonly $giper_baza_vary_type[] {
 			
 			const units = this.units()
 			if( next === undefined ) return units.map( unit => this.land().sand_decode( unit ) )
@@ -23,10 +23,10 @@ namespace $ {
 		/** Replace sublist by  new one with reconciliation. */
 		@ $mol_action
 		splice(
-			next: readonly $hyoo_crus_vary_type[],
+			next: readonly $giper_baza_vary_type[],
 			from = this.units().length,
 			to = from,
-			tag: keyof typeof $hyoo_crus_unit_sand_tag = 'term',
+			tag: keyof typeof $giper_baza_unit_sand_tag = 'term',
 		) {
 			const land = this.land()
 			$mol_reconcile({
@@ -35,14 +35,14 @@ namespace $ {
 				to,
 				next,
 				equal: ( next, prev )=> $mol_compare_deep( this.land().sand_decode( prev ), next ),
-				drop: ( prev, lead )=> this.land().post( lead?.self() ?? $hyoo_crus_link.hole, prev.head(), prev.self(), null ),
-				insert: ( next, lead )=> this.land().post( lead?.self() ?? $hyoo_crus_link.hole, this.head(), land.self_make(), next, tag ),
-				replace: ( next, prev, lead )=> this.land().post( lead?.self() ?? $hyoo_crus_link.hole, prev.head(), prev.self(), next, prev.tag() ),
+				drop: ( prev, lead )=> this.land().post( lead?.self() ?? $giper_baza_link.hole, prev.head(), prev.self(), null ),
+				insert: ( next, lead )=> this.land().post( lead?.self() ?? $giper_baza_link.hole, this.head(), land.self_make(), next, tag ),
+				replace: ( next, prev, lead )=> this.land().post( lead?.self() ?? $giper_baza_link.hole, prev.head(), prev.self(), next, prev.tag() ),
 			})
 		}
 		
 		/** Unit by Vary. */
-		find( vary: $hyoo_crus_vary_type ) {
+		find( vary: $giper_baza_vary_type ) {
 			for( const unit of this.units() ) {
 				if( $mol_compare_deep( this.land().sand_decode( unit ), vary ) ) return unit
 			}
@@ -51,9 +51,9 @@ namespace $ {
 		
 		/** Existence of Vary in the list. */
 		has(
-			vary: $hyoo_crus_vary_type,
+			vary: $giper_baza_vary_type,
 			next?: boolean,
-			tag: keyof typeof $hyoo_crus_unit_sand_tag = 'term',
+			tag: keyof typeof $giper_baza_unit_sand_tag = 'term',
 		) {
 			if( next === undefined ) return Boolean( this.find( vary ) )
 			if( next ) this.add( vary, tag )
@@ -63,15 +63,15 @@ namespace $ {
 		
 		/** Add Vary a the beginning if it doesn't exists. */
 		add(
-			vary: $hyoo_crus_vary_type,
-			tag: keyof typeof $hyoo_crus_unit_sand_tag = 'term',
+			vary: $giper_baza_vary_type,
+			tag: keyof typeof $giper_baza_unit_sand_tag = 'term',
 		) {
 			if( this.has( vary ) ) return
-			this.land().post( $hyoo_crus_link.hole, this.head(), $hyoo_crus_link.hole, vary, tag )
+			this.land().post( $giper_baza_link.hole, this.head(), $giper_baza_link.hole, vary, tag )
 		}
 		
 		/** Removes all Vary presence. */
-		cut( vary: $hyoo_crus_vary_type ) {
+		cut( vary: $giper_baza_vary_type ) {
 			
 			const units = [ ... this.units() ]
 			for( let i = 0; i < units.length; ++ i ) {
@@ -79,7 +79,7 @@ namespace $ {
 				if( ! $mol_compare_deep( this.land().sand_decode( units[i] ), vary ) ) continue
 				
 				this.land().post(
-					units[i-1]?.self() ?? $hyoo_crus_link.hole,
+					units[i-1]?.self() ?? $giper_baza_link.hole,
 					units[i].head(),
 					units[i].self(),
 					null,
@@ -103,10 +103,10 @@ namespace $ {
 		}
 		
 		/** Add vary at the end and use maked Self as Node Head. */
-		node_make< Node extends typeof $hyoo_crus_node >(
+		node_make< Node extends typeof $giper_baza_node >(
 			Node: Node,
-			vary: $hyoo_crus_vary_type,
-			tag: keyof typeof $hyoo_crus_unit_sand_tag = 'term',
+			vary: $giper_baza_vary_type,
+			tag: keyof typeof $giper_baza_unit_sand_tag = 'term',
 		) {
 			this.splice( [ vary ], undefined, undefined, tag )
 			return this.land().Node( Node ).Item( this.units().at(-1)!.self() )
@@ -125,11 +125,11 @@ namespace $ {
 	}
 
 	/** Mergeable list of atomic vary type factory */
-	export function $hyoo_crus_list<
+	export function $giper_baza_list<
 		Parse extends $mol_data_value
 	>( parse: Parse ) {
 
-		abstract class $hyoo_crus_list extends $hyoo_crus_list_vary {
+		abstract class $giper_baza_list extends $giper_baza_list_vary {
 
 			static parse = parse;
 
@@ -139,65 +139,65 @@ namespace $ {
 			}
 
 			static toString() {
-				return this === $hyoo_crus_list ? '$hyoo_crus_list<' + this.$.$mol_func_name( parse ) + '>' : super.toString()
+				return this === $giper_baza_list ? '$giper_baza_list<' + this.$.$mol_func_name( parse ) + '>' : super.toString()
 			}
 			
 		}
 
-		return $hyoo_crus_list
+		return $giper_baza_list
 	}
 
 	/** Mergeable list of atomic non empty binaries */
-	export class $hyoo_crus_list_bin extends $hyoo_crus_list( $hyoo_crus_vary_cast_blob ) {}
+	export class $giper_baza_list_bin extends $giper_baza_list( $giper_baza_vary_cast_blob ) {}
 	/** Mergeable list of atomic booleans */
-	export class $hyoo_crus_list_bool extends $hyoo_crus_list( $hyoo_crus_vary_cast_bool ) {}
+	export class $giper_baza_list_bool extends $giper_baza_list( $giper_baza_vary_cast_bool ) {}
 	/** Mergeable list of atomic int64s */
-	export class $hyoo_crus_list_int extends $hyoo_crus_list( $hyoo_crus_vary_cast_bint ) {}
+	export class $giper_baza_list_int extends $giper_baza_list( $giper_baza_vary_cast_bint ) {}
 	/** Mergeable list of atomic float64s */
-	export class $hyoo_crus_list_real extends $hyoo_crus_list( $hyoo_crus_vary_cast_real ) {}
+	export class $giper_baza_list_real extends $giper_baza_list( $giper_baza_vary_cast_real ) {}
 	/** Mergeable list of atomic Links */
-	export class $hyoo_crus_list_link extends $hyoo_crus_list( $hyoo_crus_vary_cast_link ) {}
+	export class $giper_baza_list_link extends $giper_baza_list( $giper_baza_vary_cast_link ) {}
 	/** Mergeable list of atomic strings */
-	export class $hyoo_crus_list_str extends $hyoo_crus_list( $hyoo_crus_vary_cast_text ) {}
+	export class $giper_baza_list_str extends $giper_baza_list( $giper_baza_vary_cast_text ) {}
 	/** Mergeable list of atomic iso8601 time moments */
-	export class $hyoo_crus_list_time extends $hyoo_crus_list( $hyoo_crus_vary_cast_time ) {}
+	export class $giper_baza_list_time extends $giper_baza_list( $giper_baza_vary_cast_time ) {}
 	/** Mergeable list of atomic iso8601 time durations */
-	export class $hyoo_crus_list_dur extends $hyoo_crus_list( $hyoo_crus_vary_cast_dura ) {}
+	export class $giper_baza_list_dur extends $giper_baza_list( $giper_baza_vary_cast_dura ) {}
 	/** Mergeable list of atomic iso8601 time intervals */
-	export class $hyoo_crus_list_range extends $hyoo_crus_list( $hyoo_crus_vary_cast_span ) {}
+	export class $giper_baza_list_range extends $giper_baza_list( $giper_baza_vary_cast_span ) {}
 	/** Mergeable list of atomic plain old js objects */
-	export class $hyoo_crus_list_json extends $hyoo_crus_list( $hyoo_crus_vary_cast_dict ) {}
+	export class $giper_baza_list_json extends $giper_baza_list( $giper_baza_vary_cast_dict ) {}
 	/** Mergeable list of atomic plain old js arrays */
-	export class $hyoo_crus_list_jsan extends $hyoo_crus_list( $hyoo_crus_vary_cast_list ) {}
+	export class $giper_baza_list_jsan extends $giper_baza_list( $giper_baza_vary_cast_list ) {}
 	/** Mergeable list of atomic DOMs */
-	export class $hyoo_crus_list_dom extends $hyoo_crus_list( $hyoo_crus_vary_cast_elem ) {}
+	export class $giper_baza_list_dom extends $giper_baza_list( $giper_baza_vary_cast_elem ) {}
 	/** Mergeable list of atomic Trees*/
-	export class $hyoo_crus_list_tree extends $hyoo_crus_list( $hyoo_crus_vary_cast_tree ) {}
+	export class $giper_baza_list_tree extends $giper_baza_list( $giper_baza_vary_cast_tree ) {}
 
-	export class $hyoo_crus_list_link_base extends $hyoo_crus_list_link {
+	export class $giper_baza_list_link_base extends $giper_baza_list_link {
 	}
 	
 	/** Mergeable List of atomic Links to some Node type */
-	export function $hyoo_crus_list_link_to<
+	export function $giper_baza_list_link_to<
 		const Value extends any,
 		Vals extends readonly any[] = readonly $mol_type_result< $mol_type_result< Value > >[]
 	>( Value: Value ) {
 		
-		class $hyoo_crus_list_link_to extends $hyoo_crus_list_link_base {
+		class $giper_baza_list_link_to extends $giper_baza_list_link_base {
 			
 			static Value = $mol_memo.func( Value as any ) as Value
 			
 			static toString() {
-				return this === $hyoo_crus_list_link_to ? '$hyoo_crus_list_link_to<' + ( Value as any )() + '>' : super.toString()
+				return this === $giper_baza_list_link_to ? '$giper_baza_list_link_to<' + ( Value as any )() + '>' : super.toString()
 			}
 			
 			/** List of linked Nodes */
 			@ $mol_mem
 			remote_list( next?: Vals ) {
-				const glob = this.$.$hyoo_crus_glob
+				const glob = this.$.$giper_baza_glob
 				const Node = ( Value as any )()
-				return this.items_vary( next?.map( item => ( item as $hyoo_crus_node ).link() ) )
-					.map( $hyoo_crus_vary_cast_link )
+				return this.items_vary( next?.map( item => ( item as $giper_baza_node ).link() ) )
+					.map( $giper_baza_vary_cast_link )
 					.filter( $mol_guard_defined )
 					.map( link => glob.Node( link, Node ) ) as readonly any[] as Vals
 			}
@@ -209,7 +209,7 @@ namespace $ {
 			
 			/** Make new Node and place it at end. */
 			@ $mol_action
-			make( config: null | number | $hyoo_crus_rank_preset | $hyoo_crus_land ): Vals[number] {
+			make( config: null | number | $giper_baza_rank_preset | $giper_baza_land ): Vals[number] {
 				
 				if( config === null || typeof config === 'number' ) {
 					
@@ -218,7 +218,7 @@ namespace $ {
 					this.splice([ node.link() ])
 					return node
 					
-				} else if( config instanceof $hyoo_crus_land ) {
+				} else if( config instanceof $giper_baza_land ) {
 					
 					const land = config.area_make()
 					this.splice([ land.link() ])
@@ -226,7 +226,7 @@ namespace $ {
 					
 				} else if( config ) {
 					
-					const land = this.$.$hyoo_crus_glob.land_grab( config )
+					const land = this.$.$giper_baza_glob.land_grab( config )
 					this.splice([ land.link() ])
 					return land.Node( ( Value as any )() ).Data()
 					
@@ -236,7 +236,7 @@ namespace $ {
 			
 			/** Add new Node which placed in new Land */
 			/** @deprecated use make( ... ) */
-			remote_make( config: $hyoo_crus_rank_preset ): Vals[number] {
+			remote_make( config: $giper_baza_rank_preset ): Vals[number] {
 				return this.make( config )
 			}
 			
@@ -252,7 +252,7 @@ namespace $ {
 			
 		}
 		
-		return $hyoo_crus_list_link_to
+		return $giper_baza_list_link_to
 	}
 	
 }

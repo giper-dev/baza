@@ -1,5 +1,5 @@
 namespace $.$$ {
-	export class $hyoo_crus_land_page extends $.$hyoo_crus_land_page {
+	export class $giper_baza_land_page extends $.$giper_baza_land_page {
 		
 		override title() {
 			return '🌍 ' + this.land().link().str
@@ -15,12 +15,12 @@ namespace $.$$ {
 		
 		// override node_title( head: string ) {
 		// 	const id = this.node_dump( head ).head()
-		// 	if( id === $hyoo_crus_land_root.tine ) return 'Meta'
+		// 	if( id === $giper_baza_land_root.tine ) return 'Meta'
 		// 	return id || 'Data'
 		// }
 		
 		override node_meta() {
-			return this.land().Node( $hyoo_crus_node ).Item( $hyoo_crus_land_root.tine )
+			return this.land().Node( $giper_baza_node ).Item( $giper_baza_land_root.tine )
 		}
 		
 		// @ $mol_mem
@@ -28,7 +28,7 @@ namespace $.$$ {
 		// 	return [
 		// 		this.Flex(),
 		// 		this.Node_dump( this.node().head() ),
-		// 		this.Node_dump( $hyoo_crus_land_root.tine ),
+		// 		this.Node_dump( $giper_baza_land_root.tine ),
 		// 	]
 		// }
 		
@@ -46,9 +46,9 @@ namespace $.$$ {
 		pack() {
 			this.$.$mol_wait_rest()
 			const units = this.land().diff_units()
-			const pack = $hyoo_crus_pack.make([[
+			const pack = $giper_baza_pack.make([[
 				this.land().link().str,
-				new $hyoo_crus_pack_part( units )
+				new $giper_baza_pack_part( units )
 			]])
 			return pack
 		}
@@ -56,9 +56,9 @@ namespace $.$$ {
 		@ $mol_mem
 		override size() {
 			const units = this.land().diff_units()
-			const size = $hyoo_crus_pack.length([[
+			const size = $giper_baza_pack.length([[
 				this.land().link().str,
-				new $hyoo_crus_pack_part( units )
+				new $giper_baza_pack_part( units )
 			]])
 			return $mol_si_short( size, 'B' )
 		}
@@ -68,15 +68,15 @@ namespace $.$$ {
 		}
 		
 		override dump_name() {
-			return `${ this.land().link() }.crus`
+			return `${ this.land().link() }.baza`
 		}
 		
 		// override text( next?: string ) {
-		// 	return this.node().cast( $hyoo_crus_text ).text( next )
+		// 	return this.node().cast( $giper_baza_text ).text( next )
 		// }
 		
 		// override selection( next?: [ number, number ] ) {
-		// 	return this.node().cast( $hyoo_crus_text ).selection( this.node().land().auth().lord(), next )
+		// 	return this.node().cast( $giper_baza_text ).selection( this.node().land().auth().lord(), next )
 		// }
 		
 	}

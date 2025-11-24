@@ -1,0 +1,22 @@
+baza kind
+	[] Text keyword \Convergent Text
+	[] Blob keyword \Convergent Blob
+	[] List keyword \Convergent List
+	[] Tree keyword \Convergent Tree
+	[] Elem keyword \Convergent DOM Element
+	[] blob keyword \Atomic blob
+	[] bint keyword \Atomic big integer
+	[] real keyword \Atomic float
+	[] text keyword \Atomic text
+	[] time keyword \Atomic time
+	[] vary keyword \Atomic vary
+	[] elem keyword \Atomic Elem
+	[] tree keyword \Atomic tree
+	[] -> operator \link
+	[] / operator \Convergent List
+	[] * operator \Convergent Dictionary
+	[: . property
+	[] \
+		comment
+	[: \
+		class

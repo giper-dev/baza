@@ -1,40 +1,40 @@
 namespace $ {
 	
 	/** Kind of Unit */
-	export enum $hyoo_crus_unit_kind {
+	export enum $giper_baza_unit_kind {
 		
 		/** Unit of data. */
-		sand = $hyoo_crus_slot_kind.sand,
+		sand = $giper_baza_slot_kind.sand,
 		
 		/** Rights/Keys sharing. */
-		gift = $hyoo_crus_slot_kind.gift,
+		gift = $giper_baza_slot_kind.gift,
 		
 		/** Sign for hash list. */
-		seal = $hyoo_crus_slot_kind.seal,
+		seal = $giper_baza_slot_kind.seal,
 		
 		/** Public key. */
-		pass = $hyoo_crus_slot_kind.pass,
+		pass = $giper_baza_slot_kind.pass,
 		
 	}
 	
-	export let $hyoo_crus_unit_trusted = new WeakSet< $hyoo_crus_unit_base >()
+	export let $giper_baza_unit_trusted = new WeakSet< $giper_baza_unit_base >()
 	
-	export function $hyoo_crus_unit_trusted_grant( unit: $hyoo_crus_unit ) {
-		if( unit instanceof $hyoo_crus_auth_pass ) return
-		$hyoo_crus_unit_trusted.add( unit )
+	export function $giper_baza_unit_trusted_grant( unit: $giper_baza_unit ) {
+		if( unit instanceof $giper_baza_auth_pass ) return
+		$giper_baza_unit_trusted.add( unit )
 	}
 	
-	export function $hyoo_crus_unit_trusted_check( unit: $hyoo_crus_unit ) {
-		if( unit instanceof $hyoo_crus_auth_pass ) return true
-		return $hyoo_crus_unit_trusted.has( unit )
+	export function $giper_baza_unit_trusted_check( unit: $giper_baza_unit ) {
+		if( unit instanceof $giper_baza_auth_pass ) return true
+		return $giper_baza_unit_trusted.has( unit )
 	}
 	
-	export type $hyoo_crus_unit = $hyoo_crus_unit_base | $hyoo_crus_auth_pass
+	export type $giper_baza_unit = $giper_baza_unit_base | $giper_baza_auth_pass
 	
 	/** Order units: lord / seal / gift / sand */
-	export function $hyoo_crus_unit_sort( units: readonly $hyoo_crus_unit[] ) {
+	export function $giper_baza_unit_sort( units: readonly $giper_baza_unit[] ) {
 		
-		const nodes = new Map< string, $hyoo_crus_unit >()
+		const nodes = new Map< string, $giper_baza_unit >()
 		const graph = new $mol_graph< string, number >()
 		
 		for( const unit of units ) {
@@ -42,7 +42,7 @@ namespace $ {
 			const self = unit.hash().str
 			nodes.set( self, unit )
 			
-			if( unit instanceof $hyoo_crus_auth_pass ) continue
+			if( unit instanceof $giper_baza_auth_pass ) continue
 			
 			unit.choose({
 				gift: gift => {
@@ -72,15 +72,15 @@ namespace $ {
 	}
 	
 	/** Minimal independent stable part of information. */
-	export class $hyoo_crus_unit_base extends $mol_buffer {
+	export class $giper_baza_unit_base extends $mol_buffer {
 		
 		/**
 		 * Compare Seals on timeline ( right - left )
 		 * Priority: time > lord > tick
 		 */
 		static compare(
-			left: $hyoo_crus_unit_base | undefined,
-			right: $hyoo_crus_unit_base | undefined,
+			left: $giper_baza_unit_base | undefined,
+			right: $giper_baza_unit_base | undefined,
 		) {
 			
 			if( !left && !right ) return 0
@@ -88,18 +88,18 @@ namespace $ {
 			if( !right ) return -1
 			
 			return ( right.time() - left.time() )
-				|| $hyoo_crus_link_compare( left.lord(), right.lord() )
+				|| $giper_baza_link_compare( left.lord(), right.lord() )
 				|| ( right.tick() - left.tick() )
 			
 		}
 		
 		static narrow( buf: ArrayBuffer ) {
-			const kind = $hyoo_crus_unit_kind[ new $mol_buffer( buf ).uint8( 0 ) ] as keyof typeof $hyoo_crus_unit_kind
+			const kind = $giper_baza_unit_kind[ new $mol_buffer( buf ).uint8( 0 ) ] as keyof typeof $giper_baza_unit_kind
 			const Type = {
-				sand: $hyoo_crus_unit_sand,
-				gift: $hyoo_crus_unit_gift,
-				seal: $hyoo_crus_unit_seal,
-				pass: $hyoo_crus_auth_pass,
+				sand: $giper_baza_unit_sand,
+				gift: $giper_baza_unit_gift,
+				seal: $giper_baza_unit_seal,
+				pass: $giper_baza_auth_pass,
 			}[ kind ]
 			return new Type( buf )
 		}
@@ -112,20 +112,20 @@ namespace $ {
 			super( buffer, byteOffset, byteLength )
 		}
 		
-		kind( next?: keyof typeof $hyoo_crus_unit_kind ): Exclude< keyof typeof $hyoo_crus_unit_kind, 'pass' > {
+		kind( next?: keyof typeof $giper_baza_unit_kind ): Exclude< keyof typeof $giper_baza_unit_kind, 'pass' > {
 			
-			const val = this.uint8( 0, next && $hyoo_crus_unit_kind[ next ] )
+			const val = this.uint8( 0, next && $giper_baza_unit_kind[ next ] )
 			
-			const kind = $hyoo_crus_unit_kind[ val ] as Exclude< keyof typeof $hyoo_crus_unit_kind, 'pass' >
+			const kind = $giper_baza_unit_kind[ val ] as Exclude< keyof typeof $giper_baza_unit_kind, 'pass' >
 			if( kind ) return kind
 			
 			$mol_fail( new Error( `Unknown unit kind (${val})` ) )
 		}
 		
 		choose< Res >( ways: {
-			gift: ( unit: $hyoo_crus_unit_gift )=> Res,
-			sand: ( unit: $hyoo_crus_unit_sand )=> Res,
-			seal: ( unit: $hyoo_crus_unit_seal )=> Res,
+			gift: ( unit: $giper_baza_unit_gift )=> Res,
+			sand: ( unit: $giper_baza_unit_sand )=> Res,
+			seal: ( unit: $giper_baza_unit_seal )=> Res,
 		} ) {
 			return ways[ this.kind() ]( this as any )
 		}
@@ -134,9 +134,9 @@ namespace $ {
 			throw new Error( 'Unimplemented' )
 		}
 		
-		id6( offset: number, next?: $hyoo_crus_link ) {
+		id6( offset: number, next?: $giper_baza_link ) {
 			if( next === undefined ) {
-				return $hyoo_crus_link.from_bin( new Uint8Array( this.buffer, this.byteOffset + offset, 6 ) )
+				return $giper_baza_link.from_bin( new Uint8Array( this.buffer, this.byteOffset + offset, 6 ) )
 			} else {
 				const bin = next.toBin()
 				if( bin.byteLength !== 6 ) $mol_fail( new Error( `Wrong Link size (${ next })` ) )
@@ -145,9 +145,9 @@ namespace $ {
 			}
 		}
 		
-		id12( offset: number, next?: $hyoo_crus_link ) {
+		id12( offset: number, next?: $giper_baza_link ) {
 			if( next === undefined ) {
-				return $hyoo_crus_link.from_bin( new Uint8Array( this.buffer, this.byteOffset + offset, 12 ) )
+				return $giper_baza_link.from_bin( new Uint8Array( this.buffer, this.byteOffset + offset, 12 ) )
 			} else {
 				const bin = next.toBin()
 				if( bin.byteLength !== 12 ) $mol_fail( new Error( `Wrong Link size (${ next })` ) )
@@ -178,8 +178,8 @@ namespace $ {
 			return next
 		}
 		
-		_lord = null as $hyoo_crus_link | null
-		lord( next?: $hyoo_crus_link ) {
+		_lord = null as $giper_baza_link | null
+		lord( next?: $giper_baza_link ) {
 			if( next ) return this._lord = this.id12( 8, next )
 			return this._lord ?? ( this._lord = this.id12( 8 ) )
 		}
@@ -190,14 +190,14 @@ namespace $ {
 		}
 		
 		hash() {
-			return $hyoo_crus_link.hash_bin( this.asArray() )
+			return $giper_baza_link.hash_bin( this.asArray() )
 		}
 		
 		tier_min() {
-			return $hyoo_crus_rank_tier.rule
+			return $giper_baza_rank_tier.rule
 		}
 		
-		_land = null as null | $hyoo_crus_land
+		_land = null as null | $giper_baza_land
 		
 		dump() {
 			return {}

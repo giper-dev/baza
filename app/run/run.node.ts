@@ -1,4 +1,4 @@
 namespace $ {
-	$hyoo_crus_yard.masters = $mol_state_arg.value( 'masters' )?.split( ',' ) ?? []
-	$hyoo_crus_app_node.serve()
+	$giper_baza_yard.masters = $mol_state_arg.value( 'masters' )?.split( ',' ) ?? []
+	$giper_baza_app_node.serve()
 }

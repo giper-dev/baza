@@ -1,29 +1,29 @@
 namespace $ {
 	
 	/** Virtual Node that represents contained units as high-level data types. */
-	export class $hyoo_crus_node extends $mol_object {
+	export class $giper_baza_node extends $mol_object {
 		
-		static tag: keyof typeof $hyoo_crus_unit_sand_tag = 'vals'
+		static tag: keyof typeof $giper_baza_unit_sand_tag = 'vals'
 		
 		/** Standalone part of Glob which syncs separately, have own rights, and contains Units */
 		land() {
-			return null as any as $hyoo_crus_land
+			return null as any as $giper_baza_land
 		}
 		
 		/** Land local Node id */
 		head() {
-			return $hyoo_crus_link.hole
+			return $giper_baza_link.hole
 		}
 		
 		/** Link to Land/Lord. */
 		land_link() {
-			return this.land()?.link() ?? this.$.$hyoo_crus_auth.current().pass().lord()
+			return this.land()?.link() ?? this.$.$giper_baza_auth.current().pass().lord()
 		}
 		
 		/** Link to Node/Land/Lord. */
 		@ $mol_memo.method
 		link() {
-			return new $hyoo_crus_link( '___' + this.head() ).resolve( this.land_link() )
+			return new $giper_baza_link( '___' + this.head() ).resolve( this.land_link() )
 		}
 		
 		toJSON() {
@@ -32,30 +32,30 @@ namespace $ {
 		
 		/** Returns another representation of this node. */
 		@ $mol_mem_key
-		cast< Node extends typeof $hyoo_crus_node >( Node: Node ): InstanceType< Node > {
+		cast< Node extends typeof $giper_baza_node >( Node: Node ): InstanceType< Node > {
 			return this.land().Node( Node ).Item( this.head() )
 		}
 		
 		/** Ordered inner alive Node. */
 		@ $mol_mem_key
-		nodes< Node extends typeof $hyoo_crus_node >( Node: Node | null ): readonly InstanceType< Node >[] {
+		nodes< Node extends typeof $giper_baza_node >( Node: Node | null ): readonly InstanceType< Node >[] {
 			const land = this.land()
 			const map = {
-				term: ()=> land.Node( Node || $hyoo_crus_atom_vary ),
-				solo: ()=> land.Node( Node || $hyoo_crus_atom_vary ),
-				vals: ()=> land.Node( Node || $hyoo_crus_list_vary ),
-				keys: ()=> land.Node( Node || $hyoo_crus_dict ),
+				term: ()=> land.Node( Node || $giper_baza_atom_vary ),
+				solo: ()=> land.Node( Node || $giper_baza_atom_vary ),
+				vals: ()=> land.Node( Node || $giper_baza_list_vary ),
+				keys: ()=> land.Node( Node || $giper_baza_dict ),
 			}
 			return this.units().map( unit => map[ unit.tag() ]().Item( unit.self() ) ) as any
 		}
 		
 		/** All ordered alive Units */
 		units() {
-			return this.units_of( $hyoo_crus_link.hole )
+			return this.units_of( $giper_baza_link.hole )
 		}
 		
 		@ $mol_mem_key
-		units_of( peer: $hyoo_crus_link | null ) {
+		units_of( peer: $giper_baza_link | null ) {
 			return this.land().sand_ordered({ head: this.head(), peer }).filter( unit => unit.size() )
 		}
 		
@@ -65,7 +65,7 @@ namespace $ {
 		
 		/** Ability to make changes by current peer. */
 		can_change() {
-			return this.land().pass_rank( this.land().auth().pass() ) > $hyoo_crus_rank_read
+			return this.land().pass_rank( this.land().auth().pass() ) > $giper_baza_rank_read
 		}
 		
 		/** Time of last changed unit inside Node subtree */
@@ -75,14 +75,14 @@ namespace $ {
 			const land = this.land()
 			let last = 0
 			
-			const visit = ( sand: $hyoo_crus_unit_sand )=> {
+			const visit = ( sand: $giper_baza_unit_sand )=> {
 				if( sand.time() > last ) last = sand.time()
 				if( sand.tag() === 'term' ) return
-				land.Node( $hyoo_crus_node ).Item( sand.self() ).units().forEach( visit )
+				land.Node( $giper_baza_node ).Item( sand.self() ).units().forEach( visit )
 			}
 			this.units().forEach( visit )
 			
-			return last ? $hyoo_crus_time_moment( last ) : null
+			return last ? $giper_baza_time_moment( last ) : null
 			
 		}
 		
@@ -91,12 +91,12 @@ namespace $ {
 		authors() {
 			
 			const land = this.land()
-			const peers = new Set< $hyoo_crus_auth_pass >()
+			const peers = new Set< $giper_baza_auth_pass >()
 			
-			const visit = ( sand: $hyoo_crus_unit_sand )=> {
+			const visit = ( sand: $giper_baza_unit_sand )=> {
 				peers.add( land.lord_pass( sand.lord() )! )
 				if( sand.tag() === 'term' ) return
-				land.Node( $hyoo_crus_node ).Item( sand.self() ).units_of( null ).forEach( visit )
+				land.Node( $giper_baza_node ).Item( sand.self() ).units_of( null ).forEach( visit )
 			}
 			this.units_of( null ).forEach( visit )
 			

@@ -1,6 +1,6 @@
 namespace $ {
 	
-	export enum $hyoo_crus_slot_kind {
+	export enum $giper_baza_slot_kind {
 		
 		/** Free Unit Slot */
 		free = 0,

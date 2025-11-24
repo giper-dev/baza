@@ -1,12 +1,12 @@
 namespace $ {
 	
-	export class $hyoo_crus_app_node extends $mol_rest_resource_fs {
+	export class $giper_baza_app_node extends $mol_rest_resource_fs {
 		
 		@ $mol_mem
 		_yard() {
 			$mol_wire_solid()
 			setTimeout( ()=> this._sync() )
-			return this.$.$hyoo_crus_glob.yard()
+			return this.$.$giper_baza_glob.yard()
 		}
 		
 		@ $mol_mem
@@ -17,7 +17,7 @@ namespace $ {
 		
 		@ $mol_memo.method
 		link() {
-			return new $hyoo_crus_app_node_link
+			return new $giper_baza_app_node_link
 		}
 		
 		OPEN( msg: $mol_rest_message ) {
@@ -39,7 +39,7 @@ namespace $ {
 		@ $mol_mem
 		_stat_update() {
 			
-			const home = this.$.$hyoo_crus_glob.home( $hyoo_crus_app_home )
+			const home = this.$.$giper_baza_glob.home( $giper_baza_app_home )
 			home.init()
 			home.tick()
 			
@@ -50,10 +50,10 @@ namespace $ {
 		
 	}
 	
-	export class $hyoo_crus_app_node_link extends $mol_rest_resource {
+	export class $giper_baza_app_node_link extends $mol_rest_resource {
 		
 		GET( msg: $mol_rest_message ) {
-			msg.reply( this.$.$hyoo_crus_auth.current().pass().lord().str )
+			msg.reply( this.$.$giper_baza_auth.current().pass().lord().str )
 		}
 		
 	}

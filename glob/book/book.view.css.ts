@@ -1,6 +1,6 @@
 namespace $.$$ {
 	
-	$mol_style_define( $hyoo_crus_glob_book, {
+	$mol_style_define( $giper_baza_glob_book, {
 		
 		Menu: {
 			flex: {

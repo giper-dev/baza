@@ -1,14 +1,14 @@
 services:
 
-  crus:
-    image: ghcr.io/hyoo-ru/crus:latest
+  baza:
+    image: ghcr.io/giper-dev/baza:latest
     environment:
       DOMAIN: ${DOMAIN}
     logging:
       driver: "local"
     volumes:
-      - crus_public:/mam/hyoo/crus/app/run/-/.crus
-      - crus_private:/root/.local/share/mol_state_local
+      - baza_public:/mam/giper/baza/app/run/-/.baza
+      - baza_private:/root/.local/share/mol_state_local
     restart: unless-stopped
     network_mode: host
     labels:
@@ -43,6 +43,6 @@ services:
     restart: unless-stopped
 
 volumes:
-  crus_public:
-  crus_private:
+  baza_public:
+  baza_private:
   caddy_private:

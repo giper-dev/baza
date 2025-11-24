@@ -1,6 +1,6 @@
-$hyoo_crus_auth_slot $mol_page
+$giper_baza_auth_slot $mol_page
 	title \🎰 Grab
-	glob $hyoo_crus_glob
+	glob $giper_baza_glob
 	prefix? \
 	found*? /string
 	body /

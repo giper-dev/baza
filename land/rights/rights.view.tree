@@ -1,5 +1,5 @@
-$hyoo_crus_land_rights $mol_list
-	land $hyoo_crus_land
+$giper_baza_land_rights $mol_list
+	land $giper_baza_land
 	rows /
 		<= Add $mol_view sub /
 			<= Add_key $mol_string

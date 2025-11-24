@@ -1,5 +1,5 @@
 namespace $.$$ {
-	export class $hyoo_crus_auth_slot extends $.$hyoo_crus_auth_slot {
+	export class $giper_baza_auth_slot extends $.$giper_baza_auth_slot {
 		
 		@ $mol_mem
 		prefix( next?: string ) {
@@ -34,7 +34,7 @@ namespace $.$$ {
 			
 			try {
 				
-				const auth = this.$.$hyoo_crus_auth.grab()
+				const auth = this.$.$giper_baza_auth.grab()
 				const lord = auth.pass().lord()
 				
 				if( lord.str.startsWith( prefix ) ) {
@@ -58,7 +58,7 @@ namespace $.$$ {
 		}
 		
 		link( index: number ) {
-			return $hyoo_crus_auth.from( this.found( this.prefix() )[ index ] ).pass().lord().str
+			return $giper_baza_auth.from( this.found( this.prefix() )[ index ] ).pass().lord().str
 		}
 		
 		key( index: number ) {

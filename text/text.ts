@@ -1,8 +1,8 @@
 namespace $ {
 	/** Mergeable text node */
-	export class $hyoo_crus_text extends $hyoo_crus_node {
+	export class $giper_baza_text extends $giper_baza_node {
 		
-		static tag = $hyoo_crus_unit_sand_tag[ $hyoo_crus_unit_sand_tag.vals ] as keyof typeof $hyoo_crus_unit_sand_tag
+		static tag = $giper_baza_unit_sand_tag[ $giper_baza_unit_sand_tag.vals ] as keyof typeof $giper_baza_unit_sand_tag
 				
 		value( next?: string ): string {
 			return this.text( next )
@@ -25,16 +25,16 @@ namespace $ {
 					next: lines,
 					equal: ( next, prev )=> {
 						//if( typeof prev.data === 'string' ) return false // ???
-						return land.Node( $hyoo_crus_text ).Item( prev.self() ).str() === next
+						return land.Node( $giper_baza_text ).Item( prev.self() ).str() === next
 					},
-					drop: ( prev, lead )=> this.land().post( lead?.self() ?? $hyoo_crus_link.hole, prev.head(), prev.self(), null ),
+					drop: ( prev, lead )=> this.land().post( lead?.self() ?? $giper_baza_link.hole, prev.head(), prev.self(), null ),
 					insert: ( next, lead )=> {
-						const sand = this.land().post( lead?.self() ?? $hyoo_crus_link.hole, this.head(), land.self_make(), 'p', 'vals' )
-						land.Node( $hyoo_crus_text ).Item( sand.self() ).str( next )
+						const sand = this.land().post( lead?.self() ?? $giper_baza_link.hole, this.head(), land.self_make(), 'p', 'vals' )
+						land.Node( $giper_baza_text ).Item( sand.self() ).str( next )
 						return sand
 					},
 					replace: ( next, prev, lead )=> {
-						land.Node( $hyoo_crus_text ).Item( prev.self() ).str( next )
+						land.Node( $giper_baza_text ).Item( prev.self() ).str( next )
 						return prev
 					},
 				})
@@ -54,8 +54,8 @@ namespace $ {
 				const land = this.land()
 				
 				for( const unit of this.units() ) {
-					if( unit.tag() === 'term' ) str += $hyoo_crus_vary_cast_text( land.sand_decode( unit ) ) ?? ''
-					else str += land.Node( $hyoo_crus_text ).Item( unit.self() ).str()
+					if( unit.tag() === 'term' ) str += $giper_baza_vary_cast_text( land.sand_decode( unit ) ) ?? ''
+					else str += land.Node( $giper_baza_text ).Item( unit.self() ).str()
 				}
 				
 				return str
@@ -84,7 +84,7 @@ namespace $ {
 			
 			while( from < list.length ) {
 				
-				word = $hyoo_crus_vary_cast_text( land.sand_decode( list[ from ] ) ) ?? ''
+				word = $giper_baza_vary_cast_text( land.sand_decode( list[ from ] ) ) ?? ''
 				
 				if( str_from <= word.length ) {
 					next = word.slice( 0, str_from ) + next
@@ -102,7 +102,7 @@ namespace $ {
 			
 			while( to < list.length ) {
 				
-				word = $hyoo_crus_vary_cast_text( land.sand_decode( list[ to ] ) ) ?? ''
+				word = $giper_baza_vary_cast_text( land.sand_decode( list[ to ] ) ) ?? ''
 				to ++
 				
 				if( str_to < word.length ) {
@@ -116,17 +116,17 @@ namespace $ {
 			
 			if( from && from === list.length ) {
 				-- from
-				next = ( $hyoo_crus_vary_cast_text( land.sand_decode( list[ from ] ) ) ?? '' ) + next
+				next = ( $giper_baza_vary_cast_text( land.sand_decode( list[ from ] ) ) ?? '' ) + next
 			}
 			
-			const words = next.match( $hyoo_crus_text_tokens ) ?? []
-			this.cast( $hyoo_crus_list_vary ).splice( words, from, to )
+			const words = next.match( $giper_baza_text_tokens ) ?? []
+			this.cast( $giper_baza_list_vary ).splice( words, from, to )
 			
 			return this
 		}
 
 		@ $mol_action
-		point_by_offset( offset: number ): readonly[ $hyoo_crus_link /*self*/, number /*pos*/ ] {
+		point_by_offset( offset: number ): readonly[ $giper_baza_link /*self*/, number /*pos*/ ] {
 			
 			const land = this.land()
 			let off = offset
@@ -135,14 +135,14 @@ namespace $ {
 				
 				if( unit.tag() === 'term' ) {
 					
-					const len = $hyoo_crus_vary_cast_text( land.sand_decode( unit ) )?.length ?? 0
+					const len = $giper_baza_vary_cast_text( land.sand_decode( unit ) )?.length ?? 0
 					
 					if( off <= len ) return [ unit.self(), off ]
 					else off -= len
 					
 				} else {
 					
-					const found = land.Node( $hyoo_crus_text ).Item( unit.self() ).point_by_offset( off )
+					const found = land.Node( $giper_baza_text ).Item( unit.self() ).point_by_offset( off )
 					if( found[0] ) return found
 					
 					off = found[1]
@@ -151,11 +151,11 @@ namespace $ {
 				
 			}
 			
-			return [ $hyoo_crus_link.hole, off ]
+			return [ $giper_baza_link.hole, off ]
 		}
 		
 		@ $mol_action
-		offset_by_point( [ self, offset ]: readonly[ $hyoo_crus_link /*self*/, number /*pos*/ ] ): readonly[ $hyoo_crus_link /*self*/, number /*pos*/ ]  {
+		offset_by_point( [ self, offset ]: readonly[ $giper_baza_link /*self*/, number /*pos*/ ] ): readonly[ $giper_baza_link /*self*/, number /*pos*/ ]  {
 			
 			const land = this.land()
 			
@@ -165,11 +165,11 @@ namespace $ {
 				
 				if( unit.tag() === 'term' ) {
 					
-					offset += $hyoo_crus_vary_cast_text( land.sand_decode( unit ) )?.length ?? 0
+					offset += $giper_baza_vary_cast_text( land.sand_decode( unit ) )?.length ?? 0
 					
 				} else {
 					
-					const found = land.Node( $hyoo_crus_text ).Item( unit.self() ).offset_by_point([ self, offset ])
+					const found = land.Node( $giper_baza_text ).Item( unit.self() ).offset_by_point([ self, offset ])
 					if( found[0] ) return [ self, found[1] ]
 					
 					offset = found[1]
@@ -178,13 +178,13 @@ namespace $ {
 				
 			}
 			
-			return [ $hyoo_crus_link.hole, offset ]
+			return [ $giper_baza_link.hole, offset ]
 		}
 		
 		@ $mol_mem_key
-		selection( lord: $hyoo_crus_link, next?: readonly[ begin: number, end: number ] ) {
+		selection( lord: $giper_baza_link, next?: readonly[ begin: number, end: number ] ) {
 			
-			const base = this.$.$hyoo_crus_glob.Land( lord ).Data( $hyoo_crus_home )
+			const base = this.$.$giper_baza_glob.Land( lord ).Data( $giper_baza_home )
 			
 			if( next ) {
 				
@@ -196,7 +196,7 @@ namespace $ {
 				this.text() // track text to recalc selection on its change
 				return base.Selection()?.val()?.split( '|' ).map( point => {
 					const chunks = point.split( ':' )
-					return this.offset_by_point([ new $hyoo_crus_link( chunks[0] ), Number( chunks[1] ) || 0 ])[1]
+					return this.offset_by_point([ new $giper_baza_link( chunks[0] ), Number( chunks[1] ) || 0 ])[1]
 				} ) ?? [ 0, 0 ]
 					
 			}

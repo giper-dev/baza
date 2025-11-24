@@ -1,10 +1,10 @@
 namespace $ {
 	
-	export function $hyoo_crus_link_compare( left: $hyoo_crus_link, right: $hyoo_crus_link ) {
+	export function $giper_baza_link_compare( left: $giper_baza_link, right: $giper_baza_link ) {
 		return ( right.str > left.str ? 1 : right.str < left.str ? -1 : 0 )
 	}
 	
-	export class $hyoo_crus_link extends Object {
+	export class $giper_baza_link extends Object {
 		
 		constructor( readonly str: string ) {
 			super()
@@ -64,7 +64,7 @@ namespace $ {
 			)	
 		}
 		
-		static _hash_cache = new WeakMap< ArrayBufferView, $hyoo_crus_link >()
+		static _hash_cache = new WeakMap< ArrayBufferView, $giper_baza_link >()
 		
 		/** Make hash from binary (12 bytes). */
 		static hash_bin( bin: ArrayBufferView ) {
@@ -86,39 +86,39 @@ namespace $ {
 		
 		/** Land-local Peer id. */
 		peer() {
-			return new $hyoo_crus_link( this.str.split( '_' )[ 0 ] ?? '' )
+			return new $giper_baza_link( this.str.split( '_' )[ 0 ] ?? '' )
 		}
 
 		/** Lord-local Area id. */
 		area() {
-			return new $hyoo_crus_link( this.str.split( '_' )[ 2 ] ?? '' )
+			return new $giper_baza_link( this.str.split( '_' )[ 2 ] ?? '' )
 		}
 		
 		/** Land-local Head id. */
 		head() {
-			return new $hyoo_crus_link( this.str.split( '_' )[ 3 ] ?? '' )
+			return new $giper_baza_link( this.str.split( '_' )[ 3 ] ?? '' )
 		}
 		
 		/** Link to Lord Home. */
 		lord() {
-			return new $hyoo_crus_link( this.str.split( '_' ).slice( 0, 2 ).join( '_' ) )
+			return new $giper_baza_link( this.str.split( '_' ).slice( 0, 2 ).join( '_' ) )
 		}
 		
 		/** Link to Land Root. */
 		land() {
-			return new $hyoo_crus_link( this.str.split( '_' ).slice( 0, 3 ).join( '_' ) )
+			return new $giper_baza_link( this.str.split( '_' ).slice( 0, 3 ).join( '_' ) )
 		}
 		
 		/** Node Link relative to base Land: `___QWERTYUI` */
-		relate( base: $hyoo_crus_link ) {
+		relate( base: $giper_baza_link ) {
 			base = base.land()
 			if( this.land().str !== base.str ) return this
 			const head = this.head()
-			return new $hyoo_crus_link(  '___' + head )
+			return new $giper_baza_link(  '___' + head )
 		}
 
 		/** Absolute Node Link from relative (`___QWERTYUI`) using base Land Link. */
-		resolve( base: $hyoo_crus_link ) {
+		resolve( base: $giper_baza_link ) {
 			
 			if( this.str === '' ) return base.land()
 			if( !this.str.startsWith( '___' ) ) return this
@@ -127,11 +127,11 @@ namespace $ {
 			while( parts.length < 3 ) parts.push( '' )
 			parts.push( this.str.slice( 3 ) )
 			
-			return new $hyoo_crus_link( parts.join( '_' ) )
+			return new $giper_baza_link( parts.join( '_' ) )
 		}
 		
-		mix( mixin: Uint8Array< ArrayBuffer > | $hyoo_crus_link ) {
-			if( mixin instanceof $hyoo_crus_link ) mixin = mixin.toBin()
+		mix( mixin: Uint8Array< ArrayBuffer > | $giper_baza_link ) {
+			if( mixin instanceof $giper_baza_link ) mixin = mixin.toBin()
 			const mix = this.toBin()
 			for( let i = 0; i < mix.length; ++i ) mix[i] ^= mixin[i]
 			return mix

@@ -1,7 +1,7 @@
 /** @jsx $mol_jsx */
 /** @jsxFrag $mol_jsx_frag */
 namespace $.$$ {
-	export class $hyoo_crus_dom_edit extends $.$hyoo_crus_dom_edit {
+	export class $giper_baza_dom_edit extends $.$giper_baza_dom_edit {
 
 		dom_id() {
 			return ""
@@ -26,7 +26,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		selection( next?: readonly( readonly[ string /*self*/, number /*pos*/ ] )[] ) {
-			return this.node().selection( this.$.$hyoo_crus_auth.current().lord(), next )
+			return this.node().selection( this.$.$giper_baza_auth.current().lord(), next )
 		}
 
 		save() {
@@ -40,7 +40,7 @@ namespace $.$$ {
 				container = container.parentElement!
 			}
 			
-			const dom = this.node().land().Node( $hyoo_crus_dom ).Item( container.id )
+			const dom = this.node().land().Node( $giper_baza_dom ).Item( container.id )
 			let nodes = [ ... container.childNodes ]
 			nodes = this.$.$mol_dom_safe( nodes as Element[] )
 			dom.dom( nodes as Element[] )

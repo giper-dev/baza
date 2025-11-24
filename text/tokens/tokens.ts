@@ -2,7 +2,7 @@ namespace $ {
 	
 	const { unicode_only, line_end, tab, repeat_greedy, optional, forbid_after, force_after, char_only, char_except } = $mol_regexp 
 	
-	export let $hyoo_crus_text_tokens = $mol_regexp.from({
+	export let $giper_baza_text_tokens = $mol_regexp.from({
 		token: {
 			
 			'line-break': line_end ,

@@ -1,16 +1,16 @@
 namespace $.$$ {
-	export class $hyoo_crus_node_dump extends $.$hyoo_crus_node_dump {
+	export class $giper_baza_node_dump extends $.$giper_baza_node_dump {
 		
 		title() {
 			return this.node().head().str.padEnd( 8, ' ' )
 		}
 		
 		value() {
-			return this.node().cast( $hyoo_crus_atom_vary ).vary()
+			return this.node().cast( $giper_baza_atom_vary ).vary()
 		}
 		
 		items() {
-			return this.node().cast( $hyoo_crus_list_vary ).items_vary()
+			return this.node().cast( $giper_baza_list_vary ).items_vary()
 		}
 		
 		@ $mol_mem
@@ -23,12 +23,12 @@ namespace $.$$ {
 			return this.units().map( (_,i)=> this.Inner(i) )
 		}
 		
-		unit_tag( index: number, next?: keyof typeof $hyoo_crus_unit_sand_tag ) {
+		unit_tag( index: number, next?: keyof typeof $giper_baza_unit_sand_tag ) {
 			if( next ) {
 				const units = this.units()
 				const unit = units[ index ]
 				this.node().land().post(
-					index ? units[ index - 1 ].self() : $hyoo_crus_link.hole,
+					index ? units[ index - 1 ].self() : $giper_baza_link.hole,
 					unit.head(),
 					unit.self(),
 					this.node().land().sand_decode( unit ),
@@ -38,15 +38,15 @@ namespace $.$$ {
 			return this.units()[ index ].tag()
 		}
 		
-		// unit_tip( index: number, next?: keyof typeof $hyoo_crus_vary_tip ) {
+		// unit_tip( index: number, next?: keyof typeof $giper_baza_vary_tip ) {
 		// 	if( next ) {
 		// 		const units = this.units()
 		// 		const unit = units[ index ]
 		// 		this.node().land().post(
-		// 			index ? units[ index - 1 ].self() : $hyoo_crus_link.hole,
+		// 			index ? units[ index - 1 ].self() : $giper_baza_link.hole,
 		// 			unit.head(),
 		// 			unit.self(),
-		// 			[ $hyoo_crus_vary_cast( next, this.node().land().sand_decode( unit ) ) ],
+		// 			[ $giper_baza_vary_cast( next, this.node().land().sand_decode( unit ) ) ],
 		// 			unit.tag(),
 		// 		)
 		// 	}
@@ -54,7 +54,7 @@ namespace $.$$ {
 		// }
 		
 		unit_time( index: number ) {
-			return $hyoo_crus_time_dump( this.units()[ index ].time() )
+			return $giper_baza_time_dump( this.units()[ index ].time() )
 		}
 		
 		unit_value( index: number ) {
@@ -66,27 +66,27 @@ namespace $.$$ {
 		}
 		
 		node_inner( index: number ) {
-			return this.node().land().Node( $hyoo_crus_dict ).Item( this.units()[ index ].self() )
+			return this.node().land().Node( $giper_baza_dict ).Item( this.units()[ index ].self() )
 		}
 		
 		add_key( event: Event ) {
 			if( !this.expandable() ) this.expanded( true )
-			this.node().cast( $hyoo_crus_list_vary ).has( this.key_new(), true, 'solo' )
+			this.node().cast( $giper_baza_list_vary ).has( this.key_new(), true, 'solo' )
 			this.key_new( '' )
 		}
 		
 		add_value( event: Event ) {
 			if( !this.expandable() ) this.expanded( true )
-			this.node().cast( $hyoo_crus_list_vary ).splice([ this.value_new() ])
+			this.node().cast( $giper_baza_list_vary ).splice([ this.value_new() ])
 			this.value_new( '' )
 		}
 		
 		value_str( next?: string ) {
-			return this.node().cast( $hyoo_crus_atom_text ).val( next ) ?? ''
+			return this.node().cast( $giper_baza_atom_text ).val( next ) ?? ''
 		}
 		
 		text( next?: string ) {
-			return this.node().cast( $hyoo_crus_text ).str( next )
+			return this.node().cast( $giper_baza_text ).str( next )
 		}
 		
 		@ $mol_mem

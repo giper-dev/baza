@@ -1,12 +1,12 @@
 namespace $.$$ {
-	export class $hyoo_crus_status extends $.$hyoo_crus_status {
+	export class $giper_baza_status extends $.$giper_baza_status {
 		
 		@ $mol_mem
 		message() {
 			
 			try {
 				
-				this.$.$hyoo_crus_glob.yard().master()
+				this.$.$giper_baza_glob.yard().master()
 				// this.glob().yard().sync()
 				return this.hint()
 			
@@ -25,7 +25,7 @@ namespace $.$$ {
 			
 			try {
 				
-				this.$.$hyoo_crus_glob.yard().master()
+				this.$.$giper_baza_glob.yard().master()
 				// this.glob().yard().sync()
 				return [ this.Well() ]
 			
@@ -45,12 +45,12 @@ namespace $.$$ {
 		// }
 		
 		options() {
-			return this.$.$hyoo_crus_yard.masters
+			return this.$.$giper_baza_yard.masters
 		}
 		
 		@ $mol_mem
 		master_link() {
-			return this.$.$hyoo_crus_glob.yard().master_current()
+			return this.$.$giper_baza_glob.yard().master_current()
 		}
 		
 		master_id( uri: string ) {
@@ -62,9 +62,9 @@ namespace $.$$ {
 		}
 		
 		value( next?: string ) {
-			return this.$.$hyoo_crus_yard.masters[
-				this.$.$hyoo_crus_glob.yard().master_cursor(
-					next == undefined ? undefined : this.$.$hyoo_crus_yard.masters.indexOf( next )
+			return this.$.$giper_baza_yard.masters[
+				this.$.$giper_baza_glob.yard().master_cursor(
+					next == undefined ? undefined : this.$.$giper_baza_yard.masters.indexOf( next )
 				)
 			]
 		}

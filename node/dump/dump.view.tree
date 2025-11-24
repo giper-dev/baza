@@ -1,5 +1,5 @@
-$hyoo_crus_node_dump $mol_expander
-	node $hyoo_crus_node
+$giper_baza_node_dump $mol_expander
+	node $giper_baza_node
 		can_change => can_change
 		land => land
 	tag \keys
@@ -28,7 +28,7 @@ $hyoo_crus_node_dump $mol_expander
 			value? <=> value_str? \
 	content <= nodes /
 		<= Inner*0 $mol_view sub /
-			<= Node_inner* $hyoo_crus_node_dump
+			<= Node_inner* $giper_baza_node_dump
 				tag <= unit_tag*
 				addons <= node_addons* /
 					- <= Unit_tip* $mol_select
@@ -63,7 +63,7 @@ $hyoo_crus_node_dump $mol_expander
 						sub / <= Unit_wipe_icon* $mol_icon_close
 						enabled <= can_change
 						click? <=> unit_wipe*? null
-					<= Unit_value* $hyoo_crus_unit_sand_dump
+					<= Unit_value* $giper_baza_unit_sand_dump
 						land <= land
 						sand <= unit_value* null
-				node <= node_inner* $hyoo_crus_node
+				node <= node_inner* $giper_baza_node

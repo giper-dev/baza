@@ -3,8 +3,8 @@ namespace $ {
 		
 		async 'Per app profiles'( $ ) {
 			
-			const base = $.$hyoo_crus_glob.home()
-			const hall = await $mol_wire_async( base ).hall_by( $hyoo_crus_dict, null )!
+			const base = $.$giper_baza_glob.home()
+			const hall = await $mol_wire_async( base ).hall_by( $giper_baza_dict, null )!
 			
 			$mol_assert_unique( base.land(), hall )
 			

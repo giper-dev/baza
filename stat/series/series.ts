@@ -1,6 +1,6 @@
 namespace $ {
 	
-	export class $hyoo_crus_stat_series extends $hyoo_crus_dict_to( $hyoo_crus_atom_real ) {
+	export class $giper_baza_stat_series extends $giper_baza_dict_to( $giper_baza_atom_real ) {
 		
 		@ $mol_action
 		tick( key: bigint, val: number ) {
@@ -21,7 +21,7 @@ namespace $ {
 		
 		@ $mol_mem
 		values() {
-			return this.nodes( $hyoo_crus_atom_real ).map( key => key.val()! )
+			return this.nodes( $giper_baza_atom_real ).map( key => key.val()! )
 		}
 		
 	}

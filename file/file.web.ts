@@ -3,7 +3,7 @@ namespace $ {
 	if( typeof window === 'undefined' ) {
 		
 		const Query = $hyoo_harp_scheme({
-			CRUS: $hyoo_harp_scheme({}),
+			BAZA: $hyoo_harp_scheme({}),
 			file: $hyoo_harp_scheme( {}, $mol_data_string ),
 			// name: $mol_data_optional( $hyoo_harp_scheme( {}, $mol_data_string ) ),
 		})
@@ -18,8 +18,8 @@ namespace $ {
 			const id = query.file['=']?.[0][0]
 			if( !id ) return
 			
-			const link = new $hyoo_crus_link( id )
-			const file = $.$hyoo_crus_glob.Node( link, $hyoo_crus_file )
+			const link = new $giper_baza_link( id )
+			const file = $.$giper_baza_glob.Node( link, $giper_baza_file )
 			
 			return event.respondWith( $mol_wire_async( file ).blob().then( blob => {
 				
@@ -28,7 +28,7 @@ namespace $ {
 					statusText: file.filled() ? 'OK' : 'Not Filled',
 					headers: {
 						'Content-Type': file.type(),
-						'X-Powered-By': '$hyoo_crus_file',
+						'X-Powered-By': '$giper_baza_file',
 					},
 				} )
 				

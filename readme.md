@@ -1,157 +1,25 @@
-# CRUS🦿DB
-
-> 💡 Безопасная распределённая неубиваемая база данных с бесконфликтной реалтайм синхронизацией.
-
-- **Convergent**: CvRDT, Total Ordered, Interleaving Free, Weak Typed
-- **Realtime**: Delta Replication, WebSocket/🔜WebRTC, Inplace Updates, In Memory with Persistence
-- **Unbreakable**: High availability, Partition Tolerance, Auto Recovery, Long Offline, WAL Free, Backup Free
-- **Secure**: Private Key Auth, Signed Changes, Encrypted Merge, Zero-Trust, Leakage Proof
-- **Decentralized**: Local First, Oracle Free, 🔜Peer to Peer
-- **Brilliant**: Reactive Architecture, Graph Structure, First Class ISO8601/JSON/DOM/Tree
-
-## Showcase
-
-- [Крутящийся в проде текущий прототип и приложения на нём](https://idea.hyoo.ru/#!=projects/project=8wfe0s_h6lo22).
-- [Хоп, Хлоп, и MVP готов](https://page.hyoo.ru/#!=qut57k_4ynazj) - про быстрое создание веб-сервиса без серверного кода.
-- [Архитектура и реализация системы управления ТЭЦ](https://page.hyoo.ru/#!=ynydaf_bogu48)
-
-## Features
-
-### 🔆 Convergent
-
-Изменения от всех пиров неизбежно объединяются в единое для всех состояние мира.
-
-#### CvRDT
-
-Объединение изменений происходит без конфликтов благодаря хранению в виде бесконфликтных типов данных.
-
-#### Total Ordered
-
-Все данные в базе упорядочены, что даёт предсказуемый и стабильный порядок их обработки.
-
-#### Interleaving Free
-
-Одновременно внесённые в одно и то же место последовательности не перемешиваются, а выстраиваются друг за другом.
-
-#### Weak Typed
-
-Возможность динамического изменения типа данных, без потери возможности слияния изменений, внесённых в разные типы.
-
-### 💨 Realtime
-
-Внесённые данные в реальном времени распространяются между всеми заинтересованными в них пирами.
-
-#### Delta Replication
-
-При синхронизации каждый пир пересылает другим пирам только недостающие им данные.
-
-#### WebSocket/WebRTC
-
-Двусторонняя единообразная коммуникация между всеми пирами, будь то сервера или клиенты.
-
-#### Inplace Updates
-
-Все юниты данных имеют одинаковый небольшой размер, что позволяет их обновлять атомарно на месте, без перемещения.
-
-#### In Memory with Persistence
-
-Данные хранятся в памяти, что позволяет практически не зависеть от дисковых задержек. При этом сброс в постоянное хранилище происходит в фоне.
-
-### 💪 Unbreakable
-
-Архитектура эффективно сопротивляется большинству технических неполадок.
-
-#### High availability
-
-Благодаря локальности база данных полностью функциональна и имеет стабильное время отклика независимо от состояния сети и других узлов.
-
-#### Partition Tolerance
-
-Пиринговая сеть может быть разделена на произвольное число независимо работающих подсетей, которые без проблем продолжают совместную работу при восстановлении связности.
-
-#### Auto Recovery
-
-Повреждённые или подложные данные детектируются и удаляются, а с других пиров затягиваются недостающие данные.
-
-#### Long Offline
-
-Даже после долгого оффлайна внесённые изменения интегрируются в общую базу данных без проблем.
-
-#### WAL Free
-
-Так как запись происходит атомарно, то не требуется дублирование записи в иммутабельный лог на случай сбоя.
-
-#### Backup Free
-
-Бэкапы не требуются, так как данные легко могут быть восстановлены с других узлов сети. В том числе сервер может восстановить данные с клиентских устройств.
-
-### 🔐 Secure
-
-Максимальный уровень безопасности обеспечивается криптографией.
-
-#### Private Key Auth
-
-Аутентификация обеспечивается приватным ключом, который не передаётся другим узлам.
-
-#### Signed Changes
-
-Все изменения подписываются приватным ключом автора. Все узлы, при получении данных, проверяют цифровую подпись и права.
-
-#### Encrypted Merge
-
-Приватные данные хранятся в зашифрованном виде, что не мешает любому узлу без дешифровки осуществлять слияние авторизованных изменений.
-
-#### Zero Trust
-
-Все гарантии обеспечиваются алгоритмически на каждом узле. Каждый узел не доверяет никакому другому. Даже себе, ибо производит проверку даже данных, полученных с локального диска.
-
-#### Leakage Proof
-
-Утечка всей базы данных не приводит к раскрытию приватных данных, так как они хранятся в зашифрованном виде. Зашифрованный секретный ключ передаётся вместе с остальными правами от одного пира другому.
-
-### 💱 Decentralized
-
-Все пиры равноправны, что защищает от падения или компрометации любого узла сети.
-
-#### Local First
-
-Все данные читаются/сохраняются локально, а потом в фоне синхронизируются с другими пирами.
-
-#### Oracle Free
-
-Упорядоченность состояния гарантируется алгоритмически, что не требует выделенного доверенного узла для достижения консенсуса.
-
-#### Peer to Peer
-
-Все узлы, работающие с базой данных, образуют связную одноранговую сеть. Любой сервер - такой же клиент базы данных, как и все остальные узлы.
-
-### 💎 Brilliant
-
-Элегантная крайне простая архитектура даёт при этом высокую гибкость и надёжность.
-
-#### Reactive Architecture
-
-Вместо удалённых вызовов и распространения событий, тут есть только работа с локальной копией БД, реакции на её текущее состояние, и фоновая синхронизация её между пирами. Состояние базы полностью определяет поведение, что позволяет спокойно перезапускать любые задачи в любой момент.
-
-#### Graph Structure
-
-Все данные актуально хранятся в рёбрах глобального графа, которые сгруппированы в кластеры, каждый из которых имеет свой набор разрешений и синхронизируется лениво-атомарно.
-
-#### First Class ISO8601/JSON/DOM/Tree
-
-Популярные модели данных являются частными случаями используемой в базе данных.
+# Giper Baza
+
+> 💡 Decentralized high-available database with conflict-free real-time synchronization.
+
+- **Convergent**: CvRDT, Total-Ordered, Interleaving-Free, Weak-Typed
+- **Realtime**: Delta-Replication, WebSocket/🔜WebRTC, Instant-Start
+- **Unbreakable**: High-Availability, Partition-Tolerance, Auto-Recovery
+- **Secure**: Digital-Signature, End-to-End Encryption, Encrypted-Merge, Zero-Trust
+- **Decentralized**: Local-First, Simple-Smart-Contract, 🔜Peer-to-Peer
+- **Brilliant**: Reactive-Architecture, Clustered-Graph-Model, First Class ISO8601/JSON/DOM/Tree
 
 ## Vocabulary
 
 - **🌌Glob** - Whole global graph database which contains Lands.
 - **🌍Land** - Standalone part of Glob which syncs separately, have own rights, and contains Units.
-  - **🏠Home** - Land where Lord is King. Contains only ain info.
-  - **🎶Hall** - Lord's profile with full info.
+  - **🏠Home** - Land where Lord is King. Contains only main info.
+    - **🎶Hall** - Lord's profile with full info.
 - **Lord** - Independent actor with global unique id generated from Auth key.
   - **🤴King** - Lord who have full rights to Land (with same id).
 - **Area** - Land local Node id namespace.
-  - **Data** - Common user info.
-  - **Meta** - Land meta info.
+  - **Data** - some stored data.
+  - **Meta** - related meta-data.
 
 - **Auth** - Private key generated with Proof of Work.
 - **Peer** - Land local unique identifier of independent actor (first half of Lord).
@@ -166,9 +34,10 @@
   - **Tree** - Mergeable Abstract Syntax Tree.
 
 - **Unit** - Minimal independent stable part of information. Actually it's edge between nodes in graph model.
-  - **🔑Pass** - Public key of Peer.
+  - **🎫Pass** - Public key of Peer.
   - **🏅Give** - Rights and secret key given to Peer.
   - **📦Sand** - (Meta) Data.
+  - **✍Seal** - Signature for units.
 
 - **🆔Self** - Self Node id
 - **🎃Head** - Parent Node id.
@@ -181,34 +50,32 @@
   - **🎹vals** - list of values.
   - **🔑keys** - list of keys.
 
-- **Time** - Monotonic time as count of ms from unix epoch.
-- **Data** - Serialized information. Up to 32B.
-- **💎Hash** - SHA-1 hash of large info.
-- **🗻Rock** - BLOB identified by Hash.
-
+- **Time** - Monotonic time as count of seconds from unix epoch.
+- **Tick** - Monotonic counter of units in one transaction.
+- **Data** - Stored data.
+- **💎Hash** - First 12B of SHA-1 hash.
 - **🎡Vary** - Supported primitive types.
-- **🔖Tip** - Hint how to interpret Data.
-  - **💢nil** - No data.
-  - **💠bin** - Binary.
+  - **💢none** - No data.
+  - **💠blob** - Binary.
   - **🏁bool** - Boolean.
-  - **🔢int** - int64.
+  - **🔢bint** - int64.
   - **💫real** - float64.
-  - **🎯ref** - Reference to Node/Land/Lord.
-  - **🔠str** - String.
+  - **🎯link** - Reference to Node/Land/Lord.
+  - **🔠text** - String.
   - **⏰time** - iso8601 moment.
-  - **🕓dur** - iso8601 duration.
-  - **🎬range** - iso8601 range.
-  - **📖json** - Plain Old JS Object.
-  - **📚jsan** - Plain Old JS Array.
-  - **🛐dom** - Document Object Model (xml, xhtml etc).
+  - **🕓dura** - iso8601 duration.
+  - **🎬span** - iso8601 range.
+  - **📚list** - array of any type.
+  - **📖tupl** - tuple of names values.
+  - **🛐elem** - Element of Document Object Model (xml, xhtml etc).
   - **🌴tree** - Abstract Syntax Tree.
 
 - **Rank** - Access level.
-  - **🛑nil** - Forbidden.
-  - **🔍get** - Read only.
-  - **📢add** - Data adding with fixed Node id
-  - **✍mod** - Data modification.
-  - **👑law** - Full administration.
+  - **🛑deny** - Forbidden.
+  - **👀read** - Read only.
+  - **✍post** - Change data
+  - **🥂pull** - Merge lands.
+  - **👑rule** - Full access.
 
 - **Mine** - Units/Rocks storage.
 - **Yard** - Glob synchronizer.
@@ -236,28 +103,28 @@
 
 ```ts
 /** Organ Model */
-export class $my_organ extends $hyoo_crus_entity.with({
-	// Title: $hyoo_crus_atom_str, - inherited from $hyoo_crus_entity
-	Critical: $hyoo_crus_atom_bool, // atomic boolean
-	Count: $hyoo_crus_atom_int, // atomic big integer
-	Weight: $hyoo_crus_atom_real, // atomic double size float
-	Photo: $hyoo_crus_atom_bin, // atomic blob
-	Description: $hyoo_crus_text, // mergeable long text
-	Contains: $hyoo_crus_list_ref_to( ()=> $my_organ ), // reference to same Model type
+export class $my_organ extends $giper_baza_entity.with({
+	// Title: $giper_baza_atom_text, - inherited from $giper_baza_entity
+	Critical: $giper_baza_atom_bool, // atomic boolean
+	Count: $giper_baza_atom_blob, // atomic big integer
+	Weight: $giper_baza_atom_real, // atomic double size float
+	Photo: $giper_baza_atom_blob, // atomic blob
+	Description: $giper_baza_text, // mergeable long text
+	Contains: $giper_baza_list_link_to( ()=> $my_organ ), // reference to same Model type
 }) {}
 
 /** Sex Model */
-export class $my_sex extends $hyoo_crus_atom_enum([ 'male', 'female' ]) {}  // atomic enumerated value
+export class $my_sex extends $giper_baza_atom_enum([ 'male', 'female' ]) {}  // atomic enumerated value
 
 /** Person Model */
-export class $my_person extends $hyoo_crus_entity.with({
-	// Title: $hyoo_crus_atom_str, - inherited from $hyoo_crus_entity
-	Birthday: $hyoo_crus_atom_time, // atomic time moment
+export class $my_person extends $giper_baza_entity.with({
+	// Title: $giper_baza_atom_text, - inherited from $giper_baza_entity
+	Birthday: $giper_baza_atom_time, // atomic time moment
 	Sex: $my_sex, // narrowed custom type
 	Heart: $my_organ, // embedded Model
-	Parent: $hyoo_crus_atom_ref_to( ()=> $my_person ), // reference to Model
-	Kids: $hyoo_crus_list_ref_to( ()=> $my_person ), // list of references to Models
-	/** @deprecated Use Parent */ Father: $hyoo_crus_atom_ref_to( ()=> $my_person ),
+	Parent: $giper_baza_atom_link_to( ()=> $my_person ), // reference to Model
+	Kids: $giper_baza_list_link_to( ()=> $my_person ), // list of references to Models
+	/** @deprecated Use Parent */ Father: $giper_baza_atom_link_to( ()=> $my_person ),
 }) {
 	
 	// Alias with custom logic
@@ -282,18 +149,18 @@ export class $my_app extends $mol_object {
 	// Whole database
 	@ $mol_mem
 	glob() {
-		return new $hyoo_crus_glob
+		return new $giper_baza_glob
 	}
 	
 	// Current user profile for current application
 	@ $mol_mem
 	hall() {
-		return this.glob().home().hall_by( $my_person, $hyoo_crus_rank_public )
+		return this.glob().home().hall_by( $my_person, $giper_baza_rank_public )
 	}
 	
 	// Use existing entity by reference
 	@ $mol_mem_key
-	person( ref: $hyoo_crus_ref ) {
+	person( ref: $giper_baza_link ) {
 		return this.glob().Node( ref, $my_person )
 	}
 	
@@ -304,7 +171,7 @@ export class $my_app extends $mol_object {
 		const me = this.hall()
 		
 		// Populate external entity
-		const kid = me.Kids(null)!.remote_make( $hyoo_crus_rank_public )
+		const kid = me.Kids(null)!.remote_make( $giper_baza_rank_public )
 		kid.Parent(null)!.remote( me )
 		
 		// Fill self fields
@@ -338,10 +205,10 @@ export class $my_app extends $mol_object {
 
 ![](diagram/crus-units.png)
 
-- `$hyoo_crus_unit` - base class
-- `$hyoo_crus_pass` - public key
-- `$hyoo_crus_gift` - given rank and secret
-- `$hyoo_crus_sand` - data
+- `$giper_baza_auth_pass` - public key
+- `$giper_baza_unit_gift` - given rank and secret
+- `$giper_baza_unit_sand` - data
+- `$giper_baza_unit_seal` - signature
 
 ### Atomic LWW-Register
 
@@ -349,22 +216,22 @@ export class $my_app extends $mol_object {
 
 ![](diagram/crus-reg.png)
 
-- `$hyoo_crus_atom` - atomic narrowed register factory
-- `$hyoo_crus_atom_vary` - atomic dynamic register
-- `$hyoo_crus_atom_bin` - atomic non empty binary register
-- `$hyoo_crus_atom_bool` - atomic boolean register
-- `$hyoo_crus_atom_int` - atomic int64 register
-- `$hyoo_crus_atom_real` - atomic float64 register
-- `$hyoo_crus_atom_ref` - atomic some reference register
-- `$hyoo_crus_atom_ref_to` - atomic reference to some Node type register
-- `$hyoo_crus_atom_str` - atomic string register
-- `$hyoo_crus_atom_time` - atomic iso8601 time moment register
-- `$hyoo_crus_atom_dur` - atomic iso8601 time duration register
-- `$hyoo_crus_atom_range` - atomic iso8601 time interval register
-- `$hyoo_crus_atom_json` - atomic plain old js object register
-- `$hyoo_crus_atom_jsan` - atomic plain old js array register
-- `$hyoo_crus_atom_dom` - atomic DOM register
-- `$hyoo_crus_atom_tree` - atomic Tree register
+- `$giper_baza_atom` - atomic narrowed register factory
+- `$giper_baza_atom_vary` - atomic dynamic register
+- `$giper_baza_atom_blob` - atomic non empty binary register
+- `$giper_baza_atom_bool` - atomic boolean register
+- `$giper_baza_atom_blob` - atomic int64 register
+- `$giper_baza_atom_real` - atomic float64 register
+- `$giper_baza_atom_link` - atomic some reference register
+- `$giper_baza_atom_link_to` - atomic reference to some Node type register
+- `$giper_baza_atom_text` - atomic string register
+- `$giper_baza_atom_time` - atomic iso8601 time moment register
+- `$giper_baza_atom_dura` - atomic iso8601 time duration register
+- `$giper_baza_atom_span` - atomic iso8601 time interval register
+- `$giper_baza_atom_json` - atomic plain old js object register
+- `$giper_baza_atom_jsan` - atomic plain old js array register
+- `$giper_baza_atom_elem` - atomic DOM register
+- `$giper_baza_atom_tree` - atomic Tree register
 
 ### Ordered List
 
@@ -372,32 +239,32 @@ export class $my_app extends $mol_object {
 
 ![](diagram/crus-list.png)
 
-- `$hyoo_crus_list` - mergeable list of atomic vary type factory
-- `$hyoo_crus_list_vary` - mergeable list of atomic vary types
-- `$hyoo_crus_list_bin` - mergeable list of atomic non empty binaries
-- `$hyoo_crus_list_bool` - mergeable list of atomic booleans
-- `$hyoo_crus_list_int` - mergeable list of atomic int64s
-- `$hyoo_crus_list_real` - mergeable list of atomic float64s
-- `$hyoo_crus_list_ref` - mergeable list of atomic some references
-- `$hyoo_crus_list_ref_to` - mergeable list of atomic references to some Node type
-- `$hyoo_crus_list_str` - mergeable list of atomic strings
-- `$hyoo_crus_list_time` - mergeable list of atomic iso8601 time moments
-- `$hyoo_crus_list_dur` - mergeable list of atomic iso8601 time durations
-- `$hyoo_crus_list_range` - mergeable list of atomic iso8601 time intervals
-- `$hyoo_crus_list_json` - mergeable list of atomic plain old js objects
-- `$hyoo_crus_list_jsan` - mergeable list of atomic plain old js arrays
-- `$hyoo_crus_list_dom` - mergeable list of atomic DOMs
-- `$hyoo_crus_list_tree` - mergeable list of atomic Trees
+- `$giper_baza_list` - mergeable list of atomic vary type factory
+- `$giper_baza_list_vary` - mergeable list of atomic vary types
+- `$giper_baza_list_blob` - mergeable list of atomic non empty binaries
+- `$giper_baza_list_bool` - mergeable list of atomic booleans
+- `$giper_baza_list_blob` - mergeable list of atomic int64s
+- `$giper_baza_list_real` - mergeable list of atomic float64s
+- `$giper_baza_list_link` - mergeable list of atomic some references
+- `$giper_baza_list_link_to` - mergeable list of atomic references to some Node type
+- `$giper_baza_list_text` - mergeable list of atomic strings
+- `$giper_baza_list_time` - mergeable list of atomic iso8601 time moments
+- `$giper_baza_list_dura` - mergeable list of atomic iso8601 time durations
+- `$giper_baza_list_span` - mergeable list of atomic iso8601 time intervals
+- `$giper_baza_list_json` - mergeable list of atomic plain old js objects
+- `$giper_baza_list_jsan` - mergeable list of atomic plain old js arrays
+- `$giper_baza_list_elem` - mergeable list of atomic DOMs
+- `$giper_baza_list_tree` - mergeable list of atomic Trees
 
 ### Ordered Dictionary
 
-Словарь актуально является упорядоченным множеством ключей, внутри каждого из которых хранится произвольный CRUS тип данных.
+Словарь актуально является упорядоченным множеством ключей, внутри каждого из которых хранится произвольный тип данных.
 
 ![](diagram/crus-dict.png)
 
-- `$hyoo_crus_dict` - mergeable dictionary node with any keys mapped to any embedded Node types
-- `$hyoo_crus_dict_to` - mergeable dictionary node with any keys mapped to some embedded Node type
-- `$hyoo_crus_dict.with` - mergeable dictionary node with defined keys mapped to different embedded Node types
+- `$giper_baza_dict` - mergeable dictionary node with any keys mapped to any embedded Node types
+- `$giper_baza_dict_to` - mergeable dictionary node with any keys mapped to some embedded Node type
+- `$giper_baza_dict.with` - mergeable dictionary node with defined keys mapped to different embedded Node types
 
 ### Tree
 
@@ -409,7 +276,7 @@ export class $my_app extends $mol_object {
 
 ![](diagram/crus-text.png)
 
-- `$hyoo_crus_text` - mergeable text node
+- `$giper_baza_text` - mergeable text node
 
 ### DOM
 
@@ -423,18 +290,13 @@ export class $my_app extends $mol_object {
 
 Всего есть 5 уровней прав:
 
-- **🛑nil** - нет доступа, ни на чтение, ни на запись.
-- **🔍get** - можно только читать.
-- **📢add** - можно читать всё, но менять только один узел в ленде со своим идентификатором.
-- **✍mod** - можно читать и писать любые данные.
-- **👑law** - полный доступ, включая изменение метаданных и раздачу прав.
+- **🛑deny** - нет доступа, ни на чтение, ни на запись.
+- **👀read** - можно только читать.
+- **✍post** - можно читать и писать данные.
+- **🥂pull** - можно читать и писать любые данные и метаданные.
+- **👑rule** - полный доступ, включая раздачу прав.
 
-Права можно выдавать либо конкретному пиру (по идентификатору лорда), либо вообще всем (пустой идентификатор). При захвате ленда указываются базовый набор прав - стоит настраивать его внимательно. Как правило достаточно использовать один из пресетов:
-
-- `$hyoo_crus_rank_private` - у создателя полные права и больше ни у кого доступа нет.
-- `$hyoo_crus_rank_public` - у создателя полные права, но читать могут все.
-- `$hyoo_crus_rank_lobby` - у создателя полные права, но все могут добавлять по одному узлу.
-- `$hyoo_crus_rank_orgy` - у создателя полные права, но менять данные могут все.
+Права можно выдавать либо конкретному пиру (по идентификатору лорда), либо вообще всем (пустой идентификатор). При захвате ленда указываются базовый набор прав - стоит настраивать его внимательно.
 
 Если всем не дать право на чтение, то ленд будет автоматически зашифрован. При выдаче прав, пиру передаётся также и секретный ключ шифрования, который шифруется взаимным ключом для выдающего права и принимающего их. При понижении прав, удаляются и все внесённые пиром изменения, которые больше не проходят по правам. Если данные при этом нужно сохранить, то их необходимо внести заново уже от своего имени.
 

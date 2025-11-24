@@ -1,9 +1,9 @@
 namespace $.$$ {
-	export class $hyoo_crus_app extends $.$hyoo_crus_app {
+	export class $giper_baza_app extends $.$giper_baza_app {
 		
 		@ $mol_mem
 		auto() {
-			this.$.$hyoo_crus_glob.home()
+			this.$.$giper_baza_glob.home()
 		}
 		
 	}

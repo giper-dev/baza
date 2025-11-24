@@ -1,6 +1,6 @@
-$hyoo_crus_unit_sand_dump $mol_view
-	land $hyoo_crus_land
-	sand $hyoo_crus_sand
+$giper_baza_unit_sand_dump $mol_view
+	land $giper_baza_land
+	sand $giper_baza_sand
 	Ref $mol_link
 		title <= title
 		arg <= arg *

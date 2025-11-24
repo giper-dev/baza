@@ -1,16 +1,16 @@
 namespace $ {
-	export class $hyoo_crus_file extends $hyoo_crus_dict.with( {
+	export class $giper_baza_file extends $giper_baza_dict.with( {
 		/** File name */
-		Name: $hyoo_crus_atom_text,
+		Name: $giper_baza_atom_text,
 		/** File Content-Type */
-		Type: $hyoo_crus_atom_text,
+		Type: $giper_baza_atom_text,
 		/** File content in chunks - list of binaries */
-		Chunks: $hyoo_crus_list_bin,
+		Chunks: $giper_baza_list_bin,
 	}) {
 		
 		/** Persistent URI to file content */
 		uri() {
-			return `?CRUS:file=${ this.link() };name=${ this.name() }`
+			return `?BAZA:file=${ this.link() };name=${ this.name() }`
 		}
 		
 		/** File name */
@@ -46,7 +46,7 @@ namespace $ {
 			
 			if( next ) {
 				
-				const chunks = [] as Uint8Array[]
+				const chunks = [] as Uint8Array< ArrayBuffer >[]
 				
 				for( let offset = 0; offset < next.byteLength; ) {
 					chunks.push( next.slice( offset, offset += 2**15 ) ) // split by 32 KB
@@ -75,7 +75,7 @@ namespace $ {
 		}
 		
 		chunks( next?: readonly ( Uint8Array< ArrayBuffer > | null )[] ) {
-			return this.Chunks( next )?.items( next )?.filter( $mol_guard_defined ) ?? []
+			return ( this.Chunks( next )?.items( next )?.filter( $mol_guard_defined ) ?? [] ) as  Uint8Array< ArrayBuffer >[]
 		}
 		
 		str( next?: string, type = 'text/plain' ) {

@@ -1,10 +1,10 @@
 namespace $.$$ {
-	export class $hyoo_crus_app_stat_page extends $.$hyoo_crus_app_stat_page {
+	export class $giper_baza_app_stat_page extends $.$giper_baza_app_stat_page {
 		
 		@ $mol_mem
 		home() {
-			const link = new $hyoo_crus_link( this.$.$mol_fetch.text( this.$.$hyoo_crus_glob.yard().master_current() + 'link' ) )
-			return this.$.$hyoo_crus_glob.Node( link, $hyoo_crus_app_home )
+			const link = new $giper_baza_link( this.$.$mol_fetch.text( this.$.$giper_baza_glob.yard().master_current() + 'link' ) )
+			return this.$.$giper_baza_glob.Node( link, $giper_baza_app_home )
 		}
 
 		@ $mol_mem

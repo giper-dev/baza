@@ -1,7 +1,7 @@
 namespace $ {
 	
 	/**  Sign for hash list */
-	export class $hyoo_crus_unit_seal extends $hyoo_crus_unit_base {
+	export class $giper_baza_unit_seal extends $giper_baza_unit_base {
 		
 		static length( size: number ) {
 			return Math.ceil( ( 84 + size * 12 ) / 8 ) * 8
@@ -40,12 +40,12 @@ namespace $ {
 			return 0 === this._alive_count
 		}
 		
-		hash_item( index: number, next?: $hyoo_crus_link ) {
+		hash_item( index: number, next?: $giper_baza_link ) {
 			return this.id12( 20 + index * 12, next )
 		}
 		
-		_hash_list!: readonly $hyoo_crus_link[]
-		hash_list( next?: $hyoo_crus_link[] ) {
+		_hash_list!: readonly $giper_baza_link[]
+		hash_list( next?: $giper_baza_link[] ) {
 			
 			if( next ) {
 				
@@ -72,9 +72,9 @@ namespace $ {
 		}
 		
 		/** Hash for signing. */
-		_shot!: $hyoo_crus_link
+		_shot!: $giper_baza_link
 		shot() {
-			return this._shot ?? ( this._shot = $hyoo_crus_link.hash_bin( new Uint8Array( this.buffer, this.byteOffset, this.byteLength - 64 ) ) )
+			return this._shot ?? ( this._shot = $giper_baza_link.hash_bin( new Uint8Array( this.buffer, this.byteOffset, this.byteLength - 64 ) ) )
 		}
 		
 		sign( next?: Uint8Array< ArrayBuffer > ) {
@@ -102,7 +102,7 @@ namespace $ {
 		}
 		
 		tier_min() {
-			return $hyoo_crus_rank_tier.post
+			return $giper_baza_rank_tier.post
 		}
 		
 		rank_min() {
@@ -110,7 +110,7 @@ namespace $ {
 		}
 		
 		path(): string {
-			return `seal:${ this.lord() }/${ $hyoo_crus_time_dump( this.time() ) } #${ this.tick() }`
+			return `seal:${ this.lord() }/${ $giper_baza_time_dump( this.time() ) } #${ this.tick() }`
 		}
 		
 		[ $mol_dev_format_head ]() {

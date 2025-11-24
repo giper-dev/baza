@@ -1,6 +1,6 @@
 namespace $.$$ {
 	
-	$mol_style_define( $hyoo_crus_land_page, {
+	$mol_style_define( $giper_baza_land_page, {
 		
 		flex: {
 			basis: `60rem`,

@@ -1,4 +1,4 @@
-$hyoo_crus_land_grab $mol_select
+$giper_baza_land_grab $mol_select
 	Filter null
 	trigger_content /
 		<= Trigger_icon $mol_icon_plus
@@ -7,4 +7,4 @@ $hyoo_crus_land_grab $mol_select
 		post @ \✍ Postable
 		read @ \👀 Readable
 		deny @ \🔐 Private
-	grab? null $hyoo_crus_rank_preset
+	grab? null $giper_baza_rank_preset

@@ -1,8 +1,8 @@
-$hyoo_crus_flex_field $mol_view
+$giper_baza_flex_field $mol_view
 	sub / <= Sub $mol_view
-	node? $hyoo_crus_node
+	node? $giper_baza_node
 	land = node land
-	prop $hyoo_crus_flex_prop
+	prop $giper_baza_flex_prop
 	Enum $mol_select
 		enabled <= enabled true
 		value? <=> enum? null
@@ -18,7 +18,7 @@ $hyoo_crus_flex_field $mol_view
 		enabled <= enabled true
 		value? <=> real? +NaN
 	Ref $mol_bar sub <= link_content /
-		<= Link_dump $hyoo_crus_unit_sand_dump
+		<= Link_dump $giper_baza_unit_sand_dump
 			land <= land
 			value <= link_value null
 		<= Link_pick $mol_select
@@ -45,9 +45,9 @@ $hyoo_crus_flex_field $mol_view
 		value_moment? <=> time? $mol_time_moment
 	Dict $mol_expander
 		title <= dict_title \
-		content / <= Dict_form $hyoo_crus_flex_form
+		content / <= Dict_form $giper_baza_flex_form
 			enabled <= enabled true
-			node <= dict_node $hyoo_crus_dict
+			node <= dict_node $giper_baza_dict
 	Text $mol_textarea
 		enabled <= enabled true
 		value? <=> text? \
@@ -71,9 +71,9 @@ $hyoo_crus_flex_field $mol_view
 							text/plain <= list_item_value* \
 							text/html <= list_item_html* \
 							text/uri-list <= list_item_uri* \
-						Sub <= List_item_dump* $hyoo_crus_unit_sand_dump
+						Sub <= List_item_dump* $giper_baza_unit_sand_dump
 							land <= land
-							sand <= list_sand* $hyoo_crus_sand
+							sand <= list_sand* $giper_baza_sand
 				<= List_pick $mol_select
 					enabled <= enabled true
 					value? <=> list_pick? null

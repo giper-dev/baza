@@ -1,20 +1,20 @@
-[hyoo_crus_status_option_row] {
+[giper_baza_status_option_row] {
 	padding: var(--mol_gap_text);
 }
 
-[hyoo_crus_status_well] {
+[giper_baza_status_well] {
 	color: var(--mol_theme_current);
 }
 
-[hyoo_crus_status_fail] {
+[giper_baza_status_fail] {
 	color: var(--mol_theme_focus);
 }
 
-[hyoo_crus_status][mol_view_error="Promise"] {
-	animation: hyoo_crus_status_wait 1s linear infinite;
+[giper_baza_status][mol_view_error="Promise"] {
+	animation: giper_baza_status_wait 1s linear infinite;
 }
 
-@keyframes hyoo_crus_status_wait {
+@keyframes giper_baza_status_wait {
 	from {
 		opacity: 1;
 	}

@@ -1,6 +1,6 @@
 namespace $ {
 	$mol_test_mocks.push( $=> {
-		class $hyoo_crus_auth extends $.$hyoo_crus_auth {
+		class $giper_baza_auth extends $.$giper_baza_auth {
 
 			@ $mol_mem
 			static override current() {
@@ -18,7 +18,7 @@ namespace $ {
 			]
 			
 		}
-		$.$hyoo_crus_auth = $hyoo_crus_auth
+		$.$giper_baza_auth = $giper_baza_auth
 	} )
 }
 

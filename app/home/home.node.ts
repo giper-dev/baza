@@ -1,6 +1,6 @@
 namespace $ {
 	
-	export class $hyoo_crus_app_home_node extends $hyoo_crus_app_home {
+	export class $giper_baza_app_home_node extends $giper_baza_app_home {
 		
 		@ $mol_mem
 		init() {
@@ -10,7 +10,7 @@ namespace $ {
 			const source = this.aliases()
 			const target = this.Aliases(null)!
 			
-			for( const ip of target.keys().map( $hyoo_crus_vary_cast_text ) ) {
+			for( const ip of target.keys().map( $giper_baza_vary_cast_text ) ) {
 				if( !ip || !source.has( ip ) ) target.cut( ip )
 			}
 			
@@ -49,6 +49,6 @@ namespace $ {
 		
 	}
 	
-	$.$hyoo_crus_app_home = $hyoo_crus_app_home_node
+	$.$giper_baza_app_home = $giper_baza_app_home_node
 	
 }

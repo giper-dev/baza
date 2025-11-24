@@ -1,18 +1,18 @@
 namespace $ {
 	
 	/** Public key generated with Proof of Work */
-	export class $hyoo_crus_auth_pass extends $mol_crypto_key_public {
+	export class $giper_baza_auth_pass extends $mol_crypto_key_public {
 		
 		static like( bin: Uint8Array< ArrayBuffer > ) {
 			const pass = this.from( bin )
-			if( pass.byteLength !== $hyoo_crus_auth_pass.size_bin ) return null
+			if( pass.byteLength !== $giper_baza_auth_pass.size_bin ) return null
 			if( pass.uint8(0) !== 0xFF ) return null
 			return pass
 		}
 		
 		@ $mol_memo.method
 		hash() {
-			return $hyoo_crus_link.hash_bin( this )
+			return $giper_baza_link.hash_bin( this )
 		}
 		
 		@ $mol_memo.method
@@ -44,22 +44,22 @@ namespace $ {
 	}
 
 	/** Private key generated with Proof of Work */
-	export class $hyoo_crus_auth extends $mol_crypto_key_private {
+	export class $giper_baza_auth extends $mol_crypto_key_private {
 		
 		/** Current Private key generated with Proof of Work  */
 		@ $mol_mem
-		static current( next?: $hyoo_crus_auth | null ) {
+		static current( next?: $giper_baza_auth | null ) {
 			
 			$mol_wire_solid()
 			
 			if( next === undefined ) {
-				const key = String( $mol_state_local.value( '$hyoo_crus_auth' ) ?? '' )
-				if( key ) return $hyoo_crus_auth.from( key )
+				const key = String( $mol_state_local.value( '$giper_baza_auth' ) ?? '' )
+				if( key ) return $giper_baza_auth.from( key )
 			}
 			
 			if( !next ) next = this.grab()
 			
-			$mol_state_local.value( '$hyoo_crus_auth', next.toString() )
+			$mol_state_local.value( '$giper_baza_auth', next.toString() )
 			
 			return next
 		}
@@ -69,7 +69,7 @@ namespace $ {
 		@ $mol_action
 		static grab() {
 			if( this.embryos.length ) return this.from( this.embryos.pop()! )
-			return $mol_wire_sync( this as typeof $hyoo_crus_auth ).generate()
+			return $mol_wire_sync( this as typeof $giper_baza_auth ).generate()
 		}
 		
 		static async generate() {
@@ -84,7 +84,7 @@ namespace $ {
 		
 		@ $mol_memo.method
 		pass() {
-			return new $hyoo_crus_auth_pass( this.public().buffer )
+			return new $giper_baza_auth_pass( this.public().buffer )
 		}
 		
 		@ $mol_mem_key

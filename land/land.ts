@@ -1,12 +1,12 @@
 namespace $ {
 	
-	export const $hyoo_crus_land_root = {
-		data: new $hyoo_crus_link( '' ), // 0
-		tine: new $hyoo_crus_link( 'AQAAAAAA' ), // 1
+	export const $giper_baza_land_root = {
+		data: new $giper_baza_link( '' ), // 0
+		tine: new $giper_baza_link( 'AQAAAAAA' ), // 1
 	}
 	
 	/** Standalone part of Glob which syncs separately, have own rights, and contains Units */
-	export class $hyoo_crus_land extends $mol_object {
+	export class $giper_baza_land extends $mol_object {
 		
 		/** Auth Independent actor with global unique id generated from Auth key */
 		link() {
@@ -15,28 +15,28 @@ namespace $ {
 		
 		/** Auth Private key generated with Proof of Work  */
 		auth() {
-			return this.$.$hyoo_crus_auth.current()
+			return this.$.$giper_baza_auth.current()
 		}
 		
-		faces = new $hyoo_crus_face_map
+		faces = new $giper_baza_face_map
 
-		_pass = new $mol_wire_dict< string /*Lord*/, $hyoo_crus_auth_pass >()
-		_seal_item = new $mol_wire_dict< string /*Item*/, $hyoo_crus_unit_seal >()
-		_seal_shot = new $mol_wire_dict< string /*Shot*/, $hyoo_crus_unit_seal >()
-		_seal_partial = new Set< $hyoo_crus_unit_seal >()
-		_gift = new $mol_wire_dict< string /*Lord*/, $hyoo_crus_unit_gift >()
-		_sand = new $mol_wire_dict< string /*Head*/, $mol_wire_dict< string /*Lord*/, $mol_wire_dict< string /*Self*/, $hyoo_crus_unit_sand > > >()
+		_pass = new $mol_wire_dict< string /*Lord*/, $giper_baza_auth_pass >()
+		_seal_item = new $mol_wire_dict< string /*Item*/, $giper_baza_unit_seal >()
+		_seal_shot = new $mol_wire_dict< string /*Shot*/, $giper_baza_unit_seal >()
+		_seal_partial = new Set< $giper_baza_unit_seal >()
+		_gift = new $mol_wire_dict< string /*Lord*/, $giper_baza_unit_gift >()
+		_sand = new $mol_wire_dict< string /*Head*/, $mol_wire_dict< string /*Lord*/, $mol_wire_dict< string /*Self*/, $giper_baza_unit_sand > > >()
 		
-		pass_add( pass: $hyoo_crus_auth_pass ) {
+		pass_add( pass: $giper_baza_auth_pass ) {
 			if( this._pass.has( pass.lord().str ) ) return
 			this._pass.set( pass.lord().str, pass )
 		}
 		
-		seal_add( seal: $hyoo_crus_unit_seal ) {
+		seal_add( seal: $giper_baza_unit_seal ) {
 			
 			for( const hash of seal.hash_list() ) {
 				const prev = this._seal_item.get( hash.str )
-				if( $hyoo_crus_unit_seal.compare( prev, seal ) <= 0 ) continue
+				if( $giper_baza_unit_seal.compare( prev, seal ) <= 0 ) continue
 				this._seal_item.set( hash.str, seal )
 			}
 			
@@ -51,12 +51,12 @@ namespace $ {
 			
 		}
 		
-		gift_add( gift: $hyoo_crus_unit_gift ) {
+		gift_add( gift: $giper_baza_unit_gift ) {
 			
 			const mate = gift.mate()
 			
 			const prev = this._gift.get( mate.str )
-			if( $hyoo_crus_unit_gift.compare( prev, gift ) <= 0 ) return
+			if( $giper_baza_unit_gift.compare( prev, gift ) <= 0 ) return
 			
 			const peer = gift.lord().peer()
 			
@@ -68,11 +68,11 @@ namespace $ {
 			
 			this.unit_seal_inc( gift )
 			
-			if( ( prev?.rank() ?? $hyoo_crus_rank_deny ) > gift.rank() ) this.rank_audit()
+			if( ( prev?.rank() ?? $giper_baza_rank_deny ) > gift.rank() ) this.rank_audit()
 			
 		}
 		
-		sand_add( sand: $hyoo_crus_unit_sand ) {
+		sand_add( sand: $giper_baza_unit_sand ) {
 			
 			let peers = this._sand.get( sand.head().str )
 			if( !peers ) this._sand.set( sand.head().str, peers = new $mol_wire_dict )
@@ -81,7 +81,7 @@ namespace $ {
 			if( !sands ) peers.set( sand.lord().str, sands = new $mol_wire_dict )
 			
 			const prev = sands.get( sand.self().str )
-			if( $hyoo_crus_unit_sand.compare( prev, sand ) <= 0 ) return
+			if( $giper_baza_unit_sand.compare( prev, sand ) <= 0 ) return
 			
 			const peer = sand.lord().peer()
 			
@@ -96,9 +96,9 @@ namespace $ {
 			
 		}
 		
-		units_reaping = new Set< $hyoo_crus_unit_base >()
+		units_reaping = new Set< $giper_baza_unit_base >()
 		
-		unit_seal_inc( unit: $hyoo_crus_unit ) {
+		unit_seal_inc( unit: $giper_baza_unit ) {
 			
 			const seal = this.unit_seal( unit )
 			if( !seal ) return
@@ -110,7 +110,7 @@ namespace $ {
 			
 		}
 		
-		unit_seal_dec( unit: $hyoo_crus_unit ) {
+		unit_seal_dec( unit: $giper_baza_unit ) {
 			
 			const seal = this.unit_seal( unit )
 			if( !seal ) return
@@ -120,7 +120,7 @@ namespace $ {
 			
 		}
 		
-		seal_del( seal: $hyoo_crus_unit_seal ) {
+		seal_del( seal: $giper_baza_unit_seal ) {
 			
 			const shot = seal.shot()
 			if( !this._seal_shot.has( shot.str ) ) return
@@ -139,7 +139,7 @@ namespace $ {
 			
 		}
 		
-		gift_del( gift: $hyoo_crus_unit_gift ) {
+		gift_del( gift: $giper_baza_unit_gift ) {
 			
 			const prev = this._gift.get( gift.mate().str )
 			if( prev !== gift ) return
@@ -152,7 +152,7 @@ namespace $ {
 			
 		}
 		
-		sand_del( sand: $hyoo_crus_unit_sand ) {
+		sand_del( sand: $giper_baza_unit_sand ) {
 			
 			const peers = this._sand.get( sand.head().str )
 			if( !peers ) return
@@ -171,11 +171,11 @@ namespace $ {
 			
 		}
 		
-		lord_pass( lord: $hyoo_crus_link ) {
+		lord_pass( lord: $giper_baza_link ) {
 			return this._pass.get( lord.str ) ?? null
 		}
 		
-		unit_seal( unit: $hyoo_crus_unit ) {
+		unit_seal( unit: $giper_baza_unit ) {
 			
 			const seal = this._seal_item.get( unit.hash().str )
 			if( !seal ) return null
@@ -185,27 +185,27 @@ namespace $ {
 			return seal
 		}
 		
-		sand_get( head: $hyoo_crus_link, lord: $hyoo_crus_link, self: $hyoo_crus_link ) {
+		sand_get( head: $giper_baza_link, lord: $giper_baza_link, self: $giper_baza_link ) {
 			return this._sand.get( head.str )?.get( lord.str )?.get( self.str ) ?? null
 		}
 		
-		_self_all = new $mol_wire_dict< string, $hyoo_crus_unit_sand | null >()
+		_self_all = new $mol_wire_dict< string, $giper_baza_unit_sand | null >()
 		
 		/** Generates unique local id base on optional idea number or random. */
 		@ $mol_action
-		self_make( idea = Math.floor( Math.random() * 2**48 ) ): $hyoo_crus_link {
+		self_make( idea = Math.floor( Math.random() * 2**48 ) ): $giper_baza_link {
 			
 			const auth = this.auth()
 			const rank = this.pass_rank( auth.pass() )
 			
-			if( rank < $hyoo_crus_rank_tier.post ) $mol_fail( new Error( `Rank too low (${ rank })` ) )
+			if( rank < $giper_baza_rank_tier.post ) $mol_fail( new Error( `Rank too low (${ rank })` ) )
 			
 			for( let i = 0; i < 4096; ++i ) {
 				
 				idea = $mol_hash_numbers([ idea ])
 				if( !idea ) continue
 				
-				const idea_link = $hyoo_crus_link.from_int( idea )
+				const idea_link = $giper_baza_link.from_int( idea )
 				if( /[æÆ]/.test( idea_link.str ) ) continue
 				if( this._self_all.has( idea_link.str ) ) continue
 				
@@ -219,7 +219,7 @@ namespace $ {
 		
 		/** Land where Lord is King. Should contains only main info */
 		home() {
-			return this.Data( $hyoo_crus_home )
+			return this.Data( $giper_baza_home )
 		}
 		
 		/** Makes new Area based on Idea or random. Once transfers rights from this Land. */
@@ -234,15 +234,15 @@ namespace $ {
 				idea = $mol_hash_numbers([ idea ])
 				if( !idea ) continue
 				
-				id = $hyoo_crus_link.from_int( idea ).str
+				id = $giper_baza_link.from_int( idea ).str
 				if( /[æÆ]/.test( id ) ) continue
 				
 				break
 			}
 			
-			const link = new $hyoo_crus_link( this.link().lord().str + '_' + id )
+			const link = new $giper_baza_link( this.link().lord().str + '_' + id )
 			
-			const area = this.$.$hyoo_crus_glob.Land( link )
+			const area = this.$.$giper_baza_glob.Land( link )
 			
 			area.inherit()
 			area.bus()
@@ -259,15 +259,15 @@ namespace $ {
 			const lord = this.link().lord()
 			if( area.str === lord.str ) return
 			
-			const Lord = this.$.$hyoo_crus_glob.Land( lord )
+			const Lord = this.$.$giper_baza_glob.Land( lord )
 			Lord.saving()
 			
-			const units = new Set< $hyoo_crus_unit >()
+			const units = new Set< $giper_baza_unit >()
 			
 			for( const gift of Lord._gift.values() ) {
 				
-				// const clone = $hyoo_crus_gift.from( gift )
-				// $hyoo_crus_unit_trusted.add( clone )
+				// const clone = $giper_baza_gift.from( gift )
+				// $giper_baza_unit_trusted.add( clone )
 				
 				// clone._land = area
 				
@@ -289,21 +289,21 @@ namespace $ {
 		
 		/** Data root */
 		@ $mol_mem_key
-		Data< Node extends typeof $hyoo_crus_node >( Node: Node ) {
-			return this.Node( Node ).Item( $hyoo_crus_land_root.data )
+		Data< Node extends typeof $giper_baza_node >( Node: Node ) {
+			return this.Node( Node ).Item( $giper_baza_land_root.data )
 		} 
 		
 		/** Lands for inheritance */
 		@ $mol_mem
 		Tine() {
-			return this.Node( $hyoo_crus_list_link ).Item( $hyoo_crus_land_root.tine ) 
+			return this.Node( $giper_baza_list_link ).Item( $giper_baza_land_root.tine ) 
 		} 
 		
 		/** High level representation of stored data */
 		@ $mol_mem_key
-		Node< Node extends typeof $hyoo_crus_node >( Node: Node ): $hyoo_crus_fund< InstanceType< Node > > {
-			return new $hyoo_crus_fund( ( head: $hyoo_crus_link )=> {
-				return ( Node as typeof $hyoo_crus_node ).make({
+		Node< Node extends typeof $giper_baza_node >( Node: Node ): $giper_baza_fund< InstanceType< Node > > {
+			return new $giper_baza_fund( ( head: $giper_baza_link )=> {
+				return ( Node as typeof $giper_baza_node ).make({
 					land: ()=> this,//.sync(),
 					head: $mol_const( head ),
 				}) as InstanceType< Node >
@@ -332,7 +332,7 @@ namespace $ {
 		
 		/** Rights level of Pass for Land. */
 		@ $mol_mem_key
-		pass_rank( pass: $hyoo_crus_auth_pass, next?: typeof $hyoo_crus_rank.Value ): typeof $hyoo_crus_rank.Value {
+		pass_rank( pass: $giper_baza_auth_pass, next?: typeof $giper_baza_rank.Value ): typeof $giper_baza_rank.Value {
 			
 			const prev = this.lord_rank( pass.lord() )
 			
@@ -344,23 +344,23 @@ namespace $ {
 			
 		}
 		
-		lord_tier( lord: $hyoo_crus_link ) {
-			return $hyoo_crus_rank_tier_of( this.lord_rank( lord ) )
+		lord_tier( lord: $giper_baza_link ) {
+			return $giper_baza_rank_tier_of( this.lord_rank( lord ) )
 		}
 		
-		lord_rate( lord: $hyoo_crus_link ) {
-			return $hyoo_crus_rank_rate_of( this.lord_rank( lord ) )
+		lord_rate( lord: $giper_baza_link ) {
+			return $giper_baza_rank_rate_of( this.lord_rank( lord ) )
 		}
 		
 		/** Rights level of Lord for Land. Works only when Pass for Lord exists in Land. */
-		lord_rank( lord: $hyoo_crus_link, next?: typeof $hyoo_crus_rank.Value ) {
+		lord_rank( lord: $giper_baza_link, next?: typeof $giper_baza_rank.Value ) {
 			
-			if( lord.str === this.link().lord().str ) return $hyoo_crus_rank_rule
+			if( lord.str === this.link().lord().str ) return $giper_baza_rank_rule
 			
 			if( next === undefined ) {
 				return this._gift.get( lord.str )?.rank()
-					?? this._gift.get( $hyoo_crus_link.hole.str )?.rank()
-					?? ( this.encrypted() ? $hyoo_crus_rank_deny : $hyoo_crus_rank_read )
+					?? this._gift.get( $giper_baza_link.hole.str )?.rank()
+					?? ( this.encrypted() ? $giper_baza_rank_deny : $giper_baza_rank_read )
 				
 			}
 			
@@ -372,15 +372,15 @@ namespace $ {
 		}
 		
 		/** Picks units between Face and current state. */
-		diff_units( skip_faces = new $hyoo_crus_face_map ): $hyoo_crus_unit[] {
+		diff_units( skip_faces = new $giper_baza_face_map ): $giper_baza_unit[] {
 			
 			this.loading()
 			
-			const skipped = new Map< string, Set< $hyoo_crus_unit_base > >()
-			const delta = new Set< $hyoo_crus_unit_base >()
-			const passes = new Set< $hyoo_crus_auth_pass >()
+			const skipped = new Map< string, Set< $giper_baza_unit_base > >()
+			const delta = new Set< $giper_baza_unit_base >()
+			const passes = new Set< $giper_baza_auth_pass >()
 			
-			function collect( unit: $hyoo_crus_unit_base ) {
+			function collect( unit: $giper_baza_unit_base ) {
 				
 				const peer = unit.lord().peer().str
 				const face_limit = skip_faces.get( peer )?.time_tick ?? 0
@@ -419,7 +419,7 @@ namespace $ {
 				const mass = skipped_units?.size ?? 0
 				if( mass <= face.summ ) continue
 				
-				if( this.$.$hyoo_crus_log() ) $mol_wire_sync( this.$ ).$mol_log3_warn({
+				if( this.$.$giper_baza_log() ) $mol_wire_sync( this.$ ).$mol_log3_warn({
 					place: this,
 					message: '💔 Fail Summ',
 					hint: 'Relax and wait for full peer resync',
@@ -442,41 +442,41 @@ namespace $ {
 		}
 		
 		@ $mol_action
-		face_pack(): $hyoo_crus_pack {
-			return $hyoo_crus_pack.make([[
+		face_pack(): $giper_baza_pack {
+			return $giper_baza_pack.make([[
 				this.link().str,
-				new $hyoo_crus_pack_part( [], this.faces.clone() ),
+				new $giper_baza_pack_part( [], this.faces.clone() ),
 			]])
 		}
 		
 		/** Applies Diff to current state with verification. */
 		@ $mol_action
-		diff_apply( units: readonly $hyoo_crus_unit[], skip_load?: 'skip_load' ) {
+		diff_apply( units: readonly $giper_baza_unit[], skip_load?: 'skip_load' ) {
 			
 			if( units.length === 0 ) return
 			
 			if( !skip_load ) this.loading()
 			
-			units = $mol_wire_sync( this.$ ).$hyoo_crus_unit_sort( units )
+			units = $mol_wire_sync( this.$ ).$giper_baza_unit_sort( units )
 			
-			const passes = new Map< string/*Lord*/, $hyoo_crus_auth_pass >()
+			const passes = new Map< string/*Lord*/, $giper_baza_auth_pass >()
 			
 			const mixin_area = this.link().toBin()
 			const mixin_lord = this.link().lord().toBin()
 			
 			for( const unit of units ) {
-				if( unit instanceof $hyoo_crus_auth_pass ) {
+				if( unit instanceof $giper_baza_auth_pass ) {
 					passes.set( unit.hash().str, unit )
 				}
 			}
 			
 			for( const unit of units ) {
-				if( unit instanceof $hyoo_crus_unit_seal ) {
+				if( unit instanceof $giper_baza_unit_seal ) {
 					
 					const lord_pass = this.lord_pass( unit.lord() ) ?? passes.get( unit.lord().str )
 					if( !lord_pass ) return this.$.$mol_fail( new Error( `No Pass for Lord`, { cause: unit.lord() } ) )
 					
-					if( !this.$.$hyoo_crus_unit_trusted_check( unit ) ) {
+					if( !this.$.$giper_baza_unit_trusted_check( unit ) ) {
 					
 						const mixin = unit.wide() ? mixin_lord : mixin_area
 						const sens = unit.shot().mix( mixin )
@@ -490,14 +490,14 @@ namespace $ {
 			}
 			
 			for( const unit of units ) {
-				if( unit instanceof $hyoo_crus_unit_seal ) {
-					$hyoo_crus_unit_trusted_grant( unit )
+				if( unit instanceof $giper_baza_unit_seal ) {
+					$giper_baza_unit_trusted_grant( unit )
 				}
 			}
 			
 			for( const unit of units ) {
 				
-				if( unit instanceof $hyoo_crus_auth_pass ) continue
+				if( unit instanceof $giper_baza_auth_pass ) continue
 				
 				if( this.lord_tier( unit.lord() ) < unit.tier_min() ) {
 					return this.$.$mol_fail( new Error( 'Too low Tier' ) )
@@ -507,7 +507,7 @@ namespace $ {
 					
 					case 'seal': {
 						
-						const seal = unit as $hyoo_crus_unit_seal
+						const seal = unit as $giper_baza_unit_seal
 						
 						if( this.lord_rate( unit.lord() ) < seal.rate_min() ) {
 							return this.$.$mol_fail( new Error( 'Too low Rate' ) )
@@ -524,9 +524,9 @@ namespace $ {
 					
 					case 'gift': {
 						
-						const gift = unit as $hyoo_crus_unit_gift
+						const gift = unit as $giper_baza_unit_gift
 						
-						if( !this.$.$hyoo_crus_unit_trusted_check( gift ) ) {
+						if( !this.$.$giper_baza_unit_trusted_check( gift ) ) {
 							const seal = this.unit_seal( gift )
 							if( !seal ) return this.$.$mol_fail( new Error( `No Seal for Gift`, { cause: gift } ) )
 						}
@@ -547,9 +547,9 @@ namespace $ {
 					
 					case 'sand': {
 						
-						const sand = unit as $hyoo_crus_unit_sand
+						const sand = unit as $giper_baza_unit_sand
 						
-						if( !this.$.$hyoo_crus_unit_trusted_check( sand ) ) {
+						if( !this.$.$giper_baza_unit_trusted_check( sand ) ) {
 							const seal = this.unit_seal( sand )
 							if( !seal ) return this.$.$mol_fail( new Error( `No Seal for Sand` ) )
 						}
@@ -614,14 +614,14 @@ namespace $ {
 		}
 		
 		@ $mol_action
-		fork( preset: $hyoo_crus_rank_preset = [[ null, $hyoo_crus_rank_read ]] ) {
-			const land = this.$.$hyoo_crus_glob.land_grab( preset )
+		fork( preset: $giper_baza_rank_preset = [[ null, $giper_baza_rank_read ]] ) {
+			const land = this.$.$giper_baza_glob.land_grab( preset )
 			land.Tine().items_vary([ this.link() ])
 			return land
 		}
 		
 		@ $mol_mem_key
-		sand_ordered( { head, peer }: { head: $hyoo_crus_link, peer: $hyoo_crus_link | null } ) {
+		sand_ordered( { head, peer }: { head: $giper_baza_link, peer: $giper_baza_link | null } ) {
 			
 			this.sync()
 			// this.secret() // early async to prevent async on put
@@ -633,16 +633,16 @@ namespace $ {
 			const slices = new Map
 			for( const sand of queue ) slices.set( sand, 0 )
 			
-			merge: if( head.str !== $hyoo_crus_land_root.tine.str ) {
+			merge: if( head.str !== $giper_baza_land_root.tine.str ) {
 				
 				const tines = ( this.Tine()?.items_vary().slice().reverse() ?? [] )
-					.map( $hyoo_crus_vary_cast_link )
+					.map( $giper_baza_vary_cast_link )
 					.filter( $mol_guard_defined )
 				if( !tines.length ) break merge
 				
 				const exists = new Set( queue.map( sand => sand.self().str ) )
 				
-				const glob = this.$.$hyoo_crus_glob
+				const glob = this.$.$giper_baza_glob
 				let slice = 0
 				for( const link of tines ) {
 					++ slice
@@ -662,19 +662,19 @@ namespace $ {
 			
 			if( queue.length < 2 ) return queue
 			
-			const compare = ( left: $hyoo_crus_unit_sand, right: $hyoo_crus_unit_sand )=> {
-				return ( slices.get( left ) - slices.get( right ) ) || $hyoo_crus_unit_sand.compare( left, right )
+			const compare = ( left: $giper_baza_unit_sand, right: $giper_baza_unit_sand )=> {
+				return ( slices.get( left ) - slices.get( right ) ) || $giper_baza_unit_sand.compare( left, right )
 			}
 			
 			queue.sort( compare )
 			
 			let entry = {
-				sand: null as null | $hyoo_crus_unit_sand,
+				sand: null as null | $giper_baza_unit_sand,
 				next: '',
 				prev: '',
 			}
 			
-			const key = peer === null ? ( sand: $hyoo_crus_unit_sand )=> sand.path() : ( sand: $hyoo_crus_unit_sand )=> sand.self().str
+			const key = peer === null ? ( sand: $giper_baza_unit_sand )=> sand.path() : ( sand: $giper_baza_unit_sand )=> sand.self().str
 			
 			const by_key = new Map([ [ '', entry  ] ])
 			const by_self = new Map([ [ '', entry ] ])
@@ -737,7 +737,7 @@ namespace $ {
 				
 			}
 			
-			const res = [] as $hyoo_crus_unit_sand[]
+			const res = [] as $giper_baza_unit_sand[]
 			
 			while( entry.next ) {
 				entry = by_key.get( entry.next )!
@@ -759,13 +759,13 @@ namespace $ {
 		 */
 		@ $mol_action
 		give(
-			mate_pass: $hyoo_crus_auth_pass | null,
-			rank: typeof $hyoo_crus_rank.Value,
+			mate_pass: $giper_baza_auth_pass | null,
+			rank: typeof $giper_baza_rank.Value,
 		) {
 			
 			this.join()
 			
-			const gift = $hyoo_crus_unit_gift.make()
+			const gift = $giper_baza_unit_gift.make()
 			const lord_pass = this.auth().pass()
 			
 			gift._land = this
@@ -776,7 +776,7 @@ namespace $ {
 			
 			if( mate_pass ) gift.mate( mate_pass.lord() )
 			
-			if( rank >= $hyoo_crus_rank_read ) {
+			if( rank >= $giper_baza_rank_read ) {
 				
 				const secret_land = this.secret()
 				if( secret_land ) {
@@ -793,7 +793,7 @@ namespace $ {
 				
 			}
 			
-			$hyoo_crus_unit_trusted_grant( gift )
+			$giper_baza_unit_trusted_grant( gift )
 			
 			this.diff_apply( [ lord_pass, ... $mol_maybe( mate_pass ), gift ] )
 			
@@ -804,29 +804,29 @@ namespace $ {
 		/** Places data to tree. */
 		@ $mol_action
 		post(
-			lead: $hyoo_crus_link,
-			head: $hyoo_crus_link,
-			self: $hyoo_crus_link,
-			vary: $hyoo_crus_vary_type,
-			tag: keyof typeof $hyoo_crus_unit_sand_tag = 'term',
+			lead: $giper_baza_link,
+			head: $giper_baza_link,
+			self: $giper_baza_link,
+			vary: $giper_baza_vary_type,
+			tag: keyof typeof $giper_baza_unit_sand_tag = 'term',
 		) {
 			
 			this.join()
 			
-			if( vary instanceof $hyoo_crus_link ) vary = vary.relate( this.link() )
+			if( vary instanceof $giper_baza_link ) vary = vary.relate( this.link() )
 			
 			const lord_pass = this.auth().pass()
 			const encrypted = this.encrypted()
 			
-			let bin = $hyoo_crus_vary.pack( $mol_maybe( vary ) )
+			let bin = $giper_baza_vary.pack( $mol_maybe( vary ) )
 			
 			const length = encrypted ? Math.ceil( ( bin.byteLength + 1 ) / 16 ) * 16 : bin.byteLength
-			const sand = $hyoo_crus_unit_sand.make( length )
+			const sand = $giper_baza_unit_sand.make( length )
 			
 			sand._open = bin
 			sand._land = this
 			
-			$hyoo_crus_unit_trusted_grant( sand )
+			$giper_baza_unit_trusted_grant( sand )
 			
 			sand.hint( tag )
 			sand.time_tick( this.faces.tick().time_tick )
@@ -845,10 +845,10 @@ namespace $ {
 		
 		@ $mol_action
 		sand_move(
-			sand: $hyoo_crus_unit_sand,
-			head: $hyoo_crus_link,
+			sand: $giper_baza_unit_sand,
+			head: $giper_baza_link,
 			seat: number,
-			peer = $hyoo_crus_link.hole as $hyoo_crus_link | null
+			peer = $giper_baza_link.hole as $giper_baza_link | null
 		) {
 			
 			if( !sand.size()  ) $mol_fail( new RangeError( `Can't move wiped sand` ) )
@@ -856,7 +856,7 @@ namespace $ {
 			const units = this.sand_ordered({ head, peer }).filter( unit => unit.size() )
 			if( seat > units.length ) $mol_fail( new RangeError( `Seat (${seat}) out of units length (${units.length})` ) )
 			
-			const lead = seat ? units[ seat - 1 ].self() : $hyoo_crus_link.hole
+			const lead = seat ? units[ seat - 1 ].self() : $giper_baza_link.hole
 			const vary = this.sand_decode( sand )
 			
 			if( sand.head() === head ) {
@@ -866,7 +866,7 @@ namespace $ {
 				if( seat === seat_prev ) return
 				if( seat === seat_prev + 1 ) return
 				
-				const prev = seat_prev ? units[ seat_prev - 1 ].self() : $hyoo_crus_link.hole
+				const prev = seat_prev ? units[ seat_prev - 1 ].self() : $giper_baza_link.hole
 				const next = units[ seat_prev + 1 ]
 				
 				if( next ) this.post(
@@ -895,8 +895,8 @@ namespace $ {
 		
 		@ $mol_action
 		sand_wipe(
-			sand: $hyoo_crus_unit_sand,
-			peer = $hyoo_crus_link.hole as $hyoo_crus_link | null
+			sand: $giper_baza_unit_sand,
+			peer = $giper_baza_link.hole as $giper_baza_link | null
 		) {
 			
 			const head = sand.head()
@@ -905,7 +905,7 @@ namespace $ {
 			if( seat < 0 ) return sand
 			
 			return this.post(
-				seat ? units[ seat - 1 ].self() : $hyoo_crus_link.hole,
+				seat ? units[ seat - 1 ].self() : $giper_baza_link.hole,
 				head,
 				sand.self(),
 				null,
@@ -915,7 +915,7 @@ namespace $ {
 		}
 		
 		broadcast() {
-			this.$.$hyoo_crus_glob.yard().lands_news.add( this.link().str )
+			this.$.$giper_baza_glob.yard().lands_news.add( this.link().str )
 		}
 		
 		@ $mol_mem
@@ -929,11 +929,11 @@ namespace $ {
 		}
 		
 		destructor() {
-			this.$.$hyoo_crus_glob.yard().forget_land( this )
+			this.$.$giper_baza_glob.yard().forget_land( this )
 		}
 		
 		mine() {
-			return this.$.$hyoo_crus_mine.land( this.link() )
+			return this.$.$giper_baza_mine.land( this.link() )
 		}
 		
 		@ $mol_mem
@@ -943,20 +943,20 @@ namespace $ {
 		
 		@ $mol_mem
 		sync_yard() {
-			return new $mol_wire_atom( '', ()=> this.$.$hyoo_crus_glob.yard().sync_land( this.link() ) ).fresh()
+			return new $mol_wire_atom( '', ()=> this.$.$giper_baza_glob.yard().sync_land( this.link() ) ).fresh()
 		}
 		
 		@ $mol_mem
 		bus() {
 			return new this.$.$mol_bus< ArrayBuffer >(
-				`$hyoo_crus_land:${ this.link() }`,
+				`$giper_baza_land:${ this.link() }`,
 				$mol_wire_async( buf => {
 					
-					const pack = new $hyoo_crus_pack( buf )
+					const pack = new $giper_baza_pack( buf )
 					const part = new Map( pack.parts() ).get( this.link().str )!
 					
 					for( const unit of part.units ) {
-						$hyoo_crus_unit_trusted_grant( unit )
+						$giper_baza_unit_trusted_grant( unit )
 						this.mine().units_persisted.add( unit )
 					}
 					
@@ -971,7 +971,7 @@ namespace $ {
 			
 			let units = $mol_wire_sync( this.mine() ).units_load()
 			
-			if( this.$.$hyoo_crus_log() ) $mol_wire_sync( this.$ ).$mol_log3_rise({
+			if( this.$.$giper_baza_log() ) $mol_wire_sync( this.$ ).$mol_log3_rise({
 				place: this,
 				message: '🌱 Load Unit',
 				units: units,
@@ -988,11 +988,11 @@ namespace $ {
 			
 			const mine = this.mine()
 			
-			const encoding = [] as $hyoo_crus_unit_sand[]
-			const signing = [] as $hyoo_crus_unit_base[]
-			const persisting = [] as $hyoo_crus_unit[]
+			const encoding = [] as $giper_baza_unit_sand[]
+			const signing = [] as $giper_baza_unit_base[]
+			const persisting = [] as $giper_baza_unit[]
 			
-			const check_lord = ( lord: $hyoo_crus_link )=> {
+			const check_lord = ( lord: $giper_baza_link )=> {
 				
 				const pass = this.lord_pass( lord )
 				if( !pass ) return
@@ -1045,9 +1045,9 @@ namespace $ {
 		}
 		
 		async save(
-			encoding: $hyoo_crus_unit_sand[],
-			signing: $hyoo_crus_unit_base[],
-			persisting: $hyoo_crus_unit[],
+			encoding: $giper_baza_unit_sand[],
+			signing: $giper_baza_unit_base[],
+			persisting: $giper_baza_unit[],
 		) {
 			
 			const mine = this.mine()
@@ -1058,11 +1058,11 @@ namespace $ {
 			
 			if( persisting.length )	{
 				
-				const part =  new $hyoo_crus_pack_part( persisting )
-				const pack = $hyoo_crus_pack.make([[ this.link().str, part ]])
+				const part =  new $giper_baza_pack_part( persisting )
+				const pack = $giper_baza_pack.make([[ this.link().str, part ]])
 				this.bus().send( pack.buffer )
 				
-				if( this.$.$hyoo_crus_log() ) this.$.$mol_log3_done({
+				if( this.$.$giper_baza_log() ) this.$.$mol_log3_done({
 					place: this,
 					message: '💾 Save Unit',
 					units: persisting,
@@ -1078,9 +1078,9 @@ namespace $ {
 			return this
 		}
 		
-		async units_sign( units: readonly $hyoo_crus_unit_base[] ) {
+		async units_sign( units: readonly $giper_baza_unit_base[] ) {
 			
-			const lands = new Map< $hyoo_crus_land, $hyoo_crus_unit_base[] >()
+			const lands = new Map< $giper_baza_land, $giper_baza_unit_base[] >()
 			for( const unit of units ) {
 				
 				let us = lands.get( unit._land! )
@@ -1092,12 +1092,12 @@ namespace $ {
 			const threads = [ ... lands.entries() ].flatMap( ([ land, units ])=> {
 				
 				const auth = land.auth()
-				const rate = $hyoo_crus_rank_rate_of( land.pass_rank( auth.pass() ) )
+				const rate = $giper_baza_rank_rate_of( land.pass_rank( auth.pass() ) )
 				const wide = Boolean( land.link().area().str )
 				
 				return $mol_array_chunks( units, 14 ).map( async( units )=> {
 				
-					const seal = $hyoo_crus_unit_seal.make( units.length, wide )
+					const seal = $giper_baza_unit_seal.make( units.length, wide )
 					
 					seal.time_tick( this.faces.tick().time_tick )
 					seal.lord( auth.pass().lord() )
@@ -1120,7 +1120,7 @@ namespace $ {
 			
 		}
 		
-		async sand_encode( sand: $hyoo_crus_unit_sand ) {
+		async sand_encode( sand: $giper_baza_unit_sand ) {
 			
 			if( sand._open === null ) return sand
 			if( !sand.size() ) return sand
@@ -1136,12 +1136,12 @@ namespace $ {
 		}
 		
 		@ $mol_mem_key
-		sand_decode( sand: $hyoo_crus_unit_sand ): $hyoo_crus_vary_type {
+		sand_decode( sand: $giper_baza_unit_sand ): $giper_baza_vary_type {
 			
 			try {
 
 				let vary = this.sand_decode_raw( sand )
-				if( vary instanceof $hyoo_crus_link ) vary = vary.resolve( this.link() )
+				if( vary instanceof $giper_baza_link ) vary = vary.resolve( this.link() )
 				return vary
 
 			} catch( error ) {
@@ -1155,11 +1155,11 @@ namespace $ {
 		}
 		
 		@ $mol_mem_key
-		sand_decode_raw( sand: $hyoo_crus_unit_sand ): $hyoo_crus_vary_type {
+		sand_decode_raw( sand: $giper_baza_unit_sand ): $giper_baza_vary_type {
 			
 			if( this.sand_get( sand.head(), sand.lord(), sand.self() ) !== sand ) {
 				for( const id of this.Tine().items_vary() ?? [] ) {
-					const vary = this.$.$hyoo_crus_glob.Land( $hyoo_crus_vary_cast_link( id! )! ).sand_decode_raw( sand )
+					const vary = this.$.$giper_baza_glob.Land( $giper_baza_vary_cast_link( id! )! ).sand_decode_raw( sand )
 					if( vary !== undefined ) return vary
 				}
 				return undefined!
@@ -1168,9 +1168,9 @@ namespace $ {
 			const secret = this.secret()
 			
 			if( sand._vary !== undefined ) return sand._vary
-			if( sand._open !== null ) return sand._vary = ( $hyoo_crus_vary.take( sand._open ) as $hyoo_crus_vary_type[] )[0] ?? null
+			if( sand._open !== null ) return sand._vary = ( $giper_baza_vary.take( sand._open ) as $giper_baza_vary_type[] )[0] ?? null
 			
-			let bin = sand.size() > $hyoo_crus_unit_sand.size_equator ? $mol_wire_sync( this.mine() ).ball_load( sand.path() ) : sand.data()
+			let bin = sand.size() > $giper_baza_unit_sand.size_equator ? $mol_wire_sync( this.mine() ).ball_load( sand.path() ) : sand.data()
 			if( secret && bin && sand.size() ) {
 				try {
 					bin = $mol_wire_sync( secret ).decrypt( bin, sand.salt() )
@@ -1183,7 +1183,7 @@ namespace $ {
 			}
 			
 			sand._open = bin
-			return sand._vary = ( bin ? ( $hyoo_crus_vary.take( bin ) as $hyoo_crus_vary_type[] )[0] ?? null : null )
+			return sand._vary = ( bin ? ( $giper_baza_vary.take( bin ) as $giper_baza_vary_type[] )[0] ?? null : null )
 			
 		}
 		
@@ -1209,10 +1209,10 @@ namespace $ {
 			
 			const auth = this.auth()
 			
-			const unit = $mol_wire_sync( $hyoo_crus_unit_gift ).make()
-			$hyoo_crus_unit_trusted_grant( unit )
+			const unit = $mol_wire_sync( $giper_baza_unit_gift ).make()
+			$giper_baza_unit_trusted_grant( unit )
 			
-			unit.rank( $hyoo_crus_rank_rule )
+			unit.rank( $giper_baza_rank_rule )
 			unit.time_tick( this.faces.tick().time_tick )
 			unit.lord( auth.pass().lord() )
 			unit.mate( auth.pass().lord() )
@@ -1252,7 +1252,7 @@ namespace $ {
 			
 			this.saving()
 			
-			const units = [] as $hyoo_crus_unit_base[]
+			const units = [] as $giper_baza_unit_base[]
 			
 			for( const gift of this._gift.values() ) units.push( gift )
 			

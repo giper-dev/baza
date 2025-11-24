@@ -1,42 +1,42 @@
 namespace $ {
 	
 	/** Any Thing */
-	export class $hyoo_crus_flex_thing extends $hyoo_crus_dict.with({
-		Kind: $hyoo_crus_atom_link_to( ()=> $hyoo_crus_flex_kind ), // Schema of fields
-		Title: $hyoo_crus_atom_text,
+	export class $giper_baza_flex_thing extends $giper_baza_dict.with({
+		Kind: $giper_baza_atom_link_to( ()=> $giper_baza_flex_kind ), // Schema of fields
+		Title: $giper_baza_atom_text,
 	}) {}
 	
 	/** Atomic Link to any Thing */
-	export class $hyoo_crus_flex_thing_link extends $hyoo_crus_atom_link_to( ()=> $hyoo_crus_flex_thing ) {}
+	export class $giper_baza_flex_thing_link extends $giper_baza_atom_link_to( ()=> $giper_baza_flex_thing ) {}
 	
 	/** Kind of Thing */
-	export class $hyoo_crus_flex_kind extends $hyoo_crus_flex_thing.with({
-		Props: $hyoo_crus_list_link_to( ()=> $hyoo_crus_flex_prop ),
+	export class $giper_baza_flex_kind extends $giper_baza_flex_thing.with({
+		Props: $giper_baza_list_link_to( ()=> $giper_baza_flex_prop ),
 	}) {}
 	
 	/** Property of Kind */
-	export class $hyoo_crus_flex_prop extends $hyoo_crus_flex_thing.with( {
+	export class $giper_baza_flex_prop extends $giper_baza_flex_thing.with( {
 		/** Key to store value */
-		Key: $hyoo_crus_atom_text,
+		Key: $giper_baza_atom_text,
 		/** Type of value */
-		Type: $hyoo_crus_atom_text,
+		Type: $giper_baza_atom_text,
 		/** Target kind */
-		Target: $hyoo_crus_atom_link_to( () => $hyoo_crus_flex_kind ),
+		Target: $giper_baza_atom_link_to( () => $giper_baza_flex_kind ),
 		/** Variants of values */
-		Enum: $hyoo_crus_atom_link_to( () => $hyoo_crus_list_vary ),
+		Enum: $giper_baza_atom_link_to( () => $giper_baza_list_vary ),
 		/** Base value */
-		Base: $hyoo_crus_atom_vary,
+		Base: $giper_baza_atom_vary,
 	}) {}
 	
 	/** All schemas in one place */
-	export class $hyoo_crus_flex_domain extends $hyoo_crus_flex_thing.with({
-		Kinds: $hyoo_crus_list_link_to( ()=> $hyoo_crus_flex_kind ),
-		Props: $hyoo_crus_list_link_to( ()=> $hyoo_crus_flex_prop ),
-		Types: $hyoo_crus_list_str,
+	export class $giper_baza_flex_domain extends $giper_baza_flex_thing.with({
+		Kinds: $giper_baza_list_link_to( ()=> $giper_baza_flex_kind ),
+		Props: $giper_baza_list_link_to( ()=> $giper_baza_flex_prop ),
+		Types: $giper_baza_list_str,
 	}) {
 		
 		@ $mol_action
-		static ensure( land: $hyoo_crus_land ): $hyoo_crus_flex_domain {
+		static ensure( land: $giper_baza_land ): $giper_baza_flex_domain {
 			
 			const domain = land.Data( this )
 			if( domain.units().length ) return domain

@@ -1,12 +1,12 @@
 namespace $.$$ {
-	export class $hyoo_crus_glob_book extends $.$hyoo_crus_glob_book {
+	export class $giper_baza_glob_book extends $.$giper_baza_glob_book {
 		
 		@ $mol_mem
 		override spread_ids() {
 			
 			const spread = this.spread()
-			const spread_land = new $hyoo_crus_link( spread ).land().str
-			const lands_touched = [ ... this.$.$hyoo_crus_glob.lands_touched.values() ]
+			const spread_land = new $giper_baza_link( spread ).land().str
+			const lands_touched = [ ... this.$.$giper_baza_glob.lands_touched.values() ]
 			const groups = $mol_array_groups( lands_touched, land => land )
 			
 			const ids = [] as string[]
@@ -26,17 +26,17 @@ namespace $.$$ {
 		}
 		
 		override land( id: string ) {
-			return this.$.$hyoo_crus_glob.Land( new $hyoo_crus_link( id ).land() )
+			return this.$.$giper_baza_glob.Land( new $giper_baza_link( id ).land() )
 		}
 		
 		override node( id: string ) {
-			return this.$.$hyoo_crus_glob.Node( new $hyoo_crus_link( id ), $hyoo_crus_dict )
+			return this.$.$giper_baza_glob.Node( new $giper_baza_link( id ), $giper_baza_dict )
 		}
 		
 		override spread_title( id: string ) {
-			const link = new $hyoo_crus_link( id )
+			const link = new $giper_baza_link( id )
 			try {
-				var title = this.$.$hyoo_crus_glob.Node( link, $hyoo_crus_entity ).Title()?.val()
+				var title = this.$.$giper_baza_glob.Node( link, $giper_baza_entity ).Title()?.val()
 			} catch( error ) {
 				$mol_fail_log( error )
 			}
@@ -52,10 +52,10 @@ namespace $.$$ {
 			return prefix + suffix
 		}
 		
-		override land_add( preset: $hyoo_crus_rank_preset ) {
+		override land_add( preset: $giper_baza_rank_preset ) {
 			
 			this.$.$mol_dom_context.location.href = this.$.$mol_state_arg.link({
-				[ this.param() ]: this.$.$hyoo_crus_glob.land_grab( preset ).link().str
+				[ this.param() ]: this.$.$giper_baza_glob.land_grab( preset ).link().str
 			})
 			
 			return null
@@ -63,18 +63,18 @@ namespace $.$$ {
 		
 		@ $mol_action
 		override update( files: File[] ) {
-			const glob = this.$.$hyoo_crus_glob
+			const glob = this.$.$giper_baza_glob
 			for( const file of files ) {
 				const dump = $mol_wire_sync( file ).arrayBuffer()
-				const pack = new $hyoo_crus_pack( dump )
+				const pack = new $giper_baza_pack( dump )
 				glob.apply_pack( pack )
 			}
 			return []
 		}
 		
 		override async wipe() {
-			const yard = await this.$.$mol_db( '$hyoo_crus_yard' )
-			const mine = await this.$.$mol_db( '$hyoo_crus_mine' )
+			const yard = await this.$.$mol_db( '$giper_baza_yard' )
+			const mine = await this.$.$mol_db( '$giper_baza_mine' )
 			yard.kill()
 			mine.kill()
 			location.reload()

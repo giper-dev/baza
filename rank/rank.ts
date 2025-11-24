@@ -1,25 +1,25 @@
 namespace $ {
 	
-	export const { $hyoo_crus_rank } = $mol_data_tagged({
-		$hyoo_crus_rank: $mol_data_pipe(
+	export const { $giper_baza_rank } = $mol_data_tagged({
+		$giper_baza_rank: $mol_data_pipe(
 			$mol_data_integer,
 			( rank: number )=> {
-				if( rank >= $hyoo_crus_rank_deny && rank <= $hyoo_crus_rank_rule ) return rank
+				if( rank >= $giper_baza_rank_deny && rank <= $giper_baza_rank_rule ) return rank
 				$mol_fail( new $mol_data_error( `${rank} is out of Ran range` ) )
 			}
 		),
 	}) 
 	
 	/** Makes Rank from Tier and Fame names. */
-	export function $hyoo_crus_rank_make(
-		tier: keyof typeof $hyoo_crus_rank_tier,
-		fame: keyof typeof $hyoo_crus_rank_rate,
+	export function $giper_baza_rank_make(
+		tier: keyof typeof $giper_baza_rank_tier,
+		fame: keyof typeof $giper_baza_rank_rate,
 	) {
-		return ( $hyoo_crus_rank_tier[ tier ] | $hyoo_crus_rank_rate[ fame ] ) as typeof $hyoo_crus_rank.Value
+		return ( $giper_baza_rank_tier[ tier ] | $giper_baza_rank_rate[ fame ] ) as typeof $giper_baza_rank.Value
 	}
 
 	/** Access level: deny, read, post, pull, rule */
-	export enum $hyoo_crus_rank_tier {
+	export enum $giper_baza_rank_tier {
 
 		/** Forbidden. There is no access, neither read nor write. */
 		deny = 0b0_0000_0000,
@@ -38,12 +38,12 @@ namespace $ {
 
 	}
 	
-	export function $hyoo_crus_rank_tier_of( rank: typeof $hyoo_crus_rank.Value ): $hyoo_crus_rank_tier {
+	export function $giper_baza_rank_tier_of( rank: typeof $giper_baza_rank.Value ): $giper_baza_rank_tier {
 		return rank & 0b1111_0000
 	}
 
 	/** Ease of making changes, depends on fame: evil, harm, even, nice, good */
-	export enum $hyoo_crus_rank_rate {
+	export enum $giper_baza_rank_rate {
 
 		/** Very hard challenge. Minutes to put. */
 		late = 0b0000_0000,
@@ -62,27 +62,27 @@ namespace $ {
 
 	}
 	
-	export function $hyoo_crus_rank_rate_of( rank: typeof $hyoo_crus_rank.Value ): $hyoo_crus_rank_rate {
+	export function $giper_baza_rank_rate_of( rank: typeof $giper_baza_rank.Value ): $giper_baza_rank_rate {
 		return rank & 0b0000_1111
 	}
 
-	export const $hyoo_crus_rank_deny = $hyoo_crus_rank_make( 'deny', 'late' )
-	export const $hyoo_crus_rank_read = $hyoo_crus_rank_make( 'read', 'late' )
-	export const $hyoo_crus_rank_rule = $hyoo_crus_rank_make( 'rule', 'just' )
+	export const $giper_baza_rank_deny = $giper_baza_rank_make( 'deny', 'late' )
+	export const $giper_baza_rank_read = $giper_baza_rank_make( 'read', 'late' )
+	export const $giper_baza_rank_rule = $giper_baza_rank_make( 'rule', 'just' )
 	
-	export function $hyoo_crus_rank_pull(
-		rate: keyof typeof $hyoo_crus_rank_rate
+	export function $giper_baza_rank_pull(
+		rate: keyof typeof $giper_baza_rank_rate
 	) {
-		return $hyoo_crus_rank_make( 'pull', rate )
+		return $giper_baza_rank_make( 'pull', rate )
 	}
 
-	export function $hyoo_crus_rank_post(
-		rate: keyof typeof $hyoo_crus_rank_rate
+	export function $giper_baza_rank_post(
+		rate: keyof typeof $giper_baza_rank_rate
 	) {
-		return $hyoo_crus_rank_make( 'post', rate )
+		return $giper_baza_rank_make( 'post', rate )
 	}
 
 	/** Mapping Pass to Rank */
-	export type $hyoo_crus_rank_preset = [ $hyoo_crus_auth_pass | null, typeof $hyoo_crus_rank.Value ][]
+	export type $giper_baza_rank_preset = [ $giper_baza_auth_pass | null, typeof $giper_baza_rank.Value ][]
 
 }

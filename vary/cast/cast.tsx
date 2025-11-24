@@ -1,12 +1,12 @@
 /** @jsx $mol_jsx */
 namespace $ {
 	
-	export function $hyoo_crus_vary_cast_blob( vary: $hyoo_crus_vary_type ): ArrayLike< number | bigint > | null {
+	export function $giper_baza_vary_cast_blob( vary: $giper_baza_vary_type ): ArrayLike< number | bigint > | null {
 		return ArrayBuffer.isView( vary ) ? vary : null
 	}
 	
-	export function $hyoo_crus_vary_cast_bool( vary: $hyoo_crus_vary_type ): boolean | null {
-		return $hyoo_crus_vary_switch( vary, {
+	export function $giper_baza_vary_cast_bool( vary: $giper_baza_vary_type ): boolean | null {
+		return $giper_baza_vary_switch( vary, {
 			
 			none: vary => null,
 			blob: vary => Boolean( vary.byteLength ),
@@ -26,8 +26,8 @@ namespace $ {
 		})
 	}
 
-	export function $hyoo_crus_vary_cast_bint( vary: $hyoo_crus_vary_type ): bigint | null {
-		return $hyoo_crus_vary_switch( vary, {
+	export function $giper_baza_vary_cast_bint( vary: $giper_baza_vary_type ): bigint | null {
+		return $giper_baza_vary_switch( vary, {
 			
 			none: vary => null,
 			blob: vary => BigInt( ( vary as any as ArrayLike< number > ).length ),
@@ -63,8 +63,8 @@ namespace $ {
 		})
 	}
 
-	export function $hyoo_crus_vary_cast_real( vary: $hyoo_crus_vary_type ): number | null {
-		return $hyoo_crus_vary_switch( vary, {
+	export function $giper_baza_vary_cast_real( vary: $giper_baza_vary_type ): number | null {
+		return $giper_baza_vary_switch( vary, {
 			
 			none: vary => null,
 			blob: vary => ( vary as any as ArrayLike< number > ).length,
@@ -84,12 +84,12 @@ namespace $ {
 		})
 	}
 
-	export function $hyoo_crus_vary_cast_link( vary: $hyoo_crus_vary_type ): $hyoo_crus_link | null {
-		return vary instanceof $hyoo_crus_link ? vary : null
+	export function $giper_baza_vary_cast_link( vary: $giper_baza_vary_type ): $giper_baza_link | null {
+		return vary instanceof $giper_baza_link ? vary : null
 	}
 
-	export function $hyoo_crus_vary_cast_text( vary: $hyoo_crus_vary_type ): string | null {
-		return $hyoo_crus_vary_switch( vary, {
+	export function $giper_baza_vary_cast_text( vary: $giper_baza_vary_type ): string | null {
+		return $giper_baza_vary_switch( vary, {
 			
 			none: vary => null,
 			blob: vary => $mol_base64_ae_encode( new Uint8Array( vary.buffer, vary.byteOffset, vary.byteLength ) ),
@@ -109,8 +109,8 @@ namespace $ {
 		})
 	}
 
-	export function $hyoo_crus_vary_cast_time( vary: $hyoo_crus_vary_type ): $mol_time_moment | null {
-		return $hyoo_crus_vary_switch( vary, {
+	export function $giper_baza_vary_cast_time( vary: $giper_baza_vary_type ): $mol_time_moment | null {
+		return $giper_baza_vary_switch( vary, {
 			
 			none: vary => null,
 			blob: vary => null,
@@ -149,8 +149,8 @@ namespace $ {
 		})
 	}
 
-	export function $hyoo_crus_vary_cast_dura( vary: $hyoo_crus_vary_type ): $mol_time_duration | null {
-		return $hyoo_crus_vary_switch( vary, {
+	export function $giper_baza_vary_cast_dura( vary: $giper_baza_vary_type ): $mol_time_duration | null {
+		return $giper_baza_vary_switch( vary, {
 			
 			none: vary => null,
 			blob: vary => null,
@@ -183,8 +183,8 @@ namespace $ {
 		})
 	}
 
-	export function $hyoo_crus_vary_cast_span( vary: $hyoo_crus_vary_type ): $mol_time_interval | null {
-		return $hyoo_crus_vary_switch( vary, {
+	export function $giper_baza_vary_cast_span( vary: $giper_baza_vary_type ): $mol_time_interval | null {
+		return $giper_baza_vary_switch( vary, {
 			
 			none: vary => null,
 			blob: vary => null,
@@ -217,8 +217,8 @@ namespace $ {
 		})
 	}
 
-	export function $hyoo_crus_vary_cast_dict( vary: $hyoo_crus_vary_type ): {} | null {
-		return $hyoo_crus_vary_switch( vary, {
+	export function $giper_baza_vary_cast_dict( vary: $giper_baza_vary_type ): {} | null {
+		return $giper_baza_vary_switch( vary, {
 			
 			none: vary => null,
 			blob: vary => null,
@@ -248,8 +248,8 @@ namespace $ {
 		})
 	}
 
-	export function $hyoo_crus_vary_cast_list( vary: $hyoo_crus_vary_type ): any[] | null {
-		return $hyoo_crus_vary_switch( vary, {
+	export function $giper_baza_vary_cast_list( vary: $giper_baza_vary_type ): any[] | null {
+		return $giper_baza_vary_switch( vary, {
 			
 			none: vary => null,
 			blob: vary => [ ... ( vary as any as ArrayIterator< number > ) ],
@@ -277,11 +277,11 @@ namespace $ {
 		})
 	}
 
-	export function $hyoo_crus_vary_cast_elem( vary: $hyoo_crus_vary_type ): Element | null {
-		return $hyoo_crus_vary_switch( vary, {
+	export function $giper_baza_vary_cast_elem( vary: $giper_baza_vary_type ): Element | null {
+		return $giper_baza_vary_switch( vary, {
 			
 			none: vary => null,
-			blob: vary => <body>{ $hyoo_crus_vary_cast_text( vary as Uint8Array< ArrayBuffer > ) }</body>,
+			blob: vary => <body>{ $giper_baza_vary_cast_text( vary as Uint8Array< ArrayBuffer > ) }</body>,
 			bool: vary => <body>{ vary }</body>,
 			bint: vary => <body>{ vary }</body>,
 			real: vary => <body>{ vary }</body>,
@@ -306,8 +306,8 @@ namespace $ {
 		})
 	}
 
-	export function $hyoo_crus_vary_cast_tree( vary: $hyoo_crus_vary_type ): $mol_tree2 | null {
-		return $hyoo_crus_vary_switch( vary, {
+	export function $giper_baza_vary_cast_tree( vary: $giper_baza_vary_type ): $mol_tree2 | null {
+		return $giper_baza_vary_switch( vary, {
 			
 			none: vary => null,
 			blob: vary => vary instanceof Uint8Array ? $mol_tree2_bin_from_bytes( vary ) : null,
@@ -335,22 +335,22 @@ namespace $ {
 		})
 	}
 
-	export const $hyoo_crus_vary_cast_funcs = {
+	export const $giper_baza_vary_cast_funcs = {
 			
 		none: ()=> null,
-		blob: $hyoo_crus_vary_cast_blob,
-		bool: $hyoo_crus_vary_cast_bool,
-		bint: $hyoo_crus_vary_cast_bint,
-		real: $hyoo_crus_vary_cast_real,
-		link: $hyoo_crus_vary_cast_link,
-		text: $hyoo_crus_vary_cast_text,
-		time: $hyoo_crus_vary_cast_time,
-		dura: $hyoo_crus_vary_cast_dura,
-		span: $hyoo_crus_vary_cast_span,
-		dict: $hyoo_crus_vary_cast_dict,
-		list: $hyoo_crus_vary_cast_list,
-		elem: $hyoo_crus_vary_cast_elem,
-		tree: $hyoo_crus_vary_cast_tree,
+		blob: $giper_baza_vary_cast_blob,
+		bool: $giper_baza_vary_cast_bool,
+		bint: $giper_baza_vary_cast_bint,
+		real: $giper_baza_vary_cast_real,
+		link: $giper_baza_vary_cast_link,
+		text: $giper_baza_vary_cast_text,
+		time: $giper_baza_vary_cast_time,
+		dura: $giper_baza_vary_cast_dura,
+		span: $giper_baza_vary_cast_span,
+		dict: $giper_baza_vary_cast_dict,
+		list: $giper_baza_vary_cast_list,
+		elem: $giper_baza_vary_cast_elem,
+		tree: $giper_baza_vary_cast_tree,
 		
 	} as const
 	

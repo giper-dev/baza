@@ -1,10 +1,10 @@
 /** @jsx $mol_jsx */
 namespace $.$$ {
 	
-	function check( vary: $hyoo_crus_vary_type ) {
+	function check( vary: $giper_baza_vary_type ) {
 		$mol_assert_equal(
 			vary,
-			( $hyoo_crus_vary.take( $hyoo_crus_vary.pack([ vary ]) ) as any[] )[0],
+			( $giper_baza_vary.take( $giper_baza_vary.pack([ vary ]) ) as any[] )[0],
 		)
 	}	
 	
@@ -38,8 +38,8 @@ namespace $.$$ {
 		},
 		
 		"Link"( $ ) {
-			check( new $hyoo_crus_link('') )
-			check( $hyoo_crus_link.from_int( 123456789 ) )
+			check( new $giper_baza_link('') )
+			check( $giper_baza_link.from_int( 123456789 ) )
 		},
 		
 		"Str"( $ ) {
@@ -67,7 +67,7 @@ namespace $.$$ {
 			)
 			
 			$mol_assert_equal(
-				$mol_dom_serialize( ( $hyoo_crus_vary.take( $hyoo_crus_vary.pack([ xml ]) ) as any[] )[0] as Node ),
+				$mol_dom_serialize( ( $giper_baza_vary.take( $giper_baza_vary.pack([ xml ]) ) as any[] )[0] as Node ),
 				$mol_dom_serialize( xml ),
 			)
 			
@@ -81,7 +81,7 @@ namespace $.$$ {
 			`)
 			
 			$mol_assert_equal(
-				$.$mol_tree2_to_string( ( $hyoo_crus_vary.take( $hyoo_crus_vary.pack([ tree ]) ) as any[] )[0] as $mol_tree2 ),
+				$.$mol_tree2_to_string( ( $giper_baza_vary.take( $giper_baza_vary.pack([ tree ]) ) as any[] )[0] as $mol_tree2 ),
 				$.$mol_tree2_to_string( tree ),
 			)
 			

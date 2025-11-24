@@ -1,6 +1,6 @@
 namespace $ {
 
-	function html( dom: $hyoo_crus_dom ) {
+	function html( dom: $giper_baza_dom ) {
 		return dom.html().replace( / (id|xmlns)=".+?"/g, '' )
 	}
 
@@ -8,7 +8,7 @@ namespace $ {
 		
 		'plain text'( $ ) {
 			
-			const left = $hyoo_crus_land.make({ $ }).Data( $hyoo_crus_dom )
+			const left = $giper_baza_land.make({ $ }).Data( $giper_baza_dom )
 			left.html( 'foo bar' )
 
 			$mol_assert_equal( html( left ), '<span>foo</span><span> bar</span>' )
@@ -17,7 +17,7 @@ namespace $ {
 		
 		'simple tags'( $ ) {
 			
-			const left = $hyoo_crus_land.make({ $ }).Data( $hyoo_crus_dom )
+			const left = $giper_baza_land.make({ $ }).Data( $giper_baza_dom )
 			left.html( '<br /><hr />' )
 			
 			$mol_assert_equal( html( left ), '<br /><hr />' )
@@ -26,7 +26,7 @@ namespace $ {
 		
 		'tags with attrs'( $ ) {
 			
-			const left = $hyoo_crus_land.make({ $ }).Data( $hyoo_crus_dom )
+			const left = $giper_baza_land.make({ $ }).Data( $giper_baza_dom )
 			left.html( '<br hidden="" /><hr tabindex="-1" />' )
 			
 			$mol_assert_equal( html( left ), '<br hidden="" /><hr tabindex="-1" />' )
@@ -35,7 +35,7 @@ namespace $ {
 		
 		'nested tags'( $ ) {
 			
-			const left = $hyoo_crus_land.make({ $ }).Data( $hyoo_crus_dom )
+			const left = $giper_baza_land.make({ $ }).Data( $giper_baza_dom )
 			left.html( '<p><br /></p>' )
 			
 			$mol_assert_equal( html( left ), '<p><br /></p>' )
@@ -44,7 +44,7 @@ namespace $ {
 		
 		'paragraphs'( $ ) {
 			
-			const left = $hyoo_crus_land.make({ $ }).Data( $hyoo_crus_dom )
+			const left = $giper_baza_land.make({ $ }).Data( $giper_baza_dom )
 			left.html( '<p>foo bar</p><p>xxx yyy</p>' )
 			
 			$mol_assert_equal( html( left ), '<p><span>foo</span><span> bar</span></p><p><span>xxx</span><span> yyy</span></p>' )
@@ -53,10 +53,10 @@ namespace $ {
 		
 		'import exported html'( $ ) {
 			
-			const left = $hyoo_crus_land.make({ $ }).Data( $hyoo_crus_dom )
+			const left = $giper_baza_land.make({ $ }).Data( $giper_baza_dom )
 			left.html( 'foo<a data-xxx="yyy" href="hhh:zzz">ton</a>bar' )
 			
-			const right = $hyoo_crus_land.make({ $ }).Data( $hyoo_crus_dom )
+			const right = $giper_baza_land.make({ $ }).Data( $giper_baza_dom )
 			right.html( left.html() )
 			
 			$mol_assert_equal( html( left ), html( right ) )
@@ -66,7 +66,7 @@ namespace $ {
 		
 		'import wild spans'( $ ) {
 			
-			const left = $hyoo_crus_land.make({ $ }).Data( $hyoo_crus_dom )
+			const left = $giper_baza_land.make({ $ }).Data( $giper_baza_dom )
 			left.html( '<span>foo bar<a href="hhh:ton"/></span>' )
 
 			$mol_assert_equal( html( left ), '<span>foo</span><span> bar</span><a href="hhh:ton"></a>' )

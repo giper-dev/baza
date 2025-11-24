@@ -1,16 +1,16 @@
-Meetup dict
+Meetup *
 	\Митап
-	.Title str
+	.Title text
 	.Speeches / -> Speech
 
-Speech dict
+Speech *
 	\Доклад
 	.Meetup -> Meetup
 	.Title text
-	.Descr text
+	.Descr Text
 	.Speaker Speaker
 
-Speaker dict
+Speaker *
 	\Докладчик
-	.Name ->
-	.Photo blob
+	.Name text
+	.Photo Blob

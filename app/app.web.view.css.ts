@@ -2,10 +2,10 @@ namespace $.$$ {
 	
 	const { url } = $mol_style_func
 	
-	$mol_style_define( $hyoo_crus_app, {
+	$mol_style_define( $giper_baza_app, {
 		
 		background: {
-			image: [[ url( 'hyoo/crus/logo/bg.webp' ) ]],
+			image: [[ url( 'giper/baza/logo/bg.webp' ) ]],
 			size: [ 'cover' ],
 			position: 'top',
 		},

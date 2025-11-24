@@ -1,23 +1,23 @@
-$hyoo_crus_app $mol_book2_catalog
-	menu_title \🦿 CRUS-DB
+$giper_baza_app $mol_book2_catalog
+	menu_title \Giper Baza
 	param \section
 	menu_foot /
 		<= Source $mol_link_source
-			uri \https://github.com/hyoo-ru/crus.hyoo.ru
-		<= Status $hyoo_crus_status
+			uri \https://github.com/giper-dev/baza
+		<= Status $giper_baza_status
 	spreads *
 		\
 			<= Info $hyoo_page
 				menu_title \💨 Info
 				side_main_id \sy2u0y_9rb8zj
 				Gap* null
-		glob <= Glob $hyoo_crus_glob_book
+		glob <= Glob $giper_baza_glob_book
 			addon_tools /
 				<= Spread_close
-		stat <= Stat $hyoo_crus_app_stat_page
+		stat <= Stat $giper_baza_app_stat_page
 			tools /
 				<= Spread_close
-		slot <= Slot $hyoo_crus_auth_slot
+		slot <= Slot $giper_baza_auth_slot
 			tools /
 				<= Spread_close
 		casting <= Casting $hyoo_calc

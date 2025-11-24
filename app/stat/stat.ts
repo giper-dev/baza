@@ -1,31 +1,31 @@
 namespace $ {
 	
-	export class $hyoo_crus_app_stat extends $hyoo_crus_dict.with({
+	export class $giper_baza_app_stat extends $giper_baza_dict.with({
 		
-		Uptime: $hyoo_crus_atom_dura,
+		Uptime: $giper_baza_atom_dura,
 		
 		/** User time in secs */
-		Cpu_user: $hyoo_crus_stat_ranges,
+		Cpu_user: $giper_baza_stat_ranges,
 		/** System time in secs */
-		Cpu_system: $hyoo_crus_stat_ranges,
+		Cpu_system: $giper_baza_stat_ranges,
 		
 		/** Memory in MB */
-		Mem_used: $hyoo_crus_stat_ranges,
+		Mem_used: $giper_baza_stat_ranges,
 		/** Memory in MB */
-		Mem_free: $hyoo_crus_stat_ranges,
+		Mem_free: $giper_baza_stat_ranges,
 		
 		/** FS free */
-		Fs_free: $hyoo_crus_stat_ranges,
+		Fs_free: $giper_baza_stat_ranges,
 		
 		/** FS read count */
-		Fs_reads: $hyoo_crus_stat_ranges,
+		Fs_reads: $giper_baza_stat_ranges,
 		/** FS write count */
-		Fs_writes: $hyoo_crus_stat_ranges,
+		Fs_writes: $giper_baza_stat_ranges,
 		
 		/** Slave sockets count */
-		Port_slaves: $hyoo_crus_stat_ranges,
+		Port_slaves: $giper_baza_stat_ranges,
 		/** Masters sockets count */
-		Port_masters: $hyoo_crus_stat_ranges,
+		Port_masters: $giper_baza_stat_ranges,
 		
 	}) {
 
@@ -68,10 +68,10 @@ namespace $ {
 			const fs = $node.fs.statfsSync( '.' )
 			this.Fs_free( null )!.tick_instant( Number( fs.bfree ) / Number( fs.blocks ) * 100 ) // %
 			
-			const masters = $mol_wire_sync( this.$.$hyoo_crus_glob.yard() ).masters().length
+			const masters = $mol_wire_sync( this.$.$giper_baza_glob.yard() ).masters().length
 			this.Port_masters( null )!.tick_instant( masters ) // pct
 			
-			const slaves = $mol_wire_sync( this.$.$hyoo_crus_glob.yard() ).ports().length - masters
+			const slaves = $mol_wire_sync( this.$.$giper_baza_glob.yard() ).ports().length - masters
 			this.Port_slaves( null )!.tick_instant( slaves ) // pct
 			
 			

@@ -1,3 +1,3 @@
 namespace $ {
-	$.$hyoo_crus_mine = $hyoo_crus_mine
+	$.$giper_baza_mine = $giper_baza_mine
 }
