@@ -16,5 +16,5 @@ jobs:
     - uses: GlueOps/github-actions-build-push-containers@v0.4.5
       with:
         dockerfile: 'docker/Dockerfile'
-        image_name: 'giper-dev/baza'
+        image_name: 'giper/baza'
         tags: 'latest'
