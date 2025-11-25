@@ -1,7 +1,7 @@
 FROM node:25
 WORKDIR /mam
 COPY ./ giper/baza
-RUN npm exec mam@latest giper/baza/app/run
+RUN npm exec --verbose mam@latest giper/baza/app/run
 
 FROM node:25
 COPY --from=0 /mam/giper/baza/app/run/- /mam/giper/baza/app/run/-
