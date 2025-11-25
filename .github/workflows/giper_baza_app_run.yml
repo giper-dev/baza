@@ -22,4 +22,5 @@ jobs:
     - uses: GlueOps/github-actions-build-push-containers@v0.4.5
       with:
         context: '${GITHUB_WORKSPACE}/giper/baza/app/run'
-        target_directory: no
+        target_directory: null
+        tags: 'latest'
