@@ -3752,7 +3752,7 @@ declare namespace $ {
         [Symbol.toPrimitive](): any;
     };
     export class $giper_baza_stat_series extends $giper_baza_stat_series_base {
-        tick(key: bigint, val: number): void;
+        tick(key: number, val: number): void;
         _initial: number;
         initial(): number;
         max(): number;

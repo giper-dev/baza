@@ -10840,12 +10840,12 @@ var $;
         }
         tick_integral(val) {
             let now = new $mol_time_moment;
-            const second = BigInt(Math.floor(now.second));
-            const minute = BigInt(now.minute);
-            const hour = BigInt(now.hour);
+            const second = Math.floor(now.second);
+            const minute = now.minute;
+            const hour = now.hour;
             const from_ny = new $mol_time_interval({ start: { year: now.year, month: 0, day: 0 }, end: now });
-            const day = BigInt(Math.floor(from_ny.duration.count('P1D')));
-            const year = BigInt(now.year);
+            const day = Math.floor(from_ny.duration.count('P1D'));
+            const year = now.year;
             this.Seconds(null).tick(second, val);
             this.Minutes(null).tick(minute, val);
             this.Hours(null).tick(hour, val);
@@ -10854,7 +10854,7 @@ var $;
         }
         series() {
             function pick(Series, length, range) {
-                let series = Array.from({ length }, (_, i) => Series.key(BigInt(i))?.val() ?? 0);
+                let series = Array.from({ length }, (_, i) => Series.key(i)?.val() ?? 0);
                 let start = 0;
                 let max = 0;
                 for (let i = 0; i < series.length; ++i) {
