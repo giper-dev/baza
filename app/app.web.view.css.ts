@@ -16,19 +16,6 @@ namespace $.$$ {
 			},
 		},
 		
-		Info: {
-			margin: [ 0, 'auto' ],
-			flex: {
-				basis: `60rem`,
-			},
-		},
-		
-		Casting: {
-			flex: {
-				grow: 1,
-			},
-		},
-		
 	} )
 	
 }
