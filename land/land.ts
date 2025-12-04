@@ -1001,7 +1001,7 @@ namespace $ {
 				const pass = this.lord_pass( lord )
 				if( !pass ) return
 				
-				if( mine.units_persisted.has( pass ) ) return
+				if( $mol_wire_sync( mine.units_persisted ).has( pass ) ) return
 				
 				persisting.push( pass )
 				mine.units_persisted.add( pass )
@@ -1010,9 +1010,9 @@ namespace $ {
 			
 			for( const gift of this._gift.values() ) {
 				
-				if( mine.units_persisted.has( gift ) ) continue
+				if( $mol_wire_sync( mine.units_persisted ).has( gift ) ) continue
 				
-				if( !this.unit_seal( gift ) ) signing.push( gift )
+				if( !$mol_wire_sync( this ).unit_seal( gift ) ) signing.push( gift )
 				
 				persisting.push( gift )
 				mine.units_persisted.add( gift )
@@ -1026,9 +1026,9 @@ namespace $ {
 				for( const units of kids.values() ) {
 					for( const sand of units.values() ) {
 						
-						if( mine.units_persisted.has( sand ) ) continue
+						if( $mol_wire_sync( mine.units_persisted ).has( sand ) ) continue
 						
-						if( !this.unit_seal( sand ) ) {
+						if( !$mol_wire_sync( this ).unit_seal( sand ) ) {
 							encoding.push( sand )
 							signing.push( sand )
 						}
@@ -1042,7 +1042,7 @@ namespace $ {
 				}
 			}
 			
-			if( !persisting ) return
+			if( !persisting.length ) return
 			
 			return this.save( encoding, signing, persisting )
 		
@@ -1058,6 +1058,8 @@ namespace $ {
 			
 			await Promise.all( encoding.map( unit => this.sand_encode( unit ) ) )
 			const seals = signing.length ? await this.units_sign( signing ) : []
+			for( const seal of seals ) this.seal_add( seal )
+			
 			persisting = [ ... persisting, ... seals ]
 			
 			if( persisting.length )	{
@@ -1079,8 +1081,6 @@ namespace $ {
 				this.units_reaping.clear()
 			
 			}
-			
-			for( const seal of seals ) this.seal_add( seal )
 			
 			return this
 		}
@@ -1129,7 +1129,7 @@ namespace $ {
 						seal.sign( await auth.sign( shot ) )
 					} while( seal.rate_min() > rate )
 					
-					seal._alive_count = hashes.length
+					for( const hash of hashes ) seal.alive_items.add( hash.str )
 					if( !seal.alive_full() ) this._seal_partial.add( seal )
 					
 					return seal

@@ -1,5 +1,16 @@
 namespace $ {
 	
+	$mol_test_mocks.push( $=> {
+		class $giper_baza_land_mock extends $.$giper_baza_land {
+			
+			sync() {
+				return this
+			}
+			
+		}
+		$.$giper_baza_land = $giper_baza_land_mock
+	} )
+	
 	const auth1 = $giper_baza_auth.from( '_4eLnQsSr5wj6XOzgS5bZa254pkEOf_hg1nReCSR4Zkd-E07aLSwj-II-rZt4ZubInw_f1rZiA0Qa92qR0Gq3I6xYWCkW9Aagc7-97L2P-gI84NaLwdabp_DrZEX3RJTY' )
 	const auth2 = $giper_baza_auth.from( '_5THYp_Njx6-cAU53dRwdv3z8RBAVK7Z2L3OeZmTp8sCsMNXmdssFljy2fxIMDX_oxTFRrRCvAH7s92kUOVn5YYTPGuZ5fQFOAEeRNGGQ47JVCK3Cy_XDSUDvklZ-3Ix4' )
 	

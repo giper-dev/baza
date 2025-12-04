@@ -101,7 +101,7 @@ namespace $ {
 				' #',
 				$mol_dev_format_auto( this.hash() ),
 				' 👾',
-				$mol_dev_format_accent( this.mate().str || '_________________' ),
+				$mol_dev_format_accent( this.mate().str || '______anyone_____' ),
 				this.code().some( v => v ) ? ' 🔐' : ' 👀',
 				$giper_baza_rank_tier[ this.tier() ],
 				':',

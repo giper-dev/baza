@@ -1,7 +1,7 @@
 namespace $ {
 	
 	function fork( base: $giper_baza_land ) {
-		const land = $giper_baza_land.make({ $: base.$ })
+		const land = base.$.$giper_baza_land.make({ $: base.$ })
 		land.diff_apply( base.diff_units() )
 		return land
 	}
@@ -15,7 +15,7 @@ namespace $ {
 		
 		'Basic list ops'( $ ) {
 			
-			const land = $giper_baza_land.make({ $ })
+			const land = $.$giper_baza_land.make({ $ })
 			const list = land.Node( $giper_baza_list_vary ).Data()
 			$mol_assert_equal( list.items_vary(), [] )
 			
@@ -56,8 +56,8 @@ namespace $ {
 		
 		'Different types'( $ ) {
 			
-			const land = $giper_baza_land.make({ $ })
-			const list = land.Node( $giper_baza_list_vary ).Data()
+			const land = $.$giper_baza_land.make({ $ })
+			const list = land.Node( $.$giper_baza_list_vary ).Data()
 			
 			list.items_vary([
 				null,
@@ -98,8 +98,8 @@ namespace $ {
 		
 		'List merge'( $ ) {
 			
-			const land1 = $giper_baza_land.make({ $ })
-			const land2 = $giper_baza_land.make({ $ })
+			const land1 = $.$giper_baza_land.make({ $ })
+			const land2 = $.$giper_baza_land.make({ $ })
 			
 			const list1 = land1.Node( $giper_baza_list_vary ).Data()
 			const list2 = land2.Node( $giper_baza_list_vary ).Data()
@@ -114,7 +114,7 @@ namespace $ {
 		
 		'Insert before removed before changed'( $ ) {
 			
-			const land = $giper_baza_land.make({ $ })
+			const land = $.$giper_baza_land.make({ $ })
 			const list = land.Node( $giper_baza_list_vary ).Data()
 			
 			list.items_vary([ 'foo', 'bar' ])
@@ -127,7 +127,7 @@ namespace $ {
 		
 		'Many moves'( $ ) {
 			
-			const land = $giper_baza_land.make({ $ })
+			const land = $.$giper_baza_land.make({ $ })
 			const list = land.Node( $giper_baza_list_vary ).Data()
 			
 			list.items_vary([ 'foo', 'bar', 'lol' ])
@@ -142,7 +142,7 @@ namespace $ {
 		
 		'Reorder separated sublists'( $ ) {
 			
-			const land = $giper_baza_land.make({ $ })
+			const land = $.$giper_baza_land.make({ $ })
 			const list = land.Node( $giper_baza_list_vary ).Data()
 			
 			list.items_vary([ 1, 2, 3, 4, 5, 6 ])
@@ -161,7 +161,7 @@ namespace $ {
 		
 		'Insert after moved right'( $ ) {
 			
-			const base = $giper_baza_land.make({ $ })
+			const base = $.$giper_baza_land.make({ $ })
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
 			const left = fork( base )
@@ -181,7 +181,7 @@ namespace $ {
 		
 		'Insert before moved left'( $ ) {
 			
-			const base = $giper_baza_land.make({ $ })
+			const base = $.$giper_baza_land.make({ $ })
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
 			const left = fork( base )
@@ -202,7 +202,7 @@ namespace $ {
 		
 		'Move left after inserted'( $ ) {
 			
-			const base = $giper_baza_land.make({ $ })
+			const base = $.$giper_baza_land.make({ $ })
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
 			const left = fork( base )
@@ -223,7 +223,7 @@ namespace $ {
 		
 		'Insert before moved right'( $ ) {
 			
-			const base = $giper_baza_land.make({ $ })
+			const base = $.$giper_baza_land.make({ $ })
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
 			const left = fork( base )
@@ -244,7 +244,7 @@ namespace $ {
 		
 		'Move right after inserted'( $ ) {
 			
-			const base = $giper_baza_land.make({ $ })
+			const base = $.$giper_baza_land.make({ $ })
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
 			const left = fork( base )
@@ -265,7 +265,7 @@ namespace $ {
 		
 		'Insert after wiped'( $ ) {
 			
-			const base = $giper_baza_land.make({ $ })
+			const base = $.$giper_baza_land.make({ $ })
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
 			const left = fork( base )
@@ -286,7 +286,7 @@ namespace $ {
 		
 		'Wiped before inserted'( $ ) {
 			
-			const base = $giper_baza_land.make({ $ })
+			const base = $.$giper_baza_land.make({ $ })
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
 			const left = fork( base )
@@ -307,7 +307,7 @@ namespace $ {
 		
 		'Insert before wiped'( $ ) {
 			
-			const base = $giper_baza_land.make({ $ })
+			const base = $.$giper_baza_land.make({ $ })
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
 			const left = fork( base )
@@ -328,7 +328,7 @@ namespace $ {
 		
 		'Wiped after inserted'( $ ) {
 			
-			const base = $giper_baza_land.make({ $ })
+			const base = $.$giper_baza_land.make({ $ })
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
 			const left = fork( base )
@@ -349,7 +349,7 @@ namespace $ {
 		
 		'Insert after moved out'( $ ) {
 			
-			const base = $giper_baza_land.make({ $ })
+			const base = $.$giper_baza_land.make({ $ })
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
 			const left = fork( base )
@@ -375,7 +375,7 @@ namespace $ {
 		
 		'Move out before inserted'( $ ) {
 			
-			const base = $giper_baza_land.make({ $ })
+			const base = $.$giper_baza_land.make({ $ })
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
 			const left = fork( base )
@@ -401,7 +401,7 @@ namespace $ {
 		
 		'Insert before changed'( $ ) {
 			
-			const base = $giper_baza_land.make({ $ })
+			const base = $.$giper_baza_land.make({ $ })
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
 			const left = fork( base )
@@ -422,7 +422,7 @@ namespace $ {
 		
 		'Change after inserted'( $ ) {
 			
-			const base = $giper_baza_land.make({ $ })
+			const base = $.$giper_baza_land.make({ $ })
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
 			const left = fork( base )
@@ -443,7 +443,7 @@ namespace $ {
 		
 		'Insert between moved'( $ ) {
 			
-			const base = $giper_baza_land.make({ $ })
+			const base = $.$giper_baza_land.make({ $ })
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4, 5, 6 ])
 			
 			const left = fork( base )
@@ -465,7 +465,7 @@ namespace $ {
 		
 		'Move near inserted'( $ ) {
 			
-			const base = $giper_baza_land.make({ $ })
+			const base = $.$giper_baza_land.make({ $ })
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4, 5, 6 ])
 			
 			const left = fork( base )

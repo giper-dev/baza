@@ -12,22 +12,22 @@ namespace $ {
 		
 		/** Land where Lord is King. Contains only ain info */
 		static home< Node extends typeof $giper_baza_home = typeof $giper_baza_home >( Node?: Node ) {
-			return this.Land( this.$.$giper_baza_auth.current().pass().lord() ).Data( Node ?? $giper_baza_home ) as InstanceType< Node >
+			return this.Land( this.$.$giper_baza_auth.current().pass().lord() ).Data( Node ?? this.$.$giper_baza_home ) as InstanceType< Node >
 		}
 		
 		@ $mol_action
-		static king_grab( preset : $giper_baza_rank_preset = [[ null, $giper_baza_rank_read ]] ) {
+		static king_grab( preset : $giper_baza_rank_preset = [[ null, this.$.$giper_baza_rank_read ]] ) {
 			
 			const mapping = new Map( preset )
 			
 			const king = this.$.$giper_baza_auth.grab()
-			const colony = ( $mol_wire_sync( $giper_baza_land ) as typeof $giper_baza_land ).make({ $: this.$ })
+			const colony = ( $mol_wire_sync( this.$.$giper_baza_land ) as typeof $giper_baza_land ).make({ $: this.$ })
 			colony.auth = $mol_const( king )
 			
-			colony.encrypted( ( mapping.get( null ) ?? $giper_baza_rank_deny ) === $giper_baza_rank_deny )
+			colony.encrypted( ( mapping.get( null ) ?? this.$.$giper_baza_rank_deny ) === this.$.$giper_baza_rank_deny )
 			
 			const self = this.$.$giper_baza_auth.current().pass()
-			colony.give( self, $giper_baza_rank_rule )
+			colony.give( self, this.$.$giper_baza_rank_rule )
 			
 			for( const [ key, rank ] of mapping ) colony.give( key, rank )
 			
@@ -37,7 +37,7 @@ namespace $ {
 		}
 		
 		@ $mol_action
-		static land_grab( preset : $giper_baza_rank_preset = [[ null, $giper_baza_rank_read ]] ) {
+		static land_grab( preset : $giper_baza_rank_preset = [[ null, this.$.$giper_baza_rank_read ]] ) {
 			return this.Land( this.king_grab( preset ).pass().lord() )
 		}
 		
@@ -45,7 +45,7 @@ namespace $ {
 		@ $mol_mem_key
 		static Land( link: $giper_baza_link ): $giper_baza_land {
 			this.lands_touched.add( link.str )
-			return $giper_baza_land.make({
+			return this.$.$giper_baza_land.make({
 				link: $mol_const( link ),
 			})
 		}
@@ -65,7 +65,7 @@ namespace $ {
 		static apply_parts( parts: $giper_baza_pack_parts ) {
 			
 			for( const [ land_id, part ] of parts ) {
-				const land = this.Land( new $giper_baza_link( land_id ) )
+				const land = this.Land( new this.$.$giper_baza_link( land_id ) )
 				land.diff_apply( part.units )
 			}
 
