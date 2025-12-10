@@ -70,6 +70,7 @@ declare namespace $ {
         static toJSON(): any;
         destructor(): void;
         static destructor(): void;
+        [Symbol.dispose](): void;
         toString(): string;
     }
 }
@@ -1919,6 +1920,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: Parse;
         toString(): any;
@@ -1961,6 +1963,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_blob;
         toString(): any;
@@ -2005,6 +2008,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_bool;
         toString(): any;
@@ -2049,6 +2053,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_bint;
         toString(): any;
@@ -2093,6 +2098,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_real;
         toString(): any;
@@ -2137,6 +2143,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_link;
         toString(): any;
@@ -2181,6 +2188,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_text;
         toString(): any;
@@ -2225,6 +2233,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_time;
         toString(): any;
@@ -2269,6 +2278,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_dura;
         toString(): any;
@@ -2313,6 +2323,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_span;
         toString(): any;
@@ -2357,6 +2368,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_dict;
         toString(): any;
@@ -2401,6 +2413,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_list;
         toString(): any;
@@ -2445,6 +2458,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_elem;
         toString(): any;
@@ -2489,6 +2503,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_tree;
         toString(): any;
@@ -2541,6 +2556,7 @@ declare namespace $ {
             toString(): string;
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
+            [Symbol.dispose](): void;
         };
         Value: Value;
         toString(): any;
@@ -2614,6 +2630,7 @@ declare namespace $ {
             toString(): string;
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
+            [Symbol.dispose](): void;
         };
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
@@ -2676,6 +2693,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         options: Options;
         toString(): any;
@@ -2713,6 +2731,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: Parse;
         toString(): any;
@@ -2750,6 +2769,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_blob;
         toString(): any;
@@ -2789,6 +2809,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_bool;
         toString(): any;
@@ -2828,6 +2849,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_bint;
         toString(): any;
@@ -2867,6 +2889,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_real;
         toString(): any;
@@ -2906,6 +2929,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_link;
         toString(): any;
@@ -2945,6 +2969,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_text;
         toString(): any;
@@ -2984,6 +3009,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_time;
         toString(): any;
@@ -3023,6 +3049,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_dura;
         toString(): any;
@@ -3062,6 +3089,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_span;
         toString(): any;
@@ -3101,6 +3129,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_dict;
         toString(): any;
@@ -3140,6 +3169,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_list;
         toString(): any;
@@ -3179,6 +3209,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_elem;
         toString(): any;
@@ -3218,6 +3249,7 @@ declare namespace $ {
         toString(): string;
         [Symbol.toStringTag]: string;
         [$mol_ambient_ref]: $;
+        [Symbol.dispose](): void;
     }) & {
         parse: typeof $giper_baza_vary_cast_tree;
         toString(): any;
@@ -3271,6 +3303,7 @@ declare namespace $ {
             toString(): string;
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
+            [Symbol.dispose](): void;
         };
         toString(): any;
         Value: typeof $giper_baza_dict;
@@ -3341,6 +3374,7 @@ declare namespace $ {
             toString(): string;
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
+            [Symbol.dispose](): void;
         } | null;
     }>) & {
         schema: {
@@ -3384,6 +3418,7 @@ declare namespace $ {
                     toString(): string;
                     [Symbol.toStringTag]: string;
                     [$mol_ambient_ref]: $;
+                    [Symbol.dispose](): void;
                 };
                 toString(): any;
                 Value: typeof $giper_baza_dict;
@@ -4327,22 +4362,9 @@ declare namespace $ {
         }): number;
         read(): Uint8Array<ArrayBuffer>;
         truncate(size: number): void;
+        flush(): void;
         close(): void;
         destructor(): void;
-    }
-}
-
-declare namespace $ {
-    class $mol_file_transaction_web extends $mol_file_transaction {
-        write(options: {
-            buffer: ArrayBufferView | string | readonly ArrayBufferView[];
-            offset?: number | null;
-            length?: number | null;
-            position?: number | null;
-        }): number;
-        truncate(size: number): void;
-        read(): Buffer<ArrayBuffer>;
-        close(): void;
     }
 }
 
@@ -5882,6 +5904,7 @@ declare namespace $ {
             toString(): string;
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
+            [Symbol.dispose](): void;
         } | null;
         readonly Title: (auto?: any) => $giper_baza_atom_text | null;
     }>) & {
@@ -5925,6 +5948,7 @@ declare namespace $ {
                     toString(): string;
                     [Symbol.toStringTag]: string;
                     [$mol_ambient_ref]: $;
+                    [Symbol.dispose](): void;
                 };
                 toString(): any;
                 Value: typeof $giper_baza_dict;
@@ -5979,6 +6003,7 @@ declare namespace $ {
             toString(): string;
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
+            [Symbol.dispose](): void;
         };
         toString(): any;
         Value: typeof $giper_baza_dict;
@@ -6030,6 +6055,7 @@ declare namespace $ {
             toString(): string;
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
+            [Symbol.dispose](): void;
         } | null;
     }>) & {
         schema: {
@@ -6072,6 +6098,7 @@ declare namespace $ {
                     toString(): string;
                     [Symbol.toStringTag]: string;
                     [$mol_ambient_ref]: $;
+                    [Symbol.dispose](): void;
                 };
                 Value: Value;
                 toString(): any;
@@ -6127,6 +6154,7 @@ declare namespace $ {
             toString(): string;
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
+            [Symbol.dispose](): void;
         } | null;
         readonly Enum: (auto?: any) => {
             Value: Value;
@@ -6164,6 +6192,7 @@ declare namespace $ {
             toString(): string;
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
+            [Symbol.dispose](): void;
         } | null;
         readonly Base: (auto?: any) => $giper_baza_atom_vary | null;
     }>) & {
@@ -6209,6 +6238,7 @@ declare namespace $ {
                     toString(): string;
                     [Symbol.toStringTag]: string;
                     [$mol_ambient_ref]: $;
+                    [Symbol.dispose](): void;
                 };
                 toString(): any;
                 Value: typeof $giper_baza_dict;
@@ -6258,6 +6288,7 @@ declare namespace $ {
                     toString(): string;
                     [Symbol.toStringTag]: string;
                     [$mol_ambient_ref]: $;
+                    [Symbol.dispose](): void;
                 };
                 toString(): any;
                 Value: typeof $giper_baza_dict;
@@ -6312,6 +6343,7 @@ declare namespace $ {
             toString(): string;
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
+            [Symbol.dispose](): void;
         } | null;
         readonly Props: (auto?: any) => {
             remote_list(next?: readonly $giper_baza_flex_prop[] | undefined): readonly $giper_baza_flex_prop[];
@@ -6349,6 +6381,7 @@ declare namespace $ {
             toString(): string;
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
+            [Symbol.dispose](): void;
         } | null;
         readonly Types: (auto?: any) => $giper_baza_list_str | null;
     }>) & {
@@ -6392,6 +6425,7 @@ declare namespace $ {
                     toString(): string;
                     [Symbol.toStringTag]: string;
                     [$mol_ambient_ref]: $;
+                    [Symbol.dispose](): void;
                 };
                 Value: Value;
                 toString(): any;
@@ -6441,6 +6475,7 @@ declare namespace $ {
                     toString(): string;
                     [Symbol.toStringTag]: string;
                     [$mol_ambient_ref]: $;
+                    [Symbol.dispose](): void;
                 };
                 Value: Value;
                 toString(): any;
@@ -9378,6 +9413,7 @@ declare namespace $ {
             toString(): string;
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
+            [Symbol.dispose](): void;
         };
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
@@ -10673,6 +10709,7 @@ declare namespace $ {
             toString(): string;
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
+            [Symbol.dispose](): void;
         } | null;
         readonly Stat: (auto?: any) => {
             Value: Value;
@@ -10710,6 +10747,7 @@ declare namespace $ {
             toString(): string;
             [Symbol.toStringTag]: string;
             [$mol_ambient_ref]: $;
+            [Symbol.dispose](): void;
         } | null;
     }>) & {
         schema: {
@@ -10750,6 +10788,7 @@ declare namespace $ {
                     toString(): string;
                     [Symbol.toStringTag]: string;
                     [$mol_ambient_ref]: $;
+                    [Symbol.dispose](): void;
                 };
                 toString(): any;
                 tag: keyof typeof $giper_baza_unit_sand_tag;
@@ -10806,6 +10845,7 @@ declare namespace $ {
                     toString(): string;
                     [Symbol.toStringTag]: string;
                     [$mol_ambient_ref]: $;
+                    [Symbol.dispose](): void;
                 };
                 toString(): any;
                 Value: typeof $giper_baza_dict;
