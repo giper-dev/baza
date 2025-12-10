@@ -82,7 +82,7 @@ namespace $ {
 			return buf
 		}
 		
-		@ $mol_memo.method
+		// @ $mol_memo.method
 		work() {
 			
 			let int = this.uint16( this.byteLength - 64 )

@@ -50,6 +50,10 @@ namespace $ {
 		tag() {
 			return $giper_baza_unit_sand_tag[ this.uint8( 1 ) & 0b11_00_0000 ] as keyof typeof $giper_baza_unit_sand_tag
 		}
+		
+		big() {
+			return this.size() > $giper_baza_unit_sand.size_equator
+		}
 
 		size( next?: number ) {
 			if( next === undefined ) {

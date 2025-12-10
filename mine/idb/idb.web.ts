@@ -25,8 +25,8 @@ namespace $ {
 						gift: ()=> {},
 						seal: seal => {},
 						sand: sand => {
-							if( sand.size() <= $giper_baza_unit_sand.size_equator ) return
-							Ball.drop([ land, unit.path() ])
+							if( !sand.big() ) return
+							Ball.drop([ land, sand.path() ])
 						},
 					})
 					
@@ -42,7 +42,7 @@ namespace $ {
 						gift: ()=> {},
 						seal: seal => {},
 						sand: sand => {
-							if( sand.size() <= $giper_baza_unit_sand.size_equator ) return
+							if( !sand.big() ) return
 							Ball.put( [ sand.ball().buffer ], [ land, unit.path() ] )
 						},
 					})

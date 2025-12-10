@@ -438,7 +438,9 @@ namespace $ {
 			
 			for( const unit of delta ) {
 				if( skip_faces.has( unit.lord().peer().str ) ) continue
-				passes.add( this.lord_pass( unit.lord() )! )
+				const pass = this.lord_pass( unit.lord() )
+				if( !pass ) return $mol_fail( new Error( 'No pass for lord' ) )
+				passes.add( pass )
 			}
 			
 			return [ ... passes, ... delta ]
@@ -507,6 +509,9 @@ namespace $ {
 					return this.$.$mol_fail( new Error( 'Too low Tier' ) )
 				}
 				
+				const lord_pass = this.lord_pass( unit.lord() ) ?? passes.get( unit.lord().str )
+				if( !lord_pass ) return this.$.$mol_fail( new Error( `No Pass for Lord`, { cause: unit.lord() } ) )
+				
 				switch( unit.kind() ) {
 					
 					case 'seal': {
@@ -517,11 +522,7 @@ namespace $ {
 							return this.$.$mol_fail( new Error( 'Too low Rate' ) )
 						}
 				
-						const lord_pass = this.lord_pass( seal.lord() ) ?? passes.get( seal.lord().str )
-						if( !lord_pass ) return this.$.$mol_fail( new Error( `No Pass for Lord`, { cause: unit.lord() } ) )
-						
 						this.seal_add( seal )
-						this.pass_add( lord_pass )
 						
 						break
 					}
@@ -568,6 +569,8 @@ namespace $ {
 					}
 					
 				}
+				
+				this.pass_add( lord_pass )
 				
 			}
 			

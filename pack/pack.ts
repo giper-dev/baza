@@ -41,7 +41,7 @@ namespace $ {
 			return new Blob( [ this ], { type: 'application/vnd.giper_baza_pack.v1' } )
 		}
 		
-		parts() {
+		parts( offsets?: WeakMap< $giper_baza_unit, number > ) {
 			
 			const parts = new Map< string, $giper_baza_pack_part >
 			let part = null as null | $giper_baza_pack_part
@@ -98,12 +98,15 @@ namespace $ {
 						if( !part ) $mol_fail( new Error( 'Land is undefined' ) )
 						
 						const pass = $giper_baza_auth_pass.from(
-							buf.slice( offset, offset += 64 )
+							buf.slice( offset, offset + 64 )
 						)
 						
+						offsets?.set( pass, offset )
 						part.units.push( pass )
 						
+						offset += pass.byteLength
 						continue
+						
 					}
 					
 					case 'seal': {
@@ -114,12 +117,15 @@ namespace $ {
 						const length = $giper_baza_unit_seal.length( size )
 						
 						const seal = $giper_baza_unit_seal.from(
-							buf.slice( offset, offset += length )
+							buf.slice( offset, offset + length )
 						)
 						
+						offsets?.set( seal, offset )
 						part.units.push( seal )
 						
+						offset += seal.byteLength
 						continue
+						
 					}
 					
 					case 'sand': {
@@ -130,13 +136,13 @@ namespace $ {
 						const length_sand = $giper_baza_unit_sand.length( size )
 						const length_ball = $giper_baza_unit_sand.length_ball( size )
 						
-						const sand = $giper_baza_unit_sand.from(
-							buf.slice( offset, offset += length_sand )
-						)
+						const sand = $giper_baza_unit_sand.from( buf.slice( offset, offset + length_sand ) )
+						
+						offsets?.set( sand, offset )
+						offset += sand.byteLength
 						
 						if( length_ball ) {
-							sand._ball = buf.slice( offset, size )
-							offset += length_sand
+							sand._ball = buf.slice( offset, offset += length_ball )
 						}
 						
 						part.units.push( sand )
@@ -149,11 +155,14 @@ namespace $ {
 						if( !part ) $mol_fail( new Error( 'Land is undefined' ) )
 						
 						const length = $giper_baza_unit_gift.length()
-						const gift = $giper_baza_unit_gift.from( buf.slice( offset, offset += length ) )
+						const gift = $giper_baza_unit_gift.from( buf.slice( offset, offset + length ) )
 						
+						offsets?.set( gift, offset )
 						part.units.push( gift )
 						
+						offset += gift.byteLength
 						continue
+						
 					}
 					
 					default:
