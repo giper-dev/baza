@@ -547,8 +547,8 @@ declare namespace $ {
         dir: string;
     }> {
     }
-    const $mol_run_spawn: (...args: Parameters<(typeof $node)["child_process"]["spawn"]>) => import("child_process").ChildProcess;
-    const $mol_run_spawn_sync: (...args: Parameters<(typeof $node)["child_process"]["spawnSync"]>) => import("child_process").SpawnSyncReturns<string | NonSharedBuffer>;
+    const $mol_run_spawn: (...args: Parameters<(typeof $node)["child_process"]["spawn"]>) => import("node:child_process").ChildProcess;
+    const $mol_run_spawn_sync: (...args: Parameters<(typeof $node)["child_process"]["spawnSync"]>) => import("node:child_process").SpawnSyncReturns<string | NonSharedBuffer>;
     type $mol_run_options = {
         command: readonly string[] | string;
         dir: string;
@@ -557,10 +557,10 @@ declare namespace $ {
     };
     class $mol_run extends $mol_object {
         static async_enabled(): boolean;
-        static spawn(options: $mol_run_options): import("child_process").SpawnSyncReturns<string | NonSharedBuffer> | $mol_run_error_context;
+        static spawn(options: $mol_run_options): import("node:child_process").SpawnSyncReturns<string | NonSharedBuffer> | $mol_run_error_context;
         static spawn_async({ dir, sync, timeout, command, env }: $mol_run_options & {
             sync?: boolean;
-        }): import("child_process").SpawnSyncReturns<string | NonSharedBuffer> | (Promise<$mol_run_error_context> & {
+        }): import("node:child_process").SpawnSyncReturns<string | NonSharedBuffer> | (Promise<$mol_run_error_context> & {
             destructor: () => void;
         });
         static error_message(res?: $mol_run_error_context): string;
@@ -1123,11 +1123,11 @@ declare namespace $ {
     class $mol_rest_server extends $mol_object {
         port(): number;
         start(): void;
-        http_server(): import("http").Server<typeof import("http").IncomingMessage, typeof import("http").ServerResponse>;
+        http_server(): import("node:http").Server<typeof import("node:http").IncomingMessage, typeof import("node:http").ServerResponse>;
         http_income(req: InstanceType<$node['http']['IncomingMessage']>, res: InstanceType<$node['http']['ServerResponse']>): void;
         ws_upgrade(req: InstanceType<$node['http']['IncomingMessage']>, socket: InstanceType<$node['stream']['Duplex']>, head: Buffer<ArrayBuffer>): void;
-        _ws_income_chunks: WeakMap<import("stream").Duplex, Uint8Array<ArrayBuffer>[]>;
-        _ws_income_frames: WeakMap<import("stream").Duplex, (string | Uint8Array<ArrayBuffer>)[]>;
+        _ws_income_chunks: WeakMap<import("node:stream").Duplex, Uint8Array<ArrayBuffer>[]>;
+        _ws_income_frames: WeakMap<import("node:stream").Duplex, (string | Uint8Array<ArrayBuffer>)[]>;
         ws_income(chunk: Buffer<ArrayBuffer>, upgrade: $mol_rest_message, sock: InstanceType<typeof $node.stream.Duplex>): Promise<void>;
         root(resource?: $mol_rest_resource): $mol_rest_resource;
     }
@@ -1709,10 +1709,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    function $mol_charset_decode_from(buffer: Uint8Array, from: number, count: number): readonly [string, number];
-}
-
-declare namespace $ {
     enum $mol_vary_tip {
         uint = 0,
         link = 32,
@@ -2009,6 +2005,7 @@ declare namespace $ {
         static make(size: number): $giper_baza_unit_sand;
         hint(tag?: keyof typeof $giper_baza_unit_sand_tag): void;
         tag(): keyof typeof $giper_baza_unit_sand_tag;
+        big(): boolean;
         size(next?: number): number;
         _head: $giper_baza_link;
         head(next?: $giper_baza_link): $giper_baza_link;
@@ -3683,7 +3680,7 @@ declare namespace $ {
     }
     class $giper_baza_pack extends $mol_buffer {
         toBlob(): Blob;
-        parts(): [string, $giper_baza_pack_part][];
+        parts(offsets?: WeakMap<$giper_baza_unit, number>): [string, $giper_baza_pack_part][];
         static length(parts: $giper_baza_pack_parts): number;
         static make(parts: $giper_baza_pack_parts): $giper_baza_pack;
     }

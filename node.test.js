@@ -7004,59 +7004,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    function $mol_charset_decode_from(buffer, from, count) {
-        const codes = [];
-        let pos = from;
-        while (pos < buffer.length && codes.length < count) {
-            const byte1 = buffer[pos++];
-            if (byte1 <= 0x7F) {
-                codes.push(byte1);
-            }
-            else if ((byte1 & 0xE0) === 0xC0) {
-                if (pos >= buffer.length)
-                    break;
-                const byte2 = buffer[pos++];
-                const code = ((byte1 & 0x1F) << 6) | (byte2 & 0x3F);
-                codes.push(code);
-            }
-            else if ((byte1 & 0xF0) === 0xE0) {
-                if (pos + 1 >= buffer.length)
-                    break;
-                const byte2 = buffer[pos++];
-                const byte3 = buffer[pos++];
-                const code = ((byte1 & 0x0F) << 12) | ((byte2 & 0x3F) << 6) | (byte3 & 0x3F);
-                codes.push(code);
-            }
-            else if ((byte1 & 0xF8) === 0xF0) {
-                if (pos + 2 >= buffer.length)
-                    break;
-                const byte2 = buffer[pos++];
-                const byte3 = buffer[pos++];
-                const byte4 = buffer[pos++];
-                let code = ((byte1 & 0x07) << 18) | ((byte2 & 0x3F) << 12) | ((byte3 & 0x3F) << 6) | (byte4 & 0x3F);
-                if (code > 0xFFFF) {
-                    code -= 0x10000;
-                    const hi = 0xD800 + (code >> 10);
-                    const lo = 0xDC00 + (code & 0x3FF);
-                    codes.push(hi, lo);
-                }
-                else {
-                    codes.push(code);
-                }
-            }
-            else {
-                codes.push(0xFFFD);
-            }
-        }
-        return [String.fromCharCode(...codes), pos - from];
-    }
-    $.$mol_charset_decode_from = $mol_charset_decode_from;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
     let $mol_vary_tip;
     (function ($mol_vary_tip) {
         $mol_vary_tip[$mol_vary_tip["uint"] = 0] = "uint";
@@ -7117,8 +7064,21 @@ var $;
             const release = (size) => {
                 capacity -= size;
             };
-            const dump_unum = (tip, val) => {
-                if (val < $mol_vary_len.L1) {
+            const calc_size = (val) => {
+                if (val < $mol_vary_len.L1)
+                    return 1;
+                if (val < 2 ** 8)
+                    return 2;
+                if (val < 2 ** 16)
+                    return 3;
+                if (val < 2 ** 32)
+                    return 5;
+                if (val < 2n ** 64n)
+                    return 9;
+                return $mol_fail(new Error('Too large number'));
+            };
+            const dump_unum = (tip, val, max = val) => {
+                if (max < $mol_vary_len.L1) {
                     this.array[pos++] = tip | Number(val);
                     release(8);
                     return;
@@ -7128,24 +7088,24 @@ var $;
                     if (offset !== undefined)
                         return dump_unum($mol_vary_tip.link, offset);
                 }
-                if (val < 2 ** 8) {
+                if (max < 2 ** 8) {
                     this.array[pos++] = tip | $mol_vary_len.L1;
                     this.array[pos++] = Number(val);
                     release(7);
                 }
-                else if (val < 2 ** 16) {
+                else if (max < 2 ** 16) {
                     this.array[pos++] = tip | $mol_vary_len.L2;
                     this.buffer.setUint16(pos, Number(val), true);
                     pos += 2;
                     release(6);
                 }
-                else if (val < 2 ** 32) {
+                else if (max < 2 ** 32) {
                     this.array[pos++] = tip | $mol_vary_len.L4;
                     this.buffer.setUint32(pos, Number(val), true);
                     pos += 4;
                     release(4);
                 }
-                else if (val < 2n ** 64n) {
+                else if (max < 2n ** 64n) {
                     this.array[pos++] = tip | $mol_vary_len.L8;
                     this.buffer.setBigUint64(pos, BigInt(val), true);
                     pos += 8;
@@ -7216,11 +7176,13 @@ var $;
                 const offset = offsets.get(val);
                 if (offset !== undefined)
                     return dump_unum($mol_vary_tip.link, offset);
-                dump_unum($mol_vary_tip.text, val.length);
-                acquire(val.length * 3);
-                const len = $mol_charset_encode_to(val, this.array, pos);
+                const len_max = val.length * 3;
+                const len_size = calc_size(len_max);
+                acquire(len_max);
+                const len = $mol_charset_encode_to(val, this.array, pos + len_size);
+                dump_unum($mol_vary_tip.text, len, len_max);
                 pos += len;
-                release(val.length * 3 - len);
+                release(len_max - len);
                 offsets.set(val, offsets.size);
                 return;
             };
@@ -7426,8 +7388,8 @@ var $;
             };
             const read_text = (kind) => {
                 const len = read_unum(kind);
-                const [text, bytes] = $mol_charset_decode_from(array, pos, len);
-                pos += bytes;
+                const text = $mol_charset_decode(new Uint8Array(array.buffer, array.byteOffset + pos, len));
+                pos += len;
                 stream.push(text);
                 return text;
             };
@@ -8466,7 +8428,10 @@ var $;
             for (const unit of delta) {
                 if (skip_faces.has(unit.lord().peer().str))
                     continue;
-                passes.add(this.lord_pass(unit.lord()));
+                const pass = this.lord_pass(unit.lord());
+                if (!pass)
+                    return $mol_fail(new Error('No pass for lord'));
+                passes.add(pass);
             }
             return [...passes, ...delta];
         }
@@ -8515,17 +8480,16 @@ var $;
                 if (this.lord_tier(unit.lord()) < unit.tier_min()) {
                     return this.$.$mol_fail(new Error('Too low Tier'));
                 }
+                const lord_pass = this.lord_pass(unit.lord()) ?? passes.get(unit.lord().str);
+                if (!lord_pass)
+                    return this.$.$mol_fail(new Error(`No Pass for Lord`, { cause: unit.lord() }));
                 switch (unit.kind()) {
                     case 'seal': {
                         const seal = unit;
                         if (this.lord_rate(unit.lord()) < seal.rate_min()) {
                             return this.$.$mol_fail(new Error('Too low Rate'));
                         }
-                        const lord_pass = this.lord_pass(seal.lord()) ?? passes.get(seal.lord().str);
-                        if (!lord_pass)
-                            return this.$.$mol_fail(new Error(`No Pass for Lord`, { cause: unit.lord() }));
                         this.seal_add(seal);
-                        this.pass_add(lord_pass);
                         break;
                     }
                     case 'gift': {
@@ -8558,6 +8522,7 @@ var $;
                         return this.$.$mol_fail(new Error(`Unsupported Kind`));
                     }
                 }
+                this.pass_add(lord_pass);
             }
             return units;
         }
@@ -9383,9 +9348,6 @@ var $;
             return $mol_dev_format_span({}, $mol_dev_format_native(this), ' 👾', $mol_dev_format_auto(this.lord()), ' ✍ ', $mol_dev_format_shade(this.moment().toString('YYYY-MM-DD hh:mm:ss'), ' +', this.tick()), ' #', $mol_dev_format_auto(this.hash()), ' ', $mol_dev_format_auto(this.hash_list()));
         }
     }
-    __decorate([
-        $mol_memo.method
-    ], $giper_baza_unit_seal.prototype, "work", null);
     $.$giper_baza_unit_seal = $giper_baza_unit_seal;
 })($ || ($ = {}));
 
@@ -9426,6 +9388,9 @@ var $;
         }
         tag() {
             return $giper_baza_unit_sand_tag[this.uint8(1) & 0b11_00_0000];
+        }
+        big() {
+            return this.size() > $giper_baza_unit_sand.size_equator;
         }
         size(next) {
             if (next === undefined) {
@@ -10253,7 +10218,7 @@ var $;
         toBlob() {
             return new Blob([this], { type: 'application/vnd.giper_baza_pack.v1' });
         }
-        parts() {
+        parts(offsets) {
             const parts = new Map;
             let part = null;
             const buf = this.asArray();
@@ -10284,8 +10249,10 @@ var $;
                     case 'pass': {
                         if (!part)
                             $mol_fail(new Error('Land is undefined'));
-                        const pass = $giper_baza_auth_pass.from(buf.slice(offset, offset += 64));
+                        const pass = $giper_baza_auth_pass.from(buf.slice(offset, offset + 64));
+                        offsets?.set(pass, offset);
                         part.units.push(pass);
+                        offset += pass.byteLength;
                         continue;
                     }
                     case 'seal': {
@@ -10293,8 +10260,10 @@ var $;
                             $mol_fail(new Error('Land is undefined'));
                         const size = new $giper_baza_unit_seal(this.buffer, this.byteOffset + offset, this.byteLength - offset).size();
                         const length = $giper_baza_unit_seal.length(size);
-                        const seal = $giper_baza_unit_seal.from(buf.slice(offset, offset += length));
+                        const seal = $giper_baza_unit_seal.from(buf.slice(offset, offset + length));
+                        offsets?.set(seal, offset);
                         part.units.push(seal);
+                        offset += seal.byteLength;
                         continue;
                     }
                     case 'sand': {
@@ -10303,10 +10272,11 @@ var $;
                         const size = new $giper_baza_unit_sand(this.buffer, this.byteOffset + offset, this.byteLength - offset).size();
                         const length_sand = $giper_baza_unit_sand.length(size);
                         const length_ball = $giper_baza_unit_sand.length_ball(size);
-                        const sand = $giper_baza_unit_sand.from(buf.slice(offset, offset += length_sand));
+                        const sand = $giper_baza_unit_sand.from(buf.slice(offset, offset + length_sand));
+                        offsets?.set(sand, offset);
+                        offset += sand.byteLength;
                         if (length_ball) {
-                            sand._ball = buf.slice(offset, size);
-                            offset += length_sand;
+                            sand._ball = buf.slice(offset, offset += length_ball);
                         }
                         part.units.push(sand);
                         continue;
@@ -10315,8 +10285,10 @@ var $;
                         if (!part)
                             $mol_fail(new Error('Land is undefined'));
                         const length = $giper_baza_unit_gift.length();
-                        const gift = $giper_baza_unit_gift.from(buf.slice(offset, offset += length));
+                        const gift = $giper_baza_unit_gift.from(buf.slice(offset, offset + length));
+                        offsets?.set(gift, offset);
                         part.units.push(gift);
+                        offset += gift.byteLength;
                         continue;
                     }
                     default:
@@ -14636,32 +14608,6 @@ var $;
 ;
 "use strict";
 var $;
-(function ($) {
-    $mol_test({
-        'encode empty'() {
-            $mol_assert_equal($mol_charset_decode_from(new Uint8Array([]), 0, 0), ['', 0]);
-        },
-        'encode 1 octet'() {
-            $mol_assert_equal($mol_charset_decode_from(new Uint8Array([0x46]), 0, 1), ['F', 1]);
-        },
-        'encode 2 octet'() {
-            $mol_assert_equal($mol_charset_decode_from(new Uint8Array([0xd0, 0x91]), 0, 1), ['Б', 2]);
-        },
-        'encode 3 octet'() {
-            $mol_assert_equal($mol_charset_decode_from(new Uint8Array([0xe0, 0xa4, 0xb9]), 0, 1), ['ह', 3]);
-        },
-        'encode 4 octet'() {
-            $mol_assert_equal($mol_charset_decode_from(new Uint8Array([0xf0, 0x90, 0x8d, 0x88]), 0, 1), ['𐍈', 4]);
-        },
-        'encode surrogate pair'() {
-            $mol_assert_equal($mol_charset_decode_from(new Uint8Array([0xf0, 0x9f, 0x98, 0x80]), 0, 2), ['😀', 4]);
-        },
-    });
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
 (function ($_1) {
     var $$;
     (function ($$) {
@@ -14777,8 +14723,11 @@ var $;
             },
             "vary pack text"($) {
                 check(['foo'], [text | 3, ...str('foo')]);
-                const long = 'abcdefghijklmnopqrstuvwxyzЖЫ';
-                check([long], [text | L1, 28, ...str(long)]);
+                check(['абв'], [text | 6, ...str('абв')]);
+                const long_lat = 'abcdefghijklmnopqrst';
+                check([long_lat], [text | L1, 20, ...str(long_lat)]);
+                const long_cyr = 'абвгдеёжзийклмнопрст';
+                check([long_cyr], [text | L1, 40, ...str(long_cyr)]);
             },
             "vary pack dedup text"($) {
                 check([["f", "f"]], [list | 2, text | 1, ...str('f'), link | 0]);

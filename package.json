@@ -160,7 +160,6 @@
     "$mol_bigint_encode",
     "$mol_bigint",
     "$mol_bigint_decode",
-    "$mol_charset_decode_from",
     "$mol_type_result",
     "$mol_hash_numbers",
     "$mol_hash",

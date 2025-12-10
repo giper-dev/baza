@@ -1147,7 +1147,7 @@ declare namespace $ {
     }
     class $giper_baza_pack extends $mol_buffer {
         toBlob(): Blob;
-        parts(): [string, $giper_baza_pack_part][];
+        parts(offsets?: WeakMap<$giper_baza_unit, number>): [string, $giper_baza_pack_part][];
         static length(parts: $giper_baza_pack_parts): number;
         static make(parts: $giper_baza_pack_parts): $giper_baza_pack;
     }
@@ -1273,10 +1273,6 @@ declare namespace $ {
 
 declare namespace $ {
     function $mol_charset_decode(buffer: AllowSharedBufferSource, encoding?: $mol_charset_encoding): string;
-}
-
-declare namespace $ {
-    function $mol_charset_decode_from(buffer: Uint8Array, from: number, count: number): readonly [string, number];
 }
 
 declare namespace $ {
@@ -1811,6 +1807,7 @@ declare namespace $ {
         static make(size: number): $giper_baza_unit_sand;
         hint(tag?: keyof typeof $giper_baza_unit_sand_tag): void;
         tag(): keyof typeof $giper_baza_unit_sand_tag;
+        big(): boolean;
         size(next?: number): number;
         _head: $giper_baza_link;
         head(next?: $giper_baza_link): $giper_baza_link;
