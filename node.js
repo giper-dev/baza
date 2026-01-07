@@ -6997,6 +6997,63 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function $mol_charset_ucf_encode(str) {
+        const buf = $mol_charset_buffer(str.length * 3);
+        return buf.slice(0, $mol_charset_ucf_encode_to(str, buf));
+    }
+    $.$mol_charset_ucf_encode = $mol_charset_ucf_encode;
+    const fast_char = `0123456789.,:;()?!-'" \n`;
+    const fast_map = new Array(0x80).fill(0);
+    for (let i = 0; i < fast_char.length; ++i)
+        fast_map[fast_char[i].charCodeAt(0)] = i | 0x80;
+    function $mol_charset_ucf_encode_to(str, buf, from = 0) {
+        let pos = from;
+        let mode = 0x9C;
+        for (let i = 0; i < str.length; i++) {
+            let code = str.charCodeAt(i);
+            if (code >= 0xd800 && code < 0xe000)
+                code = ((code - 0xd800) << 10) + str.charCodeAt(++i) + 0x2400;
+            if (code < 0x80) {
+                if (mode !== 0x9C) {
+                    const fast = fast_map[code];
+                    if (fast)
+                        code = fast;
+                    else
+                        buf[pos++] = mode = 0x9C;
+                }
+                buf[pos++] = code;
+            }
+            else if (code < 0x32_00) {
+                const page = (code >> 7) + 0x9C;
+                if (mode !== page)
+                    buf[pos++] = mode = page;
+                buf[pos++] = code & 0x7F;
+            }
+            else if (code < 0x04_20_00) {
+                code -= 0x2000;
+                const page = (code >> 15) + 0x98;
+                if (mode !== page)
+                    buf[pos++] = mode = page;
+                buf[pos++] = code & 0x7F;
+                buf[pos++] = code >> 7;
+            }
+            else {
+                if (mode !== 0x97)
+                    buf[pos++] = mode = 0x97;
+                buf[pos++] = code & 0x7F;
+                buf[pos++] = code >> 7;
+                buf[pos++] = code >> 15;
+            }
+        }
+        return pos - from;
+    }
+    $.$mol_charset_ucf_encode_to = $mol_charset_ucf_encode_to;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     function $mol_bigint_decode(buf) {
         if (buf.length === 8)
             return new BigInt64Array(buf.buffer, buf.byteOffset, 1)[0];
@@ -7017,6 +7074,45 @@ var $;
         return result;
     }
     $.$mol_bigint_decode = $mol_bigint_decode;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    const fast_char = `0123456789.,:;()?!-'" \n`;
+    function $mol_charset_ucf_decode(buffer, mode = 0x9C) {
+        let text = '';
+        let pos = 0;
+        let page_offset = 0;
+        while (pos < buffer.length) {
+            let code = buffer[pos++];
+            if (code < 0x80) {
+                if (mode < 0x9C)
+                    code |= buffer[pos++] << 7;
+                if (mode === 0x97)
+                    code |= buffer[pos++] << 15;
+                text += String.fromCodePoint(page_offset + code);
+            }
+            else if (code < 0x97) {
+                text += fast_char[code - 0x80];
+            }
+            else if (code >= 0x9C) {
+                mode = code;
+                page_offset = (mode - 0x9C) << 7;
+            }
+            else if (code === 0x97) {
+                mode = code;
+                page_offset = 0;
+            }
+            else {
+                mode = code;
+                page_offset = ((mode - 0x98) << 15) + 0x20_00;
+            }
+        }
+        return text;
+    }
+    $.$mol_charset_ucf_decode = $mol_charset_ucf_decode;
 })($ || ($ = {}));
 
 ;
@@ -7198,7 +7294,7 @@ var $;
                 const len_max = val.length * 3;
                 const len_size = calc_size(len_max);
                 acquire(len_max);
-                const len = $mol_charset_encode_to(val, this.array, pos + len_size);
+                const len = $mol_charset_ucf_encode_to(val, this.array, pos + len_size);
                 dump_unum($mol_vary_tip.text, len, len_max);
                 pos += len;
                 release(len_max - len);
@@ -7407,7 +7503,7 @@ var $;
             };
             const read_text = (kind) => {
                 const len = read_unum(kind);
-                const text = $mol_charset_decode(new Uint8Array(array.buffer, array.byteOffset + pos, len));
+                const text = $mol_charset_ucf_decode(new Uint8Array(array.buffer, array.byteOffset + pos, len));
                 pos += len;
                 stream.push(text);
                 return text;

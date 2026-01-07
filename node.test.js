@@ -6988,6 +6988,63 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function $mol_charset_ucf_encode(str) {
+        const buf = $mol_charset_buffer(str.length * 3);
+        return buf.slice(0, $mol_charset_ucf_encode_to(str, buf));
+    }
+    $.$mol_charset_ucf_encode = $mol_charset_ucf_encode;
+    const fast_char = `0123456789.,:;()?!-'" \n`;
+    const fast_map = new Array(0x80).fill(0);
+    for (let i = 0; i < fast_char.length; ++i)
+        fast_map[fast_char[i].charCodeAt(0)] = i | 0x80;
+    function $mol_charset_ucf_encode_to(str, buf, from = 0) {
+        let pos = from;
+        let mode = 0x9C;
+        for (let i = 0; i < str.length; i++) {
+            let code = str.charCodeAt(i);
+            if (code >= 0xd800 && code < 0xe000)
+                code = ((code - 0xd800) << 10) + str.charCodeAt(++i) + 0x2400;
+            if (code < 0x80) {
+                if (mode !== 0x9C) {
+                    const fast = fast_map[code];
+                    if (fast)
+                        code = fast;
+                    else
+                        buf[pos++] = mode = 0x9C;
+                }
+                buf[pos++] = code;
+            }
+            else if (code < 0x32_00) {
+                const page = (code >> 7) + 0x9C;
+                if (mode !== page)
+                    buf[pos++] = mode = page;
+                buf[pos++] = code & 0x7F;
+            }
+            else if (code < 0x04_20_00) {
+                code -= 0x2000;
+                const page = (code >> 15) + 0x98;
+                if (mode !== page)
+                    buf[pos++] = mode = page;
+                buf[pos++] = code & 0x7F;
+                buf[pos++] = code >> 7;
+            }
+            else {
+                if (mode !== 0x97)
+                    buf[pos++] = mode = 0x97;
+                buf[pos++] = code & 0x7F;
+                buf[pos++] = code >> 7;
+                buf[pos++] = code >> 15;
+            }
+        }
+        return pos - from;
+    }
+    $.$mol_charset_ucf_encode_to = $mol_charset_ucf_encode_to;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     function $mol_bigint_decode(buf) {
         if (buf.length === 8)
             return new BigInt64Array(buf.buffer, buf.byteOffset, 1)[0];
@@ -7008,6 +7065,45 @@ var $;
         return result;
     }
     $.$mol_bigint_decode = $mol_bigint_decode;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    const fast_char = `0123456789.,:;()?!-'" \n`;
+    function $mol_charset_ucf_decode(buffer, mode = 0x9C) {
+        let text = '';
+        let pos = 0;
+        let page_offset = 0;
+        while (pos < buffer.length) {
+            let code = buffer[pos++];
+            if (code < 0x80) {
+                if (mode < 0x9C)
+                    code |= buffer[pos++] << 7;
+                if (mode === 0x97)
+                    code |= buffer[pos++] << 15;
+                text += String.fromCodePoint(page_offset + code);
+            }
+            else if (code < 0x97) {
+                text += fast_char[code - 0x80];
+            }
+            else if (code >= 0x9C) {
+                mode = code;
+                page_offset = (mode - 0x9C) << 7;
+            }
+            else if (code === 0x97) {
+                mode = code;
+                page_offset = 0;
+            }
+            else {
+                mode = code;
+                page_offset = ((mode - 0x98) << 15) + 0x20_00;
+            }
+        }
+        return text;
+    }
+    $.$mol_charset_ucf_decode = $mol_charset_ucf_decode;
 })($ || ($ = {}));
 
 ;
@@ -7189,7 +7285,7 @@ var $;
                 const len_max = val.length * 3;
                 const len_size = calc_size(len_max);
                 acquire(len_max);
-                const len = $mol_charset_encode_to(val, this.array, pos + len_size);
+                const len = $mol_charset_ucf_encode_to(val, this.array, pos + len_size);
                 dump_unum($mol_vary_tip.text, len, len_max);
                 pos += len;
                 release(len_max - len);
@@ -7398,7 +7494,7 @@ var $;
             };
             const read_text = (kind) => {
                 const len = read_unum(kind);
-                const text = $mol_charset_decode(new Uint8Array(array.buffer, array.byteOffset + pos, len));
+                const text = $mol_charset_ucf_decode(new Uint8Array(array.buffer, array.byteOffset + pos, len));
                 pos += len;
                 stream.push(text);
                 return text;
@@ -14583,6 +14679,26 @@ var $;
     var $$;
     (function ($$) {
         $mol_test({
+            "Complex UCF encoding"($) {
+                $mol_assert_equal($mol_charset_ucf_encode('hi мир, 美しい 世界 🏴‍☠\t\n'), new Uint8Array([
+                    0x68, 0x69, 0x20,
+                    0xA4, 0x3C, 0x38, 0x40, 0x8B, 0x95,
+                    0x98, 0x0E, 0xBF, 0xFC, 0x57, 0x44, 0x95,
+                    0x98, 0x16, 0x5C, 0x4C, 0xAA, 0x95,
+                    0x9B, 0x74, 0xA7, 0xDC, 0x0D, 0xE8, 0x20, 0x9C, 0x09, 0x0A,
+                ]));
+            },
+        });
+    })($$ = $_1.$$ || ($_1.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($_1) {
+    var $$;
+    (function ($$) {
+        $mol_test({
             "1 byte int"($) {
                 $mol_assert_equal($mol_bigint_decode(new Uint8Array), 0n);
                 $mol_assert_equal($mol_bigint_decode(new Uint8Array(new Int8Array([1]).buffer)), 1n);
@@ -14623,6 +14739,26 @@ var $;
     var $$;
     (function ($$) {
         $mol_test({
+            "Complex UCF eecoding"($) {
+                $mol_assert_equal('hi мир, 美しい 世界 🏴‍☠\t\n', $mol_charset_ucf_decode(new Uint8Array([
+                    0x68, 0x69, 0x20,
+                    0xA4, 0x3C, 0x38, 0x40, 0x8B, 0x95,
+                    0x98, 0x0E, 0xBF, 0xFC, 0x57, 0x44, 0x95,
+                    0x98, 0x16, 0x5C, 0x4C, 0xAA, 0x95,
+                    0x9B, 0x74, 0xA7, 0xDC, 0x0D, 0xE8, 0x20, 0x9C, 0x09, 0x0A,
+                ])));
+            },
+        });
+    })($$ = $_1.$$ || ($_1.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($_1) {
+    var $$;
+    (function ($$) {
+        $mol_test({
             "Zero int"($) {
                 $mol_assert_equal($mol_bigint_decode($mol_bigint_encode(0n)), 0n);
             },
@@ -14645,7 +14781,7 @@ var $;
         const { uint, link, spec, blob, text, list, tupl, sint } = $mol_vary_tip;
         const { none, both, fp16, fp32, fp64 } = $mol_vary_spec;
         const { L1, L2, L4, L8, LA } = $mol_vary_len;
-        const str = $mol_charset_encode;
+        const str = $mol_charset_ucf_encode;
         function check(vary, ideal, Vary = $mol_vary) {
             const pack = Vary.pack(vary);
             $mol_assert_equal(Vary.take(pack), vary);
@@ -14734,11 +14870,11 @@ var $;
             },
             "vary pack text"($) {
                 check(['foo'], [text | 3, ...str('foo')]);
-                check(['абв'], [text | 6, ...str('абв')]);
+                check(['абв'], [text | 4, ...str('абв')]);
                 const long_lat = 'abcdefghijklmnopqrst';
                 check([long_lat], [text | L1, 20, ...str(long_lat)]);
                 const long_cyr = 'абвгдеёжзийклмнопрст';
-                check([long_cyr], [text | L1, 40, ...str(long_cyr)]);
+                check([long_cyr], [text | L1, 21, ...str(long_cyr)]);
             },
             "vary pack dedup text"($) {
                 check([["f", "f"]], [list | 2, text | 1, ...str('f'), link | 0]);
