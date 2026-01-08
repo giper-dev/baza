@@ -9634,7 +9634,7 @@ var $;
 var $;
 (function ($) {
     $.$giper_baza_yard.masters = [
-        'https://baza.giper.dev/',
+        'https://baza.91-219-148-98.ip.giper.dev/',
     ];
 })($ || ($ = {}));
 
