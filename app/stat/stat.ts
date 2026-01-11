@@ -56,17 +56,17 @@ namespace $ {
 			this.uptime( new $mol_time_duration({ second: Math.floor( process.uptime() ) }).normal )
 			
 			const res = process.resourceUsage()
-			this.Cpu_user( null )!.tick_integral( res.userCPUTime / 1e6 ) // s
-			this.Cpu_system( null )!.tick_integral( res.systemCPUTime / 1e6 ) // s
+			this.Cpu_user( null )!.tick_integral( Math.ceil( res.userCPUTime / 1e4 ) ) // %
+			this.Cpu_system( null )!.tick_integral( Math.ceil( res.systemCPUTime / 1e4 ) ) // %
 			this.Fs_reads( null )!.tick_integral( res.fsRead ) // pct
 			this.Fs_writes( null )!.tick_integral( res.fsWrite ) // pct
 			
 			const mem_total = $node.os.totalmem()
-			this.Mem_used( null )!.tick_instant( ( res.maxRSS - res.sharedMemorySize ) * 1024 / mem_total * 100 ) // %
-			this.Mem_free( null )!.tick_instant( $node.os.freemem() / mem_total * 100 ) // %
+			this.Mem_used( null )!.tick_instant( Math.ceil( ( res.maxRSS - res.sharedMemorySize ) * 1024 / mem_total * 100 ) ) // %
+			this.Mem_free( null )!.tick_instant( Math.floor( $node.os.freemem() / mem_total * 100 ) ) // %
 			
 			const fs = $node.fs.statfsSync( '.' )
-			this.Fs_free( null )!.tick_instant( Number( fs.bfree ) / Number( fs.blocks ) * 100 ) // %
+			this.Fs_free( null )!.tick_instant( Math.floor( Number( fs.bfree ) / Number( fs.blocks ) * 100 ) ) // %
 			
 			const masters = $mol_wire_sync( this.$.$giper_baza_glob.yard() ).masters().length
 			this.Port_masters( null )!.tick_instant( masters ) // pct

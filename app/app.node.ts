@@ -37,9 +37,14 @@ namespace $ {
 		}
 		
 		@ $mol_mem
+		_home() {
+			return this.$.$giper_baza_glob.home( $giper_baza_app_home )
+		}
+		
+		@ $mol_mem
 		_stat_update() {
 			
-			const home = this.$.$giper_baza_glob.home( $giper_baza_app_home )
+			const home = this._home()
 			home.init()
 			home.tick()
 			

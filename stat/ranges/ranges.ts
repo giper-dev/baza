@@ -5,7 +5,8 @@ namespace $ {
 		Minutes: $giper_baza_stat_series,
 		Hours: $giper_baza_stat_series,
 		Days: $giper_baza_stat_series,
-		Years: $giper_baza_stat_series,
+		Months: $giper_baza_stat_series,
+		// Years: $giper_baza_stat_series,
 	}) {
 		
 		_last_instant = 0
@@ -17,27 +18,22 @@ namespace $ {
 			
 			let now = new $mol_time_moment
 			
-			const second = Math.floor( now.second! )
-			const minute = now.minute!
-			const hour = now.hour!
-			const from_ny = new $mol_time_interval({ start: { year: now.year, month: 0, day: 0 }, end: now })
-			const day = Math.floor( from_ny.duration.count( 'P1D' ) )
-			const year = now.year!
-			
-			this.Seconds( null )!.tick( second, val )
-			this.Minutes( null )!.tick( minute, val )
-			this.Hours( null )!.tick( hour, val )
-			this.Days( null )!.tick( day, val )
-			this.Years( null )!.tick( year, val )
+			this.Seconds( null )!.tick( Math.floor( now.second! ), val, 60 )
+			this.Minutes( null )!.tick( now.minute!, val, 60 )
+			this.Hours( null )!.tick( now.hour!, val, 24 )
+			this.Days( null )!.tick( now.day!, val, 31 )
+			this.Months( null )!.tick( now.month!, val, 12 )
+			// this.Years( null )!.tick( now.year!, val )
 			
 		}
 		
 		@ $mol_mem
 		series() {
 			
-			function pick( Series: $giper_baza_stat_series, length: number, range: number ) {
+			function pick( Series: $giper_baza_stat_series | null, length: number, range: number ) {
 				
-				let series = Array.from( { length }, ( _, i )=> Series.key( i )?.val() ?? 0 )
+				const values = Series?.values() ?? [ 0 ]
+				let series = Array.from( { length }, ( _, i )=> values[ i ] )
 				
 				let start = 0
 				let max = 0
@@ -68,12 +64,13 @@ namespace $ {
 				return series
 			}
 			
-			let days = pick( this.Days()!, 365, 60 * 60 * 24 )
-			let hours = pick( this.Hours()!, 24, 60 * 60 )
-			let minutes = pick( this.Minutes()!, 60, 60 )
-			let seconds = pick( this.Seconds()!, 60, 1 )
+			const months = pick( this.Days(), 12, 60 * 60 * 24 * 31 )
+			const days = pick( this.Days(), 31, 60 * 60 * 24 )
+			const hours = pick( this.Hours(), 24, 60 * 60 )
+			const minutes = pick( this.Minutes(), 60, 60 )
+			const seconds = pick( this.Seconds(), 60, 1 )
 			
-			return [ ... days, ... hours, ... minutes, ... seconds ].reverse()
+			return [ ... months, ... days, ... hours, ... minutes, ... seconds ].reverse()
 		}
 
 	}

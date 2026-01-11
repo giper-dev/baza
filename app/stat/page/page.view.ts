@@ -26,12 +26,12 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		cpu_user() {
-			return this.stat()?.Cpu_user()?.series().map( v => 100 * v ) ?? []
+			return this.stat()?.Cpu_user()?.series() ?? []
 		}
 		
 		@ $mol_mem
 		cpu_system() {
-			return this.stat()?.Cpu_system()?.series().map( v => 100 * v ) ?? []
+			return this.stat()?.Cpu_system()?.series() ?? []
 		}
 		
 		@ $mol_mem
@@ -75,7 +75,8 @@ namespace $.$$ {
 			for( let i = 1; i < 59; ++i ) times.push( `${i} secs ago` )
 			for( let i = 1; i < 59; ++i ) times.push( `${i} mins ago` )
 			for( let i = 1; i < 23; ++i ) times.push( `${i} hours ago` )
-			for( let i = 1; i < 364; ++i ) times.push( `${i} days ago` )
+			for( let i = 1; i < 31; ++i ) times.push( `${i} days ago` )
+			for( let i = 1; i < 12; ++i ) times.push( `${i} months ago` )
 			return times
 		}
 		

@@ -19,6 +19,9 @@ $giper_baza_land_page $mol_page
 				<= Raw_meta $giper_baza_node_dump
 					title \Tine
 					node <= node_meta $giper_baza_node
+		<= Rights $mol_labeler
+			Content <= Rights_control $giper_baza_land_rights
+				land <= land
 		- <= Text $mol_textarea
 			value? <=> text? \
 			selection? <=> selection? /
