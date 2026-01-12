@@ -6702,7 +6702,6 @@ var $;
         _pass = new $mol_wire_dict();
         _seal_item = new $mol_wire_dict();
         _seal_shot = new $mol_wire_dict();
-        _seal_partial = new Set();
         _gift = new $mol_wire_dict();
         _sand = new $mol_wire_dict();
         pass_add(pass) {
@@ -6724,8 +6723,6 @@ var $;
             this.faces.peer_time(peer.str, seal.time(), seal.tick());
             this._seal_shot.set(seal.shot().str, seal);
             this.faces.peer_summ_shift(peer.str, +1);
-            if (!seal.alive_full())
-                this._seal_partial.add(seal);
         }
         gift_add(gift) {
             const mate = gift.mate();
@@ -6768,10 +6765,6 @@ var $;
             if (!seal)
                 return;
             seal.alive_items.add(unit.hash().str);
-            if (seal.alive_full())
-                this._seal_partial.delete(seal);
-            else
-                this._seal_partial.add(seal);
         }
         unit_seal_dec(unit) {
             const seal = this.unit_seal(unit);
@@ -6780,8 +6773,6 @@ var $;
             seal.alive_items.delete(unit.hash().str);
             if (!seal.alive_items.size)
                 this.seal_del(seal);
-            else
-                this._seal_partial.add(seal);
         }
         seal_del(seal) {
             const shot = seal.shot();
@@ -6795,7 +6786,6 @@ var $;
                 }
             }
             this.units_reaping.add(seal);
-            this._seal_partial.delete(seal);
         }
         gift_del(gift) {
             const prev = this._gift.get(gift.mate().str);
@@ -7438,8 +7428,11 @@ var $;
                 else
                     lands.set(unit._land, [unit.hash()]);
             }
-            for (const seal of this._seal_partial) {
-                if (seal.lord().str !== this.auth().pass().lord().str)
+            const me = this.auth().pass().lord().str;
+            for (const seal of this._seal_shot.values()) {
+                if (seal.alive_full())
+                    continue;
+                if (seal.lord().str !== me)
                     continue;
                 let us = lands.get(this);
                 if (!us)
@@ -7464,8 +7457,6 @@ var $;
                     } while (seal.rate_min() > rate);
                     for (const hash of hashes)
                         seal.alive_items.add(hash.str);
-                    if (!seal.alive_full())
-                        this._seal_partial.add(seal);
                     return seal;
                 });
             });

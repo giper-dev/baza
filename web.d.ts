@@ -1489,7 +1489,6 @@ declare namespace $ {
         _pass: $mol_wire_dict<string, $giper_baza_auth_pass>;
         _seal_item: $mol_wire_dict<string, $giper_baza_unit_seal>;
         _seal_shot: $mol_wire_dict<string, $giper_baza_unit_seal>;
-        _seal_partial: Set<$giper_baza_unit_seal>;
         _gift: $mol_wire_dict<string, $giper_baza_unit_gift>;
         _sand: $mol_wire_dict<string, $mol_wire_dict<string, $mol_wire_dict<string, $giper_baza_unit_sand>>>;
         pass_add(pass: $giper_baza_auth_pass): void;
