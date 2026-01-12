@@ -20,6 +20,7 @@ jobs:
       with:
         folder: 'giper/baza/app/run/-'
     - uses: GlueOps/github-actions-build-push-containers@v0.4.5
+      if: github.ref == 'refs/heads/master'
       with:
         context: '${GITHUB_WORKSPACE}/giper/baza/app/run'
         target_directory: 'nope'
