@@ -1040,8 +1040,7 @@ namespace $ {
 				}
 			}
 			
-			const seals_to_persist = [ ... Map.prototype.values.call( this._seal_shot ) ]
-			for( const seal of seals_to_persist ) {
+			for( const seal of this._seal_shot.values() ) {
 				if( !seal.alive_items.size ) continue
 				if( $mol_wire_sync( mine.units_persisted ).has( seal ) ) continue
 				persisting.push( seal )
