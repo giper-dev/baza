@@ -997,7 +997,8 @@ namespace $ {
 		
 		@ $mol_mem
 		saving() {
-			
+			$mol_wire_solid()
+
 			this.loading()
 			
 			const mine = this.mine()
@@ -1052,7 +1053,6 @@ namespace $ {
 				}
 			}
 			
-			$mol_wire_solid()
 			for( const seal of this.seals_unpersisted() ) {
 				persisting.push( seal )
 				mine.units_persisted.add( seal )
