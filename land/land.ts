@@ -23,7 +23,6 @@ namespace $ {
 		_pass = new $mol_wire_dict< string /*Lord*/, $giper_baza_auth_pass >()
 		_seal_item = new $mol_wire_dict< string /*Item*/, $giper_baza_unit_seal >()
 		_seal_shot = new $mol_wire_dict< string /*Shot*/, $giper_baza_unit_seal >()
-		_seals_to_persist = new Set< $giper_baza_unit_seal >()
 		_gift = new $mol_wire_dict< string /*Lord*/, $giper_baza_unit_gift >()
 		_sand = new $mol_wire_dict< string /*Head*/, $mol_wire_dict< string /*Lord*/, $mol_wire_dict< string /*Self*/, $giper_baza_unit_sand > > >()
 		
@@ -48,8 +47,6 @@ namespace $ {
 			
 			this._seal_shot.set( seal.shot().str, seal )
 			this.faces.peer_summ_shift( peer.str, +1 )
-
-			if( seal.alive_items.size ) this._seals_to_persist.add( seal )
 
 		}
 		
@@ -135,8 +132,20 @@ namespace $ {
 			}
 			
 			this.units_reaping.add( seal )
-			this._seals_to_persist.delete( seal )
 
+		}
+
+		/** Returns seals with alive items that are not yet persisted */
+		@ $mol_mem
+		seals_unpersisted() {
+			const mine = this.mine()
+			const seals = [] as $giper_baza_unit_seal[]
+			for( const seal of this._seal_shot.values() ) {
+				if( !seal.alive_items.size ) continue
+				if( mine.units_persisted.has( seal ) ) continue
+				seals.push( seal )
+			}
+			return seals
 		}
 
 		gift_del( gift: $giper_baza_unit_gift ) {
@@ -1044,11 +1053,9 @@ namespace $ {
 				}
 			}
 			
-			for( const seal of this._seals_to_persist ) {
-				if( $mol_wire_sync( mine.units_persisted ).has( seal ) ) continue
+			for( const seal of this.seals_unpersisted() ) {
 				persisting.push( seal )
 				mine.units_persisted.add( seal )
-				this._seals_to_persist.delete( seal )
 			}
 
 			if( !persisting.length ) return
