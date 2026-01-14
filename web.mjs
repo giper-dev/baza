@@ -7357,6 +7357,8 @@ var $;
             for (const kids of this._sand.values()) {
                 for (const units of kids.values()) {
                     for (const sand of units.values()) {
+                        if ($mol_wire_sync(sand)._ball)
+                            continue;
                         sync.sand_encode(sand);
                     }
                 }
@@ -7445,6 +7447,8 @@ var $;
         async units_sign(units) {
             const lands = new Map();
             for (const unit of units) {
+                if (!unit._land)
+                    continue;
                 let us = lands.get(unit._land);
                 if (us)
                     us.push(unit.hash());
