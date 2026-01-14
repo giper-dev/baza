@@ -8937,11 +8937,44 @@ var $;
                 });
             $mol_wire_sync(this).diff_apply(units, 'skip_load');
         }
-        saving() {
+        sand_encoding() {
             this.loading();
-            const mine = this.mine();
-            const encoding = [];
+            const sync = $mol_wire_sync(this);
+            for (const kids of this._sand.values()) {
+                for (const units of kids.values()) {
+                    for (const sand of units.values()) {
+                        sync.sand_encode(sand);
+                    }
+                }
+            }
+        }
+        unit_signing() {
+            this.sand_encoding();
+            const sync = $mol_wire_sync(this);
             const signing = [];
+            for (const gift of this._gift.values()) {
+                if (sync.unit_seal(gift))
+                    continue;
+                signing.push(gift);
+            }
+            for (const kids of this._sand.values()) {
+                for (const units of kids.values()) {
+                    for (const sand of units.values()) {
+                        if (sync.unit_seal(sand))
+                            continue;
+                        signing.push(sand);
+                    }
+                }
+            }
+            if (!signing.length)
+                return;
+            const seals = sync.units_sign(signing);
+            for (const seal of seals)
+                this.seal_add(seal);
+        }
+        saving() {
+            this.unit_signing();
+            const mine = this.mine();
             const persisting = [];
             const check_lord = (lord) => {
                 const pass = this.lord_pass(lord);
@@ -8955,8 +8988,6 @@ var $;
             for (const gift of this._gift.values()) {
                 if ($mol_wire_sync(mine.units_persisted).has(gift))
                     continue;
-                if (!$mol_wire_sync(this).unit_seal(gift))
-                    signing.push(gift);
                 persisting.push(gift);
                 mine.units_persisted.add(gift);
                 check_lord(gift.lord());
@@ -8967,43 +8998,35 @@ var $;
                     for (const sand of units.values()) {
                         if ($mol_wire_sync(mine.units_persisted).has(sand))
                             continue;
-                        if (!$mol_wire_sync(this).unit_seal(sand)) {
-                            encoding.push(sand);
-                            signing.push(sand);
-                        }
                         persisting.push(sand);
                         mine.units_persisted.add(sand);
                         check_lord(sand.lord());
                     }
                 }
             }
+            for (const seal of this._seal_shot.values()) {
+                if (!seal.alive_items.size)
+                    continue;
+                if ($mol_wire_sync(mine.units_persisted).has(seal))
+                    continue;
+                persisting.push(seal);
+                mine.units_persisted.add(seal);
+            }
             if (!persisting.length)
                 return;
-            return this.save(encoding, signing, persisting);
-        }
-        async save(encoding, signing, persisting) {
-            const mine = this.mine();
-            await Promise.all(encoding.map(unit => this.sand_encode(unit)));
-            const seals = signing.length ? await this.units_sign(signing) : [];
-            for (const seal of seals)
-                this.seal_add(seal);
-            persisting = [...persisting, ...seals];
-            if (persisting.length) {
-                const part = new $giper_baza_pack_part(persisting);
-                const pack = $giper_baza_pack.make([[this.link().str, part]]);
-                this.bus().send(pack.buffer);
-                const reaping = [...this.units_reaping];
-                if (this.$.$giper_baza_log())
-                    this.$.$mol_log3_done({
-                        place: this,
-                        message: '💾 Save Unit',
-                        ins: persisting,
-                        del: reaping,
-                    });
-                await $mol_wire_async(mine).units_save({ ins: persisting, del: [...this.units_reaping] });
-                this.units_reaping.clear();
-            }
-            return this;
+            const part = new $giper_baza_pack_part(persisting);
+            const pack = $giper_baza_pack.make([[this.link().str, part]]);
+            this.bus().send(pack.buffer);
+            const reaping = [...this.units_reaping];
+            if (this.$.$giper_baza_log())
+                this.$.$mol_log3_done({
+                    place: this,
+                    message: '💾 Save Unit',
+                    ins: persisting,
+                    del: reaping,
+                });
+            $mol_wire_sync(mine).units_save({ ins: persisting, del: reaping });
+            this.units_reaping.clear();
         }
         async units_sign(units) {
             const lands = new Map();
@@ -9241,6 +9264,12 @@ var $;
     __decorate([
         $mol_mem
     ], $giper_baza_land.prototype, "loading", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_land.prototype, "sand_encoding", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_land.prototype, "unit_signing", null);
     __decorate([
         $mol_mem
     ], $giper_baza_land.prototype, "saving", null);

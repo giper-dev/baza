@@ -1538,12 +1538,13 @@ declare namespace $ {
         sync(): this;
         destructor(): void;
         mine(): $giper_baza_mine;
-        sync_mine(): $mol_wire_atom<unknown, [], Promise<this> | undefined> | undefined;
+        sync_mine(): $mol_wire_atom<unknown, [], void> | undefined;
         sync_yard(): $mol_wire_atom<unknown, [], void> | undefined;
         bus(): $mol_bus<ArrayBuffer>;
         loading(): void;
-        saving(): Promise<this> | undefined;
-        save(encoding: $giper_baza_unit_sand[], signing: $giper_baza_unit_base[], persisting: $giper_baza_unit[]): Promise<this>;
+        sand_encoding(): void;
+        unit_signing(): void;
+        saving(): void;
         units_sign(units: readonly $giper_baza_unit_base[]): Promise<$giper_baza_unit_seal[]>;
         sand_encode(sand: $giper_baza_unit_sand): Promise<$giper_baza_unit_sand>;
         sand_decode(sand: $giper_baza_unit_sand): $giper_baza_vary_type;
