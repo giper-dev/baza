@@ -8934,7 +8934,10 @@ var $;
             for (const kids of this._sand.values()) {
                 for (const units of kids.values()) {
                     for (const sand of units.values()) {
-                        if ($mol_wire_sync(sand)._ball)
+                        const sync_sand = $mol_wire_sync(sand);
+                        if (sync_sand._vary === undefined)
+                            continue;
+                        if (sync_sand._ball)
                             continue;
                         sync.sand_encode(sand);
                     }
@@ -9011,6 +9014,8 @@ var $;
             const pack = $giper_baza_pack.make([[this.link().str, part]]);
             this.bus().send(pack.buffer);
             const reaping = [...this.units_reaping];
+            $mol_wire_sync(mine).units_save({ ins: persisting, del: reaping });
+            this.units_reaping.clear();
             if (this.$.$giper_baza_log())
                 this.$.$mol_log3_done({
                     place: this,
@@ -9018,8 +9023,6 @@ var $;
                     ins: persisting,
                     del: reaping,
                 });
-            $mol_wire_sync(mine).units_save({ ins: persisting, del: reaping });
-            this.units_reaping.clear();
         }
         async units_sign(units) {
             const lands = new Map();
