@@ -991,30 +991,25 @@ namespace $ {
 		/** Encodes sands data */
 		@ $mol_mem
 		sand_encoding() {
+			$mol_wire_solid()
 
 			this.loading()
-
-			const sands = [] as $giper_baza_unit_sand[]
 
 			for( const kids of this._sand.values() ) {
 				for( const units of kids.values() ) {
 					for( const sand of units.values() ) {
 						if( this.unit_seal( sand ) ) continue
-						sands.push( sand )
+						$mol_wire_sync( this ).sand_encode( sand )
 					}
 				}
 			}
 
-			if( !sands.length ) return []
-
-			$mol_wire_sync( Promise ).all( sands.map( sand => this.sand_encode( sand ) ) )
-
-			return sands
 		}
 
 		/** Signs units */
 		@ $mol_mem
 		unit_signing() {
+			$mol_wire_solid()
 
 			this.sand_encoding()
 
@@ -1034,17 +1029,17 @@ namespace $ {
 				}
 			}
 
-			if( !signing.length ) return []
+			if( !signing.length ) return
 
 			const seals = $mol_wire_sync( this ).units_sign( signing )
 			for( const seal of seals ) this.seal_add( seal )
 
-			return seals
 		}
 
 		/** Persists diff to storage */
 		@ $mol_mem
 		unit_persisting() {
+			$mol_wire_solid()
 
 			this.unit_signing()
 
