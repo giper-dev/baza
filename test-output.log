@@ -1,8 +1,0 @@
-npm error code ENOENT
-npm error syscall open
-npm error path /tmp/gh-issue-solver-1768349545425/package.json
-npm error errno -2
-npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open '/tmp/gh-issue-solver-1768349545425/package.json'
-npm error enoent This is related to npm not being able to find a file.
-npm error enoent
-npm error A complete log of this run can be found in: /home/hive/.npm/_logs/2026-01-14T00_14_46_798Z-debug-0.log
