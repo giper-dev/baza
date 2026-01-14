@@ -47,7 +47,7 @@ namespace $ {
 			
 			this._seal_shot.set( seal.shot().str, seal )
 			this.faces.peer_summ_shift( peer.str, +1 )
-
+			
 		}
 		
 		gift_add( gift: $giper_baza_unit_gift ) {
@@ -132,9 +132,9 @@ namespace $ {
 			}
 			
 			this.units_reaping.add( seal )
-
+			
 		}
-
+		
 		gift_del( gift: $giper_baza_unit_gift ) {
 			
 			const prev = this._gift.get( gift.mate().str )
@@ -986,61 +986,59 @@ namespace $ {
 		/** Encodes sands data */
 		@ $mol_mem
 		sand_encoding() {
-			$mol_wire_solid()
-
+			
 			this.loading()
-
+			
 			for( const kids of this._sand.values() ) {
 				for( const units of kids.values() ) {
 					for( const sand of units.values() ) {
-						if( this.unit_seal( sand ) ) continue
+						if( $mol_wire_sync( this ).unit_seal( sand ) ) continue
 						$mol_wire_sync( this ).sand_encode( sand )
 					}
 				}
 			}
-
+			
 		}
-
+		
 		/** Signs units */
 		@ $mol_mem
 		unit_signing() {
-			$mol_wire_solid()
-
+			
 			this.sand_encoding()
-
+			
 			const signing = [] as $giper_baza_unit_base[]
-
+			
 			for( const gift of this._gift.values() ) {
-				if( this.unit_seal( gift ) ) continue
+				if( $mol_wire_sync( this ).unit_seal( gift ) ) continue
 				signing.push( gift )
 			}
-
+			
 			for( const kids of this._sand.values() ) {
 				for( const units of kids.values() ) {
 					for( const sand of units.values() ) {
-						if( this.unit_seal( sand ) ) continue
+						if( $mol_wire_sync( this ).unit_seal( sand ) ) continue
 						signing.push( sand )
 					}
 				}
 			}
-
+			
 			if( !signing.length ) return
-
+			
 			const seals = $mol_wire_sync( this ).units_sign( signing )
 			for( const seal of seals ) this.seal_add( seal )
-
+			
 		}
-
+		
 		/** Persists diff to storage */
 		@ $mol_mem
 		saving() {
 			$mol_wire_solid()
-
+			
 			this.unit_signing()
-
+			
 			const mine = this.mine()
 			const persisting = [] as $giper_baza_unit[]
-
+			
 			const check_lord = ( lord: $giper_baza_link )=> {
 				const pass = this.lord_pass( lord )
 				if( !pass ) return
@@ -1048,7 +1046,7 @@ namespace $ {
 				persisting.push( pass )
 				mine.units_persisted.add( pass )
 			}
-
+			
 			for( const gift of this._gift.values() ) {
 				if( mine.units_persisted.has( gift ) ) continue
 				persisting.push( gift )
@@ -1056,7 +1054,7 @@ namespace $ {
 				check_lord( gift.lord() )
 				check_lord( gift.mate() )
 			}
-
+			
 			for( const kids of this._sand.values() ) {
 				for( const units of kids.values() ) {
 					for( const sand of units.values() ) {
@@ -1067,32 +1065,32 @@ namespace $ {
 					}
 				}
 			}
-
+			
 			for( const seal of this._seal_shot.values() ) {
 				if( !seal.alive_items.size ) continue
 				if( mine.units_persisted.has( seal ) ) continue
 				persisting.push( seal )
 				mine.units_persisted.add( seal )
 			}
-
+			
 			if( !persisting.length ) return
-
+			
 			const part = new $giper_baza_pack_part( persisting )
 			const pack = $giper_baza_pack.make([[ this.link().str, part ]])
 			this.bus().send( pack.buffer )
-
+			
 			const reaping = [ ... this.units_reaping ]
-
+			
 			if( this.$.$giper_baza_log() ) this.$.$mol_log3_done({
 				place: this,
 				message: '💾 Save Unit',
 				ins: persisting,
 				del: reaping,
 			})
-
+			
 			$mol_wire_sync( mine ).units_save({ ins: persisting, del: reaping })
 			this.units_reaping.clear()
-
+			
 		}
 		
 		async units_sign( units: readonly $giper_baza_unit_base[] ) {
