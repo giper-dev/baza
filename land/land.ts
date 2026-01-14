@@ -135,22 +135,6 @@ namespace $ {
 
 		}
 
-		/**
-		 * Returns seals with alive items that are not yet persisted.
-		 * Uses Map.prototype.values.call to bypass reactive wrapper.
-		 */
-		seals_unpersisted() {
-			const mine = this.mine()
-			const seals = [] as $giper_baza_unit_seal[]
-			// Bypass reactive wrapper to avoid reactive dependencies
-			for( const seal of Map.prototype.values.call( this._seal_shot ) as Iterable<$giper_baza_unit_seal> ) {
-				if( !seal.alive_items.size ) continue
-				if( mine.units_persisted.has( seal ) ) continue
-				seals.push( seal )
-			}
-			return seals
-		}
-
 		gift_del( gift: $giper_baza_unit_gift ) {
 			
 			const prev = this._gift.get( gift.mate().str )
@@ -1001,110 +985,124 @@ namespace $ {
 		
 		@ $mol_mem
 		saving() {
-			$mol_wire_solid()
+			this.unit_persisting()
+		}
+
+		/** Encodes sands data */
+		@ $mol_mem
+		sand_encoding() {
 
 			this.loading()
-			
-			const mine = this.mine()
-			
-			const encoding = [] as $giper_baza_unit_sand[]
-			const signing = [] as $giper_baza_unit_base[]
-			const persisting = [] as $giper_baza_unit[]
-			
-			const check_lord = ( lord: $giper_baza_link )=> {
-				
-				const pass = this.lord_pass( lord )
-				if( !pass ) return
-				
-				if( $mol_wire_sync( mine.units_persisted ).has( pass ) ) return
-				
-				persisting.push( pass )
-				mine.units_persisted.add( pass )
-				
-			}
-			
-			// Bypass reactive wrappers to avoid reactive dependencies during iteration
-			for( const gift of Map.prototype.values.call( this._gift ) as Iterable<$giper_baza_unit_gift> ) {
 
-				if( $mol_wire_sync( mine.units_persisted ).has( gift ) ) continue
+			const sands = [] as $giper_baza_unit_sand[]
 
-				if( !$mol_wire_sync( this ).unit_seal( gift ) ) signing.push( gift )
-
-				persisting.push( gift )
-				mine.units_persisted.add( gift )
-
-				check_lord( gift.lord() )
-				check_lord( gift.mate() )
-
-			}
-
-			// Bypass reactive wrappers to avoid reactive dependencies during iteration
-			for( const kids of Map.prototype.values.call( this._sand ) as Iterable<$mol_wire_dict< string, $mol_wire_dict< string, $giper_baza_unit_sand > >> ) {
-				for( const units of Map.prototype.values.call( kids ) as Iterable<$mol_wire_dict< string, $giper_baza_unit_sand >> ) {
-					for( const sand of Map.prototype.values.call( units ) as Iterable<$giper_baza_unit_sand> ) {
-
-						if( $mol_wire_sync( mine.units_persisted ).has( sand ) ) continue
-
-						if( !$mol_wire_sync( this ).unit_seal( sand ) ) {
-							encoding.push( sand )
-							signing.push( sand )
-						}
-
-						persisting.push( sand )
-						mine.units_persisted.add( sand )
-
-						check_lord( sand.lord() )
-
+			for( const kids of this._sand.values() ) {
+				for( const units of kids.values() ) {
+					for( const sand of units.values() ) {
+						if( this.unit_seal( sand ) ) continue
+						sands.push( sand )
 					}
 				}
 			}
 
-			for( const seal of this.seals_unpersisted() ) {
+			if( !sands.length ) return []
+
+			$mol_wire_sync( Promise ).all( sands.map( sand => this.sand_encode( sand ) ) )
+
+			return sands
+		}
+
+		/** Signs units */
+		@ $mol_mem
+		unit_signing() {
+
+			this.sand_encoding()
+
+			const signing = [] as $giper_baza_unit_base[]
+
+			for( const gift of this._gift.values() ) {
+				if( this.unit_seal( gift ) ) continue
+				signing.push( gift )
+			}
+
+			for( const kids of this._sand.values() ) {
+				for( const units of kids.values() ) {
+					for( const sand of units.values() ) {
+						if( this.unit_seal( sand ) ) continue
+						signing.push( sand )
+					}
+				}
+			}
+
+			if( !signing.length ) return []
+
+			const seals = $mol_wire_sync( this ).units_sign( signing )
+			for( const seal of seals ) this.seal_add( seal )
+
+			return seals
+		}
+
+		/** Persists diff to storage */
+		@ $mol_mem
+		unit_persisting() {
+
+			this.unit_signing()
+
+			const mine = this.mine()
+			const persisting = [] as $giper_baza_unit[]
+
+			const check_lord = ( lord: $giper_baza_link )=> {
+				const pass = this.lord_pass( lord )
+				if( !pass ) return
+				if( mine.units_persisted.has( pass ) ) return
+				persisting.push( pass )
+				mine.units_persisted.add( pass )
+			}
+
+			for( const gift of this._gift.values() ) {
+				if( mine.units_persisted.has( gift ) ) continue
+				persisting.push( gift )
+				mine.units_persisted.add( gift )
+				check_lord( gift.lord() )
+				check_lord( gift.mate() )
+			}
+
+			for( const kids of this._sand.values() ) {
+				for( const units of kids.values() ) {
+					for( const sand of units.values() ) {
+						if( mine.units_persisted.has( sand ) ) continue
+						persisting.push( sand )
+						mine.units_persisted.add( sand )
+						check_lord( sand.lord() )
+					}
+				}
+			}
+
+			for( const seal of this._seal_shot.values() ) {
+				if( !seal.alive_items.size ) continue
+				if( mine.units_persisted.has( seal ) ) continue
 				persisting.push( seal )
 				mine.units_persisted.add( seal )
 			}
 
 			if( !persisting.length ) return
 
-			return this.save( encoding, signing, persisting )
-		
-		}
-		
-		async save(
-			encoding: $giper_baza_unit_sand[],
-			signing: $giper_baza_unit_base[],
-			persisting: $giper_baza_unit[],
-		) {
-			
-			const mine = this.mine()
-			
-			await Promise.all( encoding.map( unit => this.sand_encode( unit ) ) )
-			const seals = signing.length ? await this.units_sign( signing ) : []
-			for( const seal of seals ) this.seal_add( seal )
-			
-			persisting = [ ... persisting, ... seals ]
-			
-			if( persisting.length )	{
-				
-				const part =  new $giper_baza_pack_part( persisting )
-				const pack = $giper_baza_pack.make([[ this.link().str, part ]])
-				this.bus().send( pack.buffer )
-				
-				const reaping = [ ... this.units_reaping ]
-				
-				if( this.$.$giper_baza_log() ) this.$.$mol_log3_done({
-					place: this,
-					message: '💾 Save Unit',
-					ins: persisting,
-					del: reaping,
-				})
-				
-				await $mol_wire_async( mine ).units_save({ ins: persisting, del: [ ... this.units_reaping ] })
-				this.units_reaping.clear()
-			
-			}
-			
-			return this
+			const part = new $giper_baza_pack_part( persisting )
+			const pack = $giper_baza_pack.make([[ this.link().str, part ]])
+			this.bus().send( pack.buffer )
+
+			const reaping = [ ... this.units_reaping ]
+
+			if( this.$.$giper_baza_log() ) this.$.$mol_log3_done({
+				place: this,
+				message: '💾 Save Unit',
+				ins: persisting,
+				del: reaping,
+			})
+
+			$mol_wire_sync( mine ).units_save({ ins: persisting, del: reaping })
+			this.units_reaping.clear()
+
 		}
 		
 		async units_sign( units: readonly $giper_baza_unit_base[] ) {
