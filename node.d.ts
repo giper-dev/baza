@@ -1970,6 +1970,22 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    type Block = {
+        from: number;
+        size: number;
+        next: Block;
+    };
+    export class $mol_memory_pool extends Object {
+        _free: Block;
+        constructor(size?: number);
+        acquire(size: number): number;
+        release(from: number, size: number): void;
+        acquired(): void;
+    }
+    export {};
+}
+
+declare namespace $ {
     let $giper_baza_unit_seal_limit: number;
     class $giper_baza_unit_seal extends $giper_baza_unit_base {
         static length(size: number): number;
@@ -3667,7 +3683,7 @@ declare namespace $ {
         units_persisted: WeakSet<$giper_baza_unit>;
         units_save(diff: $giper_baza_mine_diff): void;
         units_load(): readonly $giper_baza_unit[];
-        ball_load(path: string): Uint8Array<ArrayBuffer>;
+        ball_load(sand: $giper_baza_unit_sand): Uint8Array<ArrayBuffer>;
     }
 }
 
@@ -3690,7 +3706,7 @@ declare namespace $ {
     }
     class $giper_baza_pack extends $mol_buffer {
         toBlob(): Blob;
-        parts(offsets?: WeakMap<$giper_baza_unit, number>): [string, $giper_baza_pack_part][];
+        parts(offsets?: WeakMap<ArrayBuffer, number>, pool?: $mol_memory_pool): [string, $giper_baza_pack_part][];
         static length(parts: $giper_baza_pack_parts): number;
         static make(parts: $giper_baza_pack_parts): $giper_baza_pack;
     }
@@ -4025,8 +4041,6 @@ declare namespace $ {
 
 declare namespace $ {
     class $giper_baza_app_node extends $mol_rest_resource_fs {
-        _yard(): $giper_baza_yard;
-        _sync(): void;
         link(): $giper_baza_app_node_link;
         OPEN(msg: $mol_rest_message): void;
         POST(msg: $mol_rest_message): void;

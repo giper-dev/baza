@@ -1140,6 +1140,22 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    type Block = {
+        from: number;
+        size: number;
+        next: Block;
+    };
+    export class $mol_memory_pool extends Object {
+        _free: Block;
+        constructor(size?: number);
+        acquire(size: number): number;
+        release(from: number, size: number): void;
+        acquired(): void;
+    }
+    export {};
+}
+
+declare namespace $ {
     const $giper_baza_pack_four_code: Uint8Array<ArrayBuffer>;
     const $giper_baza_pack_head_size: number;
     type $giper_baza_pack_parts = [string, $giper_baza_pack_part][];
@@ -1155,7 +1171,7 @@ declare namespace $ {
     }
     class $giper_baza_pack extends $mol_buffer {
         toBlob(): Blob;
-        parts(offsets?: WeakMap<$giper_baza_unit, number>): [string, $giper_baza_pack_part][];
+        parts(offsets?: WeakMap<ArrayBuffer, number>, pool?: $mol_memory_pool): [string, $giper_baza_pack_part][];
         static length(parts: $giper_baza_pack_parts): number;
         static make(parts: $giper_baza_pack_parts): $giper_baza_pack;
     }
@@ -1657,6 +1673,54 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    enum $giper_baza_unit_sand_tag {
+        term = 0,
+        solo = 64,
+        vals = 128,
+        keys = 192
+    }
+    class $giper_baza_unit_sand extends $giper_baza_unit_base {
+        static size_equator: number;
+        static size_max: number;
+        _vary: undefined | $giper_baza_vary_type;
+        _open: Uint8Array<ArrayBuffer> | null;
+        static length(size: number): number;
+        static length_ball(size: number): number;
+        static make(size: number): $giper_baza_unit_sand;
+        hint(tag?: keyof typeof $giper_baza_unit_sand_tag): void;
+        tag(): keyof typeof $giper_baza_unit_sand_tag;
+        big(): boolean;
+        size(next?: number): number;
+        _head: $giper_baza_link;
+        head(next?: $giper_baza_link): $giper_baza_link;
+        _self: $giper_baza_link;
+        self(next?: $giper_baza_link): $giper_baza_link;
+        _lead: $giper_baza_link;
+        lead(next?: $giper_baza_link): $giper_baza_link;
+        path(): string;
+        _shot: $giper_baza_link;
+        shot(next?: $giper_baza_link): $giper_baza_link;
+        _data: Uint8Array<ArrayBuffer>;
+        data(next?: Uint8Array<ArrayBuffer>): Uint8Array<ArrayBuffer>;
+        _ball: Uint8Array<ArrayBuffer>;
+        ball(next?: Uint8Array<ArrayBuffer>): Uint8Array<ArrayBuffer>;
+        idea(): number;
+        dump(): {
+            kind: "sand" | "gift" | "seal";
+            lord: $giper_baza_link;
+            lead: $giper_baza_link;
+            head: $giper_baza_link;
+            self: $giper_baza_link;
+            tag: "keys" | "term" | "solo" | "vals";
+            size: number;
+            time: string;
+        };
+        tier_min(): $giper_baza_rank_tier.post | $giper_baza_rank_tier.pull;
+        [$mol_dev_format_head](): any[];
+    }
+}
+
+declare namespace $ {
     type $giper_baza_mine_diff = {
         ins: $giper_baza_unit[];
         del: $giper_baza_unit[];
@@ -1671,7 +1735,7 @@ declare namespace $ {
         units_persisted: WeakSet<$giper_baza_unit>;
         units_save(diff: $giper_baza_mine_diff): void;
         units_load(): readonly $giper_baza_unit[];
-        ball_load(path: string): Uint8Array<ArrayBuffer>;
+        ball_load(sand: $giper_baza_unit_sand): Uint8Array<ArrayBuffer>;
     }
 }
 
@@ -1777,7 +1841,7 @@ declare namespace $ {
     class $giper_baza_mine_idb extends $giper_baza_mine {
         units_save(diff: $giper_baza_mine_diff): void;
         units_load(): readonly $giper_baza_unit[];
-        ball_load(path: string): Uint8Array<ArrayBuffer>;
+        ball_load(sand: $giper_baza_unit_sand): Uint8Array<ArrayBuffer>;
         static db(): Promise<$mol_db_database<{
             Unit: {
                 Key: [land: string, path: string];
@@ -1794,54 +1858,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-}
-
-declare namespace $ {
-    enum $giper_baza_unit_sand_tag {
-        term = 0,
-        solo = 64,
-        vals = 128,
-        keys = 192
-    }
-    class $giper_baza_unit_sand extends $giper_baza_unit_base {
-        static size_equator: number;
-        static size_max: number;
-        _vary: undefined | $giper_baza_vary_type;
-        _open: Uint8Array<ArrayBuffer> | null;
-        static length(size: number): number;
-        static length_ball(size: number): number;
-        static make(size: number): $giper_baza_unit_sand;
-        hint(tag?: keyof typeof $giper_baza_unit_sand_tag): void;
-        tag(): keyof typeof $giper_baza_unit_sand_tag;
-        big(): boolean;
-        size(next?: number): number;
-        _head: $giper_baza_link;
-        head(next?: $giper_baza_link): $giper_baza_link;
-        _self: $giper_baza_link;
-        self(next?: $giper_baza_link): $giper_baza_link;
-        _lead: $giper_baza_link;
-        lead(next?: $giper_baza_link): $giper_baza_link;
-        path(): string;
-        _shot: $giper_baza_link;
-        shot(next?: $giper_baza_link): $giper_baza_link;
-        _data: Uint8Array<ArrayBuffer>;
-        data(next?: Uint8Array<ArrayBuffer>): Uint8Array<ArrayBuffer>;
-        _ball: Uint8Array<ArrayBuffer>;
-        ball(next?: Uint8Array<ArrayBuffer>): Uint8Array<ArrayBuffer>;
-        idea(): number;
-        dump(): {
-            kind: "sand" | "gift" | "seal";
-            lord: $giper_baza_link;
-            lead: $giper_baza_link;
-            head: $giper_baza_link;
-            self: $giper_baza_link;
-            tag: "keys" | "term" | "solo" | "vals";
-            size: number;
-            time: string;
-        };
-        tier_min(): $giper_baza_rank_tier.post | $giper_baza_rank_tier.pull;
-        [$mol_dev_format_head](): any[];
-    }
 }
 
 declare namespace $ {

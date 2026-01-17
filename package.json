@@ -204,6 +204,8 @@
     "$mol_bus",
     "$mol_array_chunks",
     "$mol_array",
+    "$mol_memory_pool",
+    "$mol_memory",
     "$giper_baza_app_home",
     "$giper_baza_app_stat",
     "$giper_baza_stat_ranges",
