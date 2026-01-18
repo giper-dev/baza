@@ -31,7 +31,7 @@ namespace $ {
 			
 			for( const [ key, rank ] of mapping ) colony.give( key, rank )
 			
-			this.Land( colony.link() ).diff_apply( colony.diff_units() )
+			this.Land( colony.link() ).units_steal( colony )
 			
 			return king
 		}

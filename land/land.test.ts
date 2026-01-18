@@ -16,7 +16,7 @@ namespace $ {
 	
 	$mol_test({
 		
-		'Give rights'( $ ) {
+		async 'Give rights'( $ ) {
 			
 			const land0 = $giper_baza_land.make({ $ })
 			const land1 = $giper_baza_land.make({ $, link: ()=> land0.link(), auth: ()=> auth1 })
@@ -45,43 +45,43 @@ namespace $ {
 			land0.give( auth1.pass(), $giper_baza_rank_post( 'just' ) )
 			$mol_assert_equal( land0.pass_rank( auth1.pass() ), $giper_baza_rank_post( 'just' ) )
 			
-			land1.diff_apply( land0.diff_units(), 'skip_load' )
+			await $mol_wire_async( land1 ).units_steal( land0 )
 			$mol_assert_equal( land1.pass_rank( auth1.pass() ), $giper_baza_rank_post( 'just' ) )
 			$mol_assert_fail( ()=> land1.give( auth2.pass(), $giper_baza_rank_post( 'just' ) ), 'Too low Tier' )
 			
 		},
 		
-		'Post Data and pick Delta'( $ ) {
+		async 'Post Data and pick Delta'( $ ) {
 			
 			const land1 = $giper_baza_land.make({ $ })
 			const land2 = $giper_baza_land.make({ $, link: ()=> land1.link(), auth: ()=> auth2 })
 			
-			$mol_assert_equal( land1.diff_units(), [] )
+			$mol_assert_equal( await $mol_wire_async( land1 ).diff_units(), [] )
 			
 			land1.post( $giper_baza_link.hole, $giper_baza_link.hole, new $giper_baza_link( 'AA111111' ), new Uint8Array([ 1 ]) )
-			$mol_assert_equal( land1.diff_units().length, 3 )
+			$mol_assert_equal( ( await $mol_wire_async( land1 ).diff_units() ).length, 4 )
 			
 			const face = land1.faces.clone()
 			
 			land1.post( new $giper_baza_link( 'AA111111' ), $giper_baza_link.hole, new $giper_baza_link( 'AA222222' ), new Uint8Array([ 2 ]) )
-			$mol_assert_equal( land1.diff_units().length, 4 )
-			$mol_assert_equal( land1.diff_units( face ).length, 1 )
+			$mol_assert_equal( ( await $mol_wire_async( land1 ).diff_units() ).length, 5 )
+			$mol_assert_equal( ( await $mol_wire_async( land1 ).diff_units( face ) ).length, 2 )
 			
-			land2.diff_apply( land1.diff_units() )
+			await $mol_wire_async( land2 ).units_steal( land1 )
 			
 			$mol_assert_fail( ()=> land2.post( new $giper_baza_link( 'AA222222' ), $giper_baza_link.hole, new $giper_baza_link( 'AA333333' ), new Uint8Array([ 3 ]) ), 'Too low Tier' )
-			$mol_assert_equal( land2.diff_units().length, 4 )
-			$mol_assert_equal( land2.diff_units( face ).length, 1 )
+			$mol_assert_equal( ( await $mol_wire_async( land2 ).diff_units() ).length, 5 )
+			$mol_assert_equal( ( await $mol_wire_async( land2 ).diff_units( face ) ).length, 2 )
 			
 			land1.give( auth2.pass(), $giper_baza_rank_post( 'just' ) )
-			land2.diff_apply( land1.diff_units() )
+			await $mol_wire_async( land2 ).units_steal( land1 )
 			land2.post( new $giper_baza_link( 'AA222222' ), $giper_baza_link.hole, new $giper_baza_link( 'AA333333' ), new Uint8Array([ 5 ]) )
-			$mol_assert_equal( land2.diff_units().length, 7 )
-			$mol_assert_equal( land2.diff_units( face ).length, 4 )
+			$mol_assert_equal( ( await $mol_wire_async( land2 ).diff_units() ).length, 9 )
+			$mol_assert_equal( ( await $mol_wire_async( land2 ).diff_units( face ) ).length, 6 )
 			
 			land1.give( auth2.pass(), $giper_baza_rank_read )
-			land2.diff_apply( land1.diff_units() )
-			$mol_assert_equal( land2.diff_units().length, 6 )
+			await $mol_wire_async( land2 ).units_steal( land1 )
+			$mol_assert_equal( ( await $mol_wire_async( land2 ).diff_units() ).length, 8 )
 			
 		},
 		
@@ -106,7 +106,7 @@ namespace $ {
 			$mol_assert_equal( ( await land.sand_ordered({ head: $giper_baza_link.hole, peer: $giper_baza_link.hole }) ).length, 1 )
 		},
 		
-		'Land fork & merge'( $ ) {
+		'Land fork & merge': $mol_wire_async( ( $: $ )=> {
 			
 			const home = $.$giper_baza_glob.home().land()
 			const left = home.fork()
@@ -139,9 +139,9 @@ namespace $ {
 			both.Tine().items_vary([ left.link(), right.link() ])
 			$mol_assert_equal( both.Data( $giper_baza_list_vary ).items_vary(), [ 'foo', 'zzz' ] )
 			
-		},
+		} ),
 		
-		'Inner Lins is relative to Land'( $ ) {
+		'Inner Links is relative to Land': $mol_wire_async( ( $: $ )=> {
 			
 			const Alice = $.$giper_baza_glob.home().land()
 			const Bella = Alice.fork()
@@ -160,7 +160,7 @@ namespace $ {
 			$mol_assert_unique( alice_link.val(), bella_link.val() )
 			$mol_assert_equal( bella_link.val(), bella_val.link() )
 			
-		},
+		} ),
 		
 		async 'Land Area inherits rights'( $ ) {
 			

@@ -1,7 +1,5 @@
 namespace $.$$ {
 	
-	const auth1 = $giper_baza_auth.from( '_4eLnQsSr5wj6XOzgS5bZa254pkEOf_hg1nReCSR4Zkd-E07aLSwj-II-rZt4ZubInw_f1rZiA0Qa92qR0Gq3I6xYWCkW9Aagc7-97L2P-gI84NaLwdabp_DrZEX3RJTY' )
-	
 	$mol_test({
 		
 		async 'Dictionary invariants'( $ ) {
@@ -41,18 +39,18 @@ namespace $.$$ {
 			dict1.dive( 123, $giper_baza_atom_vary, null )!.vary( 666 )
 			land2.faces.tick()
 			dict2.dive( 123, $giper_baza_atom_vary, null )!.vary( 777 )
-			land1.diff_apply( land2.diff_units() )
+			await $mol_wire_async( land1 ).units_steal( land2 )
 			$mol_assert_equal( dict1.dive( 123, $giper_baza_atom_vary )!.vary(), 777 )
 			
 			dict1.dive( 'xxx', $giper_baza_list_vary, null )!.items_vary([ 'foo' ])
 			land2.faces.tick()
 			dict2.dive( 'xxx', $giper_baza_list_vary, null )!.items_vary([ 'bar' ])
-			land1.diff_apply( land2.diff_units() )
+			await $mol_wire_async( land1 ).units_steal( land2 )
 			$mol_assert_equal( dict1.dive( 'xxx', $giper_baza_list_vary )!.items_vary(), [ 'bar', 'foo' ] )
 
 		},
 		
-		"Narrowed Dictionary with linked Dictionaries and others"( $ ) {
+		async "Narrowed Dictionary with linked Dictionaries and others"( $ ) {
 			
 			class User extends $giper_baza_dict.with({
 				Title: $giper_baza_atom_text,
@@ -80,7 +78,7 @@ namespace $.$$ {
 			user.Title(null)!.val( 'Jin' )
 			$mol_assert_equal( user.Title()!.val() ?? '', 'Jin' )
 			
-			const account = user.Account(null)!.ensure([[ null, $giper_baza_rank_read ]])!
+			const account = ( await $mol_wire_async( user.Account(null)! ).ensure([[ null, $giper_baza_rank_read ]]) )!
 			$mol_assert_equal( user.Account()?.remote() ?? null, account )
 			$mol_assert_equal( account.User()?.remote() ?? null, null )
 			
@@ -88,8 +86,8 @@ namespace $.$$ {
 			$mol_assert_equal( account.User()?.remote(), user )
 			
 			const articles = [
-				user.Articles(null)!.make([[ null, $giper_baza_rank_read ]]),
-				user.Articles(null)!.make([[ null, $giper_baza_rank_read ]]),
+				await $mol_wire_async( user.Articles(null)! ).make([[ null, $giper_baza_rank_read ]]),
+				await $mol_wire_async( user.Articles(null)! ).make([[ null, $giper_baza_rank_read ]]),
 			]
 			$mol_assert_equal( user.Articles()?.remote_list(), articles )
 			

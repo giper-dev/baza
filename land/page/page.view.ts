@@ -55,11 +55,8 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		override size() {
-			const units = this.land().diff_units()
-			const size = $giper_baza_pack.length([[
-				this.land().link().str,
-				new $giper_baza_pack_part( units )
-			]])
+			const parts = this.land().diff_parts()
+			const size = $giper_baza_pack.length( parts )
 			return $mol_si_short( size, 'B' )
 		}
 		

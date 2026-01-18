@@ -1,14 +1,14 @@
 namespace $ {
 	
-	function fork( base: $giper_baza_land ) {
-		const land = base.$.$giper_baza_land.make({ $: base.$ })
-		land.diff_apply( base.diff_units() )
+	function clone( base: $giper_baza_land ) {
+		const land = $mol_wire_sync( base.$.$giper_baza_land ).make({ $: base.$ }) as $giper_baza_land
+		land.units_steal( base )
 		return land
 	}
 	
 	function sync( left: $giper_baza_land, right: $giper_baza_land ) {
-		left.diff_apply( right.diff_units() )
-		right.diff_apply( left.diff_units() )
+		left.units_steal( right )
+		right.units_steal( left )
 	}
 	
 	$mol_test({
@@ -96,7 +96,7 @@ namespace $ {
 			
 		},
 		
-		'List merge'( $ ) {
+		async 'List merge'( $ ) {
 			
 			const land1 = $.$giper_baza_land.make({ $ })
 			const land2 = $.$giper_baza_land.make({ $ })
@@ -107,7 +107,7 @@ namespace $ {
 			list1.items_vary([ 'foo', 'xxx' ])
 			land2.faces.tick()
 			list2.items_vary([ 'foo', 'yyy' ])
-			land1.diff_apply( land2.diff_units() )
+			await $mol_wire_async( land1 ).units_steal( land2 )
 			$mol_assert_equal( list1.items_vary(), [ 'foo', 'yyy', 'foo', 'xxx' ] )
 
 		},
@@ -159,15 +159,15 @@ namespace $ {
 			
 		},
 		
-		'Insert after moved right'( $ ) {
+		'Insert after moved right': $mol_wire_async( ( $: $ )=> {
 			
-			const base = $.$giper_baza_land.make({ $ })
+			const base = $mol_wire_sync( $.$giper_baza_land ).make({ $ }) as $giper_baza_land
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
-			const left = fork( base )
+			const left = clone( base )
 			left.Data( $giper_baza_list_vary ).items_vary([ 1, 7, 2, 3, 4 ])
 			
-			const right = fork( base )
+			const right = clone( base )
 			right.Data( $giper_baza_list_vary ).move( 0, 2 )
 			
 			sync( left, right )
@@ -177,17 +177,17 @@ namespace $ {
 				[ 2, 1, 7, 3, 4 ],
 			)
 			
-		},
+		} ),
 		
-		'Insert before moved left'( $ ) {
+		'Insert before moved left': $mol_wire_async( ( $: $ )=> {
 			
-			const base = $.$giper_baza_land.make({ $ })
+			const base = $mol_wire_sync( $.$giper_baza_land ).make({ $ }) as $giper_baza_land
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
-			const left = fork( base )
+			const left = clone( base )
 			left.Data( $giper_baza_list_vary ).move( 1, 0 )
 			
-			const right = fork( base )
+			const right = clone( base )
 			right.faces.sync( left.faces )
 			right.Data( $giper_baza_list_vary ).items_vary([ 1, 7, 2, 3, 4 ])
 			
@@ -198,17 +198,17 @@ namespace $ {
 				[ 2, 1, 7, 3, 4 ],
 			)
 			
-		},
+		} ),
 		
-		'Move left after inserted'( $ ) {
+		'Move left after inserted': $mol_wire_async( ( $: $ )=> {
 			
-			const base = $.$giper_baza_land.make({ $ })
+			const base = $mol_wire_sync( $.$giper_baza_land ).make({ $ }) as $giper_baza_land
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
-			const left = fork( base )
+			const left = clone( base )
 			left.Data( $giper_baza_list_vary ).items_vary([ 1, 7, 2, 3, 4 ])
 			
-			const right = fork( base )
+			const right = clone( base )
 			right.faces.sync( left.faces )
 			right.Data( $giper_baza_list_vary ).move( 1, 0 )
 			
@@ -219,17 +219,17 @@ namespace $ {
 				[ 2, 1, 3, 7, 4 ], // extra change (3) => unexpected result (7 after 3)
 			)
 			
-		},
+		} ),
 		
-		'Insert before moved right'( $ ) {
+		'Insert before moved right': $mol_wire_async( ( $: $ )=> {
 			
-			const base = $.$giper_baza_land.make({ $ })
+			const base = $mol_wire_sync( $.$giper_baza_land ).make({ $ }) as $giper_baza_land
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
-			const left = fork( base )
+			const left = clone( base )
 			left.Data( $giper_baza_list_vary ).move( 1, 4 )
 			
-			const right = fork( base )
+			const right = clone( base )
 			right.faces.sync( left.faces )
 			right.Data( $giper_baza_list_vary ).items_vary([ 1, 7, 2, 3, 4 ])
 			
@@ -240,17 +240,17 @@ namespace $ {
 				[ 1, 7, 3, 4, 2 ],
 			)
 			
-		},
+		} ),
 		
-		'Move right after inserted'( $ ) {
+		'Move right after inserted': $mol_wire_async( ( $: $ )=> {
 			
-			const base = $.$giper_baza_land.make({ $ })
+			const base = $mol_wire_sync( $.$giper_baza_land ).make({ $ }) as $giper_baza_land
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
-			const left = fork( base )
+			const left = clone( base )
 			left.Data( $giper_baza_list_vary ).items_vary([ 1, 7, 2, 3, 4 ])
 			
-			const right = fork( base )
+			const right = clone( base )
 			right.faces.sync( left.faces )
 			right.Data( $giper_baza_list_vary ).move( 1, 4 )
 			
@@ -261,17 +261,17 @@ namespace $ {
 				[ 1, 3, 7, 4, 2 ], // extra change (3) => unexpected result (7 after 3)
 			)
 			
-		},
+		} ),
 		
-		'Insert after wiped'( $ ) {
+		'Insert after wiped': $mol_wire_async( ( $: $ )=> {
 			
-			const base = $.$giper_baza_land.make({ $ })
+			const base = $mol_wire_sync( $.$giper_baza_land ).make({ $ }) as $giper_baza_land
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
-			const left = fork( base )
+			const left = clone( base )
 			left.Data( $giper_baza_list_vary ).items_vary([ 1, 3, 4 ])
 			
-			const right = fork( base )
+			const right = clone( base )
 			right.faces.sync( left.faces )
 			right.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 7, 3, 4 ])
 			
@@ -282,17 +282,17 @@ namespace $ {
 				[ 1, 7, 3, 4 ],
 			)
 			
-		},
+		} ),
 		
-		'Wiped before inserted'( $ ) {
+		'Wiped before inserted': $mol_wire_async( ( $: $ )=> {
 			
-			const base = $.$giper_baza_land.make({ $ })
+			const base = $mol_wire_sync( $.$giper_baza_land ).make({ $ }) as $giper_baza_land
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
-			const left = fork( base )
+			const left = clone( base )
 			left.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 7, 3, 4 ])
 			
-			const right = fork( base )
+			const right = clone( base )
 			right.faces.sync( left.faces )
 			right.Data( $giper_baza_list_vary ).items_vary([ 1, 3, 4 ])
 			
@@ -303,17 +303,17 @@ namespace $ {
 				[ 1, 7, 3, 4 ],
 			)
 			
-		},
+		} ),
 		
-		'Insert before wiped'( $ ) {
+		'Insert before wiped': $mol_wire_async( ( $: $ )=> {
 			
-			const base = $.$giper_baza_land.make({ $ })
+			const base = $mol_wire_sync( $.$giper_baza_land ).make({ $ }) as $giper_baza_land
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
-			const left = fork( base )
+			const left = clone( base )
 			left.Data( $giper_baza_list_vary ).wipe( 2 )
 			
-			const right = fork( base )
+			const right = clone( base )
 			right.faces.sync( left.faces )
 			right.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 7, 3, 4 ])
 			
@@ -324,17 +324,17 @@ namespace $ {
 				[ 1, 2, 7, 4 ],
 			)
 			
-		},
+		} ),
 		
-		'Wiped after inserted'( $ ) {
+		'Wiped after inserted': $mol_wire_async( ( $: $ )=> {
 			
-			const base = $.$giper_baza_land.make({ $ })
+			const base = $mol_wire_sync( $.$giper_baza_land ).make({ $ }) as $giper_baza_land
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
-			const left = fork( base )
+			const left = clone( base )
 			left.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 7, 3, 4 ])
 			
-			const right = fork( base )
+			const right = clone( base )
 			right.faces.sync( left.faces )
 			right.Data( $giper_baza_list_vary ).wipe( 2 )
 			
@@ -345,17 +345,17 @@ namespace $ {
 				[ 1, 2, 7, 4 ],
 			)
 			
-		},
+		} ),
 		
-		'Insert after moved out'( $ ) {
+		'Insert after moved out': $mol_wire_async( ( $: $ )=> {
 			
-			const base = $.$giper_baza_land.make({ $ })
+			const base = $mol_wire_sync( $.$giper_baza_land ).make({ $ }) as $giper_baza_land
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
-			const left = fork( base )
+			const left = clone( base )
 			left.sand_move( left.Data( $giper_baza_list_vary ).units()[1], new $giper_baza_link( '11111111' ), 0 )
 			
-			const right = fork( base )
+			const right = clone( base )
 			right.faces.sync( left.faces )
 			right.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 7, 3, 4 ])
 			
@@ -371,17 +371,17 @@ namespace $ {
 				[ 2 ],
 			)
 			
-		},
+		} ),
 		
-		'Move out before inserted'( $ ) {
+		'Move out before inserted': $mol_wire_async( ( $: $ )=> {
 			
-			const base = $.$giper_baza_land.make({ $ })
+			const base = $mol_wire_sync( $.$giper_baza_land ).make({ $ }) as $giper_baza_land
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
-			const left = fork( base )
+			const left = clone( base )
 			left.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 7, 3, 4 ])
 			
-			const right = fork( base )
+			const right = clone( base )
 			right.faces.sync( left.faces )
 			right.sand_move( right.Data( $giper_baza_list_vary ).units()[1], new $giper_baza_link( '11111111' ), 0 )
 			
@@ -397,17 +397,17 @@ namespace $ {
 				[ 2 ],
 			)
 			
-		},
+		} ),
 		
-		'Insert before changed'( $ ) {
+		'Insert before changed': $mol_wire_async( ( $: $ )=> {
 			
-			const base = $.$giper_baza_land.make({ $ })
+			const base = $mol_wire_sync( $.$giper_baza_land ).make({ $ }) as $giper_baza_land
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
-			const left = fork( base )
+			const left = clone( base )
 			left.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 7, 4 ])
 			
-			const right = fork( base )
+			const right = clone( base )
 			right.faces.sync( left.faces )
 			right.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 13, 3, 4 ])
 			
@@ -418,17 +418,17 @@ namespace $ {
 				[ 1, 2, 13, 7, 4 ],
 			)
 			
-		},
+		} ),
 		
-		'Change after inserted'( $ ) {
+		'Change after inserted': $mol_wire_async( ( $: $ )=> {
 			
-			const base = $.$giper_baza_land.make({ $ })
+			const base = $mol_wire_sync( $.$giper_baza_land ).make({ $ }) as $giper_baza_land
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4 ])
 			
-			const left = fork( base )
+			const left = clone( base )
 			left.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 13, 3, 4 ])
 			
-			const right = fork( base )
+			const right = clone( base )
 			right.faces.sync( left.faces )
 			right.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 7, 4 ])
 			
@@ -439,18 +439,18 @@ namespace $ {
 				[ 1, 2, 7, 13, 4 ],
 			)
 			
-		},
+		} ),
 		
-		'Insert between moved'( $ ) {
+		'Insert between moved': $mol_wire_async( ( $: $ )=> {
 			
-			const base = $.$giper_baza_land.make({ $ })
+			const base = $mol_wire_sync( $.$giper_baza_land ).make({ $ }) as $giper_baza_land
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4, 5, 6 ])
 			
-			const left = fork( base )
+			const left = clone( base )
 			left.Data( $giper_baza_list_vary ).move( 1, 5 )
 			left.Data( $giper_baza_list_vary ).move( 1, 5 )
 			
-			const right = fork( base )
+			const right = clone( base )
 			right.faces.sync( left.faces )
 			right.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 7, 3, 4, 5, 6 ])
 			
@@ -461,17 +461,17 @@ namespace $ {
 				[ 1, 4, 5, 2, 7, 3, 6 ],
 			)
 			
-		},
+		} ),
 		
-		'Move near inserted'( $ ) {
+		'Move near inserted': $mol_wire_async( ( $: $ )=> {
 			
-			const base = $.$giper_baza_land.make({ $ })
+			const base = $mol_wire_sync( $.$giper_baza_land ).make({ $ }) as $giper_baza_land
 			base.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 3, 4, 5, 6 ])
 			
-			const left = fork( base )
+			const left = clone( base )
 			left.Data( $giper_baza_list_vary ).items_vary([ 1, 2, 7, 3, 4, 5, 6 ])
 			
-			const right = fork( base )
+			const right = clone( base )
 			right.faces.sync( left.faces )
 			right.Data( $giper_baza_list_vary ).move( 1, 5 )
 			right.Data( $giper_baza_list_vary ).move( 1, 5 )
@@ -483,7 +483,7 @@ namespace $ {
 				[ 1, 4, 5, 2, 3, 7, 6 ],
 			)
 			
-		},
+		} ),
 		
 	})
 	

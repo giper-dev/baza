@@ -93,11 +93,11 @@ namespace $ {
 			land2.faces.stat.time = land1.faces.stat.time
 			text2.str( 'xxx yyy.' )
 			
-			const delta1 = land1.diff_units()
-			const delta2 = land2.diff_units()
+			const delta1 = await $mol_wire_async( land1 ).diff_units()
+			const delta2 = await $mol_wire_async( land2 ).diff_units()
 			
-			land1.diff_apply( delta2 )
-			land2.diff_apply( delta1 )
+			await $mol_wire_async( land1 ).diff_apply( delta2 )
+			await $mol_wire_async( land2 ).diff_apply( delta1 )
 	
 			$mol_assert_equal(
 				text1.str(),
@@ -113,21 +113,21 @@ namespace $ {
 			base.Data( $giper_baza_text ).str( '( )' )
 			
 			const left = $giper_baza_land.make({ $ })
-			left.diff_apply( base.diff_units() )
+			await $mol_wire_async( left ).units_steal( base )
 			left.Data( $giper_baza_text ).str( '( [ f ] )' )
 			left.Data( $giper_baza_text ).str( '( [ foo ] )' )
 			
 			const right = $giper_baza_land.make({ $ })
-			right.diff_apply( base.diff_units() )
+			await $mol_wire_async( right ).units_steal( base )
 			right.faces.sync( left.faces )
 			right.Data( $giper_baza_text ).str( '( [ f ] )' )
 			right.Data( $giper_baza_text ).str( '( [ fu ] )' )
 			
-			const left_delta = left.diff_units( base.faces )
-			const right_delta = right.diff_units( base.faces )
+			const left_delta = await $mol_wire_async( left ).diff_units( base.faces )
+			const right_delta = await $mol_wire_async( right ).diff_units( base.faces )
 			
-			left.diff_apply( right_delta )
-			right.diff_apply( left_delta )
+			await $mol_wire_async( left ).diff_apply( right_delta )
+			await $mol_wire_async( right).diff_apply( left_delta )
 	
 			$mol_assert_equal(
 				left.Data( $giper_baza_text ).str(),

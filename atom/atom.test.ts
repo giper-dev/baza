@@ -55,7 +55,7 @@ namespace $.$$ {
 			const land = $.$giper_baza_glob.home().land()
 			
 			const reg = land.Node( $giper_baza_atom_link_to( ()=> $giper_baza_atom_vary ) ).Item( new $giper_baza_link( '11111111' ) )
-			const remote = reg.ensure([[ null, $giper_baza_rank_read ]])!
+			const remote = reg.ensure( land )!
 			
 			$mol_assert_unique( reg.land(), remote.land() )
 			$mol_assert_equal( reg.vary()!, remote.link() )

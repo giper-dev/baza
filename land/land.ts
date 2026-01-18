@@ -249,6 +249,11 @@ namespace $ {
 		}
 		
 		@ $mol_mem
+		sync_rights() {
+			return new $mol_wire_atom( '', ()=> this.inherit() ).fresh()
+		}
+		
+		@ $mol_mem
 		inherit() {
 				
 			const area = this.link()
@@ -370,7 +375,7 @@ namespace $ {
 		/** Picks units between Face and current state. */
 		diff_units( skip_faces = new $giper_baza_face_map ): $giper_baza_unit[] {
 			
-			this.loading()
+			this.unit_signing()
 			
 			const skipped = new Map< string, Set< $giper_baza_unit_base > >()
 			const delta = new Set< $giper_baza_unit_base >()
@@ -440,6 +445,13 @@ namespace $ {
 			
 			return [ ... passes, ... delta ]
 			
+		}
+		
+		/** Picks units between Face and current state and make Pack. */
+		// @ $mol_action
+		diff_parts( skip_faces = new $giper_baza_face_map ): $giper_baza_pack_parts {
+			const units = this.diff_units( skip_faces )
+			return [[ this.link().str, new $giper_baza_pack_part( units ) ]]
 		}
 		
 		@ $mol_action
@@ -570,6 +582,11 @@ namespace $ {
 			}
 			
 			return units
+		}
+		
+		@ $mol_action
+		units_steal( donor: $giper_baza_land ) {
+			this.diff_apply( donor.diff_units(), 'skip_load' )
 		}
 		
 		rank_audit() {
@@ -923,7 +940,7 @@ namespace $ {
 		@ $mol_mem
 		sync() {
 			this.loading()
-			this.inherit()
+			this.sync_rights()
 			this.bus()
 			this.sync_mine()
 			this.sync_yard()
