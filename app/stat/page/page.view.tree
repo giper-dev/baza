@@ -5,7 +5,7 @@ $giper_baza_app_stat_page $mol_page
 		<= Uptime $mol_chip title <= uptime \🔴 00:00
 		<= Tools
 	body_content /
-		<= Charts $mol_list rows /
+		<= Charts $mol_gallery items /
 			<= Cpu $mol_chart
 				graphs /
 					<= Cpu_user $mol_plot_line
