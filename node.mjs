@@ -1535,6 +1535,30 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function $mol_array_chunks(array, rule) {
+        const br = typeof rule === 'number' ? (_, i) => i % rule === 0 : rule;
+        let chunk = [];
+        const chunks = [];
+        for (let i = 0; i < array.length; ++i) {
+            const item = array[i];
+            if (br(item, i)) {
+                if (chunk.length)
+                    chunks.push(chunk);
+                chunk = [];
+            }
+            chunk.push(item);
+        }
+        if (chunk.length)
+            chunks.push(chunk);
+        return chunks;
+    }
+    $.$mol_array_chunks = $mol_array_chunks;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     function $mol_tree2_from_json(json, span = $mol_span.unknown) {
         if (typeof json === 'boolean' || typeof json === 'number' || json === null) {
             return new $mol_tree2(String(json), '', [], span);
@@ -1551,7 +1575,9 @@ var $;
         }
         if (ArrayBuffer.isView(json)) {
             const buf = new Uint8Array(json.buffer, json.byteOffset, json.byteLength);
-            return $mol_tree2.data(String.fromCharCode(...buf), [], span);
+            const codes = [...buf].map(b => b.toString(16).toUpperCase().padStart(2, '0'));
+            const str = $mol_array_chunks(codes, 8).map(c => c.join(' ')).join('\n');
+            return $mol_tree2.data(str, [], span);
         }
         if (json instanceof Date) {
             return new $mol_tree2('', json.toISOString(), [], span);
@@ -8250,30 +8276,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    function $mol_array_chunks(array, rule) {
-        const br = typeof rule === 'number' ? (_, i) => i % rule === 0 : rule;
-        let chunk = [];
-        const chunks = [];
-        for (let i = 0; i < array.length; ++i) {
-            const item = array[i];
-            if (br(item, i)) {
-                if (chunk.length)
-                    chunks.push(chunk);
-                chunk = [];
-            }
-            chunk.push(item);
-        }
-        if (chunk.length)
-            chunks.push(chunk);
-        return chunks;
-    }
-    $.$mol_array_chunks = $mol_array_chunks;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
     $.$giper_baza_land_root = {
         data: new $giper_baza_link(''),
         tine: new $giper_baza_link('AQAAAAAA'),
@@ -9527,7 +9529,7 @@ var $;
                 prev = next;
                 next = next.next;
                 if (!next)
-                    $mol_fail(new Error('Release out of allocated'));
+                    $mol_fail(new Error('Release out of allocated', { cause: { last: prev, from, size } }));
             }
             if ((from + size > next.from) || (prev.from + prev.size > from)) {
                 $mol_fail(new Error('Double release', { cause: { prev, next, from, size } }));
@@ -11282,7 +11284,7 @@ var $;
 var $;
 (function ($) {
     class $giper_baza_app_home extends $giper_baza_home.with({
-        Aliases: $giper_baza_dict_to($giper_baza_list_str),
+        Ips: $giper_baza_list_str,
         Stat: $giper_baza_atom_link_to(() => $giper_baza_app_stat),
     }) {
         stat(auto) {
@@ -11306,15 +11308,7 @@ var $;
                 this.land().give(pass, $giper_baza_rank_rule);
             }
             this.title(process.env.DOMAIN || $node.os.hostname());
-            const source = this.aliases();
-            const target = this.Aliases(null);
-            for (const ip of target.keys().map($giper_baza_vary_cast_text)) {
-                if (!ip || !source.has(ip))
-                    target.cut(ip);
-            }
-            for (const [ip, names] of source) {
-                target.key(ip, null).items(names);
-            }
+            this.Ips(null).items(this.ips());
         }
         ips() {
             const ips = [];
@@ -11327,19 +11321,6 @@ var $;
             }
             return ips;
         }
-        async lookup(ip) {
-            try {
-                return await $node.dns.promises.reverse(ip);
-            }
-            catch (error) {
-                $mol_fail_log(error);
-                return [];
-            }
-        }
-        aliases() {
-            const self = $mol_wire_sync(this);
-            return new Map(this.ips().map(ip => [ip, self.lookup(ip)]));
-        }
     }
     __decorate([
         $mol_mem
@@ -11347,9 +11328,6 @@ var $;
     __decorate([
         $mol_mem
     ], $giper_baza_app_home_node.prototype, "ips", null);
-    __decorate([
-        $mol_mem
-    ], $giper_baza_app_home_node.prototype, "aliases", null);
     $.$giper_baza_app_home_node = $giper_baza_app_home_node;
     $.$giper_baza_app_home = $giper_baza_app_home_node;
 })($ || ($ = {}));
