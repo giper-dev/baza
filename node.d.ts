@@ -1878,6 +1878,7 @@ declare namespace $ {
         self_make(idea?: number): $giper_baza_link;
         home(): $giper_baza_home;
         area_make(idea?: number): $giper_baza_land;
+        sync_rights(): $mol_wire_atom<unknown, [], void> | undefined;
         inherit(): void;
         Data<Node extends typeof $giper_baza_node>(Node: Node): InstanceType<Node>;
         Tine(): $giper_baza_list_link;
@@ -1891,8 +1892,10 @@ declare namespace $ {
             $giper_baza_rank: number;
         };
         diff_units(skip_faces?: $giper_baza_face_map): $giper_baza_unit[];
+        diff_parts(skip_faces?: $giper_baza_face_map): $giper_baza_pack_parts;
         face_pack(): $giper_baza_pack;
         diff_apply(units: readonly $giper_baza_unit[], skip_load?: 'skip_load'): readonly $giper_baza_unit[] | undefined;
+        units_steal(donor: $giper_baza_land): void;
         rank_audit(): void;
         fork(preset?: $giper_baza_rank_preset): $giper_baza_land;
         sand_ordered({ head, peer }: {
@@ -3698,7 +3701,7 @@ declare namespace $ {
         units: $giper_baza_unit[];
         faces: $giper_baza_face_map;
         constructor(units?: $giper_baza_unit[], faces?: $giper_baza_face_map);
-        static from(units: $giper_baza_unit_base[], faces?: $giper_baza_face_map): $giper_baza_pack_part;
+        static from(units: $giper_baza_unit[], faces?: $giper_baza_face_map): $giper_baza_pack_part;
         [Symbol.iterator](): Generator<never, {
             units: $giper_baza_unit[];
             faces: $giper_baza_face_map;

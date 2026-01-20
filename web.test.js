@@ -2862,10 +2862,58 @@ var $;
 var $;
 (function ($) {
     $mol_test({
-        'const returns stored value'() {
-            const foo = { bar: $mol_const(Math.random()) };
-            $mol_assert_equal(foo.bar(), foo.bar());
-            $mol_assert_equal(foo.bar(), foo.bar['()']);
+        'Primitives'() {
+            $mol_assert_equal($mol_key(null), 'null');
+            $mol_assert_equal($mol_key(false), 'false');
+            $mol_assert_equal($mol_key(true), 'true');
+            $mol_assert_equal($mol_key(0), '0');
+            $mol_assert_equal($mol_key(1n << 64n), '18446744073709551616n');
+            $mol_assert_equal($mol_key(''), '""');
+        },
+        'Array & POJO'() {
+            $mol_assert_equal($mol_key([null]), '[null]');
+            $mol_assert_equal($mol_key({ foo: 0 }), '{"foo":0}');
+            $mol_assert_equal($mol_key({ foo: [false] }), '{"foo":[false]}');
+        },
+        'Uint8Array'() {
+            $mol_assert_equal($mol_key(new Uint8Array([1, 2])), '[1,2]');
+            $mol_assert_equal($mol_key([new Uint8Array([1, 2])]), '[[1,2]]');
+            $mol_assert_equal($mol_key({ foo: new Uint8Array([1, 2]) }), '{"foo":[1,2]}');
+        },
+        'Function'() {
+            const func = () => { };
+            $mol_assert_equal($mol_key(func), $mol_key(func));
+            $mol_assert_unique($mol_key(func), $mol_key(() => { }));
+        },
+        'Objects'() {
+            class User {
+            }
+            const jin = new User();
+            $mol_assert_equal($mol_key(jin), $mol_key(jin));
+            $mol_assert_unique($mol_key(jin), $mol_key(new User()));
+        },
+        'Elements'() {
+            const foo = $mol_jsx("div", null, "bar");
+            $mol_assert_equal($mol_key(foo), $mol_key(foo));
+            $mol_assert_unique($mol_key(foo), $mol_key($mol_jsx("div", null, "bar")));
+        },
+        'Custom JSON representation'() {
+            class User {
+                name;
+                age;
+                constructor(name, age) {
+                    this.name = name;
+                    this.age = age;
+                }
+                toJSON() { return { name: this.name }; }
+            }
+            $mol_assert_equal($mol_key(new User('jin', 18)), '{"name":"jin"}');
+        },
+        'Special native classes'() {
+            $mol_assert_equal($mol_key(new Date('xyz')), 'null');
+            $mol_assert_equal($mol_key(new Date('2001-01-02T03:04:05.678Z')), '"2001-01-02T03:04:05.678Z"');
+            $mol_assert_equal($mol_key(/./), '"/./"');
+            $mol_assert_equal($mol_key(/\./gimsu), '"/\\\\./gimsu"');
         },
     });
 })($ || ($ = {}));
@@ -2882,56 +2930,92 @@ var $;
 ;
 "use strict";
 var $;
+(function ($) {
+    $mol_test({
+        'return result without errors'() {
+            $mol_assert_equal($mol_try(() => false), false);
+        },
+    });
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
 (function ($_1) {
-    $mol_test_mocks.push(context => {
-        class $mol_state_arg_mock extends $mol_state_arg {
-            static $ = context;
-            static href(next) { return next || ''; }
-            static go(next) {
-                this.href(this.link(next));
+    $mol_test_mocks.push($ => $.$mol_fail_log = () => false);
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_wire_log extends $mol_object2 {
+        static watch(task) {
+            return task;
+        }
+        static track(fiber) {
+            const prev = $mol_wire_probe(() => this.track(fiber));
+            let next;
+            try {
+                next = fiber.sync();
+            }
+            finally {
+                for (const pub of fiber.pub_list) {
+                    if (pub instanceof $mol_wire_fiber) {
+                        this.track(pub);
+                    }
+                }
+            }
+            if (fiber.host === this)
+                return next;
+            if ($mol_compare_deep(prev, next)) {
+                this.$.$mol_log3_rise({
+                    message: '💧 Same',
+                    place: fiber,
+                });
+            }
+            else if (prev !== undefined) {
+                this.$.$mol_log3_rise({
+                    message: '🔥 Next',
+                    place: fiber,
+                    prev,
+                });
+            }
+            return next;
+        }
+        static active() {
+            try {
+                this.watch()?.();
+            }
+            catch (error) {
+                $mol_fail_log(error);
+            }
+            finally {
+                for (const pub of $mol_wire_auto().pub_list) {
+                    if (pub instanceof $mol_wire_fiber) {
+                        this.track(pub);
+                    }
+                }
             }
         }
-        __decorate([
-            $mol_mem
-        ], $mol_state_arg_mock, "href", null);
-        __decorate([
-            $mol_action
-        ], $mol_state_arg_mock, "go", null);
-        context.$mol_state_arg = $mol_state_arg_mock;
-    });
-    $mol_test({
-        'args as dictionary'($) {
-            $.$mol_state_arg.href('#!foo=bar/xxx');
-            $mol_assert_equal($.$mol_state_arg.dict(), { foo: 'bar', xxx: '' });
-            $.$mol_state_arg.dict({ foo: null, yyy: '', lol: '123' });
-            $mol_assert_equal($.$mol_state_arg.href().replace(/.*#/, '#'), '#!yyy/lol=123');
-        },
-        'one value from args'($) {
-            $.$mol_state_arg.href('#!foo=bar/xxx');
-            $mol_assert_equal($.$mol_state_arg.value('foo'), 'bar');
-            $mol_assert_equal($.$mol_state_arg.value('xxx'), '');
-            $.$mol_state_arg.value('foo', 'lol');
-            $mol_assert_equal($.$mol_state_arg.href().replace(/.*#/, '#'), '#!foo=lol/xxx');
-            $.$mol_state_arg.value('foo', '');
-            $mol_assert_equal($.$mol_state_arg.href().replace(/.*#/, '#'), '#!foo/xxx');
-            $.$mol_state_arg.value('foo', null);
-            $mol_assert_equal($.$mol_state_arg.href().replace(/.*#/, '#'), '#!xxx');
-        },
-        'nested args'($) {
-            const base = new $.$mol_state_arg('nested.');
-            class Nested extends $mol_state_arg {
-                constructor(prefix) {
-                    super(base.prefix + prefix);
-                }
-                static value = (key, next) => base.value(key, next);
-            }
-            $.$mol_state_arg.href('#!foo=bar/nested.xxx=123');
-            $mol_assert_equal(Nested.value('foo'), null);
-            $mol_assert_equal(Nested.value('xxx'), '123');
-            Nested.value('foo', 'lol');
-            $mol_assert_equal($.$mol_state_arg.href().replace(/.*#/, '#'), '#!foo=bar/nested.xxx=123/nested.foo=lol');
-        },
-    });
+    }
+    __decorate([
+        $mol_mem
+    ], $mol_wire_log, "watch", null);
+    __decorate([
+        $mol_mem_key
+    ], $mol_wire_log, "track", null);
+    __decorate([
+        $mol_mem
+    ], $mol_wire_log, "active", null);
+    $.$mol_wire_log = $mol_wire_log;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_wire_log.active();
 })($ || ($ = {}));
 
 ;
@@ -2941,6 +3025,11 @@ var $;
     var $$;
     (function ($$) {
         $mol_test({
+            "Empty release"($) {
+                const pool = new $mol_memory_pool;
+                pool.release(0, 0);
+                $mol_assert_equal(pool.acquire(8), 0);
+            },
             "linear allocation"($) {
                 const pool = new $mol_memory_pool;
                 $mol_assert_equal(pool.acquire(8), 0);
@@ -2965,7 +3054,7 @@ var $;
             "double release"($) {
                 const pool = new $mol_memory_pool;
                 $mol_assert_fail(() => pool.release(0, 2), 'Double release');
-                $mol_assert_fail(() => pool.release(2, 2), 'Double release');
+                $mol_assert_fail(() => pool.release(2, 2), 'Release out of allocated');
                 pool.acquire(16);
                 pool.release(4, 8);
                 $mol_assert_fail(() => pool.release(4, 8), 'Double release');
@@ -3024,6 +3113,74 @@ var $;
             },
         });
     })($$ = $_1.$$ || ($_1.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_test({
+        'const returns stored value'() {
+            const foo = { bar: $mol_const(Math.random()) };
+            $mol_assert_equal(foo.bar(), foo.bar());
+            $mol_assert_equal(foo.bar(), foo.bar['()']);
+        },
+    });
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($_1) {
+    $mol_test_mocks.push(context => {
+        class $mol_state_arg_mock extends $mol_state_arg {
+            static $ = context;
+            static href(next) { return next || ''; }
+            static go(next) {
+                this.href(this.link(next));
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_state_arg_mock, "href", null);
+        __decorate([
+            $mol_action
+        ], $mol_state_arg_mock, "go", null);
+        context.$mol_state_arg = $mol_state_arg_mock;
+    });
+    $mol_test({
+        'args as dictionary'($) {
+            $.$mol_state_arg.href('#!foo=bar/xxx');
+            $mol_assert_equal($.$mol_state_arg.dict(), { foo: 'bar', xxx: '' });
+            $.$mol_state_arg.dict({ foo: null, yyy: '', lol: '123' });
+            $mol_assert_equal($.$mol_state_arg.href().replace(/.*#/, '#'), '#!yyy/lol=123');
+        },
+        'one value from args'($) {
+            $.$mol_state_arg.href('#!foo=bar/xxx');
+            $mol_assert_equal($.$mol_state_arg.value('foo'), 'bar');
+            $mol_assert_equal($.$mol_state_arg.value('xxx'), '');
+            $.$mol_state_arg.value('foo', 'lol');
+            $mol_assert_equal($.$mol_state_arg.href().replace(/.*#/, '#'), '#!foo=lol/xxx');
+            $.$mol_state_arg.value('foo', '');
+            $mol_assert_equal($.$mol_state_arg.href().replace(/.*#/, '#'), '#!foo/xxx');
+            $.$mol_state_arg.value('foo', null);
+            $mol_assert_equal($.$mol_state_arg.href().replace(/.*#/, '#'), '#!xxx');
+        },
+        'nested args'($) {
+            const base = new $.$mol_state_arg('nested.');
+            class Nested extends $mol_state_arg {
+                constructor(prefix) {
+                    super(base.prefix + prefix);
+                }
+                static value = (key, next) => base.value(key, next);
+            }
+            $.$mol_state_arg.href('#!foo=bar/nested.xxx=123');
+            $mol_assert_equal(Nested.value('foo'), null);
+            $mol_assert_equal(Nested.value('xxx'), '123');
+            Nested.value('foo', 'lol');
+            $mol_assert_equal($.$mol_state_arg.href().replace(/.*#/, '#'), '#!foo=bar/nested.xxx=123/nested.foo=lol');
+        },
+    });
 })($ || ($ = {}));
 
 ;
@@ -3927,158 +4084,6 @@ var $;
 ;
 "use strict";
 var $;
-(function ($) {
-    $mol_test({
-        'Primitives'() {
-            $mol_assert_equal($mol_key(null), 'null');
-            $mol_assert_equal($mol_key(false), 'false');
-            $mol_assert_equal($mol_key(true), 'true');
-            $mol_assert_equal($mol_key(0), '0');
-            $mol_assert_equal($mol_key(1n << 64n), '18446744073709551616n');
-            $mol_assert_equal($mol_key(''), '""');
-        },
-        'Array & POJO'() {
-            $mol_assert_equal($mol_key([null]), '[null]');
-            $mol_assert_equal($mol_key({ foo: 0 }), '{"foo":0}');
-            $mol_assert_equal($mol_key({ foo: [false] }), '{"foo":[false]}');
-        },
-        'Uint8Array'() {
-            $mol_assert_equal($mol_key(new Uint8Array([1, 2])), '[1,2]');
-            $mol_assert_equal($mol_key([new Uint8Array([1, 2])]), '[[1,2]]');
-            $mol_assert_equal($mol_key({ foo: new Uint8Array([1, 2]) }), '{"foo":[1,2]}');
-        },
-        'Function'() {
-            const func = () => { };
-            $mol_assert_equal($mol_key(func), $mol_key(func));
-            $mol_assert_unique($mol_key(func), $mol_key(() => { }));
-        },
-        'Objects'() {
-            class User {
-            }
-            const jin = new User();
-            $mol_assert_equal($mol_key(jin), $mol_key(jin));
-            $mol_assert_unique($mol_key(jin), $mol_key(new User()));
-        },
-        'Elements'() {
-            const foo = $mol_jsx("div", null, "bar");
-            $mol_assert_equal($mol_key(foo), $mol_key(foo));
-            $mol_assert_unique($mol_key(foo), $mol_key($mol_jsx("div", null, "bar")));
-        },
-        'Custom JSON representation'() {
-            class User {
-                name;
-                age;
-                constructor(name, age) {
-                    this.name = name;
-                    this.age = age;
-                }
-                toJSON() { return { name: this.name }; }
-            }
-            $mol_assert_equal($mol_key(new User('jin', 18)), '{"name":"jin"}');
-        },
-        'Special native classes'() {
-            $mol_assert_equal($mol_key(new Date('xyz')), 'null');
-            $mol_assert_equal($mol_key(new Date('2001-01-02T03:04:05.678Z')), '"2001-01-02T03:04:05.678Z"');
-            $mol_assert_equal($mol_key(/./), '"/./"');
-            $mol_assert_equal($mol_key(/\./gimsu), '"/\\\\./gimsu"');
-        },
-    });
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_test({
-        'return result without errors'() {
-            $mol_assert_equal($mol_try(() => false), false);
-        },
-    });
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($_1) {
-    $mol_test_mocks.push($ => $.$mol_fail_log = () => false);
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_wire_log extends $mol_object2 {
-        static watch(task) {
-            return task;
-        }
-        static track(fiber) {
-            const prev = $mol_wire_probe(() => this.track(fiber));
-            let next;
-            try {
-                next = fiber.sync();
-            }
-            finally {
-                for (const pub of fiber.pub_list) {
-                    if (pub instanceof $mol_wire_fiber) {
-                        this.track(pub);
-                    }
-                }
-            }
-            if (fiber.host === this)
-                return next;
-            if ($mol_compare_deep(prev, next)) {
-                this.$.$mol_log3_rise({
-                    message: '💧 Same',
-                    place: fiber,
-                });
-            }
-            else if (prev !== undefined) {
-                this.$.$mol_log3_rise({
-                    message: '🔥 Next',
-                    place: fiber,
-                    prev,
-                });
-            }
-            return next;
-        }
-        static active() {
-            try {
-                this.watch()?.();
-            }
-            catch (error) {
-                $mol_fail_log(error);
-            }
-            finally {
-                for (const pub of $mol_wire_auto().pub_list) {
-                    if (pub instanceof $mol_wire_fiber) {
-                        this.track(pub);
-                    }
-                }
-            }
-        }
-    }
-    __decorate([
-        $mol_mem
-    ], $mol_wire_log, "watch", null);
-    __decorate([
-        $mol_mem_key
-    ], $mol_wire_log, "track", null);
-    __decorate([
-        $mol_mem
-    ], $mol_wire_log, "active", null);
-    $.$mol_wire_log = $mol_wire_log;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_wire_log.active();
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
 (function ($_1) {
     $mol_test_mocks.push($ => {
         class $mol_bus extends $.$mol_bus {
@@ -4126,7 +4131,7 @@ var $;
     const auth1 = $giper_baza_auth.from('_4eLnQsSr5wj6XOzgS5bZa254pkEOf_hg1nReCSR4Zkd-E07aLSwj-II-rZt4ZubInw_f1rZiA0Qa92qR0Gq3I6xYWCkW9Aagc7-97L2P-gI84NaLwdabp_DrZEX3RJTY');
     const auth2 = $giper_baza_auth.from('_5THYp_Njx6-cAU53dRwdv3z8RBAVK7Z2L3OeZmTp8sCsMNXmdssFljy2fxIMDX_oxTFRrRCvAH7s92kUOVn5YYTPGuZ5fQFOAEeRNGGQ47JVCK3Cy_XDSUDvklZ-3Ix4');
     $mol_test({
-        'Give rights'($) {
+        async 'Give rights'($) {
             const land0 = $giper_baza_land.make({ $ });
             const land1 = $giper_baza_land.make({ $, link: () => land0.link(), auth: () => auth1 });
             $mol_assert_equal(land0.lord_rank(land0.link()), $giper_baza_rank_rule);
@@ -4145,32 +4150,32 @@ var $;
             $mol_assert_equal(land0.pass_rank(auth1.pass()), $giper_baza_rank_rule);
             land0.give(auth1.pass(), $giper_baza_rank_post('just'));
             $mol_assert_equal(land0.pass_rank(auth1.pass()), $giper_baza_rank_post('just'));
-            land1.diff_apply(land0.diff_units(), 'skip_load');
+            await $mol_wire_async(land1).units_steal(land0);
             $mol_assert_equal(land1.pass_rank(auth1.pass()), $giper_baza_rank_post('just'));
             $mol_assert_fail(() => land1.give(auth2.pass(), $giper_baza_rank_post('just')), 'Too low Tier');
         },
-        'Post Data and pick Delta'($) {
+        async 'Post Data and pick Delta'($) {
             const land1 = $giper_baza_land.make({ $ });
             const land2 = $giper_baza_land.make({ $, link: () => land1.link(), auth: () => auth2 });
-            $mol_assert_equal(land1.diff_units(), []);
+            $mol_assert_equal(await $mol_wire_async(land1).diff_units(), []);
             land1.post($giper_baza_link.hole, $giper_baza_link.hole, new $giper_baza_link('AA111111'), new Uint8Array([1]));
-            $mol_assert_equal(land1.diff_units().length, 3);
+            $mol_assert_equal((await $mol_wire_async(land1).diff_units()).length, 4);
             const face = land1.faces.clone();
             land1.post(new $giper_baza_link('AA111111'), $giper_baza_link.hole, new $giper_baza_link('AA222222'), new Uint8Array([2]));
-            $mol_assert_equal(land1.diff_units().length, 4);
-            $mol_assert_equal(land1.diff_units(face).length, 1);
-            land2.diff_apply(land1.diff_units());
+            $mol_assert_equal((await $mol_wire_async(land1).diff_units()).length, 5);
+            $mol_assert_equal((await $mol_wire_async(land1).diff_units(face)).length, 2);
+            await $mol_wire_async(land2).units_steal(land1);
             $mol_assert_fail(() => land2.post(new $giper_baza_link('AA222222'), $giper_baza_link.hole, new $giper_baza_link('AA333333'), new Uint8Array([3])), 'Too low Tier');
-            $mol_assert_equal(land2.diff_units().length, 4);
-            $mol_assert_equal(land2.diff_units(face).length, 1);
+            $mol_assert_equal((await $mol_wire_async(land2).diff_units()).length, 5);
+            $mol_assert_equal((await $mol_wire_async(land2).diff_units(face)).length, 2);
             land1.give(auth2.pass(), $giper_baza_rank_post('just'));
-            land2.diff_apply(land1.diff_units());
+            await $mol_wire_async(land2).units_steal(land1);
             land2.post(new $giper_baza_link('AA222222'), $giper_baza_link.hole, new $giper_baza_link('AA333333'), new Uint8Array([5]));
-            $mol_assert_equal(land2.diff_units().length, 7);
-            $mol_assert_equal(land2.diff_units(face).length, 4);
+            $mol_assert_equal((await $mol_wire_async(land2).diff_units()).length, 9);
+            $mol_assert_equal((await $mol_wire_async(land2).diff_units(face)).length, 6);
             land1.give(auth2.pass(), $giper_baza_rank_read);
-            land2.diff_apply(land1.diff_units());
-            $mol_assert_equal(land2.diff_units().length, 6);
+            await $mol_wire_async(land2).units_steal(land1);
+            $mol_assert_equal((await $mol_wire_async(land2).diff_units()).length, 7);
         },
         async 'Land encryption'($) {
             const land = $mol_wire_async($giper_baza_land.make({ $ }));
@@ -4184,7 +4189,7 @@ var $;
             await land.post($giper_baza_link.hole, $giper_baza_link.hole, sand.self(), null);
             $mol_assert_equal((await land.sand_ordered({ head: $giper_baza_link.hole, peer: $giper_baza_link.hole })).length, 1);
         },
-        'Land fork & merge'($) {
+        'Land fork & merge': $mol_wire_async(($) => {
             const home = $.$giper_baza_glob.home().land();
             const left = home.fork();
             home.Data($giper_baza_list_vary).items_vary(['foo', 'xxx']);
@@ -4207,8 +4212,8 @@ var $;
             $mol_assert_equal(both.Data($giper_baza_list_vary).items_vary(), ['foo', 'yyy']);
             both.Tine().items_vary([left.link(), right.link()]);
             $mol_assert_equal(both.Data($giper_baza_list_vary).items_vary(), ['foo', 'zzz']);
-        },
-        'Inner Lins is relative to Land'($) {
+        }),
+        'Inner Links is relative to Land': $mol_wire_async(($) => {
             const Alice = $.$giper_baza_glob.home().land();
             const Bella = Alice.fork();
             const alice_val = Alice.Node($giper_baza_atom_text).Item(new $giper_baza_link('qwertyui'));
@@ -4221,7 +4226,7 @@ var $;
             $mol_assert_equal(alice_link.val(), alice_val.link());
             $mol_assert_unique(alice_link.val(), bella_link.val());
             $mol_assert_equal(bella_link.val(), bella_val.link());
-        },
+        }),
         async 'Land Area inherits rights'($) {
             const area = await $mol_wire_async(() => {
                 const base = $.$giper_baza_glob.land_grab([[null, $giper_baza_rank_post('just')]]);
@@ -4622,14 +4627,14 @@ var $;
 "use strict";
 var $;
 (function ($_1) {
-    function fork(base) {
-        const land = base.$.$giper_baza_land.make({ $: base.$ });
-        land.diff_apply(base.diff_units());
+    function clone(base) {
+        const land = $mol_wire_sync(base.$.$giper_baza_land).make({ $: base.$ });
+        land.units_steal(base);
         return land;
     }
     function sync(left, right) {
-        left.diff_apply(right.diff_units());
-        right.diff_apply(left.diff_units());
+        left.units_steal(right);
+        right.units_steal(left);
     }
     $mol_test({
         'Basic list ops'($) {
@@ -4697,7 +4702,7 @@ var $;
                 list.link(),
             ]);
         },
-        'List merge'($) {
+        async 'List merge'($) {
             const land1 = $.$giper_baza_land.make({ $ });
             const land2 = $.$giper_baza_land.make({ $ });
             const list1 = land1.Node($giper_baza_list_vary).Data();
@@ -4705,7 +4710,7 @@ var $;
             list1.items_vary(['foo', 'xxx']);
             land2.faces.tick();
             list2.items_vary(['foo', 'yyy']);
-            land1.diff_apply(land2.diff_units());
+            await $mol_wire_async(land1).units_steal(land2);
             $mol_assert_equal(list1.items_vary(), ['foo', 'yyy', 'foo', 'xxx']);
         },
         'Insert before removed before changed'($) {
@@ -4738,174 +4743,174 @@ var $;
             list.move(2, 1);
             $mol_assert_equal(list.items_vary(), [1, 3, 2, 4, 6, 5]);
         },
-        'Insert after moved right'($) {
-            const base = $.$giper_baza_land.make({ $ });
+        'Insert after moved right': $mol_wire_async(($) => {
+            const base = $mol_wire_sync($.$giper_baza_land).make({ $ });
             base.Data($giper_baza_list_vary).items_vary([1, 2, 3, 4]);
-            const left = fork(base);
+            const left = clone(base);
             left.Data($giper_baza_list_vary).items_vary([1, 7, 2, 3, 4]);
-            const right = fork(base);
+            const right = clone(base);
             right.Data($giper_baza_list_vary).move(0, 2);
             sync(left, right);
             $mol_assert_equal(left.Data($giper_baza_list_vary).items_vary(), right.Data($giper_baza_list_vary).items_vary(), [2, 1, 7, 3, 4]);
-        },
-        'Insert before moved left'($) {
-            const base = $.$giper_baza_land.make({ $ });
+        }),
+        'Insert before moved left': $mol_wire_async(($) => {
+            const base = $mol_wire_sync($.$giper_baza_land).make({ $ });
             base.Data($giper_baza_list_vary).items_vary([1, 2, 3, 4]);
-            const left = fork(base);
+            const left = clone(base);
             left.Data($giper_baza_list_vary).move(1, 0);
-            const right = fork(base);
+            const right = clone(base);
             right.faces.sync(left.faces);
             right.Data($giper_baza_list_vary).items_vary([1, 7, 2, 3, 4]);
             sync(left, right);
             $mol_assert_equal(left.Data($giper_baza_list_vary).items_vary(), right.Data($giper_baza_list_vary).items_vary(), [2, 1, 7, 3, 4]);
-        },
-        'Move left after inserted'($) {
-            const base = $.$giper_baza_land.make({ $ });
+        }),
+        'Move left after inserted': $mol_wire_async(($) => {
+            const base = $mol_wire_sync($.$giper_baza_land).make({ $ });
             base.Data($giper_baza_list_vary).items_vary([1, 2, 3, 4]);
-            const left = fork(base);
+            const left = clone(base);
             left.Data($giper_baza_list_vary).items_vary([1, 7, 2, 3, 4]);
-            const right = fork(base);
+            const right = clone(base);
             right.faces.sync(left.faces);
             right.Data($giper_baza_list_vary).move(1, 0);
             sync(left, right);
             $mol_assert_equal(left.Data($giper_baza_list_vary).items_vary(), right.Data($giper_baza_list_vary).items_vary(), [2, 1, 3, 7, 4]);
-        },
-        'Insert before moved right'($) {
-            const base = $.$giper_baza_land.make({ $ });
+        }),
+        'Insert before moved right': $mol_wire_async(($) => {
+            const base = $mol_wire_sync($.$giper_baza_land).make({ $ });
             base.Data($giper_baza_list_vary).items_vary([1, 2, 3, 4]);
-            const left = fork(base);
+            const left = clone(base);
             left.Data($giper_baza_list_vary).move(1, 4);
-            const right = fork(base);
+            const right = clone(base);
             right.faces.sync(left.faces);
             right.Data($giper_baza_list_vary).items_vary([1, 7, 2, 3, 4]);
             sync(left, right);
             $mol_assert_equal(left.Data($giper_baza_list_vary).items_vary(), right.Data($giper_baza_list_vary).items_vary(), [1, 7, 3, 4, 2]);
-        },
-        'Move right after inserted'($) {
-            const base = $.$giper_baza_land.make({ $ });
+        }),
+        'Move right after inserted': $mol_wire_async(($) => {
+            const base = $mol_wire_sync($.$giper_baza_land).make({ $ });
             base.Data($giper_baza_list_vary).items_vary([1, 2, 3, 4]);
-            const left = fork(base);
+            const left = clone(base);
             left.Data($giper_baza_list_vary).items_vary([1, 7, 2, 3, 4]);
-            const right = fork(base);
+            const right = clone(base);
             right.faces.sync(left.faces);
             right.Data($giper_baza_list_vary).move(1, 4);
             sync(left, right);
             $mol_assert_equal(left.Data($giper_baza_list_vary).items_vary(), right.Data($giper_baza_list_vary).items_vary(), [1, 3, 7, 4, 2]);
-        },
-        'Insert after wiped'($) {
-            const base = $.$giper_baza_land.make({ $ });
+        }),
+        'Insert after wiped': $mol_wire_async(($) => {
+            const base = $mol_wire_sync($.$giper_baza_land).make({ $ });
             base.Data($giper_baza_list_vary).items_vary([1, 2, 3, 4]);
-            const left = fork(base);
+            const left = clone(base);
             left.Data($giper_baza_list_vary).items_vary([1, 3, 4]);
-            const right = fork(base);
+            const right = clone(base);
             right.faces.sync(left.faces);
             right.Data($giper_baza_list_vary).items_vary([1, 2, 7, 3, 4]);
             sync(left, right);
             $mol_assert_equal(left.Data($giper_baza_list_vary).items_vary(), right.Data($giper_baza_list_vary).items_vary(), [1, 7, 3, 4]);
-        },
-        'Wiped before inserted'($) {
-            const base = $.$giper_baza_land.make({ $ });
+        }),
+        'Wiped before inserted': $mol_wire_async(($) => {
+            const base = $mol_wire_sync($.$giper_baza_land).make({ $ });
             base.Data($giper_baza_list_vary).items_vary([1, 2, 3, 4]);
-            const left = fork(base);
+            const left = clone(base);
             left.Data($giper_baza_list_vary).items_vary([1, 2, 7, 3, 4]);
-            const right = fork(base);
+            const right = clone(base);
             right.faces.sync(left.faces);
             right.Data($giper_baza_list_vary).items_vary([1, 3, 4]);
             sync(left, right);
             $mol_assert_equal(left.Data($giper_baza_list_vary).items_vary(), right.Data($giper_baza_list_vary).items_vary(), [1, 7, 3, 4]);
-        },
-        'Insert before wiped'($) {
-            const base = $.$giper_baza_land.make({ $ });
+        }),
+        'Insert before wiped': $mol_wire_async(($) => {
+            const base = $mol_wire_sync($.$giper_baza_land).make({ $ });
             base.Data($giper_baza_list_vary).items_vary([1, 2, 3, 4]);
-            const left = fork(base);
+            const left = clone(base);
             left.Data($giper_baza_list_vary).wipe(2);
-            const right = fork(base);
+            const right = clone(base);
             right.faces.sync(left.faces);
             right.Data($giper_baza_list_vary).items_vary([1, 2, 7, 3, 4]);
             sync(left, right);
             $mol_assert_equal(left.Data($giper_baza_list_vary).items_vary(), right.Data($giper_baza_list_vary).items_vary(), [1, 2, 7, 4]);
-        },
-        'Wiped after inserted'($) {
-            const base = $.$giper_baza_land.make({ $ });
+        }),
+        'Wiped after inserted': $mol_wire_async(($) => {
+            const base = $mol_wire_sync($.$giper_baza_land).make({ $ });
             base.Data($giper_baza_list_vary).items_vary([1, 2, 3, 4]);
-            const left = fork(base);
+            const left = clone(base);
             left.Data($giper_baza_list_vary).items_vary([1, 2, 7, 3, 4]);
-            const right = fork(base);
+            const right = clone(base);
             right.faces.sync(left.faces);
             right.Data($giper_baza_list_vary).wipe(2);
             sync(left, right);
             $mol_assert_equal(left.Data($giper_baza_list_vary).items_vary(), right.Data($giper_baza_list_vary).items_vary(), [1, 2, 7, 4]);
-        },
-        'Insert after moved out'($) {
-            const base = $.$giper_baza_land.make({ $ });
+        }),
+        'Insert after moved out': $mol_wire_async(($) => {
+            const base = $mol_wire_sync($.$giper_baza_land).make({ $ });
             base.Data($giper_baza_list_vary).items_vary([1, 2, 3, 4]);
-            const left = fork(base);
+            const left = clone(base);
             left.sand_move(left.Data($giper_baza_list_vary).units()[1], new $giper_baza_link('11111111'), 0);
-            const right = fork(base);
+            const right = clone(base);
             right.faces.sync(left.faces);
             right.Data($giper_baza_list_vary).items_vary([1, 2, 7, 3, 4]);
             sync(left, right);
             $mol_assert_equal(left.Data($giper_baza_list_vary).items_vary(), right.Data($giper_baza_list_vary).items_vary(), [1, 7, 3, 4]);
             $mol_assert_equal(left.Node($giper_baza_list_vary).Item(new $giper_baza_link('11111111')).items_vary(), right.Node($giper_baza_list_vary).Item(new $giper_baza_link('11111111')).items_vary(), [2]);
-        },
-        'Move out before inserted'($) {
-            const base = $.$giper_baza_land.make({ $ });
+        }),
+        'Move out before inserted': $mol_wire_async(($) => {
+            const base = $mol_wire_sync($.$giper_baza_land).make({ $ });
             base.Data($giper_baza_list_vary).items_vary([1, 2, 3, 4]);
-            const left = fork(base);
+            const left = clone(base);
             left.Data($giper_baza_list_vary).items_vary([1, 2, 7, 3, 4]);
-            const right = fork(base);
+            const right = clone(base);
             right.faces.sync(left.faces);
             right.sand_move(right.Data($giper_baza_list_vary).units()[1], new $giper_baza_link('11111111'), 0);
             sync(left, right);
             $mol_assert_equal(left.Data($giper_baza_list_vary).items_vary(), right.Data($giper_baza_list_vary).items_vary(), [1, 7, 3, 4]);
             $mol_assert_equal(left.Node($giper_baza_list_vary).Item(new $giper_baza_link('11111111')).items_vary(), right.Node($giper_baza_list_vary).Item(new $giper_baza_link('11111111')).items_vary(), [2]);
-        },
-        'Insert before changed'($) {
-            const base = $.$giper_baza_land.make({ $ });
+        }),
+        'Insert before changed': $mol_wire_async(($) => {
+            const base = $mol_wire_sync($.$giper_baza_land).make({ $ });
             base.Data($giper_baza_list_vary).items_vary([1, 2, 3, 4]);
-            const left = fork(base);
+            const left = clone(base);
             left.Data($giper_baza_list_vary).items_vary([1, 2, 7, 4]);
-            const right = fork(base);
+            const right = clone(base);
             right.faces.sync(left.faces);
             right.Data($giper_baza_list_vary).items_vary([1, 2, 13, 3, 4]);
             sync(left, right);
             $mol_assert_equal(left.Data($giper_baza_list_vary).items_vary(), right.Data($giper_baza_list_vary).items_vary(), [1, 2, 13, 7, 4]);
-        },
-        'Change after inserted'($) {
-            const base = $.$giper_baza_land.make({ $ });
+        }),
+        'Change after inserted': $mol_wire_async(($) => {
+            const base = $mol_wire_sync($.$giper_baza_land).make({ $ });
             base.Data($giper_baza_list_vary).items_vary([1, 2, 3, 4]);
-            const left = fork(base);
+            const left = clone(base);
             left.Data($giper_baza_list_vary).items_vary([1, 2, 13, 3, 4]);
-            const right = fork(base);
+            const right = clone(base);
             right.faces.sync(left.faces);
             right.Data($giper_baza_list_vary).items_vary([1, 2, 7, 4]);
             sync(left, right);
             $mol_assert_equal(left.Data($giper_baza_list_vary).items_vary(), right.Data($giper_baza_list_vary).items_vary(), [1, 2, 7, 13, 4]);
-        },
-        'Insert between moved'($) {
-            const base = $.$giper_baza_land.make({ $ });
+        }),
+        'Insert between moved': $mol_wire_async(($) => {
+            const base = $mol_wire_sync($.$giper_baza_land).make({ $ });
             base.Data($giper_baza_list_vary).items_vary([1, 2, 3, 4, 5, 6]);
-            const left = fork(base);
+            const left = clone(base);
             left.Data($giper_baza_list_vary).move(1, 5);
             left.Data($giper_baza_list_vary).move(1, 5);
-            const right = fork(base);
+            const right = clone(base);
             right.faces.sync(left.faces);
             right.Data($giper_baza_list_vary).items_vary([1, 2, 7, 3, 4, 5, 6]);
             sync(left, right);
             $mol_assert_equal(left.Data($giper_baza_list_vary).items_vary(), right.Data($giper_baza_list_vary).items_vary(), [1, 4, 5, 2, 7, 3, 6]);
-        },
-        'Move near inserted'($) {
-            const base = $.$giper_baza_land.make({ $ });
+        }),
+        'Move near inserted': $mol_wire_async(($) => {
+            const base = $mol_wire_sync($.$giper_baza_land).make({ $ });
             base.Data($giper_baza_list_vary).items_vary([1, 2, 3, 4, 5, 6]);
-            const left = fork(base);
+            const left = clone(base);
             left.Data($giper_baza_list_vary).items_vary([1, 2, 7, 3, 4, 5, 6]);
-            const right = fork(base);
+            const right = clone(base);
             right.faces.sync(left.faces);
             right.Data($giper_baza_list_vary).move(1, 5);
             right.Data($giper_baza_list_vary).move(1, 5);
             sync(left, right);
             $mol_assert_equal(left.Data($giper_baza_list_vary).items_vary(), right.Data($giper_baza_list_vary).items_vary(), [1, 4, 5, 2, 3, 7, 6]);
-        },
+        }),
     });
 })($ || ($ = {}));
 
@@ -4915,7 +4920,6 @@ var $;
 (function ($_1) {
     var $$;
     (function ($$) {
-        const auth1 = $giper_baza_auth.from('_4eLnQsSr5wj6XOzgS5bZa254pkEOf_hg1nReCSR4Zkd-E07aLSwj-II-rZt4ZubInw_f1rZiA0Qa92qR0Gq3I6xYWCkW9Aagc7-97L2P-gI84NaLwdabp_DrZEX3RJTY');
         $mol_test({
             async 'Dictionary invariants'($) {
                 const land = $giper_baza_land.make({ $ });
@@ -4944,15 +4948,15 @@ var $;
                 dict1.dive(123, $giper_baza_atom_vary, null).vary(666);
                 land2.faces.tick();
                 dict2.dive(123, $giper_baza_atom_vary, null).vary(777);
-                land1.diff_apply(land2.diff_units());
+                await $mol_wire_async(land1).units_steal(land2);
                 $mol_assert_equal(dict1.dive(123, $giper_baza_atom_vary).vary(), 777);
                 dict1.dive('xxx', $giper_baza_list_vary, null).items_vary(['foo']);
                 land2.faces.tick();
                 dict2.dive('xxx', $giper_baza_list_vary, null).items_vary(['bar']);
-                land1.diff_apply(land2.diff_units());
+                await $mol_wire_async(land1).units_steal(land2);
                 $mol_assert_equal(dict1.dive('xxx', $giper_baza_list_vary).items_vary(), ['bar', 'foo']);
             },
-            "Narrowed Dictionary with linked Dictionaries and others"($) {
+            async "Narrowed Dictionary with linked Dictionaries and others"($) {
                 class User extends $giper_baza_dict.with({
                     Title: $giper_baza_atom_text,
                     Account: $giper_baza_atom_link_to(() => Account),
@@ -4976,16 +4980,16 @@ var $;
                 $mol_assert_equal(user.Articles()?.remote_list() ?? [], []);
                 user.Title(null).val('Jin');
                 $mol_assert_equal(user.Title().val() ?? '', 'Jin');
-                const account = user.Account(null).ensure([[null, $giper_baza_rank_read]]);
+                const account = (await $mol_wire_async(user.Account(null)).ensure([[null, $giper_baza_rank_read]]));
                 $mol_assert_equal(user.Account()?.remote() ?? null, account);
                 $mol_assert_equal(account.User()?.remote() ?? null, null);
                 account.User(null).remote(user);
                 $mol_assert_equal(account.User()?.remote(), user);
                 const articles = [
-                    user.Articles(null).make([[null, $giper_baza_rank_read]]),
-                    user.Articles(null).make([[null, $giper_baza_rank_read]]),
+                    await $mol_wire_async(user.Articles(null)).make([[null, $giper_baza_rank_read]]),
+                    await $mol_wire_async(user.Articles(null)).make([[null, $giper_baza_rank_read]]),
                 ];
-                $mol_assert_equal(user.Articles()?.remote_list(), articles);
+                $mol_assert_equal(user.Articles()?.remote_list().map(n => n[Symbol.toStringTag]), articles.map(n => n[Symbol.toStringTag]));
                 articles[0].Title(null).key('en', 'auto').val('Hello!');
                 $mol_assert_equal(articles[0].Title()?.key('en').val(), 'Hello!');
                 $mol_assert_equal(articles[1].Title()?.key('ru')?.val() ?? null, null);
@@ -5133,7 +5137,7 @@ var $;
             "Hyper link to another land"($) {
                 const land = $.$giper_baza_glob.home().land();
                 const reg = land.Node($giper_baza_atom_link_to(() => $giper_baza_atom_vary)).Item(new $giper_baza_link('11111111'));
-                const remote = reg.ensure([[null, $giper_baza_rank_read]]);
+                const remote = reg.ensure(land);
                 $mol_assert_unique(reg.land(), remote.land());
                 $mol_assert_equal(reg.vary(), remote.link());
                 $mol_assert_equal(reg.remote(), remote);
@@ -6194,28 +6198,28 @@ var $;
             text1.str('foo bar.');
             land2.faces.stat.time = land1.faces.stat.time;
             text2.str('xxx yyy.');
-            const delta1 = land1.diff_units();
-            const delta2 = land2.diff_units();
-            land1.diff_apply(delta2);
-            land2.diff_apply(delta1);
+            const delta1 = await $mol_wire_async(land1).diff_units();
+            const delta2 = await $mol_wire_async(land2).diff_units();
+            await $mol_wire_async(land1).diff_apply(delta2);
+            await $mol_wire_async(land2).diff_apply(delta1);
             $mol_assert_equal(text1.str(), text2.str(), 'xxx yyy.foo bar.');
         },
         async 'Merge same insertions with different changes to same place'($) {
             const base = $giper_baza_land.make({ $ });
             base.Data($giper_baza_text).str('( )');
             const left = $giper_baza_land.make({ $ });
-            left.diff_apply(base.diff_units());
+            await $mol_wire_async(left).units_steal(base);
             left.Data($giper_baza_text).str('( [ f ] )');
             left.Data($giper_baza_text).str('( [ foo ] )');
             const right = $giper_baza_land.make({ $ });
-            right.diff_apply(base.diff_units());
+            await $mol_wire_async(right).units_steal(base);
             right.faces.sync(left.faces);
             right.Data($giper_baza_text).str('( [ f ] )');
             right.Data($giper_baza_text).str('( [ fu ] )');
-            const left_delta = left.diff_units(base.faces);
-            const right_delta = right.diff_units(base.faces);
-            left.diff_apply(right_delta);
-            right.diff_apply(left_delta);
+            const left_delta = await $mol_wire_async(left).diff_units(base.faces);
+            const right_delta = await $mol_wire_async(right).diff_units(base.faces);
+            await $mol_wire_async(left).diff_apply(right_delta);
+            await $mol_wire_async(right).diff_apply(left_delta);
             $mol_assert_equal(left.Data($giper_baza_text).str(), right.Data($giper_baza_text).str(), '( [ fu ] [ foo ] )');
         },
     });
