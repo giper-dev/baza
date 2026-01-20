@@ -11171,10 +11171,10 @@ declare namespace $ {
 		,
 		ReturnType< $mol_chart['graphs'] >
 	>
-	type $mol_list__rows_giper_baza_app_stat_page_36 = $mol_type_enforce<
+	type $mol_gallery__items_giper_baza_app_stat_page_36 = $mol_type_enforce<
 		readonly(any)[]
 		,
-		ReturnType< $mol_list['rows'] >
+		ReturnType< $mol_gallery['items'] >
 	>
 	export class $giper_baza_app_stat_page extends $mol_page {
 		domain( ): string
@@ -11215,7 +11215,7 @@ declare namespace $ {
 		Port_ruler_pct( ): $mol_plot_ruler_vert
 		Port_mark( ): $mol_plot_mark_cross
 		Ports( ): $mol_chart
-		Charts( ): $mol_list
+		Charts( ): $mol_gallery
 		title( ): string
 		head( ): readonly(any)[]
 		body_content( ): readonly(any)[]

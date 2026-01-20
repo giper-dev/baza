@@ -24192,8 +24192,8 @@ var $;
 			return obj;
 		}
 		Charts(){
-			const obj = new this.$.$mol_list();
-			(obj.rows) = () => ([
+			const obj = new this.$.$mol_gallery();
+			(obj.items) = () => ([
 				(this.Cpu()), 
 				(this.Mem()), 
 				(this.Fs_usage()), 
@@ -24392,9 +24392,10 @@ var $;
                 },
             },
             $mol_chart: {
+                height: `20rem`,
                 flex: {
                     shrink: 0,
-                    basis: `15rem`,
+                    basis: `20rem`,
                 },
             },
         });
