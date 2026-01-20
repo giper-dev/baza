@@ -339,9 +339,9 @@ namespace $ {
 		
 		/** Rights level of Pass for Land. */
 		@ $mol_mem_key
-		pass_rank( pass: $giper_baza_auth_pass, next?: typeof $giper_baza_rank.Value ): typeof $giper_baza_rank.Value {
+		pass_rank( pass: $giper_baza_auth_pass | null, next?: typeof $giper_baza_rank.Value ): typeof $giper_baza_rank.Value {
 			
-			const prev = this.lord_rank( pass.lord() )
+			const prev = this.lord_rank( pass?.lord() ?? null )
 			
 			if( next === undefined ) return prev
 			if( next === prev ) return prev
@@ -360,19 +360,19 @@ namespace $ {
 		}
 		
 		/** Rights level of Lord for Land. Works only when Pass for Lord exists in Land. */
-		lord_rank( lord: $giper_baza_link, next?: typeof $giper_baza_rank.Value ) {
+		lord_rank( lord: $giper_baza_link | null, next?: typeof $giper_baza_rank.Value ) {
 			
-			if( lord.str === this.link().lord().str ) return $giper_baza_rank_rule
+			if( lord?.str === this.link().lord().str ) return $giper_baza_rank_rule
 			
 			if( next === undefined ) {
-				return this._gift.get( lord.str )?.rank()
+				return this._gift.get( lord?.str ?? '' )?.rank()
 					?? this._gift.get( $giper_baza_link.hole.str )?.rank()
 					?? ( this.encrypted() ? $giper_baza_rank_deny : $giper_baza_rank_read )
 				
 			}
 			
-			const pass = this.lord_pass( lord )
-			if( !pass ) $mol_fail( new Error( `No Pass for ${ lord }` ) )
+			const pass = lord ? this.lord_pass( lord ) : null
+			// if( !pass ) $mol_fail( new Error( `No Pass for ${ lord }` ) )
 			
 			return this.pass_rank( pass, next )
 			

@@ -17,7 +17,8 @@ namespace $.$$ {
 		
 		@ $mol_mem_key
 		override gift_rank( lord: $giper_baza_link, next?: keyof typeof $giper_baza_rank_tier ) {
-			return $giper_baza_rank_tier[ this.land().lord_rank( lord, next && $giper_baza_rank_make( next, 'just' ) ) & 0b0_1111_0000 ]
+			const rank = this.land().lord_rank( lord, next && $giper_baza_rank_make( next, 'just' ) )
+			return $giper_baza_rank_tier[ rank & 0b0_1111_0000 ]
 		}
 		
 		add_commit() {

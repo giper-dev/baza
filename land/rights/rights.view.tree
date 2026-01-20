@@ -22,6 +22,6 @@ $giper_baza_land_rights $mol_list
 					dictionary *
 						deny @ \🛑 Deny
 						read @ \👀 Read
-						join @ \📢 Join
 						post @ \✍ Post
+						pull @ \🔱 Pull
 						rule @ \👑 Rule
