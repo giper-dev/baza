@@ -39,6 +39,10 @@ namespace $ {
 			for( const hash of seal.hash_list() ) {
 				const prev = this._seal_item.get( hash.str )
 				if( $giper_baza_unit_seal.compare( prev, seal ) <= 0 ) continue
+				if( prev ) {
+					prev.alive_items.delete( hash.str )
+					if( !prev.alive_items.size ) this.seal_del( prev )
+				}
 				this._seal_item.set( hash.str, seal )
 			}
 			
@@ -267,10 +271,8 @@ namespace $ {
 			
 			for( const gift of Lord._gift.values() ) {
 				
-				// const clone = $giper_baza_gift.from( gift )
-				// $giper_baza_unit_trusted.add( clone )
-				
-				// clone._land = area
+				const prev = $mol_wire_sync( this._gift ).get( gift.mate().str )
+				if( $giper_baza_unit_gift.compare( prev, gift ) <= 0 ) continue
 				
 				const seal = Lord.unit_seal( gift )
 				if( !seal ) continue
@@ -284,7 +286,11 @@ namespace $ {
 				
 			}
 			
-			this.diff_apply( [ ... units ], 'skip_load' )
+			let part = $giper_baza_pack_part.from([ ... units ])
+			const pack = $giper_baza_pack.make([[ this.link().str,  part ]])
+			
+			part = pack.parts()[0][1]
+			this.diff_apply( part.units, 'skip_load' )
 			
 		}
 		

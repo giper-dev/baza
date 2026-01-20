@@ -21,7 +21,8 @@ namespace $ {
 			super()
 		}
 		
-		static from( units: $giper_baza_unit_base[], faces = new $giper_baza_face_map ) {
+		@ $mol_action
+		static from( units: $giper_baza_unit[], faces = new $giper_baza_face_map ) {
 			return new this( units, faces )
 		}
 		
@@ -41,6 +42,7 @@ namespace $ {
 			return new Blob( [ this ], { type: 'application/vnd.giper_baza_pack.v1' } )
 		}
 		
+		@ $mol_action
 		parts( offsets?: WeakMap< ArrayBuffer, number >, pool?: $mol_memory_pool ) {
 			
 			const parts = new Map< string, $giper_baza_pack_part >
@@ -211,6 +213,7 @@ namespace $ {
 			return size
 		}
 		
+		@ $mol_action
 		static make( parts: $giper_baza_pack_parts ) {
 			
 			let length = this.length( parts )
