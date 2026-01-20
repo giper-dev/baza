@@ -1531,10 +1531,10 @@ declare namespace $ {
         Node<Node extends typeof $giper_baza_node>(Node: Node): $giper_baza_fund<InstanceType<Node>>;
         total(): number;
         king_pass(): $giper_baza_auth_pass;
-        pass_rank(pass: $giper_baza_auth_pass, next?: typeof $giper_baza_rank.Value): typeof $giper_baza_rank.Value;
+        pass_rank(pass: $giper_baza_auth_pass | null, next?: typeof $giper_baza_rank.Value): typeof $giper_baza_rank.Value;
         lord_tier(lord: $giper_baza_link): $giper_baza_rank_tier;
         lord_rate(lord: $giper_baza_link): $giper_baza_rank_rate;
-        lord_rank(lord: $giper_baza_link, next?: typeof $giper_baza_rank.Value): number & {
+        lord_rank(lord: $giper_baza_link | null, next?: typeof $giper_baza_rank.Value): number & {
             $giper_baza_rank: number;
         };
         diff_units(skip_faces?: $giper_baza_face_map): $giper_baza_unit[];
@@ -9049,8 +9049,8 @@ declare namespace $ {
 		({ 
 			'deny': string,
 			'read': string,
-			'join': string,
 			'post': string,
+			'pull': string,
 			'rule': string,
 		}) 
 		,

@@ -8507,7 +8507,7 @@ var $;
             return this.lord_pass(this.link().lord());
         }
         pass_rank(pass, next) {
-            const prev = this.lord_rank(pass.lord());
+            const prev = this.lord_rank(pass?.lord() ?? null);
             if (next === undefined)
                 return prev;
             if (next === prev)
@@ -8522,16 +8522,14 @@ var $;
             return $giper_baza_rank_rate_of(this.lord_rank(lord));
         }
         lord_rank(lord, next) {
-            if (lord.str === this.link().lord().str)
+            if (lord?.str === this.link().lord().str)
                 return $giper_baza_rank_rule;
             if (next === undefined) {
-                return this._gift.get(lord.str)?.rank()
+                return this._gift.get(lord?.str ?? '')?.rank()
                     ?? this._gift.get($giper_baza_link.hole.str)?.rank()
                     ?? (this.encrypted() ? $giper_baza_rank_deny : $giper_baza_rank_read);
             }
-            const pass = this.lord_pass(lord);
-            if (!pass)
-                $mol_fail(new Error(`No Pass for ${lord}`));
+            const pass = lord ? this.lord_pass(lord) : null;
             return this.pass_rank(pass, next);
         }
         diff_units(skip_faces = new $giper_baza_face_map) {

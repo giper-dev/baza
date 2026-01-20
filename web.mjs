@@ -7019,7 +7019,7 @@ var $;
             return this.lord_pass(this.link().lord());
         }
         pass_rank(pass, next) {
-            const prev = this.lord_rank(pass.lord());
+            const prev = this.lord_rank(pass?.lord() ?? null);
             if (next === undefined)
                 return prev;
             if (next === prev)
@@ -7034,16 +7034,14 @@ var $;
             return $giper_baza_rank_rate_of(this.lord_rank(lord));
         }
         lord_rank(lord, next) {
-            if (lord.str === this.link().lord().str)
+            if (lord?.str === this.link().lord().str)
                 return $giper_baza_rank_rule;
             if (next === undefined) {
-                return this._gift.get(lord.str)?.rank()
+                return this._gift.get(lord?.str ?? '')?.rank()
                     ?? this._gift.get($giper_baza_link.hole.str)?.rank()
                     ?? (this.encrypted() ? $giper_baza_rank_deny : $giper_baza_rank_read);
             }
-            const pass = this.lord_pass(lord);
-            if (!pass)
-                $mol_fail(new Error(`No Pass for ${lord}`));
+            const pass = lord ? this.lord_pass(lord) : null;
             return this.pass_rank(pass, next);
         }
         diff_units(skip_faces = new $giper_baza_face_map) {
@@ -20548,8 +20546,8 @@ var $;
 			(obj.dictionary) = () => ({
 				"deny": (this.$.$mol_locale.text("$giper_baza_land_rights_Gift_rank_dictionary_deny")), 
 				"read": (this.$.$mol_locale.text("$giper_baza_land_rights_Gift_rank_dictionary_read")), 
-				"join": (this.$.$mol_locale.text("$giper_baza_land_rights_Gift_rank_dictionary_join")), 
 				"post": (this.$.$mol_locale.text("$giper_baza_land_rights_Gift_rank_dictionary_post")), 
+				"pull": (this.$.$mol_locale.text("$giper_baza_land_rights_Gift_rank_dictionary_pull")), 
 				"rule": (this.$.$mol_locale.text("$giper_baza_land_rights_Gift_rank_dictionary_rule"))
 			});
 			return obj;
@@ -20606,7 +20604,8 @@ var $;
                 return this.$.$giper_baza_glob.Node(lord, $giper_baza_entity).title() || lord.str;
             }
             gift_rank(lord, next) {
-                return $giper_baza_rank_tier[this.land().lord_rank(lord, next && $giper_baza_rank_make(next, 'just')) & 0b0_1111_0000];
+                const rank = this.land().lord_rank(lord, next && $giper_baza_rank_make(next, 'just'));
+                return $giper_baza_rank_tier[rank & 0b0_1111_0000];
             }
             add_commit() {
                 const auth = $giper_baza_auth_pass.from(this.add_key());
