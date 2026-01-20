@@ -6,7 +6,7 @@ namespace $ {
 		tick( key: number, val: number, count: number ) {
 			let vals = this.values().slice()
 			while( vals.length < count ) vals.push( 0 )
-			vals[ key ] = val
+			vals[ key ] = val + this.initial()
 			vals = [ ... vals.slice( key + 1 ), ... vals.slice( 0, key + 1 ) ]
 			for( let i = 1; i < count; ++i ) if( vals[ i ] < vals [ i-1 ] ) vals[i] = vals[ i-1 ]
 			vals = [ ... vals.slice( -1 - key ), ... vals.slice( 0, -1 - key ) ]
@@ -23,7 +23,7 @@ namespace $ {
 		@ $mol_mem
 		max() {
 			let max = 0
-			for( const val  of this.values() ) if( val > max ) max = val
+			for( const val of this.values() ) if( val > max ) max = val
 			return max
 		}
 		

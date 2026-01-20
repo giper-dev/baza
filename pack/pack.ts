@@ -56,8 +56,8 @@ namespace $ {
 				switch( $giper_baza_slot_kind[ kind ] as keyof typeof $giper_baza_slot_kind ) {
 					
 					case 'free': {
-						offset += 8
 						pool?.release( offset, 8 )
+						offset += 8
 						continue
 					}
 					
