@@ -10532,8 +10532,8 @@ var $;
                 const kind = this.uint8(offset);
                 switch ($giper_baza_slot_kind[kind]) {
                     case 'free': {
-                        offset += 8;
                         pool?.release(offset, 8);
+                        offset += 8;
                         continue;
                     }
                     case 'land': {
@@ -11092,7 +11092,7 @@ var $;
             let vals = this.values().slice();
             while (vals.length < count)
                 vals.push(0);
-            vals[key] = val;
+            vals[key] = val + this.initial();
             vals = [...vals.slice(key + 1), ...vals.slice(0, key + 1)];
             for (let i = 1; i < count; ++i)
                 if (vals[i] < vals[i - 1])
