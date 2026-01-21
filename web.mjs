@@ -21626,6 +21626,7 @@ var $;
         Fs_writes: $giper_baza_stat_ranges,
         Port_slaves: $giper_baza_stat_ranges,
         Port_masters: $giper_baza_stat_ranges,
+        Land_active: $giper_baza_stat_ranges,
     }) {
         freshness() {
             const last = this.last_change();
@@ -21653,10 +21654,13 @@ var $;
             this.Mem_free(null).tick_instant(Math.floor($node.os.freemem() / mem_total * 100));
             const fs = $node.fs.statfsSync('.');
             this.Fs_free(null).tick_instant(Math.floor(Number(fs.bfree) / Number(fs.blocks) * 100));
-            const masters = $mol_wire_sync(this.$.$giper_baza_glob.yard()).masters().length;
+            const yard = $mol_wire_sync(this.$.$giper_baza_glob.yard());
+            const masters = yard.masters().length;
             this.Port_masters(null).tick_instant(masters);
-            const slaves = $mol_wire_sync(this.$.$giper_baza_glob.yard()).ports().length - masters;
-            this.Port_slaves(null).tick_instant(slaves);
+            const ports = yard.ports();
+            this.Port_slaves(null).tick_instant(ports.length - masters);
+            const lands = ports.reduce((sum, port) => sum + yard.port_lands_active(port).size, 0);
+            this.Land_active(null).tick_instant(lands);
         }
     }
     __decorate([
@@ -24229,6 +24233,34 @@ var $;
 			]);
 			return obj;
 		}
+		land_active(){
+			return [];
+		}
+		Land_active(){
+			const obj = new this.$.$mol_plot_line();
+			(obj.title) = () => ("Active Lands");
+			(obj.series_y) = () => ((this.land_active()));
+			return obj;
+		}
+		Land_count_ruler(){
+			const obj = new this.$.$mol_plot_ruler_vert();
+			return obj;
+		}
+		Land_count_mark(){
+			const obj = new this.$.$mol_plot_mark_cross();
+			(obj.labels) = () => ((this.times()));
+			(obj.graphs) = () => ([(this.Land_active())]);
+			return obj;
+		}
+		Land_count(){
+			const obj = new this.$.$mol_chart();
+			(obj.graphs) = () => ([
+				(this.Land_active()), 
+				(this.Land_count_ruler()), 
+				(this.Land_count_mark())
+			]);
+			return obj;
+		}
 		Charts(){
 			const obj = new this.$.$mol_gallery();
 			(obj.items) = () => ([
@@ -24236,7 +24268,8 @@ var $;
 				(this.Mem()), 
 				(this.Fs_usage()), 
 				(this.Fs_acting()), 
-				(this.Ports())
+				(this.Ports()), 
+				(this.Land_count())
 			]);
 			return obj;
 		}
@@ -24280,6 +24313,10 @@ var $;
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Port_ruler_pct"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Port_mark"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Ports"));
+	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Land_active"));
+	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Land_count_ruler"));
+	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Land_count_mark"));
+	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Land_count"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Charts"));
 
 
@@ -24340,6 +24377,9 @@ var $;
             fs_free() {
                 return this.stat()?.Fs_free()?.series() ?? [];
             }
+            land_active() {
+                return this.stat()?.Land_active()?.series() ?? [];
+            }
             fs_reads() {
                 return this.stat()?.Fs_reads()?.series() ?? [];
             }
@@ -24394,6 +24434,9 @@ var $;
         __decorate([
             $mol_mem
         ], $giper_baza_app_stat_page.prototype, "fs_free", null);
+        __decorate([
+            $mol_mem
+        ], $giper_baza_app_stat_page.prototype, "land_active", null);
         __decorate([
             $mol_mem
         ], $giper_baza_app_stat_page.prototype, "fs_reads", null);

@@ -11434,6 +11434,7 @@ var $;
         Fs_writes: $giper_baza_stat_ranges,
         Port_slaves: $giper_baza_stat_ranges,
         Port_masters: $giper_baza_stat_ranges,
+        Land_active: $giper_baza_stat_ranges,
     }) {
         freshness() {
             const last = this.last_change();
@@ -11461,10 +11462,13 @@ var $;
             this.Mem_free(null).tick_instant(Math.floor($node.os.freemem() / mem_total * 100));
             const fs = $node.fs.statfsSync('.');
             this.Fs_free(null).tick_instant(Math.floor(Number(fs.bfree) / Number(fs.blocks) * 100));
-            const masters = $mol_wire_sync(this.$.$giper_baza_glob.yard()).masters().length;
+            const yard = $mol_wire_sync(this.$.$giper_baza_glob.yard());
+            const masters = yard.masters().length;
             this.Port_masters(null).tick_instant(masters);
-            const slaves = $mol_wire_sync(this.$.$giper_baza_glob.yard()).ports().length - masters;
-            this.Port_slaves(null).tick_instant(slaves);
+            const ports = yard.ports();
+            this.Port_slaves(null).tick_instant(ports.length - masters);
+            const lands = ports.reduce((sum, port) => sum + yard.port_lands_active(port).size, 0);
+            this.Land_active(null).tick_instant(lands);
         }
     }
     __decorate([

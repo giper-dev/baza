@@ -9617,6 +9617,7 @@ declare namespace $ {
         readonly Fs_writes: (auto?: any) => $giper_baza_stat_ranges | null;
         readonly Port_slaves: (auto?: any) => $giper_baza_stat_ranges | null;
         readonly Port_masters: (auto?: any) => $giper_baza_stat_ranges | null;
+        readonly Land_active: (auto?: any) => $giper_baza_stat_ranges | null;
     }>) & {
         schema: {
             [x: string]: typeof $giper_baza_node;
@@ -9631,6 +9632,7 @@ declare namespace $ {
             readonly Fs_writes: typeof $giper_baza_stat_ranges;
             readonly Port_slaves: typeof $giper_baza_stat_ranges;
             readonly Port_masters: typeof $giper_baza_stat_ranges;
+            readonly Land_active: typeof $giper_baza_stat_ranges;
         };
     };
     export class $giper_baza_app_stat extends $giper_baza_app_stat_base {
@@ -11091,7 +11093,32 @@ declare namespace $ {
 		,
 		ReturnType< $mol_chart['graphs'] >
 	>
-	type $mol_gallery__items_giper_baza_app_stat_page_36 = $mol_type_enforce<
+	type $mol_plot_line__title_giper_baza_app_stat_page_36 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_plot_line['title'] >
+	>
+	type $mol_plot_line__series_y_giper_baza_app_stat_page_37 = $mol_type_enforce<
+		ReturnType< $giper_baza_app_stat_page['land_active'] >
+		,
+		ReturnType< $mol_plot_line['series_y'] >
+	>
+	type $mol_plot_mark_cross__labels_giper_baza_app_stat_page_38 = $mol_type_enforce<
+		ReturnType< $giper_baza_app_stat_page['times'] >
+		,
+		ReturnType< $mol_plot_mark_cross['labels'] >
+	>
+	type $mol_plot_mark_cross__graphs_giper_baza_app_stat_page_39 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_plot_mark_cross['graphs'] >
+	>
+	type $mol_chart__graphs_giper_baza_app_stat_page_40 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_chart['graphs'] >
+	>
+	type $mol_gallery__items_giper_baza_app_stat_page_41 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_gallery['items'] >
@@ -11135,6 +11162,11 @@ declare namespace $ {
 		Port_ruler_pct( ): $mol_plot_ruler_vert
 		Port_mark( ): $mol_plot_mark_cross
 		Ports( ): $mol_chart
+		land_active( ): readonly(any)[]
+		Land_active( ): $mol_plot_line
+		Land_count_ruler( ): $mol_plot_ruler_vert
+		Land_count_mark( ): $mol_plot_mark_cross
+		Land_count( ): $mol_chart
 		Charts( ): $mol_gallery
 		title( ): string
 		head( ): readonly(any)[]
@@ -11155,6 +11187,7 @@ declare namespace $.$$ {
         mem_used(): number[];
         mem_free(): number[];
         fs_free(): number[];
+        land_active(): number[];
         fs_reads(): number[];
         fs_writes(): number[];
         port_slaves(): number[];

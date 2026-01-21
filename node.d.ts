@@ -3846,6 +3846,7 @@ declare namespace $ {
         readonly Fs_writes: (auto?: any) => $giper_baza_stat_ranges | null;
         readonly Port_slaves: (auto?: any) => $giper_baza_stat_ranges | null;
         readonly Port_masters: (auto?: any) => $giper_baza_stat_ranges | null;
+        readonly Land_active: (auto?: any) => $giper_baza_stat_ranges | null;
     }>) & {
         schema: {
             [x: string]: typeof $giper_baza_node;
@@ -3860,6 +3861,7 @@ declare namespace $ {
             readonly Fs_writes: typeof $giper_baza_stat_ranges;
             readonly Port_slaves: typeof $giper_baza_stat_ranges;
             readonly Port_masters: typeof $giper_baza_stat_ranges;
+            readonly Land_active: typeof $giper_baza_stat_ranges;
         };
     };
     export class $giper_baza_app_stat extends $giper_baza_app_stat_base {
