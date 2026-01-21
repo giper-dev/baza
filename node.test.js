@@ -11089,7 +11089,7 @@ var $;
                 if (vals[i] < vals[i - 1])
                     vals[i] = vals[i - 1];
             vals = [...vals.slice(-1 - key), ...vals.slice(0, -1 - key)];
-            this.val(vals);
+            this.values(vals);
         }
         _initial;
         initial() {
@@ -11103,8 +11103,13 @@ var $;
                     max = val;
             return max;
         }
-        values() {
-            return (this.val() ?? []);
+        values(next) {
+            if (next) {
+                let last = 0;
+                next = next.map(v => ([v, last] = [v - last, v])[0]);
+            }
+            let last = 0;
+            return (this.val(next) ?? []).map(v => last += v);
         }
     }
     __decorate([
@@ -11116,6 +11121,9 @@ var $;
     __decorate([
         $mol_mem
     ], $giper_baza_stat_series.prototype, "max", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_stat_series.prototype, "values", null);
     $.$giper_baza_stat_series = $giper_baza_stat_series;
 })($ || ($ = {}));
 

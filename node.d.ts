@@ -3764,7 +3764,7 @@ declare namespace $ {
         _initial: number;
         initial(): number;
         max(): number;
-        values(): number[];
+        values(next?: number[]): number[];
     }
 }
 

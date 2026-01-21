@@ -5595,6 +5595,15 @@ declare namespace $ {
 
 //# sourceMappingURL=source.view.tree.d.ts.map
 declare namespace $ {
+    class $mol_dom_event<EventType extends Event> extends $mol_object {
+        readonly native: EventType;
+        constructor(native: EventType);
+        prevented(next?: boolean): boolean;
+        static wrap<EventType extends Event>(event: EventType): $mol_dom_event<EventType>;
+    }
+}
+
+declare namespace $ {
 }
 
 declare namespace $ {
@@ -9565,7 +9574,7 @@ declare namespace $ {
         _initial: number;
         initial(): number;
         max(): number;
-        values(): number[];
+        values(next?: number[]): number[];
     }
 }
 
