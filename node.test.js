@@ -3847,6 +3847,8 @@ var $;
                 if (this.$.$mol_fail_catch(error)) {
                     if (error.code === 'ENOENT')
                         return null;
+                    if (error.code === 'EPERM')
+                        return null;
                     error.message += '\n' + path;
                     this.$.$mol_fail_hidden(error);
                 }
@@ -4635,6 +4637,9 @@ var $;
 var $;
 (function ($) {
     class $mol_rest_server extends $mol_object {
+        log() {
+            return this.$.$mol_state_arg.value('mol_rest_server_log') !== null;
+        }
         port() {
             return 0;
         }
@@ -4661,12 +4666,13 @@ var $;
         http_income(req, res) {
             const port = $mol_rest_port_http.make({ output: res });
             const msg = $mol_rest_message_http.make({ port, input: req });
-            $mol_wire_sync(this.$).$mol_log3_rise({
-                place: this,
-                message: msg.method(),
-                url: msg.uri(),
-                remote: req.socket.remoteAddress + ':' + req.socket.remotePort
-            });
+            if (this.log())
+                $mol_wire_sync(this.$).$mol_log3_rise({
+                    place: this,
+                    message: msg.method(),
+                    url: msg.uri(),
+                    remote: req.socket.remoteAddress + ':' + req.socket.remotePort
+                });
             $mol_wire_sync(res).setHeader('Access-Control-Allow-Origin', '*');
             $mol_wire_sync(res).setHeader('Access-Control-Allow-Methods', '*');
             $mol_wire_sync(res).setHeader('Access-Control-Allow-Headers', '*');
@@ -4703,12 +4709,13 @@ var $;
                 return;
             }
             const onclose = $mol_wire_async(() => {
-                $mol_wire_sync(this.$).$mol_log3_done({
-                    place: this,
-                    message: 'CLOSE',
-                    url: upgrade.uri(),
-                    port: $mol_key(port),
-                });
+                if (this.log())
+                    $mol_wire_sync(this.$).$mol_log3_done({
+                        place: this,
+                        message: 'CLOSE',
+                        url: upgrade.uri(),
+                        port: $mol_key(port),
+                    });
                 try {
                     $mol_wire_sync(this.root()).REQUEST(upgrade.derive('CLOSE', null));
                 }
@@ -4734,12 +4741,13 @@ var $;
                 'Connection: Upgrade\r\n' +
                 `Sec-WebSocket-Accept: ${key_out}\r\n` +
                 '\r\n');
-            $mol_wire_sync(this.$).$mol_log3_come({
-                place: this,
-                message: 'OPEN',
-                url: upgrade.uri(),
-                port: $mol_key(port),
-            });
+            if (this.log())
+                $mol_wire_sync(this.$).$mol_log3_come({
+                    place: this,
+                    message: 'OPEN',
+                    url: upgrade.uri(),
+                    port: $mol_key(port),
+                });
         }
         _ws_income_chunks = new WeakMap;
         _ws_income_frames = new WeakMap;
@@ -4808,13 +4816,14 @@ var $;
                 }
                 const message = upgrade.derive('POST', data);
                 if (data.length !== 0) {
-                    this.$.$mol_log3_rise({
-                        place: this,
-                        message: message.method(),
-                        port: $mol_key(message.port),
-                        url: message.uri(),
-                        frame: frame.toString(),
-                    });
+                    if (this.log())
+                        this.$.$mol_log3_rise({
+                            place: this,
+                            message: message.method(),
+                            port: $mol_key(message.port),
+                            url: message.uri(),
+                            frame: frame.toString(),
+                        });
                     await $mol_wire_async(this.root()).REQUEST(message);
                 }
                 setTimeout(() => sock.resume());
@@ -10480,7 +10489,190 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$giper_baza_mine = $giper_baza_mine;
+    class $giper_baza_mine_fs_yym_act extends $mol_object2 {
+        yym;
+        constructor(yym) {
+            super();
+            this.yym = yym;
+        }
+        transaction;
+        offsets_del = new WeakMap;
+        offsets_ins = new WeakMap;
+        save(...data) {
+            let offset = this.offsets_ins.get(data[0].buffer);
+            if (offset === undefined) {
+                offset = this.yym.offsets.get(data[0].buffer);
+                if (offset)
+                    return offset;
+                const size = data.reduce((sum, buf) => sum + buf.byteLength, 0);
+                offset = this.yym.pool.acquire(size);
+                this.offsets_ins.set(data[0].buffer, offset);
+                this.yym.offsets.set(data[0].buffer, offset);
+            }
+            this.transaction.write({
+                buffer: data,
+                position: offset,
+            });
+            return offset;
+        }
+        free(...data) {
+            const size = data.reduce((sum, buf) => sum + buf.byteLength, 0);
+            let offset = this.offsets_del.get(data[0].buffer);
+            if (offset === undefined) {
+                offset = this.yym.offsets.get(data[0].buffer);
+                if (!offset)
+                    return;
+                this.offsets_del.set(data[0].buffer, offset);
+                this.yym.pool.release(offset, size);
+                this.yym.offsets.delete(data[0].buffer);
+            }
+            this.transaction.write({
+                buffer: new Uint8Array(size),
+                position: offset,
+            });
+        }
+    }
+    __decorate([
+        $mol_action
+    ], $giper_baza_mine_fs_yym_act.prototype, "save", null);
+    __decorate([
+        $mol_action
+    ], $giper_baza_mine_fs_yym_act.prototype, "free", null);
+    $.$giper_baza_mine_fs_yym_act = $giper_baza_mine_fs_yym_act;
+    class $giper_baza_mine_fs_yym extends $mol_object2 {
+        sides;
+        pool = new $mol_memory_pool;
+        offsets = new Map;
+        constructor(sides) {
+            super();
+            this.sides = sides;
+        }
+        destructor() {
+            if (!this.sides[1].exists())
+                return;
+            this.sides[1].open('write_only', 'write_only').flush();
+            this.sides[0].exists(false);
+        }
+        load_init() {
+            const version = (file) => file.modified()?.valueOf() ?? Number.POSITIVE_INFINITY;
+            if (version(this.sides[0]) > version(this.sides[1]))
+                this.sides.reverse();
+        }
+        load() {
+            this.load_init();
+            const tx = this.sides[0].open('create', 'read_only');
+            const data = tx.read();
+            tx.destructor();
+            this.pool.acquire(data.byteLength);
+            return data;
+        }
+        atomic(task) {
+            this.save_init();
+            const act = new $giper_baza_mine_fs_yym_act(this);
+            const tx1 = act.transaction = this.sides[1].open('create', 'write_only');
+            task(act);
+            tx1.flush();
+            tx1.destructor();
+            this.sides.reverse();
+            const tx2 = act.transaction = this.sides[1].open('create', 'write_only');
+            task(act);
+            tx2.destructor();
+        }
+        save_init() {
+            this.load_init();
+            this.sides[0].clone(this.sides[1].path());
+        }
+        empty() {
+            this.load_init();
+            return !this.sides[0].size();
+        }
+    }
+    __decorate([
+        $mol_memo.method
+    ], $giper_baza_mine_fs_yym.prototype, "load_init", null);
+    __decorate([
+        $mol_memo.method
+    ], $giper_baza_mine_fs_yym.prototype, "save_init", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_mine_fs_yym.prototype, "empty", null);
+    $.$giper_baza_mine_fs_yym = $giper_baza_mine_fs_yym;
+    class $giper_baza_mine_fs extends $giper_baza_mine {
+        store() {
+            const land = this.land().str;
+            const root = this.$.$mol_file.relative('.baza');
+            const dir = root.resolve(land.slice(0, 2));
+            dir.exists(true);
+            return new $giper_baza_mine_fs_yym([
+                dir.resolve(land + '.yin.baza'),
+                dir.resolve(land + '.yan.baza'),
+            ]);
+        }
+        store_init() {
+            if (!this.store().empty())
+                return;
+            const head = $giper_baza_pack.make([[this.land().str, new $giper_baza_pack_part]]);
+            this.store().atomic(side => side.save(head));
+        }
+        units_save(diff) {
+            this.store_init();
+            this.store().atomic(side => {
+                for (const unit of diff.del)
+                    side.free(unit);
+                for (const unit of diff.ins) {
+                    if (unit instanceof $giper_baza_unit_sand && unit.big())
+                        side.save(unit, unit.ball());
+                    else
+                        side.save(unit);
+                }
+            });
+            for (const unit of diff.ins) {
+                this.units_persisted.add(unit);
+            }
+        }
+        units_load() {
+            const buf = this.store().load();
+            if (!buf.length)
+                return [];
+            const pack = $giper_baza_pack.from(buf);
+            const parts = new Map(pack.parts(this.store().offsets, this.store().pool));
+            if (parts.size > 1)
+                return $mol_fail(new Error('Wrong lands count', { cause: { count: parts.size } }));
+            for (const [land, part] of parts) {
+                if (land !== this.land().str)
+                    return $mol_fail(new Error('Unexpected land', { cause: { expected: this.land().str, existen: land } }));
+                for (const unit of part.units) {
+                    this.units_persisted.add(unit);
+                    $giper_baza_unit_trusted_grant(unit);
+                }
+                return part.units;
+            }
+            return [];
+        }
+        destructor() {
+            this.store().destructor();
+        }
+    }
+    __decorate([
+        $mol_memo.method
+    ], $giper_baza_mine_fs.prototype, "store", null);
+    __decorate([
+        $mol_memo.method
+    ], $giper_baza_mine_fs.prototype, "store_init", null);
+    __decorate([
+        $mol_action
+    ], $giper_baza_mine_fs.prototype, "units_save", null);
+    __decorate([
+        $mol_action
+    ], $giper_baza_mine_fs.prototype, "units_load", null);
+    $.$giper_baza_mine_fs = $giper_baza_mine_fs;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $.$giper_baza_mine = $giper_baza_mine_fs;
 })($ || ($ = {}));
 
 ;
