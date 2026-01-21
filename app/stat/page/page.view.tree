@@ -72,3 +72,13 @@ $giper_baza_app_stat_page $mol_page
 						graphs /
 							<= Port_slaves
 							<= Port_masters
+			<= Land_count $mol_chart
+				graphs /
+					<= Land_active $mol_plot_line
+						title \Active Land
+						series_y <= land_active /
+					<= Land_count_ruler $mol_plot_ruler_vert
+					<= Land_count_mark $mol_plot_mark_cross
+						labels <= times /
+						graphs /
+							<= Land_active

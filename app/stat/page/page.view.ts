@@ -50,6 +50,11 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
+		land_active() {
+			return this.stat()?.Land_active()?.series() ?? []
+		}
+		
+		@ $mol_mem
 		fs_reads() {
 			return this.stat()?.Fs_reads()?.series() ?? []
 		}
