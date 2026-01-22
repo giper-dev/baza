@@ -8975,29 +8975,39 @@ var $;
                 }
             }
         }
-        unit_signing() {
-            this.sand_encoding();
-            const sync = $mol_wire_sync(this);
+        units_unsigned() {
             const signing = [];
             for (const gift of this._gift.values()) {
-                if (sync.unit_seal(gift))
+                if (this.unit_seal(gift))
                     continue;
                 signing.push(gift);
             }
             for (const kids of this._sand.values()) {
                 for (const units of kids.values()) {
                     for (const sand of units.values()) {
-                        if (sync.unit_seal(sand))
+                        if (this.unit_seal(sand))
                             continue;
                         signing.push(sand);
                     }
                 }
             }
-            if (!signing.length)
-                return;
-            const seals = sync.units_sign(signing);
-            for (const seal of seals)
-                this.seal_add(seal);
+            return signing;
+        }
+        unit_signing() {
+            this.sand_encoding();
+            this.units_unsigned();
+            const sync = $mol_wire_sync(this);
+            const signed = new Set();
+            while (true) {
+                const units = sync.units_unsigned().filter(unit => !signed.has(unit));
+                if (!units.length)
+                    break;
+                const seals = sync.units_sign(units);
+                for (const seal of seals)
+                    this.seal_add(seal);
+                for (const unit of units)
+                    signed.add(unit);
+            }
         }
         saving() {
             this.unit_signing();
@@ -9072,6 +9082,7 @@ var $;
                     continue;
                 if (seal.lord().str !== me)
                     continue;
+                seal._land ??= this;
                 let us = lands.get(this);
                 if (!us)
                     lands.set(seal._land, us = []);
@@ -9302,6 +9313,9 @@ var $;
     __decorate([
         $mol_mem
     ], $giper_baza_land.prototype, "sand_encoding", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_land.prototype, "units_unsigned", null);
     __decorate([
         $mol_mem
     ], $giper_baza_land.prototype, "unit_signing", null);
