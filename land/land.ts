@@ -1029,31 +1029,47 @@ namespace $ {
 		}
 		
 		@ $mol_mem
-		unit_signing() {
+		units_unsigned() {
 			
-			this.sand_encoding()
-			
-			const sync = $mol_wire_sync( this )
 			const signing = [] as $giper_baza_unit_base[]
 			
 			for( const gift of this._gift.values() ) {
-				if( sync.unit_seal( gift ) ) continue
+				if( this.unit_seal( gift ) ) continue
 				signing.push( gift )
 			}
 			
 			for( const kids of this._sand.values() ) {
 				for( const units of kids.values() ) {
 					for( const sand of units.values() ) {
-						if( sync.unit_seal( sand ) ) continue
+						if( this.unit_seal( sand ) ) continue
 						signing.push( sand )
 					}
 				}
 			}
 			
-			if( !signing.length ) return
+			return signing
+		}
+		
+		@ $mol_mem
+		unit_signing() {
 			
-			const seals = sync.units_sign( signing )
-			for( const seal of seals ) this.seal_add( seal )
+			this.sand_encoding()
+			this.units_unsigned() // deps
+			
+			const sync = $mol_wire_sync( this )
+			const signed = new Set< $giper_baza_unit_base >()
+			
+			// proecss while new units apper
+			while( true ) {
+				
+				const units = sync.units_unsigned().filter( unit => !signed.has( unit ) )
+				if( !units.length ) break
+				
+				const seals = sync.units_sign( units )
+				for( const seal of seals ) this.seal_add( seal )
+				for( const unit of units ) signed.add( unit )
+			
+			}
 			
 		}
 		
@@ -1149,9 +1165,10 @@ namespace $ {
 				if( seal.alive_full() ) continue
 				if( seal.lord().str !== me ) continue
 				
+				seal._land ??= this
 				let us = lands.get( this )
-				if( !us ) lands.set( seal._land!, us = [] )
-					
+				if( !us ) lands.set( seal._land, us = [] )
+				
 				const hashes = seal.alive_list()
 				us.push( ... hashes )
 				
