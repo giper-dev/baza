@@ -1918,7 +1918,7 @@ declare namespace $ {
         loading(): void;
         sand_encoding(): void;
         units_unsigned(): $giper_baza_unit_base[];
-        unit_signing(): void;
+        units_signing(): void;
         saving(): void;
         units_sign(units: readonly $giper_baza_unit_base[]): Promise<$giper_baza_unit_seal[]>;
         sand_encode(sand: $giper_baza_unit_sand): Promise<$giper_baza_unit_sand>;

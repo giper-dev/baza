@@ -8276,6 +8276,19 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function batch(host, items, task) {
+        items.call(host);
+        const skip = new Set();
+        while (true) {
+            const snap = $mol_wire_sync(items).call(host);
+            const news = snap.filter(item => !skip.has(item));
+            if (!news.length)
+                break;
+            $mol_wire_sync(task).call(host, news);
+            for (const item of news)
+                skip.add(item);
+        }
+    }
     $.$giper_baza_land_root = {
         data: new $giper_baza_link(''),
         tine: new $giper_baza_link('AQAAAAAA'),
@@ -8544,7 +8557,7 @@ var $;
             return this.pass_rank(pass, next);
         }
         diff_units(skip_faces = new $giper_baza_face_map) {
-            this.unit_signing();
+            this.units_signing();
             const skipped = new Map();
             const delta = new Set();
             const passes = new Set();
@@ -8993,24 +9006,12 @@ var $;
             }
             return signing;
         }
-        unit_signing() {
+        units_signing() {
             this.sand_encoding();
-            this.units_unsigned();
-            const sync = $mol_wire_sync(this);
-            const signed = new Set();
-            while (true) {
-                const units = sync.units_unsigned().filter(unit => !signed.has(unit));
-                if (!units.length)
-                    break;
-                const seals = sync.units_sign(units);
-                for (const seal of seals)
-                    this.seal_add(seal);
-                for (const unit of units)
-                    signed.add(unit);
-            }
+            batch(this, this.units_unsigned, this.units_sign);
         }
         saving() {
-            this.unit_signing();
+            this.units_signing();
             const mine = this.mine();
             const persisting = [];
             const check_lord = (lord) => {
@@ -9066,6 +9067,7 @@ var $;
                 });
         }
         async units_sign(units) {
+            await Promise.resolve();
             const lands = new Map();
             for (const unit of units) {
                 if (!unit._land)
@@ -9109,7 +9111,10 @@ var $;
                     return seal;
                 });
             });
-            return Promise.all(threads);
+            const seals = await Promise.all(threads);
+            for (const seal of seals)
+                this.seal_add(seal);
+            return seals;
         }
         async sand_encode(sand) {
             if (sand._open === null)
@@ -9318,7 +9323,7 @@ var $;
     ], $giper_baza_land.prototype, "units_unsigned", null);
     __decorate([
         $mol_mem
-    ], $giper_baza_land.prototype, "unit_signing", null);
+    ], $giper_baza_land.prototype, "units_signing", null);
     __decorate([
         $mol_mem
     ], $giper_baza_land.prototype, "saving", null);
