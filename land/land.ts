@@ -441,7 +441,14 @@ namespace $ {
 				if( skipped_units ) for( const unit of skipped_units ) delta.add( unit )
 				
 			}
-			
+
+			// Ensure seals are included for all gifts/sands in delta
+			for( const unit of [ ... delta ] ) {
+				if( unit instanceof $giper_baza_unit_seal ) continue
+				const seal = this.unit_seal( unit )
+				if( seal ) delta.add( seal )
+			}
+
 			for( const unit of delta ) {
 				if( skip_faces.has( unit.lord().peer().str ) ) continue
 				const pass = this.lord_pass( unit.lord() )
