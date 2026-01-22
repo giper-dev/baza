@@ -170,7 +170,7 @@ namespace $ {
 					
 					default:
 						$$.$mol_log3_warn({
-							place: this,
+							place: '$giper_baza_pack..parts',
 							message: '💢 Unknown Kind',
 							kind,
 							offset,
