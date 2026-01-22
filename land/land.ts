@@ -569,7 +569,7 @@ namespace $ {
 						
 						if( !this.$.$giper_baza_unit_trusted_check( sand ) ) {
 							const seal = this.unit_seal( sand )
-							if( !seal ) return this.$.$mol_fail( new Error( `No Seal for Sand` ) )
+							if( !seal ) return this.$.$mol_fail( new Error( `No Seal for Sand`, { cause: sand } ) )
 						}
 						
 						this.sand_add( sand )
