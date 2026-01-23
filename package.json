@@ -148,6 +148,8 @@
     "$mol_state_local",
     "$mol_storage",
     "$mol_mem_persist",
+    "$mol_wait_user",
+    "$mol_wait",
     "$mol_crypto_sacred_shared",
     "$mol_crypto_sacred",
     "$mol_crypto_salt",
