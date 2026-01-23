@@ -1572,6 +1572,7 @@ declare namespace $ {
         saving(): void;
         units_sign(units: readonly $giper_baza_unit_base[]): Promise<$giper_baza_unit_seal[]>;
         sand_encode(sand: $giper_baza_unit_sand): Promise<$giper_baza_unit_sand>;
+        sand_load(sand: $giper_baza_unit_sand): void;
         sand_decode(sand: $giper_baza_unit_sand): $giper_baza_vary_type;
         sand_decode_raw(sand: $giper_baza_unit_sand): $giper_baza_vary_type;
         encryptable(): boolean;

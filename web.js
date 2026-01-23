@@ -7109,7 +7109,7 @@ var $;
             for (const kids of this._sand.values()) {
                 for (const peers of kids.values()) {
                     for (const sand of peers.values()) {
-                        this.sand_decode(sand);
+                        this.sand_load(sand);
                         collect(sand);
                     }
                 }
@@ -7654,6 +7654,11 @@ var $;
             sand.ball(bin);
             return sand;
         }
+        sand_load(sand) {
+            if (sand._ball)
+                return;
+            sand._ball = sand.big() ? $mol_wire_sync(this.mine()).ball_load(sand) : sand.data();
+        }
         sand_decode(sand) {
             try {
                 let vary = this.sand_decode_raw(sand);
@@ -7856,6 +7861,9 @@ var $;
     __decorate([
         $mol_mem
     ], $giper_baza_land.prototype, "saving", null);
+    __decorate([
+        $mol_mem_key
+    ], $giper_baza_land.prototype, "sand_load", null);
     __decorate([
         $mol_mem_key
     ], $giper_baza_land.prototype, "sand_decode", null);
