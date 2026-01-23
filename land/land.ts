@@ -6,7 +6,7 @@ namespace $ {
 		task: ( this: Host, item: Item[] )=> void,
 	) {
 
-		items.call( host )
+		items.call( host ) // track deps
 		
 		const skip = new Set< Item >()
 		
