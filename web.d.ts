@@ -9025,53 +9025,62 @@ declare namespace $ {
 		,
 		ReturnType< $mol_string['submit'] >
 	>
-	type $mol_button_minor__click_giper_baza_land_rights_4 = $mol_type_enforce<
+	type $mol_string__enabled_giper_baza_land_rights_4 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_rights['enabled'] >
+		,
+		ReturnType< $mol_string['enabled'] >
+	>
+	type $mol_button_minor__click_giper_baza_land_rights_5 = $mol_type_enforce<
 		ReturnType< $giper_baza_land_rights['add_commit'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__sub_giper_baza_land_rights_5 = $mol_type_enforce<
+	type $mol_button_minor__enabled_giper_baza_land_rights_6 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_rights['enabled'] >
+		,
+		ReturnType< $mol_button_minor['enabled'] >
+	>
+	type $mol_button_minor__sub_giper_baza_land_rights_7 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_button_minor['sub'] >
 	>
-	type $mol_view__sub_giper_baza_land_rights_6 = $mol_type_enforce<
+	type $mol_view__sub_giper_baza_land_rights_8 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_avatar__id_giper_baza_land_rights_7 = $mol_type_enforce<
+	type $mol_avatar__id_giper_baza_land_rights_9 = $mol_type_enforce<
 		ReturnType< $giper_baza_land_rights['peer_id'] >
 		,
 		ReturnType< $mol_avatar['id'] >
 	>
-	type $mol_paragraph__title_giper_baza_land_rights_8 = $mol_type_enforce<
+	type $mol_paragraph__title_giper_baza_land_rights_10 = $mol_type_enforce<
 		ReturnType< $giper_baza_land_rights['peer_name'] >
 		,
 		ReturnType< $mol_paragraph['title'] >
 	>
-	type $mol_view__sub_giper_baza_land_rights_9 = $mol_type_enforce<
+	type $mol_view__sub_giper_baza_land_rights_11 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_select__value_giper_baza_land_rights_10 = $mol_type_enforce<
+	type $mol_select__value_giper_baza_land_rights_12 = $mol_type_enforce<
 		ReturnType< $giper_baza_land_rights['gift_rank'] >
 		,
 		ReturnType< $mol_select['value'] >
 	>
-	type $mol_select__dictionary_giper_baza_land_rights_11 = $mol_type_enforce<
-		({ 
-			'deny': string,
-			'read': string,
-			'post': string,
-			'pull': string,
-			'rule': string,
-		}) 
+	type $mol_select__dictionary_giper_baza_land_rights_13 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_rights['rank_options'] >
 		,
 		ReturnType< $mol_select['dictionary'] >
 	>
-	type $mol_view__sub_giper_baza_land_rights_12 = $mol_type_enforce<
+	type $mol_select__enabled_giper_baza_land_rights_14 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_rights['enabled'] >
+		,
+		ReturnType< $mol_select['enabled'] >
+	>
+	type $mol_view__sub_giper_baza_land_rights_15 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
@@ -9079,6 +9088,7 @@ declare namespace $ {
 	export class $giper_baza_land_rights extends $mol_list {
 		add_key( next?: string ): string
 		add_commit( next?: any ): any
+		enabled( ): boolean
 		Add_key( ): $mol_string
 		Add_commit_icon( ): $mol_icon_plus
 		Add_commit( ): $mol_button_minor
@@ -9089,6 +9099,13 @@ declare namespace $ {
 		Gift_name( id: any): $mol_paragraph
 		Gift_peer( id: any): $mol_view
 		gift_rank( id: any, next?: string ): string
+		rank_options( ): ({ 
+			'deny': string,
+			'read': string,
+			'post': string,
+			'pull': string,
+			'rule': string,
+		}) 
 		Gift_rank( id: any): $mol_select
 		Gift( id: any): $mol_view
 		gifts( ): readonly(any)[]
@@ -9101,11 +9118,20 @@ declare namespace $ {
 //# sourceMappingURL=rights.view.tree.d.ts.map
 declare namespace $.$$ {
     class $giper_baza_land_rights extends $.$giper_baza_land_rights {
+        rows(): readonly any[];
         gifts(): $mol_view[];
         peer_id(lord: $giper_baza_link): string;
         peer_name(lord: $giper_baza_link): string;
         gift_rank(lord: $giper_baza_link, next?: keyof typeof $giper_baza_rank_tier): string;
         add_commit(): void;
+        rank_options(): {
+            deny: string;
+            read: string;
+            post: string;
+            pull: string;
+            rule: string;
+        };
+        enabled(): boolean;
     }
 }
 

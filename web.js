@@ -7390,6 +7390,10 @@ var $;
                     }
                 }
             }
+            else {
+                if (!this.encrypted())
+                    $mol_fail(new Error('Unencrypted Land is always public'));
+            }
             $giper_baza_unit_trusted_grant(gift);
             this.diff_apply([lord_pass, ...$mol_maybe(mate_pass), gift]);
             this.broadcast();
@@ -7678,7 +7682,7 @@ var $;
                 return sand._vary;
             if (sand._open !== null)
                 return sand._vary = $giper_baza_vary.take(sand._open)[0] ?? null;
-            sand._ball = sand._open = sand.size() > $giper_baza_unit_sand.size_equator ? $mol_wire_sync(this.mine()).ball_load(sand) : sand.data();
+            sand._ball = sand.big() ? $mol_wire_sync(this.mine()).ball_load(sand) : sand.data();
             if (secret && sand._ball && sand.size()) {
                 try {
                     sand._open = $mol_wire_sync(secret).decrypt(sand._ball, sand.salt());
@@ -7691,6 +7695,9 @@ var $;
                             $mol_fail_hidden(new Error(`Can't decrypt`, { cause: error }));
                     }
                 }
+            }
+            else {
+                sand._open = sand._ball;
             }
             return sand._vary = (sand._open ? $giper_baza_vary.take(sand._open)[0] ?? null : null);
         }
@@ -8746,7 +8753,7 @@ var $;
             return this.units().length > 0;
         }
         can_change() {
-            return this.land().pass_rank(this.land().auth().pass()) > $giper_baza_rank_read;
+            return this.land().pass_rank(this.land().auth().pass()) >= $giper_baza_rank_post('late');
         }
         last_change() {
             const land = this.land();
@@ -9393,6 +9400,8 @@ var $;
             return this.Land(this.king_grab(preset).pass().lord());
         }
         static Land(link) {
+            if (!link.str)
+                $mol_fail(new Error('Empty Land Link'));
             this.lands_touched.add(link.str);
             return this.$.$giper_baza_land.make({
                 link: $mol_const(link),
@@ -20561,11 +20570,15 @@ var $;
 			if(next !== undefined) return next;
 			return null;
 		}
+		enabled(){
+			return false;
+		}
 		Add_key(){
 			const obj = new this.$.$mol_string();
 			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_land_rights_Add_key_hint")));
 			(obj.value) = (next) => ((this.add_key(next)));
 			(obj.submit) = (next) => ((this.add_commit(next)));
+			(obj.enabled) = () => ((this.enabled()));
 			return obj;
 		}
 		Add_commit_icon(){
@@ -20575,6 +20588,7 @@ var $;
 		Add_commit(){
 			const obj = new this.$.$mol_button_minor();
 			(obj.click) = (next) => ((this.add_commit(next)));
+			(obj.enabled) = () => ((this.enabled()));
 			(obj.sub) = () => ([(this.Add_commit_icon())]);
 			return obj;
 		}
@@ -20592,7 +20606,7 @@ var $;
 			return obj;
 		}
 		peer_name(id){
-			return "";
+			return "All";
 		}
 		Gift_name(id){
 			const obj = new this.$.$mol_paragraph();
@@ -20608,16 +20622,20 @@ var $;
 			if(next !== undefined) return next;
 			return "deny";
 		}
+		rank_options(){
+			return {
+				"deny": (this.$.$mol_locale.text("$giper_baza_land_rights_rank_options_deny")), 
+				"read": (this.$.$mol_locale.text("$giper_baza_land_rights_rank_options_read")), 
+				"post": (this.$.$mol_locale.text("$giper_baza_land_rights_rank_options_post")), 
+				"pull": (this.$.$mol_locale.text("$giper_baza_land_rights_rank_options_pull")), 
+				"rule": (this.$.$mol_locale.text("$giper_baza_land_rights_rank_options_rule"))
+			};
+		}
 		Gift_rank(id){
 			const obj = new this.$.$mol_select();
 			(obj.value) = (next) => ((this.gift_rank(id, next)));
-			(obj.dictionary) = () => ({
-				"deny": (this.$.$mol_locale.text("$giper_baza_land_rights_Gift_rank_dictionary_deny")), 
-				"read": (this.$.$mol_locale.text("$giper_baza_land_rights_Gift_rank_dictionary_read")), 
-				"post": (this.$.$mol_locale.text("$giper_baza_land_rights_Gift_rank_dictionary_post")), 
-				"pull": (this.$.$mol_locale.text("$giper_baza_land_rights_Gift_rank_dictionary_pull")), 
-				"rule": (this.$.$mol_locale.text("$giper_baza_land_rights_Gift_rank_dictionary_rule"))
-			});
+			(obj.dictionary) = () => ((this.rank_options()));
+			(obj.enabled) = () => ((this.enabled()));
 			return obj;
 		}
 		Gift(id){
@@ -20661,14 +20679,22 @@ var $;
     var $$;
     (function ($$) {
         class $giper_baza_land_rights extends $.$giper_baza_land_rights {
+            rows() {
+                if (this.enabled())
+                    return super.rows();
+                else
+                    return this.gifts();
+            }
             gifts() {
-                return [...this.land()._gift.keys()]
+                return [...this.land()._gift.keys()].reverse()
                     .map(link => this.Gift(new $giper_baza_link(link)));
             }
             peer_id(lord) {
                 return lord.str;
             }
             peer_name(lord) {
+                if (!lord.str)
+                    return super.peer_name(lord);
                 return this.$.$giper_baza_glob.Node(lord, $giper_baza_entity).title() || lord.str;
             }
             gift_rank(lord, next) {
@@ -20680,13 +20706,32 @@ var $;
                 this.land().give(auth, $giper_baza_rank_read);
                 this.add_key('');
             }
+            rank_options() {
+                if (this.land().encrypted())
+                    return super.rank_options();
+                const options = { ...super.rank_options() };
+                delete options.deny;
+                return options;
+            }
+            enabled() {
+                return this.land().lord_rank(this.land().auth().pass().lord()) >= $giper_baza_rank_rule;
+            }
         }
+        __decorate([
+            $mol_mem
+        ], $giper_baza_land_rights.prototype, "rows", null);
         __decorate([
             $mol_mem
         ], $giper_baza_land_rights.prototype, "gifts", null);
         __decorate([
             $mol_mem_key
         ], $giper_baza_land_rights.prototype, "gift_rank", null);
+        __decorate([
+            $mol_mem
+        ], $giper_baza_land_rights.prototype, "rank_options", null);
+        __decorate([
+            $mol_mem
+        ], $giper_baza_land_rights.prototype, "enabled", null);
         $$.$giper_baza_land_rights = $giper_baza_land_rights;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));

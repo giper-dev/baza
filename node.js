@@ -6868,7 +6868,7 @@ var $;
             return this.units().length > 0;
         }
         can_change() {
-            return this.land().pass_rank(this.land().auth().pass()) > $giper_baza_rank_read;
+            return this.land().pass_rank(this.land().auth().pass()) >= $giper_baza_rank_post('late');
         }
         last_change() {
             const land = this.land();
@@ -8896,6 +8896,10 @@ var $;
                     }
                 }
             }
+            else {
+                if (!this.encrypted())
+                    $mol_fail(new Error('Unencrypted Land is always public'));
+            }
             $giper_baza_unit_trusted_grant(gift);
             this.diff_apply([lord_pass, ...$mol_maybe(mate_pass), gift]);
             this.broadcast();
@@ -9184,7 +9188,7 @@ var $;
                 return sand._vary;
             if (sand._open !== null)
                 return sand._vary = $giper_baza_vary.take(sand._open)[0] ?? null;
-            sand._ball = sand._open = sand.size() > $giper_baza_unit_sand.size_equator ? $mol_wire_sync(this.mine()).ball_load(sand) : sand.data();
+            sand._ball = sand.big() ? $mol_wire_sync(this.mine()).ball_load(sand) : sand.data();
             if (secret && sand._ball && sand.size()) {
                 try {
                     sand._open = $mol_wire_sync(secret).decrypt(sand._ball, sand.salt());
@@ -9197,6 +9201,9 @@ var $;
                             $mol_fail_hidden(new Error(`Can't decrypt`, { cause: error }));
                     }
                 }
+            }
+            else {
+                sand._open = sand._ball;
             }
             return sand._vary = (sand._open ? $giper_baza_vary.take(sand._open)[0] ?? null : null);
         }
@@ -11273,6 +11280,8 @@ var $;
             return this.Land(this.king_grab(preset).pass().lord());
         }
         static Land(link) {
+            if (!link.str)
+                $mol_fail(new Error('Empty Land Link'));
             this.lands_touched.add(link.str);
             return this.$.$giper_baza_land.make({
                 link: $mol_const(link),
