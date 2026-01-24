@@ -6819,139 +6819,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $giper_baza_node extends $mol_object {
-        static tag = 'vals';
-        land() {
-            return null;
-        }
-        head() {
-            return $giper_baza_link.hole;
-        }
-        land_link() {
-            return this.land()?.link() ?? this.$.$giper_baza_auth.current().pass().lord();
-        }
-        link() {
-            return new $giper_baza_link('___' + this.head()).resolve(this.land_link());
-        }
-        toJSON() {
-            return this.link().str;
-        }
-        cast(Node) {
-            return this.land().Node(Node).Item(this.head());
-        }
-        nodes(Node) {
-            const land = this.land();
-            const map = {
-                term: () => land.Node(Node || $giper_baza_atom_vary),
-                solo: () => land.Node(Node || $giper_baza_atom_vary),
-                vals: () => land.Node(Node || $giper_baza_list_vary),
-                keys: () => land.Node(Node || $giper_baza_dict),
-            };
-            return this.units().map(unit => map[unit.tag()]().Item(unit.self()));
-        }
-        units() {
-            return this.units_of($giper_baza_link.hole);
-        }
-        units_of(peer) {
-            return this.land().sand_ordered({ head: this.head(), peer }).filter(unit => unit.size());
-        }
-        filled() {
-            return this.units().length > 0;
-        }
-        can_change() {
-            return this.land().pass_rank(this.land().auth().pass()) >= $giper_baza_rank_post('late');
-        }
-        last_change() {
-            const land = this.land();
-            let last = 0;
-            const visit = (sand) => {
-                if (sand.time() > last)
-                    last = sand.time();
-                if (sand.tag() === 'term')
-                    return;
-                land.Node($giper_baza_node).Item(sand.self()).units().forEach(visit);
-            };
-            this.units().forEach(visit);
-            return last ? $giper_baza_time_moment(last) : null;
-        }
-        authors() {
-            const land = this.land();
-            const peers = new Set();
-            const visit = (sand) => {
-                peers.add(land.lord_pass(sand.lord()));
-                if (sand.tag() === 'term')
-                    return;
-                land.Node($giper_baza_node).Item(sand.self()).units_of(null).forEach(visit);
-            };
-            this.units_of(null).forEach(visit);
-            return [...peers];
-        }
-        ;
-        [$mol_dev_format_head]() {
-            return $mol_dev_format_span({}, $mol_dev_format_native(this), ' ', this.head());
-        }
-    }
-    __decorate([
-        $mol_memo.method
-    ], $giper_baza_node.prototype, "link", null);
-    __decorate([
-        $mol_mem_key
-    ], $giper_baza_node.prototype, "cast", null);
-    __decorate([
-        $mol_mem_key
-    ], $giper_baza_node.prototype, "nodes", null);
-    __decorate([
-        $mol_mem_key
-    ], $giper_baza_node.prototype, "units_of", null);
-    __decorate([
-        $mol_mem
-    ], $giper_baza_node.prototype, "last_change", null);
-    __decorate([
-        $mol_mem
-    ], $giper_baza_node.prototype, "authors", null);
-    $.$giper_baza_node = $giper_baza_node;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    class $giper_baza_fund extends $mol_object {
-        item_make;
-        constructor(item_make) {
-            super();
-            this.item_make = item_make;
-        }
-        Item(head) {
-            return this.item_make(head);
-        }
-        Data() {
-            return this.Item($giper_baza_land_root.data);
-        }
-        Tine() {
-            return this.Item($giper_baza_land_root.tine);
-        }
-    }
-    __decorate([
-        $mol_mem_key
-    ], $giper_baza_fund.prototype, "Item", null);
-    $.$giper_baza_fund = $giper_baza_fund;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    function $giper_baza_log() {
-        return this.$mol_state_arg.value('giper_baza_log') !== null;
-    }
-    $.$giper_baza_log = $giper_baza_log;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
     class $mol_time_interval extends $mol_time_base {
         constructor(config) {
             super();
@@ -8269,6 +8136,161 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $giper_baza_node extends $mol_object {
+        static tag = 'vals';
+        land() {
+            return null;
+        }
+        head() {
+            return $giper_baza_link.hole;
+        }
+        land_link() {
+            return this.land()?.link() ?? this.$.$giper_baza_auth.current().pass().lord();
+        }
+        link() {
+            return new $giper_baza_link('___' + this.head()).resolve(this.land_link());
+        }
+        toJSON() {
+            return this.link().str;
+        }
+        cast(Node) {
+            return this.land().Node(Node).Item(this.head());
+        }
+        nodes(Node) {
+            const land = this.land();
+            const map = {
+                term: () => land.Node(Node || $giper_baza_atom_vary),
+                solo: () => land.Node(Node || $giper_baza_atom_vary),
+                vals: () => land.Node(Node || $giper_baza_list_vary),
+                keys: () => land.Node(Node || $giper_baza_dict),
+            };
+            return this.units().map(unit => map[unit.tag()]().Item(unit.self()));
+        }
+        units() {
+            return this.units_of($giper_baza_link.hole);
+        }
+        units_of(peer) {
+            const head = this.head();
+            return this.land().sand_ordered({ head, peer }).filter(unit => unit.size() && unit.self().str !== head.str);
+        }
+        meta(next) {
+            const prev = this.meta_of($giper_baza_link.hole);
+            if (!next)
+                return prev;
+            if (prev?.str === next?.str)
+                return prev;
+            const head = this.head();
+            this.land().post(head, head, head, next);
+            return next;
+        }
+        meta_of(peer) {
+            const head = this.head();
+            const unit = this.land().sand_ordered({ head, peer }).find(unit => unit.size() && unit.self().str === head.str) ?? null;
+            return unit ? $giper_baza_vary_cast_link(this.land().sand_decode(unit)) : null;
+        }
+        filled() {
+            return this.units().length > 0;
+        }
+        can_change() {
+            return this.land().pass_rank(this.land().auth().pass()) >= $giper_baza_rank_post('late');
+        }
+        last_change() {
+            const land = this.land();
+            let last = 0;
+            const visit = (sand) => {
+                if (sand.time() > last)
+                    last = sand.time();
+                if (sand.tag() === 'term')
+                    return;
+                land.Node($giper_baza_node).Item(sand.self()).units().forEach(visit);
+            };
+            this.units().forEach(visit);
+            return last ? $giper_baza_time_moment(last) : null;
+        }
+        authors() {
+            const land = this.land();
+            const peers = new Set();
+            const visit = (sand) => {
+                peers.add(land.lord_pass(sand.lord()));
+                if (sand.tag() === 'term')
+                    return;
+                land.Node($giper_baza_node).Item(sand.self()).units_of(null).forEach(visit);
+            };
+            this.units_of(null).forEach(visit);
+            return [...peers];
+        }
+        ;
+        [$mol_dev_format_head]() {
+            return $mol_dev_format_span({}, $mol_dev_format_native(this), ' ', this.head());
+        }
+    }
+    __decorate([
+        $mol_memo.method
+    ], $giper_baza_node.prototype, "link", null);
+    __decorate([
+        $mol_mem_key
+    ], $giper_baza_node.prototype, "cast", null);
+    __decorate([
+        $mol_mem_key
+    ], $giper_baza_node.prototype, "nodes", null);
+    __decorate([
+        $mol_mem_key
+    ], $giper_baza_node.prototype, "units_of", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_node.prototype, "meta", null);
+    __decorate([
+        $mol_mem_key
+    ], $giper_baza_node.prototype, "meta_of", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_node.prototype, "last_change", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_node.prototype, "authors", null);
+    $.$giper_baza_node = $giper_baza_node;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    class $giper_baza_fund extends $mol_object {
+        item_make;
+        constructor(item_make) {
+            super();
+            this.item_make = item_make;
+        }
+        Item(head) {
+            return this.item_make(head);
+        }
+        Data() {
+            return this.Item($giper_baza_land_root.data);
+        }
+        Tine() {
+            return this.Item($giper_baza_land_root.tine);
+        }
+    }
+    __decorate([
+        $mol_mem_key
+    ], $giper_baza_fund.prototype, "Item", null);
+    $.$giper_baza_fund = $giper_baza_fund;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    function $giper_baza_log() {
+        return this.$mol_state_arg.value('giper_baza_log') !== null;
+    }
+    $.$giper_baza_log = $giper_baza_log;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_bus extends $mol_object {
         name;
         handle;
@@ -8807,16 +8829,16 @@ var $;
             queue.sort(compare);
             let entry = {
                 sand: null,
-                next: '',
-                prev: '',
+                next: null,
+                prev: null,
             };
             const key = peer === null ? (sand) => sand.path() : (sand) => sand.self().str;
-            const by_key = new Map([['', entry]]);
-            const by_self = new Map([['', entry]]);
+            const by_key = new Map([[entry.prev, entry]]);
+            const by_self = new Map([[entry.prev, entry]]);
             while (queue.length) {
                 const last = queue.pop();
                 by_key.get(entry.prev).next = key(last);
-                const item = { sand: last, next: '', prev: entry.prev };
+                const item = { sand: last, next: null, prev: entry.prev };
                 by_key.set(key(last), item);
                 const exists = by_self.get(last.self().str);
                 if (!exists || compare(exists.sand, last) < 0) {
@@ -8825,14 +8847,14 @@ var $;
                 entry.prev = key(last);
                 for (let cursor = queue.length - 1; cursor >= 0; --cursor) {
                     const kid = queue[cursor];
-                    let lead = by_self.get(kid.lead().str);
+                    let lead = by_self.get(kid.lead().str || null);
                     if (!lead)
                         continue;
                     while (lead.next && (compare(by_key.get(lead.next).sand, kid) < 0))
                         lead = by_key.get(lead.next);
                     const exists1 = by_key.get(key(kid));
                     if (exists1) {
-                        if ((lead.sand ? key(lead.sand) : '') === exists1.prev) {
+                        if ((lead.sand ? key(lead.sand) : null) === exists1.prev) {
                             exists1.sand = kid;
                             if (cursor === queue.length - 1)
                                 queue.pop();
@@ -8843,7 +8865,7 @@ var $;
                     }
                     const follower = by_key.get(lead.next);
                     follower.prev = key(kid);
-                    const item = { sand: kid, next: lead.next, prev: lead.sand ? key(lead.sand) : '' };
+                    const item = { sand: kid, next: lead.next, prev: lead.sand ? key(lead.sand) : null };
                     by_key.set(key(kid), item);
                     const exists2 = by_self.get(kid.self().str);
                     if (!exists2 || compare(exists2.sand, kid) < 0) {
@@ -8856,7 +8878,7 @@ var $;
                 }
             }
             const res = [];
-            while (entry.next) {
+            while (entry.next !== null) {
                 entry = by_key.get(entry.next);
                 res.push(entry.sand);
             }
@@ -8914,7 +8936,7 @@ var $;
             sand.lead(lead);
             sand.head(head);
             sand._vary = vary;
-            sand.self(self.str ? self : this.self_make(sand.idea()));
+            sand.self(self ?? this.self_make(sand.idea()));
             this.diff_apply([lord_pass, sand]);
             this.broadcast();
             return sand;
@@ -10026,7 +10048,7 @@ var $;
         add(vary, tag = 'term') {
             if (this.has(vary))
                 return;
-            this.land().post($giper_baza_link.hole, this.head(), $giper_baza_link.hole, vary, tag);
+            this.land().post($giper_baza_link.hole, this.head(), null, vary, tag);
         }
         cut(vary) {
             const units = [...this.units()];
@@ -10286,7 +10308,7 @@ var $;
                 return prev;
             if ($mol_compare_deep(prev, next))
                 return next;
-            this.land().post($giper_baza_link.hole, unit_prev?.head() ?? this.head(), unit_prev?.self() ?? $giper_baza_link.hole, next);
+            this.land().post($giper_baza_link.hole, unit_prev?.head() ?? this.head(), unit_prev?.self() ?? null, next);
             return this.vary_of(peer);
         }
         ;
@@ -15804,7 +15826,7 @@ var $;
             $mol_assert_equal(await land.encrypted(), false);
             await land.encrypted(true);
             $mol_assert_equal(await land.encrypted(), true);
-            const sand = await land.post($giper_baza_link.hole, $giper_baza_link.hole, $giper_baza_link.hole, new Uint8Array([1, 2, 3]));
+            const sand = await land.post($giper_baza_link.hole, $giper_baza_link.hole, null, new Uint8Array([1, 2, 3]));
             $mol_assert_equal((await land.sand_encode(sand)).data().length, 16);
             $mol_assert_equal(await land.sand_decode(sand), new Uint8Array([1, 2, 3]));
             $mol_assert_equal((await land.sand_ordered({ head: $giper_baza_link.hole, peer: $giper_baza_link.hole })).length, 1);

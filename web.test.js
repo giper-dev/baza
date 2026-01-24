@@ -4182,7 +4182,7 @@ var $;
             $mol_assert_equal(await land.encrypted(), false);
             await land.encrypted(true);
             $mol_assert_equal(await land.encrypted(), true);
-            const sand = await land.post($giper_baza_link.hole, $giper_baza_link.hole, $giper_baza_link.hole, new Uint8Array([1, 2, 3]));
+            const sand = await land.post($giper_baza_link.hole, $giper_baza_link.hole, null, new Uint8Array([1, 2, 3]));
             $mol_assert_equal((await land.sand_encode(sand)).data().length, 16);
             $mol_assert_equal(await land.sand_decode(sand), new Uint8Array([1, 2, 3]));
             $mol_assert_equal((await land.sand_ordered({ head: $giper_baza_link.hole, peer: $giper_baza_link.hole })).length, 1);

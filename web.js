@@ -7310,16 +7310,16 @@ var $;
             queue.sort(compare);
             let entry = {
                 sand: null,
-                next: '',
-                prev: '',
+                next: null,
+                prev: null,
             };
             const key = peer === null ? (sand) => sand.path() : (sand) => sand.self().str;
-            const by_key = new Map([['', entry]]);
-            const by_self = new Map([['', entry]]);
+            const by_key = new Map([[entry.prev, entry]]);
+            const by_self = new Map([[entry.prev, entry]]);
             while (queue.length) {
                 const last = queue.pop();
                 by_key.get(entry.prev).next = key(last);
-                const item = { sand: last, next: '', prev: entry.prev };
+                const item = { sand: last, next: null, prev: entry.prev };
                 by_key.set(key(last), item);
                 const exists = by_self.get(last.self().str);
                 if (!exists || compare(exists.sand, last) < 0) {
@@ -7328,14 +7328,14 @@ var $;
                 entry.prev = key(last);
                 for (let cursor = queue.length - 1; cursor >= 0; --cursor) {
                     const kid = queue[cursor];
-                    let lead = by_self.get(kid.lead().str);
+                    let lead = by_self.get(kid.lead().str || null);
                     if (!lead)
                         continue;
                     while (lead.next && (compare(by_key.get(lead.next).sand, kid) < 0))
                         lead = by_key.get(lead.next);
                     const exists1 = by_key.get(key(kid));
                     if (exists1) {
-                        if ((lead.sand ? key(lead.sand) : '') === exists1.prev) {
+                        if ((lead.sand ? key(lead.sand) : null) === exists1.prev) {
                             exists1.sand = kid;
                             if (cursor === queue.length - 1)
                                 queue.pop();
@@ -7346,7 +7346,7 @@ var $;
                     }
                     const follower = by_key.get(lead.next);
                     follower.prev = key(kid);
-                    const item = { sand: kid, next: lead.next, prev: lead.sand ? key(lead.sand) : '' };
+                    const item = { sand: kid, next: lead.next, prev: lead.sand ? key(lead.sand) : null };
                     by_key.set(key(kid), item);
                     const exists2 = by_self.get(kid.self().str);
                     if (!exists2 || compare(exists2.sand, kid) < 0) {
@@ -7359,7 +7359,7 @@ var $;
                 }
             }
             const res = [];
-            while (entry.next) {
+            while (entry.next !== null) {
                 entry = by_key.get(entry.next);
                 res.push(entry.sand);
             }
@@ -7417,7 +7417,7 @@ var $;
             sand.lead(lead);
             sand.head(head);
             sand._vary = vary;
-            sand.self(self.str ? self : this.self_make(sand.idea()));
+            sand.self(self ?? this.self_make(sand.idea()));
             this.diff_apply([lord_pass, sand]);
             this.broadcast();
             return sand;
@@ -8755,7 +8755,23 @@ var $;
             return this.units_of($giper_baza_link.hole);
         }
         units_of(peer) {
-            return this.land().sand_ordered({ head: this.head(), peer }).filter(unit => unit.size());
+            const head = this.head();
+            return this.land().sand_ordered({ head, peer }).filter(unit => unit.size() && unit.self().str !== head.str);
+        }
+        meta(next) {
+            const prev = this.meta_of($giper_baza_link.hole);
+            if (!next)
+                return prev;
+            if (prev?.str === next?.str)
+                return prev;
+            const head = this.head();
+            this.land().post(head, head, head, next);
+            return next;
+        }
+        meta_of(peer) {
+            const head = this.head();
+            const unit = this.land().sand_ordered({ head, peer }).find(unit => unit.size() && unit.self().str === head.str) ?? null;
+            return unit ? $giper_baza_vary_cast_link(this.land().sand_decode(unit)) : null;
         }
         filled() {
             return this.units().length > 0;
@@ -8805,6 +8821,12 @@ var $;
     __decorate([
         $mol_mem_key
     ], $giper_baza_node.prototype, "units_of", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_node.prototype, "meta", null);
+    __decorate([
+        $mol_mem_key
+    ], $giper_baza_node.prototype, "meta_of", null);
     __decorate([
         $mol_mem
     ], $giper_baza_node.prototype, "last_change", null);
@@ -8899,7 +8921,7 @@ var $;
         add(vary, tag = 'term') {
             if (this.has(vary))
                 return;
-            this.land().post($giper_baza_link.hole, this.head(), $giper_baza_link.hole, vary, tag);
+            this.land().post($giper_baza_link.hole, this.head(), null, vary, tag);
         }
         cut(vary) {
             const units = [...this.units()];
@@ -9159,7 +9181,7 @@ var $;
                 return prev;
             if ($mol_compare_deep(prev, next))
                 return next;
-            this.land().post($giper_baza_link.hole, unit_prev?.head() ?? this.head(), unit_prev?.self() ?? $giper_baza_link.hole, next);
+            this.land().post($giper_baza_link.hole, unit_prev?.head() ?? this.head(), unit_prev?.self() ?? null, next);
             return this.vary_of(peer);
         }
         ;
@@ -13489,7 +13511,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/button/minor/minor.view.css", "[mol_button_minor] {\n\tcolor: var(--mol_theme_control);\n}\n\n[mol_button_minor][disabled] {\n\tcolor: var(--mol_theme_shade);\n}\n");
+    $mol_style_attach("mol/button/minor/minor.view.css", "[mol_button_minor]:not([disabled]) {\n\tcolor: var(--mol_theme_control);\n}\n");
 })($ || ($ = {}));
 
 ;
@@ -15518,6 +15540,9 @@ var $;
 			const obj = new this.$.$mol_icon_dots_vertical();
 			return obj;
 		}
+		trigger_enabled(){
+			return (this.enabled());
+		}
 	};
 	($mol_mem_key(($.$mol_select.prototype), "event_select"));
 	($mol_mem(($.$mol_select.prototype), "filter_pattern"));
@@ -15870,7 +15895,6 @@ var $;
 var $;
 (function ($) {
     class $giper_baza_flex_thing extends $giper_baza_dict.with({
-        Kind: $giper_baza_atom_link_to(() => $giper_baza_flex_kind),
         Title: $giper_baza_atom_text,
     }) {
     }
@@ -15907,16 +15931,15 @@ var $;
             const Kind = domain.Kinds(null).make(null);
             const Prop = domain.Kinds(null).make(null);
             const Domain = domain.Kinds(null).make(null);
+            Kind.meta(Kind.link());
+            Prop.meta(Kind.link());
+            Thing.meta(Kind.link());
+            Domain.meta(Kind.link());
+            domain.meta(Domain.link());
             Kind.Title(null).val('Kind');
             Prop.Title(null).val('Property');
             Thing.Title(null).val('Thing');
             Domain.Title(null).val('Domain');
-            Kind.Kind(null).remote(Kind);
-            Prop.Kind(null).remote(Kind);
-            Thing.Kind(null).remote(Kind);
-            Domain.Kind(null).remote(Kind);
-            domain.Kind(null).remote(Domain);
-            const thing_kind = domain.Props(null).make(null);
             const thing_title = domain.Props(null).make(null);
             const kind_props = domain.Props(null).make(null);
             const prop_key = domain.Props(null).make(null);
@@ -15927,7 +15950,6 @@ var $;
             const domain_kinds = domain.Props(null).make(null);
             const domain_props = domain.Props(null).make(null);
             const domain_types = domain.Props(null).make(null);
-            thing_kind.Key(null).val('Kind');
             thing_title.Key(null).val('Title');
             kind_props.Key(null).val('Props');
             prop_key.Key(null).val('Key');
@@ -15938,7 +15960,6 @@ var $;
             domain_kinds.Key(null).val('Kinds');
             domain_props.Key(null).val('Props');
             domain_types.Key(null).val('Types');
-            thing_kind.Title(null).val('Kind');
             thing_title.Title(null).val('Title');
             kind_props.Title(null).val('Props');
             prop_key.Title(null).val('Key');
@@ -15949,21 +15970,16 @@ var $;
             domain_kinds.Title(null).val('Kinds');
             domain_props.Title(null).val('Props');
             domain_types.Title(null).val('Types');
-            thing_kind.Kind(null).remote(Prop);
-            thing_title.Kind(null).remote(Prop);
-            kind_props.Kind(null).remote(Prop);
-            prop_key.Kind(null).remote(Prop);
-            prop_type.Kind(null).remote(Prop);
-            prop_target.Kind(null).remote(Prop);
-            prop_enum.Kind(null).remote(Prop);
-            prop_base.Kind(null).remote(Prop);
-            domain_kinds.Kind(null).remote(Prop);
-            domain_props.Kind(null).remote(Prop);
-            domain_types.Kind(null).remote(Prop);
-            Kind.Props(null).add(thing_kind.link());
-            Prop.Props(null).add(thing_kind.link());
-            Thing.Props(null).add(thing_kind.link());
-            Domain.Props(null).add(thing_kind.link());
+            thing_title.meta(Prop.link());
+            kind_props.meta(Prop.link());
+            prop_key.meta(Prop.link());
+            prop_type.meta(Prop.link());
+            prop_target.meta(Prop.link());
+            prop_enum.meta(Prop.link());
+            prop_base.meta(Prop.link());
+            domain_kinds.meta(Prop.link());
+            domain_props.meta(Prop.link());
+            domain_types.meta(Prop.link());
             Kind.Props(null).add(thing_title.link());
             Prop.Props(null).add(thing_title.link());
             Thing.Props(null).add(thing_title.link());
@@ -15977,7 +15993,6 @@ var $;
             Domain.Props(null).add(domain_kinds.link());
             Domain.Props(null).add(domain_props.link());
             Domain.Props(null).add(domain_types.link());
-            thing_kind.Type(null).val('link');
             thing_title.Type(null).val('str');
             kind_props.Type(null).val('list');
             prop_key.Type(null).val('str');
@@ -15988,20 +16003,17 @@ var $;
             domain_kinds.Type(null).val('list');
             domain_props.Type(null).val('list');
             domain_types.Type(null).val('list');
-            thing_kind.Target(null).remote(Thing);
             kind_props.Target(null).remote(Prop);
             prop_target.Target(null).remote(Kind);
             prop_enum.Target(null).remote(Thing);
             prop_base.Target(null).remote(Thing);
             domain_kinds.Target(null).remote(Kind);
             domain_props.Target(null).remote(Prop);
-            thing_kind.Enum(null).vary(domain.Kinds().link());
             kind_props.Enum(null).vary(domain.Props().link());
             prop_type.Enum(null).vary(domain.Types().link());
             prop_target.Enum(null).vary(domain.Kinds().link());
             prop_enum.Enum(null).vary(domain.link());
             thing_title.Base(null).vary('');
-            thing_kind.Base(null).vary(Thing.link());
             prop_type.Base(null).vary('vary');
             prop_target.Base(null).vary(Thing.link());
             return domain;
@@ -19587,7 +19599,7 @@ var $;
                 if (rights === 'local') {
                     const remote = node.ensure(null);
                     if (Target)
-                        remote.Kind(null)?.remote(Target);
+                        remote.meta(Target.link());
                     return null;
                 }
                 const preset = {
@@ -19599,7 +19611,7 @@ var $;
                 if (preset) {
                     const remote = node.ensure(preset);
                     if (Target)
-                        remote.Kind(null)?.remote(Target);
+                        remote.meta(Target.link());
                     return null;
                 }
                 return null;
@@ -19624,8 +19636,10 @@ var $;
                 return null;
             }
             list_item_add() {
-                const target = this.node(null).cast($giper_baza_list_link_to(() => $giper_baza_flex_thing)).local_make();
-                target.Kind(null)?.remote(this.prop().Target()?.remote());
+                const target = this.node(null).cast($giper_baza_list_link_to(() => $giper_baza_flex_thing)).make(null);
+                const meta = this.prop().Target()?.remote()?.link() ?? null;
+                if (meta)
+                    target.meta(meta);
             }
             list_sand(sand) {
                 return sand;
@@ -19678,7 +19692,7 @@ var $;
             $mol_mem
         ], $giper_baza_flex_field.prototype, "list_items", null);
         __decorate([
-            $mol_mem
+            $mol_action
         ], $giper_baza_flex_field.prototype, "list_item_add", null);
         __decorate([
             $mol_mem_key
@@ -20172,7 +20186,10 @@ var $;
             kind() {
                 const land = this.$.$giper_baza_glob.home().hall_by($giper_baza_flex_domain, null).land();
                 const domain = $giper_baza_flex_domain.ensure(land);
-                return this.node().cast($giper_baza_flex_thing).Kind()?.remote() ?? domain.Kinds()?.remote_list()[0] ?? null;
+                const link = this.node().meta();
+                if (link)
+                    return this.$.$giper_baza_glob.Node(link, $giper_baza_flex_kind);
+                return domain.Kinds()?.remote_list()[0] ?? null;
             }
             fields() {
                 return this.kind()?.Props()?.remote_list().map(key => this.Field(key)) ?? [];
@@ -20409,7 +20426,7 @@ var $;
     (function ($$) {
         class $giper_baza_node_dump extends $.$giper_baza_node_dump {
             title() {
-                return this.node().head().str.padEnd(8, ' ');
+                return this.node().head().str || '__root__';
             }
             value() {
                 return this.node().cast($giper_baza_atom_vary).vary();
@@ -20641,6 +20658,7 @@ var $;
 		}
 		Gift_rank(id){
 			const obj = new this.$.$mol_select();
+			(obj.Filter) = () => (null);
 			(obj.value) = (next) => ((this.gift_rank(id, next)));
 			(obj.dictionary) = () => ((this.rank_options()));
 			(obj.enabled) = () => ((this.enabled()));
@@ -20881,19 +20899,19 @@ var $;
 			(obj.node) = () => ((this.node()));
 			return obj;
 		}
-		node_meta(){
+		tine(){
 			const obj = new this.$.$giper_baza_node();
 			return obj;
 		}
-		Raw_meta(){
+		Raw_tine(){
 			const obj = new this.$.$giper_baza_node_dump();
 			(obj.title) = () => ("Tine");
-			(obj.node) = () => ((this.node_meta()));
+			(obj.node) = () => ((this.tine()));
 			return obj;
 		}
 		Raw_content(){
 			const obj = new this.$.$mol_list();
-			(obj.rows) = () => ([(this.Raw_data()), (this.Raw_meta())]);
+			(obj.rows) = () => ([(this.Raw_data()), (this.Raw_tine())]);
 			return obj;
 		}
 		Raw(){
@@ -20979,8 +20997,8 @@ var $;
 	($mol_mem(($.$giper_baza_land_page.prototype), "Encrypted"));
 	($mol_mem(($.$giper_baza_land_page.prototype), "Flex"));
 	($mol_mem(($.$giper_baza_land_page.prototype), "Raw_data"));
-	($mol_mem(($.$giper_baza_land_page.prototype), "node_meta"));
-	($mol_mem(($.$giper_baza_land_page.prototype), "Raw_meta"));
+	($mol_mem(($.$giper_baza_land_page.prototype), "tine"));
+	($mol_mem(($.$giper_baza_land_page.prototype), "Raw_tine"));
 	($mol_mem(($.$giper_baza_land_page.prototype), "Raw_content"));
 	($mol_mem(($.$giper_baza_land_page.prototype), "Raw"));
 	($mol_mem(($.$giper_baza_land_page.prototype), "Rights_control"));
@@ -21108,8 +21126,8 @@ var $;
             encrypted() {
                 return this.land().encrypted();
             }
-            node_meta() {
-                return this.land().Node($giper_baza_node).Item($giper_baza_land_root.tine);
+            tine() {
+                return this.land().Tine();
             }
             dump_data_node() {
                 return this.node();
