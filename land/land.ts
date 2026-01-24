@@ -464,7 +464,36 @@ namespace $ {
 				if( skipped_units ) for( const unit of skipped_units ) delta.add( unit )
 				
 			}
-			
+
+			// Build hash -> unit map for lookups
+			const unit_by_hash = new Map< string, $giper_baza_unit_base >()
+			for( const gift of this._gift.values() ) {
+				unit_by_hash.set( gift.hash().str, gift )
+			}
+			for( const kids of this._sand.values() ) {
+				for( const peers of kids.values() ) {
+					for( const sand of peers.values() ) {
+						unit_by_hash.set( sand.hash().str, sand )
+					}
+				}
+			}
+
+			// Ensure gifts/sands are included when their seals are in delta
+			for( const unit of [ ... delta ] ) {
+				if( !( unit instanceof $giper_baza_unit_seal ) ) continue
+				for( const hash of unit.hash_list() ) {
+					const covered = unit_by_hash.get( hash.str )
+					if( covered ) delta.add( covered )
+				}
+			}
+
+			// Ensure seals are included for all gifts/sands in delta
+			for( const unit of [ ... delta ] ) {
+				if( unit instanceof $giper_baza_unit_seal ) continue
+				const seal = this.unit_seal( unit )
+				if( seal ) delta.add( seal )
+			}
+
 			for( const unit of delta ) {
 				if( skip_faces.has( unit.lord().peer().str ) ) continue
 				const pass = this.lord_pass( unit.lord() )
