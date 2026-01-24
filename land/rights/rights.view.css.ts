@@ -10,9 +10,10 @@ namespace $.$$ {
 			gap: $mol_gap.text,
 		},
 		
-		Gift_rank: {
+		Gift_tier: {
 			flex: {
 				grow: 0,
+				basis: `7em`,
 			},
 		},
 		

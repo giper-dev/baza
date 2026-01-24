@@ -23,9 +23,16 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem_key
-		override gift_rank( lord: $giper_baza_link, next?: keyof typeof $giper_baza_rank_tier ) {
+		override gift_tier( lord: $giper_baza_link, next?: keyof typeof $giper_baza_rank_tier ) {
 			const rank = this.land().lord_rank( lord, next && $giper_baza_rank_make( next, 'just' ) )
-			return $giper_baza_rank_tier[ rank & 0b0_1111_0000 ]
+			return $giper_baza_rank_tier[ rank & 0b0_1111_0000 ] as keyof typeof $giper_baza_rank_tier
+		}
+		
+		@ $mol_mem_key
+		override gift_rate( lord: $giper_baza_link, next?: string ) {
+			const arg = next ? $giper_baza_rank( this.land().lord_rank( lord ) & 0b0_1111_0000 | parseInt( next, 16 ) ) : undefined
+			const rank = this.land().lord_rank( lord, arg )
+			return ( rank & 0b1111 ).toString( 16 ).toUpperCase()
 		}
 		
 		add_commit() {
@@ -35,9 +42,9 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
-		rank_options() {
-			if( this.land().encrypted() ) return super.rank_options()
-			const options = { ... super.rank_options() }
+		tier_options() {
+			if( this.land().encrypted() ) return super.tier_options()
+			const options = { ... super.tier_options() }
 			delete ( options as any ).deny
 			return options
 		}

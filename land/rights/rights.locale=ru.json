@@ -1,8 +1,10 @@
 {
 	"$giper_baza_land_rights_Add_key_hint": "Публичный ключ",
-	"$giper_baza_land_rights_rank_options_deny": "🛑 Запрет",
-	"$giper_baza_land_rights_rank_options_read": "👀 Чтение",
-	"$giper_baza_land_rights_rank_options_post": "✍ Запись",
-	"$giper_baza_land_rights_rank_options_pull": "🥂 Слияние",
-	"$giper_baza_land_rights_rank_options_rule": "👑 Власть"
+	"$giper_baza_land_rights_Gift_rate_hint": "Скорость",
+	"$giper_baza_land_rights_tier_options_deny": "🛑 Запрет",
+	"$giper_baza_land_rights_tier_options_read": "👀 Чтение",
+	"$giper_baza_land_rights_tier_options_post": "✍ Запись",
+	"$giper_baza_land_rights_tier_options_pull": "🥂 Влитие",
+	"$giper_baza_land_rights_tier_options_rule": "👑 Власть",
+	"$giper_baza_land_rights_Gift_tier_hint": "Уровень"
 }
