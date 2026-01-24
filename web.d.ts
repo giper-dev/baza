@@ -9056,42 +9056,89 @@ declare namespace $ {
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_avatar__id_giper_baza_land_rights_9 = $mol_type_enforce<
-		ReturnType< $giper_baza_land_rights['peer_id'] >
+	type $mol_select__hint_giper_baza_land_rights_9 = $mol_type_enforce<
+		string
 		,
-		ReturnType< $mol_avatar['id'] >
+		ReturnType< $mol_select['hint'] >
 	>
-	type $mol_paragraph__title_giper_baza_land_rights_10 = $mol_type_enforce<
-		ReturnType< $giper_baza_land_rights['peer_name'] >
+	type $mol_select__value_giper_baza_land_rights_10 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_rights['gift_rate'] >
 		,
-		ReturnType< $mol_paragraph['title'] >
+		ReturnType< $mol_select['value'] >
 	>
-	type $mol_view__sub_giper_baza_land_rights_11 = $mol_type_enforce<
-		readonly(any)[]
+	type $mol_select__enabled_giper_baza_land_rights_11 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_rights['enabled'] >
 		,
-		ReturnType< $mol_view['sub'] >
+		ReturnType< $mol_select['enabled'] >
 	>
 	type $mol_select__Filter_giper_baza_land_rights_12 = $mol_type_enforce<
 		any
 		,
 		ReturnType< $mol_select['Filter'] >
 	>
-	type $mol_select__value_giper_baza_land_rights_13 = $mol_type_enforce<
-		ReturnType< $giper_baza_land_rights['gift_rank'] >
-		,
-		ReturnType< $mol_select['value'] >
-	>
-	type $mol_select__dictionary_giper_baza_land_rights_14 = $mol_type_enforce<
-		ReturnType< $giper_baza_land_rights['rank_options'] >
+	type $mol_select__dictionary_giper_baza_land_rights_13 = $mol_type_enforce<
+		({ 
+			'0': string,
+			'1': string,
+			'2': string,
+			'3': string,
+			'4': string,
+			'5': string,
+			'6': string,
+			'7': string,
+			'8': string,
+			'9': string,
+			'A': string,
+			'B': string,
+			'C': string,
+			'D': string,
+			'E': string,
+			'F': string,
+		}) 
 		,
 		ReturnType< $mol_select['dictionary'] >
 	>
-	type $mol_select__enabled_giper_baza_land_rights_15 = $mol_type_enforce<
+	type $mol_select__hint_giper_baza_land_rights_14 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_select['hint'] >
+	>
+	type $mol_select__value_giper_baza_land_rights_15 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_rights['gift_tier'] >
+		,
+		ReturnType< $mol_select['value'] >
+	>
+	type $mol_select__Filter_giper_baza_land_rights_16 = $mol_type_enforce<
+		any
+		,
+		ReturnType< $mol_select['Filter'] >
+	>
+	type $mol_select__dictionary_giper_baza_land_rights_17 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_rights['tier_options'] >
+		,
+		ReturnType< $mol_select['dictionary'] >
+	>
+	type $mol_select__enabled_giper_baza_land_rights_18 = $mol_type_enforce<
 		ReturnType< $giper_baza_land_rights['enabled'] >
 		,
 		ReturnType< $mol_select['enabled'] >
 	>
-	type $mol_view__sub_giper_baza_land_rights_16 = $mol_type_enforce<
+	type $mol_avatar__id_giper_baza_land_rights_19 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_rights['peer_id'] >
+		,
+		ReturnType< $mol_avatar['id'] >
+	>
+	type $mol_paragraph__title_giper_baza_land_rights_20 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_rights['peer_name'] >
+		,
+		ReturnType< $mol_paragraph['title'] >
+	>
+	type $mol_view__sub_giper_baza_land_rights_21 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	type $mol_view__sub_giper_baza_land_rights_22 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
@@ -9104,20 +9151,22 @@ declare namespace $ {
 		Add_commit_icon( ): $mol_icon_plus
 		Add_commit( ): $mol_button_minor
 		Add( ): $mol_view
-		peer_id( id: any): string
-		Gift_avatar( id: any): $mol_avatar
-		peer_name( id: any): string
-		Gift_name( id: any): $mol_paragraph
-		Gift_peer( id: any): $mol_view
-		gift_rank( id: any, next?: string ): string
-		rank_options( ): ({ 
+		gift_rate( id: any, next?: string ): string
+		Gift_rate( id: any): $mol_select
+		gift_tier( id: any, next?: string ): string
+		tier_options( ): ({ 
 			'deny': string,
 			'read': string,
 			'post': string,
 			'pull': string,
 			'rule': string,
 		}) 
-		Gift_rank( id: any): $mol_select
+		Gift_tier( id: any): $mol_select
+		peer_id( id: any): string
+		Gift_avatar( id: any): $mol_avatar
+		peer_name( id: any): string
+		Gift_name( id: any): $mol_paragraph
+		Gift_peer( id: any): $mol_view
 		Gift( id: any): $mol_view
 		gifts( ): readonly(any)[]
 		land( ): $giper_baza_land
@@ -9133,9 +9182,10 @@ declare namespace $.$$ {
         gifts(): $mol_view[];
         peer_id(lord: $giper_baza_link): string;
         peer_name(lord: $giper_baza_link): string;
-        gift_rank(lord: $giper_baza_link, next?: keyof typeof $giper_baza_rank_tier): string;
+        gift_tier(lord: $giper_baza_link, next?: keyof typeof $giper_baza_rank_tier): keyof typeof $giper_baza_rank_tier;
+        gift_rate(lord: $giper_baza_link, next?: string): string;
         add_commit(): void;
-        rank_options(): {
+        tier_options(): {
             deny: string;
             read: string;
             post: string;

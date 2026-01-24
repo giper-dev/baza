@@ -20622,6 +20622,58 @@ var $;
 			(obj.sub) = () => ([(this.Add_key()), (this.Add_commit())]);
 			return obj;
 		}
+		gift_rate(id, next){
+			if(next !== undefined) return next;
+			return "0";
+		}
+		Gift_rate(id){
+			const obj = new this.$.$mol_select();
+			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_land_rights_Gift_rate_hint")));
+			(obj.value) = (next) => ((this.gift_rate(id, next)));
+			(obj.enabled) = () => ((this.enabled()));
+			(obj.Filter) = () => (null);
+			(obj.dictionary) = () => ({
+				"0": "🦼0", 
+				"1": "🚲1", 
+				"2": "🛵2", 
+				"3": "🚜3", 
+				"4": "🏇4", 
+				"5": "🚂5", 
+				"6": "🚛6", 
+				"7": "🚗7", 
+				"8": "🏍️8", 
+				"9": "🏎️9", 
+				"A": "🚅A", 
+				"B": "🚁B", 
+				"C": "🛩️C", 
+				"D": "✈️D", 
+				"E": "🚀E", 
+				"F": "🛸F"
+			});
+			return obj;
+		}
+		gift_tier(id, next){
+			if(next !== undefined) return next;
+			return "deny";
+		}
+		tier_options(){
+			return {
+				"deny": (this.$.$mol_locale.text("$giper_baza_land_rights_tier_options_deny")), 
+				"read": (this.$.$mol_locale.text("$giper_baza_land_rights_tier_options_read")), 
+				"post": (this.$.$mol_locale.text("$giper_baza_land_rights_tier_options_post")), 
+				"pull": (this.$.$mol_locale.text("$giper_baza_land_rights_tier_options_pull")), 
+				"rule": (this.$.$mol_locale.text("$giper_baza_land_rights_tier_options_rule"))
+			};
+		}
+		Gift_tier(id){
+			const obj = new this.$.$mol_select();
+			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_land_rights_Gift_tier_hint")));
+			(obj.value) = (next) => ((this.gift_tier(id, next)));
+			(obj.Filter) = () => (null);
+			(obj.dictionary) = () => ((this.tier_options()));
+			(obj.enabled) = () => ((this.enabled()));
+			return obj;
+		}
 		peer_id(id){
 			return "";
 		}
@@ -20643,30 +20695,13 @@ var $;
 			(obj.sub) = () => ([(this.Gift_avatar(id)), (this.Gift_name(id))]);
 			return obj;
 		}
-		gift_rank(id, next){
-			if(next !== undefined) return next;
-			return "deny";
-		}
-		rank_options(){
-			return {
-				"deny": (this.$.$mol_locale.text("$giper_baza_land_rights_rank_options_deny")), 
-				"read": (this.$.$mol_locale.text("$giper_baza_land_rights_rank_options_read")), 
-				"post": (this.$.$mol_locale.text("$giper_baza_land_rights_rank_options_post")), 
-				"pull": (this.$.$mol_locale.text("$giper_baza_land_rights_rank_options_pull")), 
-				"rule": (this.$.$mol_locale.text("$giper_baza_land_rights_rank_options_rule"))
-			};
-		}
-		Gift_rank(id){
-			const obj = new this.$.$mol_select();
-			(obj.Filter) = () => (null);
-			(obj.value) = (next) => ((this.gift_rank(id, next)));
-			(obj.dictionary) = () => ((this.rank_options()));
-			(obj.enabled) = () => ((this.enabled()));
-			return obj;
-		}
 		Gift(id){
 			const obj = new this.$.$mol_view();
-			(obj.sub) = () => ([(this.Gift_peer(id)), (this.Gift_rank(id))]);
+			(obj.sub) = () => ([
+				(this.Gift_rate(id)), 
+				(this.Gift_tier(id)), 
+				(this.Gift_peer(id))
+			]);
 			return obj;
 		}
 		gifts(){
@@ -20686,11 +20721,13 @@ var $;
 	($mol_mem(($.$giper_baza_land_rights.prototype), "Add_commit_icon"));
 	($mol_mem(($.$giper_baza_land_rights.prototype), "Add_commit"));
 	($mol_mem(($.$giper_baza_land_rights.prototype), "Add"));
+	($mol_mem_key(($.$giper_baza_land_rights.prototype), "gift_rate"));
+	($mol_mem_key(($.$giper_baza_land_rights.prototype), "Gift_rate"));
+	($mol_mem_key(($.$giper_baza_land_rights.prototype), "gift_tier"));
+	($mol_mem_key(($.$giper_baza_land_rights.prototype), "Gift_tier"));
 	($mol_mem_key(($.$giper_baza_land_rights.prototype), "Gift_avatar"));
 	($mol_mem_key(($.$giper_baza_land_rights.prototype), "Gift_name"));
 	($mol_mem_key(($.$giper_baza_land_rights.prototype), "Gift_peer"));
-	($mol_mem_key(($.$giper_baza_land_rights.prototype), "gift_rank"));
-	($mol_mem_key(($.$giper_baza_land_rights.prototype), "Gift_rank"));
 	($mol_mem_key(($.$giper_baza_land_rights.prototype), "Gift"));
 	($mol_mem(($.$giper_baza_land_rights.prototype), "land"));
 
@@ -20723,19 +20760,24 @@ var $;
                     return super.peer_name(lord);
                 return this.$.$giper_baza_glob.Node(lord, $giper_baza_entity).title() || lord.str;
             }
-            gift_rank(lord, next) {
+            gift_tier(lord, next) {
                 const rank = this.land().lord_rank(lord, next && $giper_baza_rank_make(next, 'just'));
                 return $giper_baza_rank_tier[rank & 0b0_1111_0000];
+            }
+            gift_rate(lord, next) {
+                const arg = next ? $giper_baza_rank(this.land().lord_rank(lord) & 0b0_1111_0000 | parseInt(next, 16)) : undefined;
+                const rank = this.land().lord_rank(lord, arg);
+                return (rank & 0b1111).toString(16).toUpperCase();
             }
             add_commit() {
                 const auth = $giper_baza_auth_pass.from(this.add_key());
                 this.land().give(auth, $giper_baza_rank_read);
                 this.add_key('');
             }
-            rank_options() {
+            tier_options() {
                 if (this.land().encrypted())
-                    return super.rank_options();
-                const options = { ...super.rank_options() };
+                    return super.tier_options();
+                const options = { ...super.tier_options() };
                 delete options.deny;
                 return options;
             }
@@ -20751,10 +20793,13 @@ var $;
         ], $giper_baza_land_rights.prototype, "gifts", null);
         __decorate([
             $mol_mem_key
-        ], $giper_baza_land_rights.prototype, "gift_rank", null);
+        ], $giper_baza_land_rights.prototype, "gift_tier", null);
+        __decorate([
+            $mol_mem_key
+        ], $giper_baza_land_rights.prototype, "gift_rate", null);
         __decorate([
             $mol_mem
-        ], $giper_baza_land_rights.prototype, "rank_options", null);
+        ], $giper_baza_land_rights.prototype, "tier_options", null);
         __decorate([
             $mol_mem
         ], $giper_baza_land_rights.prototype, "enabled", null);
@@ -20776,9 +20821,10 @@ var $;
                 padding: $mol_gap.text,
                 gap: $mol_gap.text,
             },
-            Gift_rank: {
+            Gift_tier: {
                 flex: {
                     grow: 0,
+                    basis: `7em`,
                 },
             },
         });
