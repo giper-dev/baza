@@ -2,7 +2,7 @@ namespace $.$$ {
 	export class $giper_baza_node_dump extends $.$giper_baza_node_dump {
 		
 		title() {
-			return this.node().head().str.padEnd( 8, ' ' )
+			return this.node().head().str || '__root__'
 		}
 		
 		value() {

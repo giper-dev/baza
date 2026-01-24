@@ -718,21 +718,21 @@ namespace $ {
 			
 			let entry = {
 				sand: null as null | $giper_baza_unit_sand,
-				next: '',
-				prev: '',
+				next: null as null | string,
+				prev: null as null | string,
 			}
 			
 			const key = peer === null ? ( sand: $giper_baza_unit_sand )=> sand.path() : ( sand: $giper_baza_unit_sand )=> sand.self().str
 			
-			const by_key = new Map([ [ '', entry  ] ])
-			const by_self = new Map([ [ '', entry ] ])
+			const by_key = new Map([ [ entry.prev, entry  ] ])
+			const by_self = new Map([ [ entry.prev, entry ] ])
 			
 			while( queue.length ) {
 				
 				const last = queue.pop()!
 				by_key.get( entry.prev )!.next = key( last )
 				
-				const item = { sand: last, next: '', prev: entry.prev }
+				const item = { sand: last, next: null, prev: entry.prev }
 				by_key.set( key( last ), item )
 				
 				const exists = by_self.get( last.self().str )
@@ -746,7 +746,7 @@ namespace $ {
 					
 					const kid = queue[cursor]
 					
-					let lead = by_self.get( kid.lead().str )
+					let lead = by_self.get( kid.lead().str || null )
 					if( !lead ) continue
 					
 					while( lead.next && ( compare( by_key.get( lead.next )!.sand!, kid ) < 0 ) ) lead = by_key.get( lead.next )!
@@ -754,7 +754,7 @@ namespace $ {
 					const exists1 = by_key.get( key( kid ) )
 					if( exists1 ) {
 						
-						if( ( lead.sand ? key( lead.sand ) : '' ) === exists1.prev ) {
+						if( ( lead.sand ? key( lead.sand ) : null ) === exists1.prev ) {
 							exists1.sand = kid
 							if( cursor === queue.length - 1 ) queue.pop()
 							continue
@@ -768,7 +768,7 @@ namespace $ {
 					const follower = by_key.get( lead.next )!
 					follower.prev = key( kid )
 					
-					const item = { sand: kid, next: lead.next, prev: lead.sand ? key( lead.sand ) : '' }
+					const item = { sand: kid, next: lead.next, prev: lead.sand ? key( lead.sand ) : null }
 					by_key.set( key( kid ), item )
 					
 					const exists2 = by_self.get( kid.self().str )
@@ -787,7 +787,7 @@ namespace $ {
 			
 			const res = [] as $giper_baza_unit_sand[]
 			
-			while( entry.next ) {
+			while( entry.next !== null ) {
 				entry = by_key.get( entry.next )!
 				res.push( entry.sand! )
 			}
@@ -856,7 +856,7 @@ namespace $ {
 		post(
 			lead: $giper_baza_link,
 			head: $giper_baza_link,
-			self: $giper_baza_link,
+			self: $giper_baza_link | null,
 			vary: $giper_baza_vary_type,
 			tag: keyof typeof $giper_baza_unit_sand_tag = 'term',
 		) {
@@ -885,7 +885,7 @@ namespace $ {
 			sand.head( head )
 			sand._vary = vary
 			
-			sand.self( self.str ? self : this.self_make( sand.idea() ) )
+			sand.self( self ?? this.self_make( sand.idea() ) )
 			
 			this.diff_apply( [ lord_pass, sand ] )
 			

@@ -20,6 +20,7 @@ $giper_baza_land_rights $mol_list
 					<= Gift_name* $mol_paragraph
 						title <= peer_name* \All
 				<= Gift_rank* $mol_select
+					Filter null
 					value? <=> gift_rank*? \deny
 					dictionary <= rank_options *
 						deny @ \🛑 Deny

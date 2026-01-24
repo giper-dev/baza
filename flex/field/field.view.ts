@@ -100,7 +100,7 @@ namespace $.$$ {
 			
 			if( rights === 'local' ) {
 				const remote = node.ensure(null)!
-				if( Target ) remote.Kind(null)?.remote( Target )
+				if( Target ) remote.meta( Target.link() )
 				return null
 			}
 			
@@ -113,7 +113,7 @@ namespace $.$$ {
 			
 			if( preset ) {
 				const remote = node.ensure( preset )!
-				if( Target ) remote.Kind(null)?.remote( Target )
+				if( Target ) remote.meta( Target.link() )
 				return null
 			}
 			
@@ -144,10 +144,11 @@ namespace $.$$ {
 			return null
 		}
 		
-		@ $mol_mem
+		@ $mol_action
 		list_item_add() {
-			const target = this.node( null as any ).cast( $giper_baza_list_link_to( ()=> $giper_baza_flex_thing ) ).local_make()
-			target.Kind(null)?.remote( this.prop().Target()?.remote() )
+			const target = this.node( null as any ).cast( $giper_baza_list_link_to( ()=> $giper_baza_flex_thing ) ).make( null )
+			const meta = this.prop().Target()?.remote()?.link() ?? null
+			if( meta ) target.meta( meta )
 		}
 		
 		@ $mol_mem_key

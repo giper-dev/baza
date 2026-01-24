@@ -115,12 +115,12 @@ namespace $ {
 							lead?.self() ?? $giper_baza_link.hole,
 							this.head(),
 							typeof next === 'string'
-								? $giper_baza_link.hole
+								? null
 								: next.nodeType === next.ATTRIBUTE_NODE
-									? $giper_baza_link.hole
+									? null
 									: $giper_baza_link.check( ( next as Element ).id )
 										? new $giper_baza_link( ( next as Element ).id )
-										: $giper_baza_link.hole,
+										: null,
 							val( next ),
 							tag( next ),
 						)

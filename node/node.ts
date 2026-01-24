@@ -56,7 +56,28 @@ namespace $ {
 		
 		@ $mol_mem_key
 		units_of( peer: $giper_baza_link | null ) {
-			return this.land().sand_ordered({ head: this.head(), peer }).filter( unit => unit.size() )
+			const head = this.head()
+			return this.land().sand_ordered({ head, peer }).filter( unit => unit.size() && unit.self().str !== head.str )
+		}
+		
+		@ $mol_mem
+		meta( next?: $giper_baza_link ) {
+			
+			const prev = this.meta_of( $giper_baza_link.hole )
+			if( !next ) return prev
+			if( prev?.str === next?.str ) return prev
+			
+			const head = this.head()
+			this.land().post( head, head, head, next )
+			
+			return next
+		}
+		
+		@ $mol_mem_key
+		meta_of( peer: $giper_baza_link | null ) {
+			const head = this.head()
+			const unit = this.land().sand_ordered({ head, peer }).find( unit => unit.size() && unit.self().str === head.str ) ?? null
+			return unit ? $giper_baza_vary_cast_link( this.land().sand_decode( unit ) ) : null
 		}
 		
 		filled() {

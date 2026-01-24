@@ -2,7 +2,6 @@ namespace $ {
 	
 	/** Any Thing */
 	export class $giper_baza_flex_thing extends $giper_baza_dict.with({
-		Kind: $giper_baza_atom_link_to( ()=> $giper_baza_flex_kind ), // Schema of fields
 		Title: $giper_baza_atom_text,
 	}) {}
 	
@@ -50,18 +49,17 @@ namespace $ {
 			const Prop = domain.Kinds(null)!.make( null )
 			const Domain = domain.Kinds(null)!.make( null )
 			
+			Kind.meta( Kind.link() )
+			Prop.meta( Kind.link() )
+			Thing.meta( Kind.link() )
+			Domain.meta( Kind.link() )
+			domain.meta( Domain.link() )
+			
 			Kind.Title(null)!.val( 'Kind' )
 			Prop.Title(null)!.val( 'Property' )
 			Thing.Title(null)!.val( 'Thing' )
 			Domain.Title(null)!.val( 'Domain' )
 			
-			Kind.Kind(null)!.remote( Kind )
-			Prop.Kind(null)!.remote( Kind )
-			Thing.Kind(null)!.remote( Kind )
-			Domain.Kind(null)!.remote( Kind )
-			domain.Kind(null)!.remote( Domain )
-			
-			const thing_kind = domain.Props(null)!.make( null )
 			const thing_title = domain.Props(null)!.make( null )
 			const kind_props = domain.Props(null)!.make( null )
 			const prop_key = domain.Props(null)!.make( null )
@@ -73,7 +71,6 @@ namespace $ {
 			const domain_props = domain.Props(null)!.make( null )
 			const domain_types = domain.Props(null)!.make( null )
 			
-			thing_kind.Key(null)!.val( 'Kind' )
 			thing_title.Key(null)!.val( 'Title' )
 			kind_props.Key(null)!.val( 'Props' )
 			prop_key.Key(null)!.val( 'Key' )
@@ -85,7 +82,6 @@ namespace $ {
 			domain_props.Key(null)!.val( 'Props' )
 			domain_types.Key(null)!.val( 'Types' )
 			
-			thing_kind.Title(null)!.val( 'Kind' )
 			thing_title.Title(null)!.val( 'Title' )
 			kind_props.Title(null)!.val( 'Props' )
 			prop_key.Title(null)!.val( 'Key' )
@@ -97,22 +93,16 @@ namespace $ {
 			domain_props.Title(null)!.val( 'Props' )
 			domain_types.Title(null)!.val( 'Types' )
 			
-			thing_kind.Kind(null)!.remote( Prop )
-			thing_title.Kind(null)!.remote( Prop )
-			kind_props.Kind(null)!.remote( Prop )
-			prop_key.Kind(null)!.remote( Prop )
-			prop_type.Kind(null)!.remote( Prop )
-			prop_target.Kind(null)!.remote( Prop )
-			prop_enum.Kind(null)!.remote( Prop )
-			prop_base.Kind(null)!.remote( Prop )
-			domain_kinds.Kind(null)!.remote( Prop )
-			domain_props.Kind(null)!.remote( Prop )
-			domain_types.Kind(null)!.remote( Prop )
-			
-			Kind.Props(null)!.add( thing_kind.link() )
-			Prop.Props(null)!.add( thing_kind.link() )
-			Thing.Props(null)!.add( thing_kind.link() )
-			Domain.Props(null)!.add( thing_kind.link() )
+			thing_title.meta( Prop.link() )
+			kind_props.meta( Prop.link() )
+			prop_key.meta( Prop.link() )
+			prop_type.meta( Prop.link() )
+			prop_target.meta( Prop.link() )
+			prop_enum.meta( Prop.link() )
+			prop_base.meta( Prop.link() )
+			domain_kinds.meta( Prop.link() )
+			domain_props.meta( Prop.link() )
+			domain_types.meta( Prop.link() )
 			
 			Kind.Props(null)!.add( thing_title.link() )
 			Prop.Props(null)!.add( thing_title.link() )
@@ -131,7 +121,6 @@ namespace $ {
 			Domain.Props(null)!.add( domain_props.link() )
 			Domain.Props(null)!.add( domain_types.link() )
 			
-			thing_kind.Type(null)!.val( 'link' )
 			thing_title.Type(null)!.val( 'str' )
 			kind_props.Type(null)!.val( 'list' )
 			prop_key.Type(null)!.val( 'str' )
@@ -143,7 +132,6 @@ namespace $ {
 			domain_props.Type(null)!.val( 'list' )
 			domain_types.Type(null)!.val( 'list' )
 			
-			thing_kind.Target(null)!.remote( Thing )
 			kind_props.Target(null)!.remote( Prop )
 			prop_target.Target(null)!.remote( Kind )
 			prop_enum.Target(null)!.remote( Thing )
@@ -151,14 +139,12 @@ namespace $ {
 			domain_kinds.Target(null)!.remote( Kind )
 			domain_props.Target(null)!.remote( Prop )
 			
-			thing_kind.Enum(null)!.vary( domain.Kinds()!.link() )
 			kind_props.Enum(null)!.vary( domain.Props()!.link() )
 			prop_type.Enum(null)!.vary( domain.Types()!.link() )
 			prop_target.Enum(null)!.vary( domain.Kinds()!.link() )
 			prop_enum.Enum(null)!.vary( domain.link() )
 			
 			thing_title.Base(null)!.vary( '' )
-			thing_kind.Base(null)!.vary( Thing.link() )
 			prop_type.Base(null)!.vary( 'vary' )
 			prop_target.Base(null)!.vary( Thing.link() )
 

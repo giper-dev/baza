@@ -6,8 +6,11 @@ namespace $.$$ {
 			
 			const land = this.$.$giper_baza_glob.home().hall_by( $giper_baza_flex_domain, null )!.land()
 			const domain = $giper_baza_flex_domain.ensure( land ) 
-
-			return this.node().cast( $giper_baza_flex_thing ).Kind()?.remote() ?? domain.Kinds()?.remote_list()[0] ?? null!
+			
+			const link = this.node().meta()
+			if( link ) return this.$.$giper_baza_glob.Node( link, $giper_baza_flex_kind )
+			
+			return domain.Kinds()?.remote_list()[0] ?? null!
 		}
 		
 		@ $mol_mem

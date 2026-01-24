@@ -19,8 +19,8 @@ namespace $.$$ {
 		// 	return id || 'Data'
 		// }
 		
-		override node_meta() {
-			return this.land().Node( $giper_baza_node ).Item( $giper_baza_land_root.tine )
+		override tine() {
+			return this.land().Tine()
 		}
 		
 		// @ $mol_mem

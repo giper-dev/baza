@@ -26,7 +26,7 @@ namespace $ {
 			this.land().post(
 				$giper_baza_link.hole, 
 				unit_prev?.head() ?? this.head(),
-				unit_prev?.self() ?? $giper_baza_link.hole,
+				unit_prev?.self() ?? null,
 				next,
 			)
 			

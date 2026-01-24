@@ -67,7 +67,7 @@ namespace $ {
 			tag: keyof typeof $giper_baza_unit_sand_tag = 'term',
 		) {
 			if( this.has( vary ) ) return
-			this.land().post( $giper_baza_link.hole, this.head(), $giper_baza_link.hole, vary, tag )
+			this.land().post( $giper_baza_link.hole, this.head(), null, vary, tag )
 		}
 		
 		/** Removes all Vary presence. */
