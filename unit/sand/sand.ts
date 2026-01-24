@@ -66,17 +66,17 @@ namespace $ {
 			}
 		}
 
-		_head!: $giper_baza_link
-		head( next?: $giper_baza_link ) {
-			if( next === undefined && this._head !== undefined ) return this._head
-			else return this._head = this.id6( 20, next )
-		}
-
 		_self!: $giper_baza_link
 		self( next?: $giper_baza_link ) {
 			if( next === undefined && this._self !== undefined ) return this._self
-			else return this._self = this.id6( 26, next )
+			else return this._self = this.id6( 20, next )
 		}
+
+		_head!: $giper_baza_link
+		head( next?: $giper_baza_link ) {
+			if( next === undefined && this._head !== undefined ) return this._head
+			else return this._head = this.id6( 26, next )
+		}	
 
 		_lead!: $giper_baza_link
 		lead( next?: $giper_baza_link ) {

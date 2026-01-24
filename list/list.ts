@@ -234,22 +234,6 @@ namespace $ {
 				
 			}
 			
-			/** Add new Node which placed in new Land */
-			/** @deprecated use make( ... ) */
-			remote_make( config: $giper_baza_rank_preset ): Vals[number] {
-				return this.make( config )
-			}
-			
-			/** Add new Node which placed in same Land */
-			/** @deprecated use make( ... ) */
-			@ $mol_action
-			local_make( idea?: number ): Vals[number] {
-				const self = this.land().self_make( idea )
-				const node = this.land().Node( ( Value as any )() ).Item( self )
-				this.splice([ node.link() ])
-				return node
-			}
-			
 		}
 		
 		return $giper_baza_list_link_to
