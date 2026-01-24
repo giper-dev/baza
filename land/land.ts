@@ -885,7 +885,7 @@ namespace $ {
 			sand.head( head )
 			sand._vary = vary
 			
-			sand.self( self ?? this.self_make( $mol_hash_numbers( bin, sand.idea() ) ) )
+			sand.self( self ?? this.self_make( $mol_hash_numbers( bin, sand.idea_seed() ) ) )
 			
 			this.diff_apply( [ lord_pass, sand ] )
 			

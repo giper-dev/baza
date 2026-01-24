@@ -136,11 +136,8 @@ namespace $ {
 			}
 		}
 
-		idea() {
-			const size = this.size()
-			const length = 6/*head*/ + 6/*lead*/ + ( size > $giper_baza_unit_sand.size_equator ? 4/*size*/ + 12/*shot*/ : 1/*size*/ + size/*data*/ )
-			const bin = new Uint8Array( this.buffer, this.byteOffset + 26, length )
-			return $mol_hash_numbers( bin )
+		idea_seed() {
+			return $mol_hash_numbers( new Uint8Array( this.buffer, this.byteOffset + 26, 12 ) ) // head + lead
 		}
 
 		dump() {
