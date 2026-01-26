@@ -791,7 +791,7 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    type $mol_time_duration_config = number | string | {
+    type $mol_time_duration_config = number | string | readonly [number, number, number, number, number, number] | {
         year?: number;
         month?: number;
         day?: number;
@@ -814,6 +814,7 @@ declare namespace $ {
         valueOf(): number;
         toJSON(): string;
         toString(pattern?: string): string;
+        toArray(): readonly [number, number, number, number, number, number];
         [Symbol.toPrimitive](mode: 'default' | 'number' | 'string'): string | number;
         static patterns: {
             '#Y': (duration: $mol_time_duration) => string;
@@ -846,7 +847,7 @@ declare namespace $ {
         saturday = 5,
         sunday = 6
     }
-    type $mol_time_moment_config = number | Date | string | {
+    type $mol_time_moment_config = number | Date | string | readonly (number | undefined)[] | {
         year?: number;
         month?: number;
         day?: number;
@@ -876,6 +877,7 @@ declare namespace $ {
         valueOf(): number;
         toJSON(): string;
         toString(pattern?: string): string;
+        toArray(): readonly [number | undefined, number | undefined, number | undefined, number | undefined, number | undefined, number | undefined, number | undefined];
         [Symbol.toPrimitive](mode: 'default' | 'number' | 'string'): string | number;
         [$mol_dev_format_head](): any[];
         static patterns: {
@@ -1701,10 +1703,10 @@ declare namespace $ {
         tag(): keyof typeof $giper_baza_unit_sand_tag;
         big(): boolean;
         size(next?: number): number;
-        _head: $giper_baza_link;
-        head(next?: $giper_baza_link): $giper_baza_link;
         _self: $giper_baza_link;
         self(next?: $giper_baza_link): $giper_baza_link;
+        _head: $giper_baza_link;
+        head(next?: $giper_baza_link): $giper_baza_link;
         _lead: $giper_baza_link;
         lead(next?: $giper_baza_link): $giper_baza_link;
         path(): string;
@@ -1714,7 +1716,7 @@ declare namespace $ {
         data(next?: Uint8Array<ArrayBuffer>): Uint8Array<ArrayBuffer>;
         _ball: Uint8Array<ArrayBuffer>;
         ball(next?: Uint8Array<ArrayBuffer>): Uint8Array<ArrayBuffer>;
-        idea(): number;
+        idea_seed(): number;
         dump(): {
             kind: "sand" | "gift" | "seal";
             lord: $giper_baza_link;
@@ -2583,8 +2585,6 @@ declare namespace $ {
             remote_list(next?: Vals): Vals;
             remote_add(item: Vals[number]): void;
             make(config: null | number | $giper_baza_rank_preset | $giper_baza_land): Vals[number];
-            remote_make(config: $giper_baza_rank_preset): Vals[number];
-            local_make(idea?: number): Vals[number];
             items(next?: readonly ($giper_baza_link | null)[] | undefined): readonly ($giper_baza_link | null)[];
             items_vary(next?: readonly $giper_baza_vary_type[], tag?: keyof typeof $giper_baza_unit_sand_tag): readonly $giper_baza_vary_type[];
             splice(next: readonly $giper_baza_vary_type[], from?: number, to?: number, tag?: keyof typeof $giper_baza_unit_sand_tag): void;
@@ -6110,8 +6110,6 @@ declare namespace $ {
             remote_list(next?: readonly $giper_baza_flex_prop[] | undefined): readonly $giper_baza_flex_prop[];
             remote_add(item: $giper_baza_flex_prop): void;
             make(config: null | number | $giper_baza_rank_preset | $giper_baza_land): $giper_baza_flex_prop;
-            remote_make(config: $giper_baza_rank_preset): $giper_baza_flex_prop;
-            local_make(idea?: number): $giper_baza_flex_prop;
             items(next?: readonly ($giper_baza_link | null)[] | undefined): readonly ($giper_baza_link | null)[];
             items_vary(next?: readonly $giper_baza_vary_type[], tag?: keyof typeof $giper_baza_unit_sand_tag): readonly $giper_baza_vary_type[];
             splice(next: readonly $giper_baza_vary_type[], from?: number, to?: number, tag?: keyof typeof $giper_baza_unit_sand_tag): void;
@@ -6155,8 +6153,6 @@ declare namespace $ {
                     remote_list(next?: readonly $giper_baza_flex_prop[] | undefined): readonly $giper_baza_flex_prop[];
                     remote_add(item: $giper_baza_flex_prop): void;
                     make(config: null | number | $giper_baza_rank_preset | $giper_baza_land): $giper_baza_flex_prop;
-                    remote_make(config: $giper_baza_rank_preset): $giper_baza_flex_prop;
-                    local_make(idea?: number): $giper_baza_flex_prop;
                     items(next?: readonly ($giper_baza_link | null)[] | undefined): readonly ($giper_baza_link | null)[];
                     items_vary(next?: readonly $giper_baza_vary_type[], tag?: keyof typeof $giper_baza_unit_sand_tag): readonly $giper_baza_vary_type[];
                     splice(next: readonly $giper_baza_vary_type[], from?: number, to?: number, tag?: keyof typeof $giper_baza_unit_sand_tag): void;
@@ -6410,8 +6406,6 @@ declare namespace $ {
             remote_list(next?: readonly $giper_baza_flex_kind[] | undefined): readonly $giper_baza_flex_kind[];
             remote_add(item: $giper_baza_flex_kind): void;
             make(config: null | number | $giper_baza_rank_preset | $giper_baza_land): $giper_baza_flex_kind;
-            remote_make(config: $giper_baza_rank_preset): $giper_baza_flex_kind;
-            local_make(idea?: number): $giper_baza_flex_kind;
             items(next?: readonly ($giper_baza_link | null)[] | undefined): readonly ($giper_baza_link | null)[];
             items_vary(next?: readonly $giper_baza_vary_type[], tag?: keyof typeof $giper_baza_unit_sand_tag): readonly $giper_baza_vary_type[];
             splice(next: readonly $giper_baza_vary_type[], from?: number, to?: number, tag?: keyof typeof $giper_baza_unit_sand_tag): void;
@@ -6450,8 +6444,6 @@ declare namespace $ {
             remote_list(next?: readonly $giper_baza_flex_prop[] | undefined): readonly $giper_baza_flex_prop[];
             remote_add(item: $giper_baza_flex_prop): void;
             make(config: null | number | $giper_baza_rank_preset | $giper_baza_land): $giper_baza_flex_prop;
-            remote_make(config: $giper_baza_rank_preset): $giper_baza_flex_prop;
-            local_make(idea?: number): $giper_baza_flex_prop;
             items(next?: readonly ($giper_baza_link | null)[] | undefined): readonly ($giper_baza_link | null)[];
             items_vary(next?: readonly $giper_baza_vary_type[], tag?: keyof typeof $giper_baza_unit_sand_tag): readonly $giper_baza_vary_type[];
             splice(next: readonly $giper_baza_vary_type[], from?: number, to?: number, tag?: keyof typeof $giper_baza_unit_sand_tag): void;
@@ -6496,8 +6488,6 @@ declare namespace $ {
                     remote_list(next?: readonly $giper_baza_flex_kind[] | undefined): readonly $giper_baza_flex_kind[];
                     remote_add(item: $giper_baza_flex_kind): void;
                     make(config: null | number | $giper_baza_rank_preset | $giper_baza_land): $giper_baza_flex_kind;
-                    remote_make(config: $giper_baza_rank_preset): $giper_baza_flex_kind;
-                    local_make(idea?: number): $giper_baza_flex_kind;
                     items(next?: readonly ($giper_baza_link | null)[] | undefined): readonly ($giper_baza_link | null)[];
                     items_vary(next?: readonly $giper_baza_vary_type[], tag?: keyof typeof $giper_baza_unit_sand_tag): readonly $giper_baza_vary_type[];
                     splice(next: readonly $giper_baza_vary_type[], from?: number, to?: number, tag?: keyof typeof $giper_baza_unit_sand_tag): void;
@@ -6548,8 +6538,6 @@ declare namespace $ {
                     remote_list(next?: readonly $giper_baza_flex_prop[] | undefined): readonly $giper_baza_flex_prop[];
                     remote_add(item: $giper_baza_flex_prop): void;
                     make(config: null | number | $giper_baza_rank_preset | $giper_baza_land): $giper_baza_flex_prop;
-                    remote_make(config: $giper_baza_rank_preset): $giper_baza_flex_prop;
-                    local_make(idea?: number): $giper_baza_flex_prop;
                     items(next?: readonly ($giper_baza_link | null)[] | undefined): readonly ($giper_baza_link | null)[];
                     items_vary(next?: readonly $giper_baza_vary_type[], tag?: keyof typeof $giper_baza_unit_sand_tag): readonly $giper_baza_vary_type[];
                     splice(next: readonly $giper_baza_vary_type[], from?: number, to?: number, tag?: keyof typeof $giper_baza_unit_sand_tag): void;
