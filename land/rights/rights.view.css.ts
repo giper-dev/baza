@@ -19,14 +19,14 @@ namespace $.$$ {
 		Gift_tier: {
 			flex: {
 				grow: 0,
-				basis: `7em`,
+				basis: `8em`,
 			},
 		},
 		
 		Gift_rate: {
 			flex: {
 				grow: 0,
-				basis: `9em`,
+				basis: `8em`,
 			},
 		},
 		
