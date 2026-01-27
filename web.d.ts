@@ -1009,11 +1009,12 @@ declare namespace $ {
         rule = 240
     }
     function $giper_baza_rank_tier_of(rank: typeof $giper_baza_rank.Value): $giper_baza_rank_tier;
+    const $giper_baza_rank_work_rates: readonly [15, 15, 15, 15, 15, 15, 15, 15, 14, 14, 14, 14, 13, 13, 13, 13, 12, 12, 11, 11, 10, 10, 9, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
     enum $giper_baza_rank_rate {
         late = 0,
-        long = 3,
-        slow = 7,
-        fast = 11,
+        long = 12,
+        slow = 13,
+        fast = 14,
         just = 15
     }
     function $giper_baza_rank_rate_of(rank: typeof $giper_baza_rank.Value): $giper_baza_rank_rate;
@@ -1676,7 +1677,7 @@ declare namespace $ {
         shot(): $giper_baza_link;
         sign(next?: Uint8Array<ArrayBuffer>): Uint8Array<ArrayBuffer>;
         work(): number;
-        rate_min(): number;
+        rate_min(): 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15;
         tier_min(): $giper_baza_rank_tier;
         rank_min(): number;
         path(): string;

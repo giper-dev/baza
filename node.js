@@ -6587,12 +6587,19 @@ var $;
         return rank & 0b1111_0000;
     }
     $.$giper_baza_rank_tier_of = $giper_baza_rank_tier_of;
+    $.$giper_baza_rank_work_rates = [
+        0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF,
+        0xE, 0xE, 0xE, 0xE, 0xD, 0xD, 0xD, 0xD,
+        0xC, 0xC, 0xB, 0xB, 0xA, 0xA, 0x9, 0x9,
+        0x8, 0x7, 0x6, 0x5, 0x4, 0x3, 0x2, 0x1,
+        0x0,
+    ];
     let $giper_baza_rank_rate;
     (function ($giper_baza_rank_rate) {
         $giper_baza_rank_rate[$giper_baza_rank_rate["late"] = 0] = "late";
-        $giper_baza_rank_rate[$giper_baza_rank_rate["long"] = 3] = "long";
-        $giper_baza_rank_rate[$giper_baza_rank_rate["slow"] = 7] = "slow";
-        $giper_baza_rank_rate[$giper_baza_rank_rate["fast"] = 11] = "fast";
+        $giper_baza_rank_rate[$giper_baza_rank_rate["long"] = 12] = "long";
+        $giper_baza_rank_rate[$giper_baza_rank_rate["slow"] = 13] = "slow";
+        $giper_baza_rank_rate[$giper_baza_rank_rate["fast"] = 14] = "fast";
         $giper_baza_rank_rate[$giper_baza_rank_rate["just"] = 15] = "just";
     })($giper_baza_rank_rate = $.$giper_baza_rank_rate || ($.$giper_baza_rank_rate = {}));
     function $giper_baza_rank_rate_of(rank) {
@@ -9722,7 +9729,7 @@ var $;
             return buf;
         }
         work() {
-            let int = this.uint16(this.byteLength - 64);
+            let int = this.uint32(this.byteLength - 64);
             let count = 0;
             while (int & 1) {
                 int >>>= 1;
@@ -9731,7 +9738,7 @@ var $;
             return count;
         }
         rate_min() {
-            return 15 - this.work();
+            return $giper_baza_rank_work_rates[this.work()];
         }
         tier_min() {
             return $giper_baza_rank_tier.post;

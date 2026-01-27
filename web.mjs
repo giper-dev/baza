@@ -4062,12 +4062,19 @@ var $;
         return rank & 0b1111_0000;
     }
     $.$giper_baza_rank_tier_of = $giper_baza_rank_tier_of;
+    $.$giper_baza_rank_work_rates = [
+        0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF,
+        0xE, 0xE, 0xE, 0xE, 0xD, 0xD, 0xD, 0xD,
+        0xC, 0xC, 0xB, 0xB, 0xA, 0xA, 0x9, 0x9,
+        0x8, 0x7, 0x6, 0x5, 0x4, 0x3, 0x2, 0x1,
+        0x0,
+    ];
     let $giper_baza_rank_rate;
     (function ($giper_baza_rank_rate) {
         $giper_baza_rank_rate[$giper_baza_rank_rate["late"] = 0] = "late";
-        $giper_baza_rank_rate[$giper_baza_rank_rate["long"] = 3] = "long";
-        $giper_baza_rank_rate[$giper_baza_rank_rate["slow"] = 7] = "slow";
-        $giper_baza_rank_rate[$giper_baza_rank_rate["fast"] = 11] = "fast";
+        $giper_baza_rank_rate[$giper_baza_rank_rate["long"] = 12] = "long";
+        $giper_baza_rank_rate[$giper_baza_rank_rate["slow"] = 13] = "slow";
+        $giper_baza_rank_rate[$giper_baza_rank_rate["fast"] = 14] = "fast";
         $giper_baza_rank_rate[$giper_baza_rank_rate["just"] = 15] = "just";
     })($giper_baza_rank_rate = $.$giper_baza_rank_rate || ($.$giper_baza_rank_rate = {}));
     function $giper_baza_rank_rate_of(rank) {
@@ -8193,7 +8200,7 @@ var $;
             return buf;
         }
         work() {
-            let int = this.uint16(this.byteLength - 64);
+            let int = this.uint32(this.byteLength - 64);
             let count = 0;
             while (int & 1) {
                 int >>>= 1;
@@ -8202,7 +8209,7 @@ var $;
             return count;
         }
         rate_min() {
-            return 15 - this.work();
+            return $giper_baza_rank_work_rates[this.work()];
         }
         tier_min() {
             return $giper_baza_rank_tier.post;
@@ -20633,22 +20640,22 @@ var $;
 			(obj.enabled) = () => ((this.enabled()));
 			(obj.Filter) = () => (null);
 			(obj.dictionary) = () => ({
-				"0": "🦼0", 
-				"1": "🚲1", 
-				"2": "🛵2", 
-				"3": "🚜3", 
-				"4": "🏇4", 
-				"5": "🚂5", 
-				"6": "🚛6", 
-				"7": "🚗7", 
-				"8": "🏍️8", 
-				"9": "🏎️9", 
-				"A": "🚅A", 
-				"B": "🚁B", 
-				"C": "🛩️C", 
-				"D": "✈️D", 
-				"E": "🚀E", 
-				"F": "🛸F"
+				"0": "0 🦼 ~ 1 week", 
+				"1": "1 🚲 ~ 3 day", 
+				"2": "2 🛵 ~ 1 day", 
+				"3": "3 🚜 ~ 15 hour", 
+				"4": "4 🏇 ~ 8 hour", 
+				"5": "5 🚂 ~ 4 hour", 
+				"6": "6 🚛 ~ 2 hour", 
+				"7": "7 🚗 ~ 1 hour", 
+				"8": "8 🏍️ ~ 30 min", 
+				"9": "9 🏎️ ~ 5 min", 
+				"A": "A 🚅 ~ 2 min", 
+				"B": "B 🚁 ~ 30 sec", 
+				"C": "C 🛩️ ~ 2 sec", 
+				"D": "D ✈️ ~ 500 ms", 
+				"E": "E 🚀 ~ 50 ms", 
+				"F": "F 🛸 ~ 1 ms"
 			});
 			return obj;
 		}
@@ -20814,6 +20821,11 @@ var $;
     var $$;
     (function ($$) {
         $mol_style_define($giper_baza_land_rights, {
+            Gift: {
+                flex: {
+                    wrap: 'wrap',
+                },
+            },
             Gift_peer: {
                 flex: {
                     grow: 1,
@@ -20825,6 +20837,12 @@ var $;
                 flex: {
                     grow: 0,
                     basis: `7em`,
+                },
+            },
+            Gift_rate: {
+                flex: {
+                    grow: 0,
+                    basis: `9em`,
                 },
             },
         });
