@@ -86,7 +86,7 @@ namespace $ {
 		// @ $mol_memo.method
 		work() {
 			
-			let int = this.uint16( this.byteLength - 64 )
+			let int = this.uint32( this.byteLength - 64 )
 			
 			let count = 0
 			while( int & 1 ) {
@@ -98,7 +98,7 @@ namespace $ {
 		}
 		
 		rate_min() {
-			return 15 - this.work()
+			return $giper_baza_rank_work_rates[ this.work() ]
 		}
 		
 		tier_min() {

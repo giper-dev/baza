@@ -41,24 +41,33 @@ namespace $ {
 	export function $giper_baza_rank_tier_of( rank: typeof $giper_baza_rank.Value ): $giper_baza_rank_tier {
 		return rank & 0b1111_0000
 	}
-
+	
+	/** Work as bits count by Rate */
+	export const $giper_baza_rank_work_rates = [
+		0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF, 0xF,
+		0xE, 0xE, 0xE, 0xE, 0xD, 0xD, 0xD, 0xD,
+		0xC, 0xC, 0xB, 0xB, 0xA, 0xA, 0x9, 0x9,
+		0x8, 0x7, 0x6, 0x5, 0x4, 0x3, 0x2, 0x1,
+		0x0,
+	] as const
+	
 	/** Ease of making changes, depends on fame: evil, harm, even, nice, good */
 	export enum $giper_baza_rank_rate {
 
-		/** Very hard challenge. Tens seconds to put. */
-		late = 0b0000_0000,
+		/** Days delay. */
+		late = 0x0,
 		
-		/** Hard challendge. Seconds to put. */
-		long = 0b0000_0011,
+		/** Seconds delay. */
+		long = 0xC,
 
-		/** Required some work to prevent spam. Hundred milliseconds to put. */
-		slow = 0b0000_0111,
+		/** Half-second delay. */
+		slow = 0xD,
 
-		/** Slow mode. Tens milliseconds to put. */
-		fast = 0b0000_1011,
+		/** Milli-seconds delay. */
+		fast = 0xE,
 
-		/** No work required. As fast as possble. Milliseconds to put. */
-		just = 0b0000_1111,
+		/** Micro-seconds delay. */
+		just = 0xF,
 
 	}
 	

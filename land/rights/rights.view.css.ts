@@ -2,6 +2,12 @@ namespace $.$$ {
 	
 	$mol_style_define( $giper_baza_land_rights, {
 		
+		Gift: {
+			flex: {
+				wrap: 'wrap',
+			},
+		},
+		
 		Gift_peer: {
 			flex: {
 				grow: 1,
@@ -14,6 +20,13 @@ namespace $.$$ {
 			flex: {
 				grow: 0,
 				basis: `7em`,
+			},
+		},
+		
+		Gift_rate: {
+			flex: {
+				grow: 0,
+				basis: `9em`,
 			},
 		},
 		

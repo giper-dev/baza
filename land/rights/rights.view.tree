@@ -20,22 +20,22 @@ $giper_baza_land_rights $mol_list
 					enabled <= enabled false
 					Filter null
 					dictionary *
-						0 \🦼0
-						1 \🚲1
-						2 \🛵2
-						3 \🚜3
-						4 \🏇4
-						5 \🚂5
-						6 \🚛6
-						7 \🚗7
-						8 \🏍️8
-						9 \🏎️9
-						A \🚅A
-						B \🚁B
-						C \🛩️C
-						D \✈️D
-						E \🚀E
-						F \🛸F
+						0 \0 🦼 ~ 1 week
+						1 \1 🚲 ~ 3 day
+						2 \2 🛵 ~ 1 day
+						3 \3 🚜 ~ 15 hour
+						4 \4 🏇 ~ 8 hour
+						5 \5 🚂 ~ 4 hour
+						6 \6 🚛 ~ 2 hour
+						7 \7 🚗 ~ 1 hour
+						8 \8 🏍️ ~ 30 min
+						9 \9 🏎️ ~ 5 min
+						A \A 🚅 ~ 2 min
+						B \B 🚁 ~ 30 sec
+						C \C 🛩️ ~ 2 sec
+						D \D ✈️ ~ 500 ms
+						E \E 🚀 ~ 50 ms
+						F \F 🛸 ~ 1 ms
 				<= Gift_tier* $mol_select
 					hint @ \Level
 					value? <=> gift_tier*? \deny
