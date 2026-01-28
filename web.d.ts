@@ -1590,6 +1590,33 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_term_color {
+        static reset: (str: string) => string;
+        static bold: (str: string) => string;
+        static italic: (str: string) => string;
+        static underline: (str: string) => string;
+        static inverse: (str: string) => string;
+        static hidden: (str: string) => string;
+        static strike: (str: string) => string;
+        static gray: (str: string) => string;
+        static red: (str: string) => string;
+        static green: (str: string) => string;
+        static yellow: (str: string) => string;
+        static blue: (str: string) => string;
+        static magenta: (str: string) => string;
+        static cyan: (str: string) => string;
+        static Gray: (str: string) => string;
+        static Red: (str: string) => string;
+        static Green: (str: string) => string;
+        static Yellow: (str: string) => string;
+        static Blue: (str: string) => string;
+        static Magenta: (str: string) => string;
+        static Cyan: (str: string) => string;
+        static ansi(open: number, close: number): (str: string) => string;
+    }
+}
+
+declare namespace $ {
     enum $giper_baza_unit_kind {
         sand = 252,
         gift = 253,
@@ -1625,6 +1652,7 @@ declare namespace $ {
         tier_min(): $giper_baza_rank_tier;
         _land: null | $giper_baza_land;
         dump(): {};
+        toString(): string;
     }
 }
 
@@ -1652,6 +1680,7 @@ declare namespace $ {
             time: string;
         };
         tier_min(): $giper_baza_rank_tier;
+        toString(): string;
         [$mol_dev_format_head](): any[];
     }
 }
@@ -1681,6 +1710,7 @@ declare namespace $ {
         tier_min(): $giper_baza_rank_tier;
         rank_min(): number;
         path(): string;
+        toString(): string;
         [$mol_dev_format_head](): any[];
     }
 }
@@ -1699,11 +1729,11 @@ declare namespace $ {
         _open: Uint8Array<ArrayBuffer> | null;
         static length(size: number): number;
         static length_ball(size: number): number;
-        static make(size: number): $giper_baza_unit_sand;
-        hint(tag?: keyof typeof $giper_baza_unit_sand_tag): void;
+        static make(size: number, tag?: keyof typeof $giper_baza_unit_sand_tag): $giper_baza_unit_sand;
         tag(): keyof typeof $giper_baza_unit_sand_tag;
         big(): boolean;
-        size(next?: number): number;
+        size(): number;
+        dead(): boolean;
         _self: $giper_baza_link;
         self(next?: $giper_baza_link): $giper_baza_link;
         _head: $giper_baza_link;
@@ -1729,6 +1759,7 @@ declare namespace $ {
             time: string;
         };
         tier_min(): $giper_baza_rank_tier.post | $giper_baza_rank_tier.pull;
+        toString(): string;
         [$mol_dev_format_head](): any[];
     }
 }

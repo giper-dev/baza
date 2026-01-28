@@ -4264,7 +4264,6 @@ var $;
         },
         'data unit type'() {
             const unit = $giper_baza_unit_sand.make(2);
-            unit.hint('term');
             unit.ball(new Uint8Array([0xFF, 0xFF]));
             $mol_assert_equal(unit.kind(), 'sand');
             $mol_assert_equal(unit.size(), 2);
@@ -4272,7 +4271,6 @@ var $;
         },
         'big data unit type'() {
             const unit = $giper_baza_unit_sand.make(1000);
-            unit.hint('term');
             unit.ball(new Uint8Array(1000));
             $mol_assert_equal(unit.kind(), 'sand');
             $mol_assert_equal(unit.size(), 1000);

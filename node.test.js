@@ -8192,7 +8192,7 @@ var $;
         }
         units_of(peer) {
             const head = this.head();
-            return this.land().sand_ordered({ head, peer }).filter(unit => unit.size() && unit.self().str !== head.str);
+            return this.land().sand_ordered({ head, peer }).filter(unit => !unit.dead() && unit.self().str !== head.str);
         }
         meta(next) {
             const prev = this.meta_of($giper_baza_link.hole);
@@ -8206,7 +8206,7 @@ var $;
         }
         meta_of(peer) {
             const head = this.head();
-            const unit = this.land().sand_ordered({ head, peer }).find(unit => unit.size() && unit.self().str === head.str) ?? null;
+            const unit = this.land().sand_ordered({ head, peer }).find(unit => !unit.dead() && unit.self().str === head.str) ?? null;
             return unit ? $giper_baza_vary_cast_link(this.land().sand_decode(unit)) : null;
         }
         filled() {
@@ -8945,13 +8945,12 @@ var $;
                 vary = vary.relate(this.link());
             const lord_pass = this.auth().pass();
             const encrypted = this.encrypted();
-            let bin = $giper_baza_vary.pack($mol_maybe(vary));
+            let bin = $giper_baza_vary.pack([vary]);
             const length = encrypted ? Math.ceil((bin.byteLength + 1) / 16) * 16 : bin.byteLength;
-            const sand = $giper_baza_unit_sand.make(length);
+            const sand = $giper_baza_unit_sand.make(length, tag);
             sand._open = bin;
             sand._land = this;
             $giper_baza_unit_trusted_grant(sand);
-            sand.hint(tag);
             sand.time_tick(this.faces.tick().time_tick);
             sand.lord(lord_pass.lord());
             sand.lead(lead);
@@ -8963,9 +8962,9 @@ var $;
             return sand;
         }
         sand_move(sand, head, seat, peer = $giper_baza_link.hole) {
-            if (!sand.size())
+            if (sand.dead())
                 $mol_fail(new RangeError(`Can't move wiped sand`));
-            const units = this.sand_ordered({ head, peer }).filter(unit => unit.size());
+            const units = this.sand_ordered({ head, peer }).filter(unit => !unit.dead());
             if (seat > units.length)
                 $mol_fail(new RangeError(`Seat (${seat}) out of units length (${units.length})`));
             const lead = seat ? units[seat - 1].self() : $giper_baza_link.hole;
@@ -8988,7 +8987,7 @@ var $;
         }
         sand_wipe(sand, peer = $giper_baza_link.hole) {
             const head = sand.head();
-            const units = this.sand_ordered({ head, peer }).filter(unit => unit.size());
+            const units = this.sand_ordered({ head, peer }).filter(unit => !unit.dead());
             const seat = units.indexOf(sand);
             if (seat < 0)
                 return sand;
@@ -9183,14 +9182,12 @@ var $;
             return seals;
         }
         async sand_encode(sand) {
-            if (sand._open === null)
-                return sand;
-            if (!sand.size())
-                return sand;
             let bin = sand._open;
-            const secret = sand._land.secret();
-            if (secret)
-                bin = await secret.encrypt(bin, sand.salt());
+            if (sand._vary !== null) {
+                const secret = sand._land.secret();
+                if (secret)
+                    bin = await secret.encrypt(bin, sand.salt());
+            }
             sand.ball(bin);
             return sand;
         }
@@ -9227,8 +9224,9 @@ var $;
                 return sand._vary;
             if (sand._open !== null)
                 return sand._vary = $giper_baza_vary.take(sand._open)[0] ?? null;
-            sand._ball = sand.big() ? $mol_wire_sync(this.mine()).ball_load(sand) : sand.data();
-            if (secret && sand._ball && sand.size()) {
+            if (!sand._ball)
+                sand._ball = sand.big() ? $mol_wire_sync(this.mine()).ball_load(sand) : sand.data();
+            if (secret && sand._ball && !sand.dead()) {
                 try {
                     sand._open = $mol_wire_sync(secret).decrypt(sand._ball, sand.salt());
                 }
@@ -9574,6 +9572,15 @@ var $;
         dump() {
             return {};
         }
+        [Symbol.for('nodejs.util.inspect.custom')]() {
+            return this.toString();
+        }
+        toString() {
+            const hash = '🔖' + $mol_term_color.magenta(this.hash().str);
+            const lord = '👾' + $mol_term_color.magenta(this.lord().str);
+            const time = $mol_term_color.gray(this.moment().toString('YYYY-MM-DD hh:mm:ss') + ' &' + this.tick());
+            return `${lord} ${time} ${hash}`;
+        }
     }
     $.$giper_baza_unit_base = $giper_baza_unit_base;
 })($ || ($ = {}));
@@ -9740,6 +9747,10 @@ var $;
         path() {
             return `seal:${this.lord()}/${$giper_baza_time_dump(this.time())} &${this.tick()}`;
         }
+        toString() {
+            const items = this.hash_list().map(hash => $mol_term_color.magenta(hash.str)).join(',');
+            return `${super.toString()} ✍ ${items}`;
+        }
         [$mol_dev_format_head]() {
             return $mol_dev_format_span({}, $mol_dev_format_native(this), ' 👾', $mol_dev_format_auto(this.lord()), ' ✍ ', $mol_dev_format_shade(this.moment().toString('YYYY-MM-DD hh:mm:ss'), ' &', this.tick()), ' #', $mol_dev_format_auto(this.hash()), ' ', $mol_dev_format_auto(this.hash_list()));
         }
@@ -9762,28 +9773,31 @@ var $;
         $giper_baza_unit_sand_tag[$giper_baza_unit_sand_tag["keys"] = 192] = "keys";
     })($giper_baza_unit_sand_tag = $.$giper_baza_unit_sand_tag || ($.$giper_baza_unit_sand_tag = {}));
     class $giper_baza_unit_sand extends $giper_baza_unit_base {
-        static size_equator = 217;
+        static size_equator = 63;
         static size_max = 2 ** 16;
         _vary = undefined;
         _open = null;
         static length(size) {
-            if (size >= 2 ** 16)
+            if (size > 2 ** 16)
                 throw new Error(`Size too large (${size})`);
-            return size > $giper_baza_unit_sand.size_equator ? 56 : Math.ceil((39 + size) / 8) * 8;
+            return size > $giper_baza_unit_sand.size_equator ? 52 : Math.ceil((38 + size) / 8) * 8;
         }
         static length_ball(size) {
+            if (size > 2 ** 16)
+                throw new Error(`Size too large (${size})`);
+            return size > $giper_baza_unit_sand.size_equator ? Math.ceil((size - 4) / 8) * 8 + 4 : 0;
+        }
+        static make(size, tag = 'term') {
             if (size >= 2 ** 16)
                 throw new Error(`Size too large (${size})`);
-            return size > $giper_baza_unit_sand.size_equator ? Math.ceil((size - 2) / 8) * 8 + 2 : 0;
-        }
-        static make(size) {
             const sand = this.from(this.length(size));
             sand.kind('sand');
-            sand.size(size);
+            if (size > $giper_baza_unit_sand.size_equator) {
+                sand.uint16(38, size % 2 ** 16);
+                size = 0;
+            }
+            sand.uint8(1, size | $giper_baza_unit_sand_tag[tag]);
             return sand;
-        }
-        hint(tag = 'term') {
-            this.uint8(1, $giper_baza_unit_sand_tag[tag]);
         }
         tag() {
             return $giper_baza_unit_sand_tag[this.uint8(1) & 0b11_00_0000];
@@ -9791,18 +9805,18 @@ var $;
         big() {
             return this.size() > $giper_baza_unit_sand.size_equator;
         }
-        size(next) {
-            if (next === undefined) {
-                let byte = this.uint8(38);
-                return byte === 255 ? (this.uint32(38) >>> 8) : byte;
-            }
-            else {
-                if (next > $giper_baza_unit_sand.size_equator)
-                    this.uint32(38, 255 | (next << 8));
-                else
-                    this.uint8(38, next);
-                return next;
-            }
+        size() {
+            let hint = this.uint8(1) & 0b111_111;
+            return hint || this.uint16(38) || 2 ** 16;
+        }
+        dead() {
+            if (this._vary === null)
+                return true;
+            if (this.size() > 1)
+                return false;
+            if (this.uint8(38) !== 78)
+                return false;
+            return true;
         }
         _self;
         self(next) {
@@ -9830,19 +9844,18 @@ var $;
         }
         _shot;
         shot(next) {
-            if (this.size() <= $giper_baza_unit_sand.size_equator)
+            if (!this.big())
                 throw new Error('Access to Shot of small Sand is unavailable');
             if (next)
-                return this._shot = this.id12(42, next);
+                return this._shot = this.id12(40, next);
             else
-                return this._shot = this._shot ?? this.id12(42);
+                return this._shot = this._shot ?? this.id12(40);
         }
         _data;
         data(next) {
-            const size = this.size();
-            if (size > $giper_baza_unit_sand.size_equator)
+            if (this.big())
                 throw new Error('Access to Data of large Sand is unavailable');
-            const data = this._data ?? new Uint8Array(this.buffer, this.byteOffset + 39, size);
+            const data = this._data ?? new Uint8Array(this.buffer, this.byteOffset + 38, this.size());
             if (next)
                 data.set(next);
             return data;
@@ -9852,14 +9865,12 @@ var $;
             if (next === undefined) {
                 if (this._ball)
                     return this._ball;
-                const size = this.size();
-                if (size > $giper_baza_unit_sand.size_equator)
+                if (this.big())
                     return this._ball;
                 return this._ball = this.data();
             }
             else {
-                this.size(next.byteLength);
-                if (next.byteLength > $giper_baza_unit_sand.size_equator) {
+                if (this.big()) {
                     this.shot($giper_baza_link.hash_bin(next));
                     return this._ball = next;
                 }
@@ -9887,6 +9898,19 @@ var $;
             return (this.head().str === $giper_baza_land_root.tine.str)
                 ? $giper_baza_rank_tier.pull
                 : $giper_baza_rank_tier.post;
+        }
+        toString() {
+            const lead = $mol_term_color.blue(this.lead().str || '__knot__');
+            const head = $mol_term_color.blue(this.head().str || '__root__');
+            const self = $mol_term_color.blue(this.self().str || '__spec__');
+            const tag = {
+                term: '💼',
+                solo: '1️⃣',
+                vals: '🎹',
+                keys: '🔑',
+            }[this.tag()];
+            const vary = $mol_term_color.yellow(String(this._vary));
+            return `${super.toString()} 📦 ${lead}\\${head}/${self} ${tag} ${vary}`;
         }
         [$mol_dev_format_head]() {
             return $mol_dev_format_span({}, $mol_dev_format_native(this), ' 👾', $mol_dev_format_auto(this.lord()), ' 📦 ', $mol_dev_format_shade(this.moment().toString('YYYY-MM-DD hh:mm:ss'), ' &', this.tick()), ' #', $mol_dev_format_auto(this.hash()), ' ', this.lead().str || '__knot__', $mol_dev_format_shade('\\'), $mol_dev_format_accent(this.head().str || '__root__'), $mol_dev_format_shade('/'), this.self().str || '__spec__', ' ', {
@@ -9970,6 +9994,12 @@ var $;
         }
         tier_min() {
             return $giper_baza_rank_tier.rule;
+        }
+        toString() {
+            const mate = '👾' + $mol_term_color.magenta(this.mate().str || '______anyone_____');
+            const read = this.code().some(v => v) ? ' 🔐' : ' 👀';
+            const rank = $giper_baza_rank_tier[this.tier()] + ':' + this.rate().toString(16).toUpperCase();
+            return `${super.toString()} 🏅 ${mate} ${read} ${rank}`;
         }
         [$mol_dev_format_head]() {
             return $mol_dev_format_span({}, $mol_dev_format_native(this), ' 👾', $mol_dev_format_auto(this.lord()), ' 🏅', ' ', $mol_dev_format_shade(this.moment().toString('YYYY-MM-DD hh:mm:ss'), ' &', this.tick()), ' #', $mol_dev_format_auto(this.hash()), ' 👾', $mol_dev_format_accent(this.mate().str || '______anyone_____'), this.code().some(v => v) ? ' 🔐' : ' 👀', $giper_baza_rank_tier[this.tier()], ':', this.rate().toString(16).toUpperCase());
@@ -10585,7 +10615,8 @@ var $;
                 offset = this.yym.offsets.get(data[0].buffer);
                 if (offset)
                     return offset;
-                const size = data.reduce((sum, buf) => sum + buf.byteLength, 0);
+                let size = data.reduce((sum, buf) => sum + buf.byteLength, 0);
+                size = Math.ceil(size / 8) * 8;
                 offset = this.yym.pool.acquire(size);
                 this.offsets_ins.set(data[0].buffer, offset);
                 this.yym.offsets.set(data[0].buffer, offset);
@@ -10596,16 +10627,16 @@ var $;
             });
             return offset;
         }
-        free(...data) {
-            const size = data.reduce((sum, buf) => sum + buf.byteLength, 0);
-            let offset = this.offsets_del.get(data[0].buffer);
+        free(data, size = data.byteLength) {
+            size = Math.ceil(size / 8) * 8;
+            let offset = this.offsets_del.get(data.buffer);
             if (offset === undefined) {
-                offset = this.yym.offsets.get(data[0].buffer);
+                offset = this.yym.offsets.get(data.buffer);
                 if (!offset)
                     return;
-                this.offsets_del.set(data[0].buffer, offset);
+                this.offsets_del.set(data.buffer, offset);
                 this.yym.pool.release(offset, size);
-                this.yym.offsets.delete(data[0].buffer);
+                this.yym.offsets.delete(data.buffer);
             }
             this.transaction.write({
                 buffer: new Uint8Array(size),
@@ -10698,8 +10729,14 @@ var $;
         units_save(diff) {
             this.store_init();
             this.store().atomic(side => {
-                for (const unit of diff.del)
-                    side.free(unit);
+                for (const unit of diff.del) {
+                    if (unit instanceof $giper_baza_unit_sand && unit.big()) {
+                        side.free(unit, unit.byteLength + unit.size());
+                    }
+                    else {
+                        side.free(unit);
+                    }
+                }
                 for (const unit of diff.ins) {
                     if (unit instanceof $giper_baza_unit_sand && unit.big())
                         side.save(unit, unit.ball());
@@ -10840,14 +10877,15 @@ var $;
                     case 'sand': {
                         if (!part)
                             $mol_fail(new Error('Land is undefined'));
-                        const size = new $giper_baza_unit_sand(this.buffer, this.byteOffset + offset, this.byteLength - offset).size();
+                        const size = new $giper_baza_unit_sand(this.buffer, this.byteOffset + offset, 40).size();
                         const length_sand = $giper_baza_unit_sand.length(size);
                         const length_ball = $giper_baza_unit_sand.length_ball(size);
                         const sand = $giper_baza_unit_sand.from(buf.slice(offset, offset + length_sand));
                         offsets?.set(sand.buffer, offset);
                         offset += sand.byteLength;
                         if (length_ball) {
-                            sand._ball = buf.slice(offset, offset += length_ball);
+                            sand._ball = buf.slice(offset, offset + size);
+                            offset += length_ball;
                         }
                         part.units.push(sand);
                         continue;
@@ -10921,10 +10959,10 @@ var $;
                         gift: gift => { },
                         seal: seal => { },
                         sand: sand => {
-                            if (sand.size() > $giper_baza_unit_sand.size_equator) {
-                                buff.set(sand.ball(), offset);
-                                offset += $giper_baza_unit_sand.length_ball(sand.size());
-                            }
+                            if (!sand.big())
+                                return;
+                            buff.set(sand.ball(), offset);
+                            offset += $giper_baza_unit_sand.length_ball(sand.size());
                         },
                     });
                 }
@@ -15914,7 +15952,6 @@ var $;
         },
         'data unit type'() {
             const unit = $giper_baza_unit_sand.make(2);
-            unit.hint('term');
             unit.ball(new Uint8Array([0xFF, 0xFF]));
             $mol_assert_equal(unit.kind(), 'sand');
             $mol_assert_equal(unit.size(), 2);
@@ -15922,7 +15959,6 @@ var $;
         },
         'big data unit type'() {
             const unit = $giper_baza_unit_sand.make(1000);
-            unit.hint('term');
             unit.ball(new Uint8Array(1000));
             $mol_assert_equal(unit.kind(), 'sand');
             $mol_assert_equal(unit.size(), 1000);
