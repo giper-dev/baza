@@ -86,6 +86,15 @@ namespace $ {
 			return $giper_baza_rank_tier.rule
 		}
 		
+		toString() {
+			
+			const mate = '👾' + $mol_term_color.magenta( this.mate().str || '______anyone_____' )
+			const read = this.code().some( v => v ) ? ' 🔐' : ' 👀'
+			const rank = $giper_baza_rank_tier[ this.tier() ] + ':' + this.rate().toString( 16 ).toUpperCase()
+			
+			return `${ super.toString() } 🏅 ${mate} ${read} ${rank}`
+		}
+		
 		[ $mol_dev_format_head ]() {
 			return $mol_dev_format_span( {} ,
 				$mol_dev_format_native( this ) ,

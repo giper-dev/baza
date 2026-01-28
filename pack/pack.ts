@@ -135,7 +135,7 @@ namespace $ {
 						
 						if( !part ) $mol_fail( new Error( 'Land is undefined' ) )
 						
-						const size = new $giper_baza_unit_sand( this.buffer, this.byteOffset + offset, this.byteLength - offset ).size()
+						const size = new $giper_baza_unit_sand( this.buffer, this.byteOffset + offset, 40 ).size()
 						const length_sand = $giper_baza_unit_sand.length( size )
 						const length_ball = $giper_baza_unit_sand.length_ball( size )
 						
@@ -145,7 +145,8 @@ namespace $ {
 						offset += sand.byteLength
 						
 						if( length_ball ) {
-							sand._ball = buf.slice( offset, offset += length_ball )
+							sand._ball = buf.slice( offset, offset + size )
+							offset += length_ball
 						}
 						
 						part.units.push( sand )
@@ -254,10 +255,9 @@ namespace $ {
 						gift: gift => {},
 						seal: seal => {},
 						sand: sand => {
-							if( sand.size() > $giper_baza_unit_sand.size_equator ) {
-								buff.set( sand.ball(), offset )
-								offset += $giper_baza_unit_sand.length_ball( sand.size() )
-							}
+							if( !sand.big() ) return
+							buff.set( sand.ball(), offset )
+							offset += $giper_baza_unit_sand.length_ball( sand.size() )
 						},
 					})
 					

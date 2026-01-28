@@ -203,6 +203,19 @@ namespace $ {
 			return {}
 		}
 		
+		[ Symbol.for( 'nodejs.util.inspect.custom' ) ]() {
+			return this.toString()
+		}
+		
+		toString() {
+			
+			const hash = '🔖' + $mol_term_color.magenta( this.hash().str )
+			const lord = '👾' + $mol_term_color.magenta( this.lord().str )
+			const time = $mol_term_color.gray( this.moment().toString( 'YYYY-MM-DD hh:mm:ss' ) + ' &' + this.tick() )
+			
+			return `${lord} ${time} ${hash}`
+		}
+		
 	}
 	
 }

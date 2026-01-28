@@ -113,6 +113,13 @@ namespace $ {
 			return `seal:${ this.lord() }/${ $giper_baza_time_dump( this.time() ) } &${ this.tick() }`
 		}
 		
+		toString() {
+			
+			const items = this.hash_list().map( hash => $mol_term_color.magenta( hash.str ) ).join( ',' )
+			
+			return `${ super.toString() } ✍ ${items}`
+		}
+		
 		[ $mol_dev_format_head ]() {
 			return $mol_dev_format_span( {} ,
 				$mol_dev_format_native( this ) ,

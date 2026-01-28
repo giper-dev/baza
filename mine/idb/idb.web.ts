@@ -90,7 +90,7 @@ namespace $ {
 				const land = this.land().str
 				
 				const res = await Ball.get([ land, sand.path() ])
-				return new Uint8Array( res![0] )
+				return res ? new Uint8Array( res[0] ) : new Uint8Array()
 			
 			} )
 			

@@ -21,7 +21,9 @@ namespace $ {
 				offset = this.yym.offsets.get( data[0].buffer )
 				if( offset ) return offset
 				
-				const size = data.reduce( ( sum, buf )=> sum + buf.byteLength, 0 )
+				let size = data.reduce( ( sum, buf )=> sum + buf.byteLength, 0 )
+				size = Math.ceil( size / 8 ) * 8
+				
 				offset = this.yym.pool.acquire( size )
 				this.offsets_ins.set( data[0].buffer, offset )
 				this.yym.offsets.set( data[0].buffer, offset )
@@ -38,19 +40,19 @@ namespace $ {
 		
 		/** Marks slice of file as free. */
 		@ $mol_action
-		free( ... data: [ ArrayBufferView< ArrayBuffer >, ... ArrayBufferView< ArrayBuffer >[] ] ) {
+		free( data: ArrayBufferView< ArrayBuffer >, size = data.byteLength ) {
 			
-			const size = data.reduce( ( sum, buf )=> sum + buf.byteLength, 0 )
+			size = Math.ceil( size / 8 ) * 8
 			
-			let offset = this.offsets_del.get( data[0].buffer )
+			let offset = this.offsets_del.get( data.buffer )
 			if( offset === undefined ) {
 				
-				offset = this.yym.offsets.get( data[0].buffer )
+				offset = this.yym.offsets.get( data.buffer )
 				if( !offset ) return
 				
-				this.offsets_del.set( data[0].buffer, offset )
+				this.offsets_del.set( data.buffer, offset )
 				this.yym.pool.release( offset, size )
-				this.yym.offsets.delete( data[0].buffer )
+				this.yym.offsets.delete( data.buffer )
 				
 			}
 			
@@ -172,7 +174,13 @@ namespace $ {
 			
 			this.store().atomic( side => {
 				
-				for( const unit of diff.del ) side.free( unit )
+				for( const unit of diff.del ) {
+					if( unit instanceof $giper_baza_unit_sand && unit.big() ) {
+						side.free( unit, unit.byteLength + unit.size() )
+					} else {
+						side.free( unit )
+					}
+				}
 				
 				for( const unit of diff.ins ) {
 					if( unit instanceof $giper_baza_unit_sand && unit.big() ) side.save( unit, unit.ball() )
