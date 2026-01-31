@@ -288,7 +288,7 @@ namespace $ {
 			if( area.str === lord.str ) return
 			
 			const Lord = this.$.$giper_baza_glob.Land( lord )
-			Lord.saving()
+			Lord.units_saving()
 			
 			const units = new Set< $giper_baza_unit >()
 			
@@ -987,7 +987,7 @@ namespace $ {
 		
 		@ $mol_mem
 		sync_mine() {
-			return new $mol_wire_atom( '', ()=> this.saving() ).fresh()
+			return new $mol_wire_atom( '', ()=> this.units_saving() ).fresh()
 		}
 		
 		@ $mol_mem
@@ -1081,9 +1081,7 @@ namespace $ {
 		}
 		
 		@ $mol_mem
-		saving() {
-			
-			this.units_signing()
+		units_unsaved() {
 			
 			const mine = this.mine()
 			const persisting = [] as $giper_baza_unit[]
@@ -1093,20 +1091,17 @@ namespace $ {
 				const pass = this.lord_pass( lord )
 				if( !pass ) return
 				
-				if( $mol_wire_sync( mine.units_persisted ).has( pass ) ) return
+				if( mine.units_persisted.has( pass ) ) return
 				
 				persisting.push( pass )
-				mine.units_persisted.add( pass )
 				
 			}
 			
 			for( const gift of this._gift.values() ) {
 				
-				if( $mol_wire_sync( mine.units_persisted ).has( gift ) ) continue
+				if( mine.units_persisted.has( gift ) ) continue
 				
 				persisting.push( gift )
-				mine.units_persisted.add( gift )
-				
 				check_lord( gift.lord() )
 				check_lord( gift.mate() )
 				
@@ -1119,8 +1114,6 @@ namespace $ {
 						if( $mol_wire_sync( mine.units_persisted ).has( sand ) ) continue
 						
 						persisting.push( sand )
-						mine.units_persisted.add( sand )
-						
 						check_lord( sand.lord() )
 						
 					}
@@ -1128,27 +1121,40 @@ namespace $ {
 			}
 			
 			for( const seal of this._seal_shot.values() ) {
+				
 				if( !seal.alive_items.size ) continue
-				if( $mol_wire_sync( mine.units_persisted ).has( seal ) ) continue
+				if( mine.units_persisted.has( seal ) ) continue
+				
 				persisting.push( seal )
-				mine.units_persisted.add( seal )
+				
 			}
 			
-			if( !persisting.length ) return
+			return persisting
+		}
+		
+		@ $mol_mem
+		units_saving() {
+			this.units_signing()
+			batch( this, this.units_unsaved, this.units_save )
+		}
+		
+		async units_save( units: readonly $giper_baza_unit[] ) {
 			
-			const part = new $giper_baza_pack_part( persisting )
+			const mine = this.mine()
+			
+			const part = new $giper_baza_pack_part( units )
 			const pack = $giper_baza_pack.make([[ this.link().str, part ]])
 			this.bus().send( pack.buffer )
 			
 			const reaping = [ ... this.units_reaping ]
-			
-			$mol_wire_sync( mine ).units_save({ ins: persisting, del: reaping })
 			this.units_reaping.clear()
+			
+			await $mol_wire_async( mine ).units_save({ ins: units, del: reaping })
 			
 			if( this.$.$giper_baza_log() ) this.$.$mol_log3_done({
 				place: this,
 				message: '💾 Save Unit',
-				ins: persisting,
+				ins: units,
 				del: reaping,
 			})
 			
@@ -1353,7 +1359,7 @@ namespace $ {
 		
 		dump() {
 			
-			this.saving()
+			this.units_saving()
 			
 			const units = [] as $giper_baza_unit_base[]
 			

@@ -15,7 +15,7 @@ namespace $ {
 	export class $giper_baza_pack_part extends Object {
 		
 		constructor(
-			public units = [] as $giper_baza_unit[],
+			public units = [] as readonly $giper_baza_unit[],
 			public faces = new $giper_baza_face_map,
 		) {
 			super()
@@ -105,7 +105,7 @@ namespace $ {
 						)
 						
 						offsets?.set( pass.buffer, offset )
-						part.units.push( pass )
+						;( part.units as $giper_baza_unit[] ).push( pass )
 						
 						offset += pass.byteLength
 						continue
@@ -124,7 +124,7 @@ namespace $ {
 						)
 						
 						offsets?.set( seal.buffer, offset )
-						part.units.push( seal )
+						;( part.units as $giper_baza_unit[] ).push( seal )
 						
 						offset += seal.byteLength
 						continue
@@ -149,7 +149,7 @@ namespace $ {
 							offset += length_ball
 						}
 						
-						part.units.push( sand )
+						;( part.units as $giper_baza_unit[] ).push( sand )
 						
 						continue
 					}
@@ -162,7 +162,7 @@ namespace $ {
 						const gift = $giper_baza_unit_gift.from( buf.slice( offset, offset + length ) )
 						
 						offsets?.set( gift.buffer, offset )
-						part.units.push( gift )
+						;( part.units as $giper_baza_unit[] ).push( gift )
 						
 						offset += gift.byteLength
 						continue

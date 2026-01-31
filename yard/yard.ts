@@ -132,7 +132,7 @@ namespace $ {
 						this.sync_port_land([ port, land.link() ])
 					}
 				}
-				for( const land of lands ) land.saving()
+				for( const land of lands ) land.units_saving()
 				this.lands_news.clear()
 			} catch( error ) {
 				$mol_fail_log( error )
@@ -318,7 +318,7 @@ namespace $ {
 				if( !faces ) return
 				
 				const Land = this.$.$giper_baza_glob.Land( land )
-				Land.saving()
+				Land.units_saving()
 				
 				const units = Land.diff_units( faces )
 				if( !units.length ) return

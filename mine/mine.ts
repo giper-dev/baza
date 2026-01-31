@@ -1,6 +1,6 @@
 namespace $ {
 	
-	export type $giper_baza_mine_diff = { ins: $giper_baza_unit[], del: $giper_baza_unit[] }
+	export type $giper_baza_mine_diff = { ins: readonly $giper_baza_unit[], del: readonly $giper_baza_unit[] }
 	
 	export class $giper_baza_mine extends $mol_object {
 		
