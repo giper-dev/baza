@@ -94,7 +94,7 @@ namespace $ {
 		@ $mol_memo.method
 		load_init() {
 			const version = ( file: $mol_file )=> file.modified()?.valueOf() ?? Number.POSITIVE_INFINITY
-			if( version( this.sides[0] ) > version( this.sides[1] ) ) this.sides.reverse()
+			if( version( this.sides[0] ) < version( this.sides[1] ) ) this.sides.reverse()
 		}
 		
 		/** Load whole data. */
