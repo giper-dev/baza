@@ -4242,7 +4242,7 @@ var $;
         async 'Land Area inherits rights'($) {
             const area = await $mol_wire_async(() => {
                 const base = $.$giper_baza_glob.land_grab([[null, $giper_baza_rank_post('just')]]);
-                base.saving();
+                base.units_saving();
                 return base.area_make();
             })();
             $mol_assert_equal(area.pass_rank(area.auth().pass()), $giper_baza_rank_rule);

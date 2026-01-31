@@ -4493,6 +4493,7 @@ var $;
                             sand._ball = buf.slice(offset, offset + size);
                             offset += length_ball;
                         }
+                        ;
                         part.units.push(sand);
                         continue;
                     }
@@ -7027,7 +7028,7 @@ var $;
             if (area.str === lord.str)
                 return;
             const Lord = this.$.$giper_baza_glob.Land(lord);
-            Lord.saving();
+            Lord.units_saving();
             const units = new Set();
             for (const gift of Lord._gift.values()) {
                 const prev = $mol_wire_sync(this._gift).get(gift.mate().str);
@@ -7493,7 +7494,7 @@ var $;
             return this.$.$giper_baza_mine.land(this.link());
         }
         sync_mine() {
-            return new $mol_wire_atom('', () => this.saving()).fresh();
+            return new $mol_wire_atom('', () => this.units_saving()).fresh();
         }
         sync_yard() {
             return new $mol_wire_atom('', () => this.$.$giper_baza_glob.yard().sync_land(this.link())).fresh();
@@ -7557,24 +7558,21 @@ var $;
             this.sand_encoding();
             batch(this, this.units_unsigned, this.units_sign);
         }
-        saving() {
-            this.units_signing();
+        units_unsaved() {
             const mine = this.mine();
             const persisting = [];
             const check_lord = (lord) => {
                 const pass = this.lord_pass(lord);
                 if (!pass)
                     return;
-                if ($mol_wire_sync(mine.units_persisted).has(pass))
+                if (mine.units_persisted.has(pass))
                     return;
                 persisting.push(pass);
-                mine.units_persisted.add(pass);
             };
             for (const gift of this._gift.values()) {
-                if ($mol_wire_sync(mine.units_persisted).has(gift))
+                if (mine.units_persisted.has(gift))
                     continue;
                 persisting.push(gift);
-                mine.units_persisted.add(gift);
                 check_lord(gift.lord());
                 check_lord(gift.mate());
             }
@@ -7584,7 +7582,6 @@ var $;
                         if ($mol_wire_sync(mine.units_persisted).has(sand))
                             continue;
                         persisting.push(sand);
-                        mine.units_persisted.add(sand);
                         check_lord(sand.lord());
                     }
                 }
@@ -7592,24 +7589,29 @@ var $;
             for (const seal of this._seal_shot.values()) {
                 if (!seal.alive_items.size)
                     continue;
-                if ($mol_wire_sync(mine.units_persisted).has(seal))
+                if (mine.units_persisted.has(seal))
                     continue;
                 persisting.push(seal);
-                mine.units_persisted.add(seal);
             }
-            if (!persisting.length)
-                return;
-            const part = new $giper_baza_pack_part(persisting);
+            return persisting;
+        }
+        units_saving() {
+            this.units_signing();
+            batch(this, this.units_unsaved, this.units_save);
+        }
+        async units_save(units) {
+            const mine = this.mine();
+            const part = new $giper_baza_pack_part(units);
             const pack = $giper_baza_pack.make([[this.link().str, part]]);
             this.bus().send(pack.buffer);
             const reaping = [...this.units_reaping];
-            $mol_wire_sync(mine).units_save({ ins: persisting, del: reaping });
             this.units_reaping.clear();
+            await $mol_wire_async(mine).units_save({ ins: units, del: reaping });
             if (this.$.$giper_baza_log())
                 this.$.$mol_log3_done({
                     place: this,
                     message: '💾 Save Unit',
-                    ins: persisting,
+                    ins: units,
                     del: reaping,
                 });
         }
@@ -7772,7 +7774,7 @@ var $;
             return new $mol_crypto_sacred($mol_wire_sync(secret_mutual).open(gift.code(), gift.salt()).buffer);
         }
         dump() {
-            this.saving();
+            this.units_saving();
             const units = [];
             for (const gift of this._gift.values())
                 units.push(gift);
@@ -7880,7 +7882,10 @@ var $;
     ], $giper_baza_land.prototype, "units_signing", null);
     __decorate([
         $mol_mem
-    ], $giper_baza_land.prototype, "saving", null);
+    ], $giper_baza_land.prototype, "units_unsaved", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_land.prototype, "units_saving", null);
     __decorate([
         $mol_mem_key
     ], $giper_baza_land.prototype, "sand_load", null);
@@ -9694,7 +9699,7 @@ var $;
                     }
                 }
                 for (const land of lands)
-                    land.saving();
+                    land.units_saving();
                 this.lands_news.clear();
             }
             catch (error) {
@@ -9832,7 +9837,7 @@ var $;
                 if (!faces)
                     return;
                 const Land = this.$.$giper_baza_glob.Land(land);
-                Land.saving();
+                Land.units_saving();
                 const units = Land.diff_units(faces);
                 if (!units.length)
                     return;

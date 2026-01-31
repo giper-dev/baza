@@ -1929,7 +1929,9 @@ declare namespace $ {
         sand_encoding(): void;
         units_unsigned(): $giper_baza_unit_base[];
         units_signing(): void;
-        saving(): void;
+        units_unsaved(): $giper_baza_unit[];
+        units_saving(): void;
+        units_save(units: readonly $giper_baza_unit[]): Promise<void>;
         units_sign(units: readonly $giper_baza_unit_base[]): Promise<$giper_baza_unit_seal[]>;
         sand_encode(sand: $giper_baza_unit_sand): Promise<$giper_baza_unit_sand>;
         sand_load(sand: $giper_baza_unit_sand): void;
@@ -3756,8 +3758,8 @@ declare namespace $ {
 
 declare namespace $ {
     type $giper_baza_mine_diff = {
-        ins: $giper_baza_unit[];
-        del: $giper_baza_unit[];
+        ins: readonly $giper_baza_unit[];
+        del: readonly $giper_baza_unit[];
     };
     class $giper_baza_mine extends $mol_object {
         static land(land: $giper_baza_link): $giper_baza_mine;
@@ -3799,7 +3801,7 @@ declare namespace $ {
         store(): $giper_baza_mine_fs_yym;
         store_init(): void;
         units_save(diff: $giper_baza_mine_diff): void;
-        units_load(): $giper_baza_unit[];
+        units_load(): readonly $giper_baza_unit[];
         destructor(): void;
     }
 }
@@ -3812,12 +3814,12 @@ declare namespace $ {
     const $giper_baza_pack_head_size: number;
     type $giper_baza_pack_parts = [string, $giper_baza_pack_part][];
     class $giper_baza_pack_part extends Object {
-        units: $giper_baza_unit[];
+        units: readonly $giper_baza_unit[];
         faces: $giper_baza_face_map;
-        constructor(units?: $giper_baza_unit[], faces?: $giper_baza_face_map);
+        constructor(units?: readonly $giper_baza_unit[], faces?: $giper_baza_face_map);
         static from(units: $giper_baza_unit[], faces?: $giper_baza_face_map): $giper_baza_pack_part;
         [Symbol.iterator](): Generator<never, {
-            units: $giper_baza_unit[];
+            units: readonly $giper_baza_unit[];
             faces: $giper_baza_face_map;
         }, unknown>;
     }
