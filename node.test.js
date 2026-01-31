@@ -10667,7 +10667,7 @@ var $;
         }
         load_init() {
             const version = (file) => file.modified()?.valueOf() ?? Number.POSITIVE_INFINITY;
-            if (version(this.sides[0]) > version(this.sides[1]))
+            if (version(this.sides[0]) < version(this.sides[1]))
                 this.sides.reverse();
         }
         load() {
