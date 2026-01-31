@@ -82,7 +82,7 @@ namespace $.$$ {
 		}
 		
 		link_label( link: $giper_baza_vary_type ) {
-			if( link instanceof $giper_baza_link ) return this.$.$giper_baza_glob.Pawn( link, $giper_baza_flex_thing ).Title()?.val() ?? link.str
+			if( link instanceof $giper_baza_link ) return this.$.$giper_baza_glob.Pawn( link, $giper_baza_flex_pawn ).Title()?.val() ?? link.str
 			return $giper_baza_vary_cast_text( link ) ?? ''
 		}
 		
@@ -95,7 +95,7 @@ namespace $.$$ {
 			
 			if( !rights ) return null
 			
-			const pawn =  this.pawn( 'auto' as any ).cast( $giper_baza_flex_thing_link )
+			const pawn =  this.pawn( 'auto' as any ).cast( $giper_baza_flex_pawn_link )
 			const Target = this.prop().Target()?.remote()
 			
 			if( rights === 'local' ) {
@@ -146,7 +146,7 @@ namespace $.$$ {
 		
 		@ $mol_action
 		list_item_add() {
-			const target = this.pawn( null as any ).cast( $giper_baza_list_link_to( ()=> $giper_baza_flex_thing ) ).make( null )
+			const target = this.pawn( null as any ).cast( $giper_baza_list_link_to( ()=> $giper_baza_flex_pawn ) ).make( null )
 			const meta = this.prop().Target()?.remote()?.link() ?? null
 			if( meta ) target.meta( meta )
 		}

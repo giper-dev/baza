@@ -1,6 +1,6 @@
 namespace $ {
 	
-	/** Registry of Pawns as domain entities. */
+	/** Registry of Pawns as Deck entities. */
 	export class $giper_baza_fund< Pawn > extends $mol_object {
 		
 		constructor(

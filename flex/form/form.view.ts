@@ -2,20 +2,24 @@ namespace $.$$ {
 	export class $giper_baza_flex_form extends $.$giper_baza_flex_form {
 		
 		@ $mol_mem
-		kind() {
-			
-			const land = this.$.$giper_baza_glob.home().hall_by( $giper_baza_flex_domain, null )!.land()
-			const domain = $giper_baza_flex_domain.ensure( land ) 
+		meta() {
 			
 			const link = this.pawn().meta()
-			if( link ) return this.$.$giper_baza_glob.Pawn( link, $giper_baza_flex_kind )
+			if( link ) return this.$.$giper_baza_glob.Pawn( link, $giper_baza_flex_meta )
 			
-			return domain.Kinds()?.remote_list()[0] ?? null!
+			const deck = this.$.$giper_baza_glob.Pawn(
+				new $giper_baza_link( 'B7eENiTu_lxfWqjoP' ),
+				$giper_baza_flex_deck,
+			)
+			
+			const Pawn = deck.Metas()?.remote_list()[0]!
+			return Pawn
+			
 		}
 		
 		@ $mol_mem
 		fields() {
-			return this.kind()?.Props()?.remote_list().map( key => this.Field( key ) ) ?? []
+			return this.meta()?.Props()?.remote_list().map( key => this.Field( key ) ) ?? []
 		}
 		
 		field_name( prop: $giper_baza_flex_prop ) {

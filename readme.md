@@ -100,11 +100,11 @@
 
 - **Channel** - Getter/Setter method. `foo()` - read. `foo(123)` - write and return written.
 
-- **Flex** - User interface which formed by Domain.
-  - **Thing** - Schema of schema.
-  - **Kind** - Entity schema.
+- **Flex** - User interface which formed by Deck.
+  - **Pawn** - Base entity.
+  - **Meta** - Entity schema.
   - **Prop** - Property schema.
-  - **Domain** - Set of Kinds, Props, and Types.
+  - **Deck** - Set of Metas, Props, and Types.
 
 ## TypeScript API
 
@@ -170,7 +170,7 @@ export class $my_app extends $mol_object {
 	// Use existing entity by reference
 	@ $mol_mem_key
 	person( ref: $giper_baza_link ) {
-		return this.glob().Node( ref, $my_person )
+		return this.glob().Pawn( ref, $my_person )
 	}
 	
 	// Add new linked entity
@@ -232,7 +232,7 @@ export class $my_app extends $mol_object {
 - `$giper_baza_atom_blob` - atomic int64 register
 - `$giper_baza_atom_real` - atomic float64 register
 - `$giper_baza_atom_link` - atomic some reference register
-- `$giper_baza_atom_link_to` - atomic reference to some Node type register
+- `$giper_baza_atom_link_to` - atomic reference to some Pawn type register
 - `$giper_baza_atom_text` - atomic string register
 - `$giper_baza_atom_time` - atomic iso8601 time moment register
 - `$giper_baza_atom_dura` - atomic iso8601 time duration register
@@ -255,7 +255,7 @@ export class $my_app extends $mol_object {
 - `$giper_baza_list_blob` - mergeable list of atomic int64s
 - `$giper_baza_list_real` - mergeable list of atomic float64s
 - `$giper_baza_list_link` - mergeable list of atomic some references
-- `$giper_baza_list_link_to` - mergeable list of atomic references to some Node type
+- `$giper_baza_list_link_to` - mergeable list of atomic references to some Pawn type
 - `$giper_baza_list_text` - mergeable list of atomic strings
 - `$giper_baza_list_time` - mergeable list of atomic iso8601 time moments
 - `$giper_baza_list_dura` - mergeable list of atomic iso8601 time durations
@@ -271,9 +271,9 @@ export class $my_app extends $mol_object {
 
 ![](diagram/crus-dict.png)
 
-- `$giper_baza_dict` - mergeable dictionary node with any keys mapped to any embedded Node types
-- `$giper_baza_dict_to` - mergeable dictionary node with any keys mapped to some embedded Node type
-- `$giper_baza_dict.with` - mergeable dictionary node with defined keys mapped to different embedded Node types
+- `$giper_baza_dict` - mergeable dictionary Pawn with any keys mapped to any embedded Pawn types
+- `$giper_baza_dict_to` - mergeable dictionary Pawn with any keys mapped to some embedded Pawn type
+- `$giper_baza_dict.with` - mergeable dictionary Pawn with defined keys mapped to different embedded Pawn types
 
 ### Tree
 
@@ -285,7 +285,7 @@ export class $my_app extends $mol_object {
 
 ![](diagram/crus-text.png)
 
-- `$giper_baza_text` - mergeable text node
+- `$giper_baza_text` - mergeable text Pawn
 
 ### DOM
 

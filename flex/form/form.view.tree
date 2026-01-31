@@ -1,6 +1,6 @@
 $giper_baza_flex_form $mol_list
 	pawn $giper_baza_dict
-	kind $giper_baza_flex_kind
+	meta $giper_baza_flex_meta
 	rows <= fields /
 		<= Field*0 $mol_form_field
 			name <= field_name* \

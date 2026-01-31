@@ -14,10 +14,10 @@ $giper_baza_glob_book $mol_book2_catalog
 				<= Wipe_icon $mol_icon_delete_forever
 			bubble_content /
 				\Double to wipe database
-		<= Config_make $mol_button_minor
-			hint \Make core config
-			click? <=> config_make? null
-			sub / <= Config_make_icon $mol_icon_sprout_outline
+		<= Deck_make $mol_button_minor
+			hint \Make Base Deck
+			click? <=> deck_make? null
+			sub / <= Deck_make_icon $mol_icon_sprout_outline
 		<= Update $mol_button_open
 			hint \Upload dump
 			files? <=> update? /
