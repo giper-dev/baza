@@ -15982,135 +15982,135 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $giper_baza_flex_thing extends $giper_baza_dict.with({
+    class $giper_baza_flex_pawn extends $giper_baza_dict.with({
         Title: $giper_baza_atom_text,
     }) {
     }
-    $.$giper_baza_flex_thing = $giper_baza_flex_thing;
-    class $giper_baza_flex_thing_link extends $giper_baza_atom_link_to(() => $giper_baza_flex_thing) {
+    $.$giper_baza_flex_pawn = $giper_baza_flex_pawn;
+    class $giper_baza_flex_pawn_link extends $giper_baza_atom_link_to(() => $giper_baza_flex_pawn) {
     }
-    $.$giper_baza_flex_thing_link = $giper_baza_flex_thing_link;
-    class $giper_baza_flex_kind extends $giper_baza_flex_thing.with({
+    $.$giper_baza_flex_pawn_link = $giper_baza_flex_pawn_link;
+    class $giper_baza_flex_meta extends $giper_baza_flex_pawn.with({
         Props: $giper_baza_list_link_to(() => $giper_baza_flex_prop),
     }) {
     }
-    $.$giper_baza_flex_kind = $giper_baza_flex_kind;
-    class $giper_baza_flex_prop extends $giper_baza_flex_thing.with({
+    $.$giper_baza_flex_meta = $giper_baza_flex_meta;
+    class $giper_baza_flex_prop extends $giper_baza_flex_pawn.with({
         Key: $giper_baza_atom_text,
         Type: $giper_baza_atom_text,
-        Target: $giper_baza_atom_link_to(() => $giper_baza_flex_kind),
+        Target: $giper_baza_atom_link_to(() => $giper_baza_flex_meta),
         Enum: $giper_baza_atom_link_to(() => $giper_baza_list_vary),
         Base: $giper_baza_atom_vary,
     }) {
     }
     $.$giper_baza_flex_prop = $giper_baza_flex_prop;
-    class $giper_baza_flex_domain extends $giper_baza_flex_thing.with({
-        Kinds: $giper_baza_list_link_to(() => $giper_baza_flex_kind),
+    class $giper_baza_flex_deck extends $giper_baza_flex_pawn.with({
+        Metas: $giper_baza_list_link_to(() => $giper_baza_flex_meta),
         Props: $giper_baza_list_link_to(() => $giper_baza_flex_prop),
         Types: $giper_baza_list_str,
     }) {
         static ensure(land) {
-            const domain = land.Data(this);
-            if (domain.units().length)
-                return domain;
-            domain.Title(null).val('Base Domain');
-            domain.Types(null).items_vary(['vary', 'enum', 'bool', 'int', 'real', 'str', 'link', 'time', 'dict', 'text', 'list']);
-            const Thing = domain.Kinds(null).make(null);
-            const Kind = domain.Kinds(null).make(null);
-            const Prop = domain.Kinds(null).make(null);
-            const Domain = domain.Kinds(null).make(null);
-            Kind.meta(Kind.link());
-            Prop.meta(Kind.link());
-            Thing.meta(Kind.link());
-            Domain.meta(Kind.link());
-            domain.meta(Domain.link());
-            Kind.Title(null).val('Kind');
-            Prop.Title(null).val('Property');
-            Thing.Title(null).val('Thing');
-            Domain.Title(null).val('Domain');
-            const thing_title = domain.Props(null).make(null);
-            const kind_props = domain.Props(null).make(null);
-            const prop_key = domain.Props(null).make(null);
-            const prop_type = domain.Props(null).make(null);
-            const prop_target = domain.Props(null).make(null);
-            const prop_enum = domain.Props(null).make(null);
-            const prop_base = domain.Props(null).make(null);
-            const domain_kinds = domain.Props(null).make(null);
-            const domain_props = domain.Props(null).make(null);
-            const domain_types = domain.Props(null).make(null);
-            thing_title.Key(null).val('Title');
-            kind_props.Key(null).val('Props');
+            const deck = land.Data(this);
+            if (deck.units().length)
+                return deck;
+            deck.Title(null).val('Base Deck');
+            deck.Types(null).items_vary(['vary', 'enum', 'bool', 'int', 'real', 'str', 'link', 'time', 'dict', 'text', 'list']);
+            const Pawn = deck.Metas(null).make(null);
+            const Meta = deck.Metas(null).make(null);
+            const Prop = deck.Metas(null).make(null);
+            const Deck = deck.Metas(null).make(null);
+            Meta.meta(Meta.link());
+            Prop.meta(Meta.link());
+            Pawn.meta(Meta.link());
+            Deck.meta(Meta.link());
+            deck.meta(Deck.link());
+            Meta.Title(null).val('Meta');
+            Prop.Title(null).val('Prop');
+            Pawn.Title(null).val('Pawn');
+            Deck.Title(null).val('Deck');
+            const pawn_title = deck.Props(null).make(null);
+            const meta_props = deck.Props(null).make(null);
+            const prop_key = deck.Props(null).make(null);
+            const prop_type = deck.Props(null).make(null);
+            const prop_target = deck.Props(null).make(null);
+            const prop_enum = deck.Props(null).make(null);
+            const prop_base = deck.Props(null).make(null);
+            const deck_metas = deck.Props(null).make(null);
+            const deck_props = deck.Props(null).make(null);
+            const deck_types = deck.Props(null).make(null);
+            pawn_title.Key(null).val('Title');
+            meta_props.Key(null).val('Props');
             prop_key.Key(null).val('Key');
             prop_type.Key(null).val('Type');
             prop_target.Key(null).val('Target');
             prop_enum.Key(null).val('Enum');
             prop_base.Key(null).val('Base');
-            domain_kinds.Key(null).val('Kinds');
-            domain_props.Key(null).val('Props');
-            domain_types.Key(null).val('Types');
-            thing_title.Title(null).val('Title');
-            kind_props.Title(null).val('Props');
+            deck_metas.Key(null).val('Metas');
+            deck_props.Key(null).val('Props');
+            deck_types.Key(null).val('Types');
+            pawn_title.Title(null).val('Title');
+            meta_props.Title(null).val('Props');
             prop_key.Title(null).val('Key');
             prop_type.Title(null).val('Type');
-            prop_target.Title(null).val('Target kind');
+            prop_target.Title(null).val('Target Meta');
             prop_enum.Title(null).val('Variants');
             prop_base.Title(null).val('Default');
-            domain_kinds.Title(null).val('Kinds');
-            domain_props.Title(null).val('Props');
-            domain_types.Title(null).val('Types');
-            thing_title.meta(Prop.link());
-            kind_props.meta(Prop.link());
+            deck_metas.Title(null).val('Metas');
+            deck_props.Title(null).val('Props');
+            deck_types.Title(null).val('Types');
+            pawn_title.meta(Prop.link());
+            meta_props.meta(Prop.link());
             prop_key.meta(Prop.link());
             prop_type.meta(Prop.link());
             prop_target.meta(Prop.link());
             prop_enum.meta(Prop.link());
             prop_base.meta(Prop.link());
-            domain_kinds.meta(Prop.link());
-            domain_props.meta(Prop.link());
-            domain_types.meta(Prop.link());
-            Kind.Props(null).add(thing_title.link());
-            Prop.Props(null).add(thing_title.link());
-            Thing.Props(null).add(thing_title.link());
-            Domain.Props(null).add(thing_title.link());
-            Kind.Props(null).add(kind_props.link());
+            deck_metas.meta(Prop.link());
+            deck_props.meta(Prop.link());
+            deck_types.meta(Prop.link());
+            Meta.Props(null).add(pawn_title.link());
+            Prop.Props(null).add(pawn_title.link());
+            Pawn.Props(null).add(pawn_title.link());
+            Deck.Props(null).add(pawn_title.link());
+            Meta.Props(null).add(meta_props.link());
             Prop.Props(null).add(prop_key.link());
             Prop.Props(null).add(prop_type.link());
             Prop.Props(null).add(prop_target.link());
             Prop.Props(null).add(prop_enum.link());
             Prop.Props(null).add(prop_base.link());
-            Domain.Props(null).add(domain_kinds.link());
-            Domain.Props(null).add(domain_props.link());
-            Domain.Props(null).add(domain_types.link());
-            thing_title.Type(null).val('str');
-            kind_props.Type(null).val('list');
+            Deck.Props(null).add(deck_metas.link());
+            Deck.Props(null).add(deck_props.link());
+            Deck.Props(null).add(deck_types.link());
+            pawn_title.Type(null).val('str');
+            meta_props.Type(null).val('list');
             prop_key.Type(null).val('str');
             prop_type.Type(null).val('enum');
             prop_target.Type(null).val('link');
             prop_enum.Type(null).val('link');
             prop_base.Type(null).val('vary');
-            domain_kinds.Type(null).val('list');
-            domain_props.Type(null).val('list');
-            domain_types.Type(null).val('list');
-            kind_props.Target(null).remote(Prop);
-            prop_target.Target(null).remote(Kind);
-            prop_enum.Target(null).remote(Thing);
-            prop_base.Target(null).remote(Thing);
-            domain_kinds.Target(null).remote(Kind);
-            domain_props.Target(null).remote(Prop);
-            kind_props.Enum(null).vary(domain.Props().link());
-            prop_type.Enum(null).vary(domain.Types().link());
-            prop_target.Enum(null).vary(domain.Kinds().link());
-            prop_enum.Enum(null).vary(domain.link());
-            thing_title.Base(null).vary('');
+            deck_metas.Type(null).val('list');
+            deck_props.Type(null).val('list');
+            deck_types.Type(null).val('list');
+            meta_props.Target(null).remote(Prop);
+            prop_target.Target(null).remote(Meta);
+            prop_enum.Target(null).remote(Pawn);
+            prop_base.Target(null).remote(Pawn);
+            deck_metas.Target(null).remote(Meta);
+            deck_props.Target(null).remote(Prop);
+            meta_props.Enum(null).vary(deck.Props().link());
+            prop_type.Enum(null).vary(deck.Types().link());
+            prop_target.Enum(null).vary(deck.Metas().link());
+            prop_enum.Enum(null).vary(deck.link());
+            pawn_title.Base(null).vary('');
             prop_type.Base(null).vary('vary');
-            prop_target.Base(null).vary(Thing.link());
-            return domain;
+            prop_target.Base(null).vary(Pawn.link());
+            return deck;
         }
     }
     __decorate([
         $mol_action
-    ], $giper_baza_flex_domain, "ensure", null);
-    $.$giper_baza_flex_domain = $giper_baza_flex_domain;
+    ], $giper_baza_flex_deck, "ensure", null);
+    $.$giper_baza_flex_deck = $giper_baza_flex_deck;
 })($ || ($ = {}));
 
 ;
@@ -17415,7 +17415,7 @@ var $;
             }
             title() {
                 const link = this.value();
-                return this.$.$giper_baza_glob.Pawn(link, $giper_baza_flex_thing).Title()?.val() || link?.str;
+                return this.$.$giper_baza_glob.Pawn(link, $giper_baza_flex_pawn).Title()?.val() || link?.str;
             }
             arg() {
                 const link = this.value().str;
@@ -19673,7 +19673,7 @@ var $;
             }
             link_label(link) {
                 if (link instanceof $giper_baza_link)
-                    return this.$.$giper_baza_glob.Pawn(link, $giper_baza_flex_thing).Title()?.val() ?? link.str;
+                    return this.$.$giper_baza_glob.Pawn(link, $giper_baza_flex_pawn).Title()?.val() ?? link.str;
                 return $giper_baza_vary_cast_text(link) ?? '';
             }
             link_remote() {
@@ -19682,7 +19682,7 @@ var $;
             link_new(rights) {
                 if (!rights)
                     return null;
-                const pawn = this.pawn('auto').cast($giper_baza_flex_thing_link);
+                const pawn = this.pawn('auto').cast($giper_baza_flex_pawn_link);
                 const Target = this.prop().Target()?.remote();
                 if (rights === 'local') {
                     const remote = pawn.ensure(null);
@@ -19724,7 +19724,7 @@ var $;
                 return null;
             }
             list_item_add() {
-                const target = this.pawn(null).cast($giper_baza_list_link_to(() => $giper_baza_flex_thing)).make(null);
+                const target = this.pawn(null).cast($giper_baza_list_link_to(() => $giper_baza_flex_pawn)).make(null);
                 const meta = this.prop().Target()?.remote()?.link() ?? null;
                 if (meta)
                     target.meta(meta);
@@ -20244,8 +20244,8 @@ var $;
 			const obj = new this.$.$giper_baza_dict();
 			return obj;
 		}
-		kind(){
-			const obj = new this.$.$giper_baza_flex_kind();
+		meta(){
+			const obj = new this.$.$giper_baza_flex_meta();
 			return obj;
 		}
 		rows(){
@@ -20258,7 +20258,7 @@ var $;
 	($mol_mem_key(($.$giper_baza_flex_form.prototype), "Field_content"));
 	($mol_mem_key(($.$giper_baza_flex_form.prototype), "Field"));
 	($mol_mem(($.$giper_baza_flex_form.prototype), "pawn"));
-	($mol_mem(($.$giper_baza_flex_form.prototype), "kind"));
+	($mol_mem(($.$giper_baza_flex_form.prototype), "meta"));
 
 
 ;
@@ -20271,16 +20271,16 @@ var $;
     var $$;
     (function ($$) {
         class $giper_baza_flex_form extends $.$giper_baza_flex_form {
-            kind() {
-                const land = this.$.$giper_baza_glob.home().hall_by($giper_baza_flex_domain, null).land();
-                const domain = $giper_baza_flex_domain.ensure(land);
+            meta() {
                 const link = this.pawn().meta();
                 if (link)
-                    return this.$.$giper_baza_glob.Pawn(link, $giper_baza_flex_kind);
-                return domain.Kinds()?.remote_list()[0] ?? null;
+                    return this.$.$giper_baza_glob.Pawn(link, $giper_baza_flex_meta);
+                const deck = this.$.$giper_baza_glob.Pawn(new $giper_baza_link('B7eENiTu_lxfWqjoP'), $giper_baza_flex_deck);
+                const Pawn = deck.Metas()?.remote_list()[0];
+                return Pawn;
             }
             fields() {
-                return this.kind()?.Props()?.remote_list().map(key => this.Field(key)) ?? [];
+                return this.meta()?.Props()?.remote_list().map(key => this.Field(key)) ?? [];
             }
             field_name(prop) {
                 return prop.Title()?.val() ?? prop.link().str;
@@ -20297,7 +20297,7 @@ var $;
         }
         __decorate([
             $mol_mem
-        ], $giper_baza_flex_form.prototype, "kind", null);
+        ], $giper_baza_flex_form.prototype, "meta", null);
         __decorate([
             $mol_mem
         ], $giper_baza_flex_form.prototype, "fields", null);
@@ -21592,19 +21592,19 @@ var $;
 			(obj.bubble_content) = () => (["Double to wipe database"]);
 			return obj;
 		}
-		config_make(next){
+		deck_make(next){
 			if(next !== undefined) return next;
 			return null;
 		}
-		Config_make_icon(){
+		Deck_make_icon(){
 			const obj = new this.$.$mol_icon_sprout_outline();
 			return obj;
 		}
-		Config_make(){
+		Deck_make(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.hint) = () => ("Make core config");
-			(obj.click) = (next) => ((this.config_make(next)));
-			(obj.sub) = () => ([(this.Config_make_icon())]);
+			(obj.hint) = () => ("Make Base Deck");
+			(obj.click) = (next) => ((this.deck_make(next)));
+			(obj.sub) = () => ([(this.Deck_make_icon())]);
 			return obj;
 		}
 		update(next){
@@ -21640,7 +21640,7 @@ var $;
 		menu_foot(){
 			return [
 				(this.Wipe_pick()), 
-				(this.Config_make()), 
+				(this.Deck_make()), 
 				(this.Update()), 
 				(this.Land_add())
 			];
@@ -21652,9 +21652,9 @@ var $;
 	($mol_mem(($.$giper_baza_glob_book.prototype), "wipe"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Wipe_icon"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Wipe_pick"));
-	($mol_mem(($.$giper_baza_glob_book.prototype), "config_make"));
-	($mol_mem(($.$giper_baza_glob_book.prototype), "Config_make_icon"));
-	($mol_mem(($.$giper_baza_glob_book.prototype), "Config_make"));
+	($mol_mem(($.$giper_baza_glob_book.prototype), "deck_make"));
+	($mol_mem(($.$giper_baza_glob_book.prototype), "Deck_make_icon"));
+	($mol_mem(($.$giper_baza_glob_book.prototype), "Deck_make"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "update"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Update"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "land_add"));
@@ -21749,6 +21749,13 @@ var $;
                 yard.kill();
                 mine.kill();
                 location.reload();
+            }
+            deck_make() {
+                const land = this.$.$giper_baza_glob.land_grab();
+                const deck = $giper_baza_flex_deck.ensure(land);
+                this.$.$mol_state_arg.go({
+                    [this.param()]: land.link().str
+                });
             }
         }
         __decorate([
