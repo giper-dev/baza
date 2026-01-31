@@ -8157,7 +8157,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $giper_baza_node extends $mol_object {
+    class $giper_baza_pawn extends $mol_object {
         static tag = 'vals';
         land() {
             return null;
@@ -8174,18 +8174,18 @@ var $;
         toJSON() {
             return this.link().str;
         }
-        cast(Node) {
-            return this.land().Node(Node).Item(this.head());
+        cast(Pawn) {
+            return this.land().Pawn(Pawn).Head(this.head());
         }
-        nodes(Node) {
+        pawns(Pawn) {
             const land = this.land();
             const map = {
-                term: () => land.Node(Node || $giper_baza_atom_vary),
-                solo: () => land.Node(Node || $giper_baza_atom_vary),
-                vals: () => land.Node(Node || $giper_baza_list_vary),
-                keys: () => land.Node(Node || $giper_baza_dict),
+                term: () => land.Pawn(Pawn || $giper_baza_atom_vary),
+                solo: () => land.Pawn(Pawn || $giper_baza_atom_vary),
+                vals: () => land.Pawn(Pawn || $giper_baza_list_vary),
+                keys: () => land.Pawn(Pawn || $giper_baza_dict),
             };
-            return this.units().map(unit => map[unit.tag()]().Item(unit.self()));
+            return this.units().map(unit => map[unit.tag()]().Head(unit.self()));
         }
         units() {
             return this.units_of($giper_baza_link.hole);
@@ -8223,7 +8223,7 @@ var $;
                     last = sand.time();
                 if (sand.tag() === 'term')
                     return;
-                land.Node($giper_baza_node).Item(sand.self()).units().forEach(visit);
+                land.Pawn($giper_baza_pawn).Head(sand.self()).units().forEach(visit);
             };
             this.units().forEach(visit);
             return last ? $giper_baza_time_moment(last) : null;
@@ -8235,7 +8235,7 @@ var $;
                 peers.add(land.lord_pass(sand.lord()));
                 if (sand.tag() === 'term')
                     return;
-                land.Node($giper_baza_node).Item(sand.self()).units_of(null).forEach(visit);
+                land.Pawn($giper_baza_pawn).Head(sand.self()).units_of(null).forEach(visit);
             };
             this.units_of(null).forEach(visit);
             return [...peers];
@@ -8247,29 +8247,29 @@ var $;
     }
     __decorate([
         $mol_memo.method
-    ], $giper_baza_node.prototype, "link", null);
+    ], $giper_baza_pawn.prototype, "link", null);
     __decorate([
         $mol_mem_key
-    ], $giper_baza_node.prototype, "cast", null);
+    ], $giper_baza_pawn.prototype, "cast", null);
     __decorate([
         $mol_mem_key
-    ], $giper_baza_node.prototype, "nodes", null);
+    ], $giper_baza_pawn.prototype, "pawns", null);
     __decorate([
         $mol_mem_key
-    ], $giper_baza_node.prototype, "units_of", null);
+    ], $giper_baza_pawn.prototype, "units_of", null);
     __decorate([
         $mol_mem
-    ], $giper_baza_node.prototype, "meta", null);
+    ], $giper_baza_pawn.prototype, "meta", null);
     __decorate([
         $mol_mem_key
-    ], $giper_baza_node.prototype, "meta_of", null);
+    ], $giper_baza_pawn.prototype, "meta_of", null);
     __decorate([
         $mol_mem
-    ], $giper_baza_node.prototype, "last_change", null);
+    ], $giper_baza_pawn.prototype, "last_change", null);
     __decorate([
         $mol_mem
-    ], $giper_baza_node.prototype, "authors", null);
-    $.$giper_baza_node = $giper_baza_node;
+    ], $giper_baza_pawn.prototype, "authors", null);
+    $.$giper_baza_pawn = $giper_baza_pawn;
 })($ || ($ = {}));
 
 ;
@@ -8282,19 +8282,19 @@ var $;
             super();
             this.item_make = item_make;
         }
-        Item(head) {
+        Head(head) {
             return this.item_make(head);
         }
         Data() {
-            return this.Item($giper_baza_land_root.data);
+            return this.Head($giper_baza_land_root.data);
         }
         Tine() {
-            return this.Item($giper_baza_land_root.tine);
+            return this.Head($giper_baza_land_root.tine);
         }
     }
     __decorate([
         $mol_mem_key
-    ], $giper_baza_fund.prototype, "Item", null);
+    ], $giper_baza_fund.prototype, "Head", null);
     $.$giper_baza_fund = $giper_baza_fund;
 })($ || ($ = {}));
 
@@ -8566,15 +8566,15 @@ var $;
             part = pack.parts()[0][1];
             this.diff_apply(part.units, 'skip_load');
         }
-        Data(Node) {
-            return this.Node(Node).Item($.$giper_baza_land_root.data);
+        Data(Pawn) {
+            return this.Pawn(Pawn).Head($.$giper_baza_land_root.data);
         }
         Tine() {
-            return this.Node($giper_baza_list_link).Item($.$giper_baza_land_root.tine);
+            return this.Pawn($giper_baza_list_link).Head($.$giper_baza_land_root.tine);
         }
-        Node(Node) {
+        Pawn(Pawn) {
             return new $giper_baza_fund((head) => {
-                return Node.make({
+                return Pawn.make({
                     land: $mol_const(this),
                     head: $mol_const(head),
                 });
@@ -9332,7 +9332,7 @@ var $;
     ], $giper_baza_land.prototype, "Tine", null);
     __decorate([
         $mol_mem_key
-    ], $giper_baza_land.prototype, "Node", null);
+    ], $giper_baza_land.prototype, "Pawn", null);
     __decorate([
         $mol_mem
     ], $giper_baza_land.prototype, "total", null);
@@ -10059,7 +10059,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $giper_baza_list_vary extends $giper_baza_node {
+    class $giper_baza_list_vary extends $giper_baza_pawn {
         static tag = $giper_baza_unit_sand_tag[$giper_baza_unit_sand_tag.vals];
         items_vary(next, tag = 'term') {
             const units = this.units();
@@ -10118,9 +10118,9 @@ var $;
         wipe(seat) {
             this.land().sand_wipe(this.units()[seat]);
         }
-        node_make(Node, vary, tag = 'term') {
+        pawn_make(Pawn, vary, tag = 'term') {
             this.splice([vary], undefined, undefined, tag);
-            return this.land().Node(Node).Item(this.units().at(-1).self());
+            return this.land().Pawn(Pawn).Head(this.units().at(-1).self());
         }
         ;
         [$mol_dev_format_head]() {
@@ -10200,11 +10200,11 @@ var $;
             }
             remote_list(next) {
                 const glob = this.$.$giper_baza_glob;
-                const Node = Value();
+                const Pawn = Value();
                 return this.items_vary(next?.map(item => item.link()))
                     .map($giper_baza_vary_cast_link)
                     .filter($mol_guard_defined)
-                    .map(link => glob.Node(link, Node));
+                    .map(link => glob.Pawn(link, Pawn));
             }
             remote_add(item) {
                 this.add(item.link());
@@ -10212,19 +10212,19 @@ var $;
             make(config) {
                 if (config === null || typeof config === 'number') {
                     const self = this.land().self_make(config || undefined);
-                    const node = this.land().Node(Value()).Item(self);
-                    this.splice([node.link()]);
-                    return node;
+                    const pawn = this.land().Pawn(Value()).Head(self);
+                    this.splice([pawn.link()]);
+                    return pawn;
                 }
                 else if (config instanceof $giper_baza_land) {
                     const land = config.area_make();
                     this.splice([land.link()]);
-                    return land.Node(Value()).Data();
+                    return land.Pawn(Value()).Data();
                 }
                 else if (config) {
                     const land = this.$.$giper_baza_glob.land_grab(config);
                     this.splice([land.link()]);
-                    return land.Node(Value()).Data();
+                    return land.Pawn(Value()).Data();
                 }
             }
         }
@@ -10254,11 +10254,11 @@ var $;
         keys() {
             return this.items_vary();
         }
-        dive(key, Node, auto) {
+        dive(key, Pawn, auto) {
             if (this.can_change() && auto !== undefined)
-                this.has(key, true, Node.tag);
+                this.has(key, true, Pawn.tag);
             const unit = this.find(key);
-            return unit ? this.land().Node(Node).Item(unit.self()) : null;
+            return unit ? this.land().Pawn(Pawn).Head(unit.self()) : null;
         }
         static schema = {};
         static with(schema) {
@@ -10282,8 +10282,8 @@ var $;
         ;
         [$mol_dev_format_head]() {
             const keys = $mol_wire_probe(() => this.keys());
-            const nodes = $mol_wire_probe(() => this.nodes(null)) ?? [];
-            return $mol_dev_format_span({}, $mol_dev_format_native(this), ' ', this.head(), ' ', $mol_dev_format_auto(keys?.map((key, index) => new Pair(key, nodes[index]))));
+            const pawns = $mol_wire_probe(() => this.pawns(null)) ?? [];
+            return $mol_dev_format_span({}, $mol_dev_format_native(this), ' ', this.head(), ' ', $mol_dev_format_auto(keys?.map((key, index) => new Pair(key, pawns[index]))));
         }
     }
     __decorate([
@@ -10333,7 +10333,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $giper_baza_atom_vary extends $giper_baza_node {
+    class $giper_baza_atom_vary extends $giper_baza_pawn {
         static tag = $giper_baza_unit_sand_tag[$giper_baza_unit_sand_tag.solo];
         pick_unit(peer) {
             return this.units_of(peer).at(0);
@@ -10479,7 +10479,7 @@ var $;
                 link = $giper_baza_vary_cast_link(this.vary_of(peer, link));
                 if (!link)
                     return null;
-                return this.$.$giper_baza_glob.Node(link, Value());
+                return this.$.$giper_baza_glob.Pawn(link, Value());
             }
             ensure(config) {
                 return this.ensure_of($giper_baza_link.hole, config);
@@ -10500,8 +10500,8 @@ var $;
             ensure_here(peer) {
                 const idea = $mol_hash_string(this.link().str);
                 const head = this.land().self_make(idea);
-                const node = this.land().Node(Value()).Item(head);
-                this.remote_of(peer, node);
+                const pawn = this.land().Pawn(Value()).Head(head);
+                this.remote_of(peer, pawn);
             }
             ensure_area(peer, land) {
                 const idea = $mol_hash_string(this.link().str);
@@ -10561,8 +10561,8 @@ var $;
         Selection: $giper_baza_atom_text,
         Hall: $giper_baza_atom_link_to(() => $giper_baza_dict),
     }) {
-        hall_by(Node, auto) {
-            return this.Hall(auto)?.ensure(auto === null ? this.land() : undefined)?.cast(Node) ?? null;
+        hall_by(Pawn, auto) {
+            return this.Hall(auto)?.ensure(auto === null ? this.land() : undefined)?.cast(Pawn) ?? null;
         }
     }
     $.$giper_baza_home = $giper_baza_home;
@@ -11330,8 +11330,8 @@ var $;
         static yard() {
             return new this.$.$giper_baza_yard;
         }
-        static home(Node) {
-            return this.Land(this.$.$giper_baza_auth.current().pass().lord()).Data(Node ?? this.$.$giper_baza_home);
+        static home(Pawn) {
+            return this.Land(this.$.$giper_baza_auth.current().pass().lord()).Data(Pawn ?? this.$.$giper_baza_home);
         }
         static king_grab(preset = [[null, this.$.$giper_baza_rank_read]]) {
             const mapping = new Map(preset);
@@ -11357,9 +11357,9 @@ var $;
                 link: $mol_const(link),
             });
         }
-        static Node(link, Node) {
+        static Pawn(link, Pawn) {
             const land = this.Land(link.land());
-            return land.Node(Node).Item(link.head());
+            return land.Pawn(Pawn).Head(link.head());
         }
         static apply_pack(pack) {
             return this.apply_parts(pack.parts());
@@ -14565,20 +14565,20 @@ var $;
                 $mol_assert_equal(new $giper_baza_link('qwertyui_asdfghjk__zxcvbnm0').area(), new $giper_baza_link('qwertyui_asdfghjk').area(), new $giper_baza_link('').area(), new $giper_baza_link(''));
             },
             "Binary encoding"($) {
-                const node = new $giper_baza_link('qwertyui_asdfghjk_qazwsxed_zxcvbnm0').toBin();
+                const pawn = new $giper_baza_link('qwertyui_asdfghjk_qazwsxed_zxcvbnm0').toBin();
                 const land = new $giper_baza_link('qwertyui_asdfghjk_qazwsxed').toBin();
                 const lord = new $giper_baza_link('qwertyui_asdfghjk').toBin();
-                const rel_node = new $giper_baza_link('___zxcvbnm0').toBin();
+                const rel_pawn = new $giper_baza_link('___zxcvbnm0').toBin();
                 const rel_root = new $giper_baza_link('').toBin();
-                $mol_assert_equal(node.length, 24);
+                $mol_assert_equal(pawn.length, 24);
                 $mol_assert_equal(land.length, 18);
                 $mol_assert_equal(lord.length, 12);
-                $mol_assert_equal(rel_node.length, 24);
+                $mol_assert_equal(rel_pawn.length, 24);
                 $mol_assert_equal(rel_root.length, 6);
-                $mol_assert_equal($giper_baza_link.from_bin(node), new $giper_baza_link('qwertyui_asdfghjk_qazwsxed_zxcvbnm0'));
+                $mol_assert_equal($giper_baza_link.from_bin(pawn), new $giper_baza_link('qwertyui_asdfghjk_qazwsxed_zxcvbnm0'));
                 $mol_assert_equal($giper_baza_link.from_bin(land), new $giper_baza_link('qwertyui_asdfghjk_qazwsxed'));
                 $mol_assert_equal($giper_baza_link.from_bin(lord), new $giper_baza_link('qwertyui_asdfghjk'));
-                $mol_assert_equal($giper_baza_link.from_bin(rel_node), new $giper_baza_link('___zxcvbnm0'));
+                $mol_assert_equal($giper_baza_link.from_bin(rel_pawn), new $giper_baza_link('___zxcvbnm0'));
                 $mol_assert_equal($giper_baza_link.from_bin(rel_root), new $giper_baza_link(''));
             },
             "Relate to base"($) {
@@ -15921,12 +15921,12 @@ var $;
         'Inner Links is relative to Land': $mol_wire_async(($) => {
             const Alice = $.$giper_baza_glob.home().land();
             const Bella = Alice.fork();
-            const alice_val = Alice.Node($giper_baza_atom_text).Item(new $giper_baza_link('qwertyui'));
-            const bella_val = Bella.Node($giper_baza_atom_text).Item(new $giper_baza_link('qwertyui'));
+            const alice_val = Alice.Pawn($giper_baza_atom_text).Head(new $giper_baza_link('qwertyui'));
+            const bella_val = Bella.Pawn($giper_baza_atom_text).Head(new $giper_baza_link('qwertyui'));
             alice_val.val('Alice');
             bella_val.val('Bella');
-            const alice_link = Alice.Node($giper_baza_atom_link).Item(new $giper_baza_link('asdfghjk'));
-            const bella_link = Bella.Node($giper_baza_atom_link).Item(new $giper_baza_link('asdfghjk'));
+            const alice_link = Alice.Pawn($giper_baza_atom_link).Head(new $giper_baza_link('asdfghjk'));
+            const bella_link = Bella.Pawn($giper_baza_atom_link).Head(new $giper_baza_link('asdfghjk'));
             alice_link.val(alice_val.link());
             $mol_assert_equal(alice_link.val(), alice_val.link());
             $mol_assert_unique(alice_link.val(), bella_link.val());
@@ -16220,7 +16220,7 @@ var $;
     $mol_test({
         'Basic list ops'($) {
             const land = $.$giper_baza_land.make({ $ });
-            const list = land.Node($giper_baza_list_vary).Data();
+            const list = land.Pawn($giper_baza_list_vary).Data();
             $mol_assert_equal(list.items_vary(), []);
             list.items_vary([2, 3]);
             $mol_assert_equal(list.items_vary(), [2, 3]);
@@ -16248,7 +16248,7 @@ var $;
         },
         'Different types'($) {
             const land = $.$giper_baza_land.make({ $ });
-            const list = land.Node($.$giper_baza_list_vary).Data();
+            const list = land.Pawn($.$giper_baza_list_vary).Data();
             list.items_vary([
                 null,
                 false,
@@ -16286,8 +16286,8 @@ var $;
         async 'List merge'($) {
             const land1 = $.$giper_baza_land.make({ $ });
             const land2 = $.$giper_baza_land.make({ $ });
-            const list1 = land1.Node($giper_baza_list_vary).Data();
-            const list2 = land2.Node($giper_baza_list_vary).Data();
+            const list1 = land1.Pawn($giper_baza_list_vary).Data();
+            const list2 = land2.Pawn($giper_baza_list_vary).Data();
             list1.items_vary(['foo', 'xxx']);
             land2.faces.tick();
             list2.items_vary(['foo', 'yyy']);
@@ -16296,7 +16296,7 @@ var $;
         },
         'Insert before removed before changed'($) {
             const land = $.$giper_baza_land.make({ $ });
-            const list = land.Node($giper_baza_list_vary).Data();
+            const list = land.Pawn($giper_baza_list_vary).Data();
             list.items_vary(['foo', 'bar']);
             list.items_vary(['xxx', 'foo', 'bar']);
             list.items_vary(['xxx', 'bars']);
@@ -16304,7 +16304,7 @@ var $;
         },
         'Many moves'($) {
             const land = $.$giper_baza_land.make({ $ });
-            const list = land.Node($giper_baza_list_vary).Data();
+            const list = land.Pawn($giper_baza_list_vary).Data();
             list.items_vary(['foo', 'bar', 'lol']);
             list.move(2, 1);
             list.move(2, 1);
@@ -16314,7 +16314,7 @@ var $;
         },
         'Reorder separated sublists'($) {
             const land = $.$giper_baza_land.make({ $ });
-            const list = land.Node($giper_baza_list_vary).Data();
+            const list = land.Pawn($giper_baza_list_vary).Data();
             list.items_vary([1, 2, 3, 4, 5, 6]);
             list.move(3, 5);
             list.move(3, 5);
@@ -16432,7 +16432,7 @@ var $;
             right.Data($giper_baza_list_vary).items_vary([1, 2, 7, 3, 4]);
             sync(left, right);
             $mol_assert_equal(left.Data($giper_baza_list_vary).items_vary(), right.Data($giper_baza_list_vary).items_vary(), [1, 7, 3, 4]);
-            $mol_assert_equal(left.Node($giper_baza_list_vary).Item(new $giper_baza_link('11111111')).items_vary(), right.Node($giper_baza_list_vary).Item(new $giper_baza_link('11111111')).items_vary(), [2]);
+            $mol_assert_equal(left.Pawn($giper_baza_list_vary).Head(new $giper_baza_link('11111111')).items_vary(), right.Pawn($giper_baza_list_vary).Head(new $giper_baza_link('11111111')).items_vary(), [2]);
         }),
         'Move out before inserted': $mol_wire_async(($) => {
             const base = $mol_wire_sync($.$giper_baza_land).make({ $ });
@@ -16444,7 +16444,7 @@ var $;
             right.sand_move(right.Data($giper_baza_list_vary).units()[1], new $giper_baza_link('11111111'), 0);
             sync(left, right);
             $mol_assert_equal(left.Data($giper_baza_list_vary).items_vary(), right.Data($giper_baza_list_vary).items_vary(), [1, 7, 3, 4]);
-            $mol_assert_equal(left.Node($giper_baza_list_vary).Item(new $giper_baza_link('11111111')).items_vary(), right.Node($giper_baza_list_vary).Item(new $giper_baza_link('11111111')).items_vary(), [2]);
+            $mol_assert_equal(left.Pawn($giper_baza_list_vary).Head(new $giper_baza_link('11111111')).items_vary(), right.Pawn($giper_baza_list_vary).Head(new $giper_baza_link('11111111')).items_vary(), [2]);
         }),
         'Insert before changed': $mol_wire_async(($) => {
             const base = $mol_wire_sync($.$giper_baza_land).make({ $ });
@@ -16504,7 +16504,7 @@ var $;
         $mol_test({
             async 'Dictionary invariants'($) {
                 const land = $giper_baza_land.make({ $ });
-                const dict = land.Node($giper_baza_dict).Data();
+                const dict = land.Pawn($giper_baza_dict).Data();
                 $mol_assert_equal(dict.keys(), []);
                 dict.dive(123, $giper_baza_atom_vary, null);
                 dict.dive('xxx', $giper_baza_atom_vary, null);
@@ -16524,8 +16524,8 @@ var $;
             async 'Dictionary merge'($) {
                 const land1 = $giper_baza_land.make({ $ });
                 const land2 = $giper_baza_land.make({ $ });
-                const dict1 = land1.Node($giper_baza_dict).Data();
-                const dict2 = land2.Node($giper_baza_dict).Data();
+                const dict1 = land1.Pawn($giper_baza_dict).Data();
+                const dict2 = land2.Pawn($giper_baza_dict).Data();
                 dict1.dive(123, $giper_baza_atom_vary, null).vary(666);
                 land2.faces.tick();
                 dict2.dive(123, $giper_baza_atom_vary, null).vary(777);
@@ -16555,7 +16555,7 @@ var $;
                 }) {
                 }
                 const land = $.$giper_baza_glob.home().land();
-                const user = land.Node(User).Item(new $giper_baza_link('11111111'));
+                const user = land.Pawn(User).Head(new $giper_baza_link('11111111'));
                 $mol_assert_equal(user.Title()?.val() ?? null, null);
                 $mol_assert_equal(user.Account()?.remote() ?? null, null);
                 $mol_assert_equal(user.Articles()?.remote_list() ?? [], []);
@@ -16686,18 +16686,18 @@ var $;
         $mol_test({
             "Empty representation"($) {
                 const land = $giper_baza_land.make({ $ });
-                const reg = land.Node($giper_baza_atom_time).Data();
+                const reg = land.Pawn($giper_baza_atom_time).Data();
                 $mol_assert_equal(reg.val(), null);
                 reg.vary(null);
                 $mol_assert_equal(reg.val(), null);
             },
             "Narrow registers"($) {
                 const land = $.$giper_baza_glob.home().land();
-                const bin = land.Node($giper_baza_atom_blob).Item(new $giper_baza_link('11111111'));
+                const bin = land.Pawn($giper_baza_atom_blob).Head(new $giper_baza_link('11111111'));
                 $mol_assert_equal(bin.val(), null);
                 bin.val(new Uint8Array([1, 2, 3]));
                 $mol_assert_equal(bin.val(), new Uint8Array([1, 2, 3]));
-                const str = land.Node($giper_baza_atom_text).Item(new $giper_baza_link('22222222'));
+                const str = land.Pawn($giper_baza_atom_text).Head(new $giper_baza_link('22222222'));
                 $mol_assert_equal(str.val(), null);
                 str.val('foo');
                 $mol_assert_equal(str.val(), 'foo');
@@ -16706,7 +16706,7 @@ var $;
                 class Email extends $giper_baza_atom($mol_data_email) {
                 }
                 const land = $giper_baza_land.make({ $ });
-                const reg = land.Node(Email).Data();
+                const reg = land.Pawn(Email).Data();
                 $mol_assert_equal(reg.val(), null);
                 reg.val('foo@exaple.org');
                 $mol_assert_equal(reg.val(), 'foo@exaple.org');
@@ -16717,16 +16717,16 @@ var $;
             },
             "Hyper link to another land"($) {
                 const land = $.$giper_baza_glob.home().land();
-                const reg = land.Node($giper_baza_atom_link_to(() => $giper_baza_atom_vary)).Item(new $giper_baza_link('11111111'));
+                const reg = land.Pawn($giper_baza_atom_link_to(() => $giper_baza_atom_vary)).Head(new $giper_baza_link('11111111'));
                 const remote = reg.ensure(land);
                 $mol_assert_unique(reg.land(), remote.land());
                 $mol_assert_equal(reg.vary(), remote.link());
                 $mol_assert_equal(reg.remote(), remote);
             },
-            "Register with linked nodes"($) {
+            "Register with linked Pawns"($) {
                 const land = $.$giper_baza_glob.home().land();
-                const str = land.Node($giper_baza_atom_text).Item(new $giper_baza_link('11111111'));
-                const link = land.Node($giper_baza_atom_link_to(() => $giper_baza_atom_text)).Item(new $giper_baza_link('11111111'));
+                const str = land.Pawn($giper_baza_atom_text).Head(new $giper_baza_link('11111111'));
+                const link = land.Pawn($giper_baza_atom_link_to(() => $giper_baza_atom_text)).Head(new $giper_baza_link('11111111'));
                 $mol_assert_equal(link.remote(), null);
                 link.remote(str);
                 $mol_assert_equal(link.vary(), link.remote().link(), str.link());

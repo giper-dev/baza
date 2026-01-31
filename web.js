@@ -4596,19 +4596,19 @@ var $;
             super();
             this.item_make = item_make;
         }
-        Item(head) {
+        Head(head) {
             return this.item_make(head);
         }
         Data() {
-            return this.Item($giper_baza_land_root.data);
+            return this.Head($giper_baza_land_root.data);
         }
         Tine() {
-            return this.Item($giper_baza_land_root.tine);
+            return this.Head($giper_baza_land_root.tine);
         }
     }
     __decorate([
         $mol_mem_key
-    ], $giper_baza_fund.prototype, "Item", null);
+    ], $giper_baza_fund.prototype, "Head", null);
     $.$giper_baza_fund = $giper_baza_fund;
 })($ || ($ = {}));
 
@@ -7049,15 +7049,15 @@ var $;
             part = pack.parts()[0][1];
             this.diff_apply(part.units, 'skip_load');
         }
-        Data(Node) {
-            return this.Node(Node).Item($.$giper_baza_land_root.data);
+        Data(Pawn) {
+            return this.Pawn(Pawn).Head($.$giper_baza_land_root.data);
         }
         Tine() {
-            return this.Node($giper_baza_list_link).Item($.$giper_baza_land_root.tine);
+            return this.Pawn($giper_baza_list_link).Head($.$giper_baza_land_root.tine);
         }
-        Node(Node) {
+        Pawn(Pawn) {
             return new $giper_baza_fund((head) => {
-                return Node.make({
+                return Pawn.make({
                     land: $mol_const(this),
                     head: $mol_const(head),
                 });
@@ -7815,7 +7815,7 @@ var $;
     ], $giper_baza_land.prototype, "Tine", null);
     __decorate([
         $mol_mem_key
-    ], $giper_baza_land.prototype, "Node", null);
+    ], $giper_baza_land.prototype, "Pawn", null);
     __decorate([
         $mol_mem
     ], $giper_baza_land.prototype, "total", null);
@@ -8821,7 +8821,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $giper_baza_node extends $mol_object {
+    class $giper_baza_pawn extends $mol_object {
         static tag = 'vals';
         land() {
             return null;
@@ -8838,18 +8838,18 @@ var $;
         toJSON() {
             return this.link().str;
         }
-        cast(Node) {
-            return this.land().Node(Node).Item(this.head());
+        cast(Pawn) {
+            return this.land().Pawn(Pawn).Head(this.head());
         }
-        nodes(Node) {
+        pawns(Pawn) {
             const land = this.land();
             const map = {
-                term: () => land.Node(Node || $giper_baza_atom_vary),
-                solo: () => land.Node(Node || $giper_baza_atom_vary),
-                vals: () => land.Node(Node || $giper_baza_list_vary),
-                keys: () => land.Node(Node || $giper_baza_dict),
+                term: () => land.Pawn(Pawn || $giper_baza_atom_vary),
+                solo: () => land.Pawn(Pawn || $giper_baza_atom_vary),
+                vals: () => land.Pawn(Pawn || $giper_baza_list_vary),
+                keys: () => land.Pawn(Pawn || $giper_baza_dict),
             };
-            return this.units().map(unit => map[unit.tag()]().Item(unit.self()));
+            return this.units().map(unit => map[unit.tag()]().Head(unit.self()));
         }
         units() {
             return this.units_of($giper_baza_link.hole);
@@ -8887,7 +8887,7 @@ var $;
                     last = sand.time();
                 if (sand.tag() === 'term')
                     return;
-                land.Node($giper_baza_node).Item(sand.self()).units().forEach(visit);
+                land.Pawn($giper_baza_pawn).Head(sand.self()).units().forEach(visit);
             };
             this.units().forEach(visit);
             return last ? $giper_baza_time_moment(last) : null;
@@ -8899,7 +8899,7 @@ var $;
                 peers.add(land.lord_pass(sand.lord()));
                 if (sand.tag() === 'term')
                     return;
-                land.Node($giper_baza_node).Item(sand.self()).units_of(null).forEach(visit);
+                land.Pawn($giper_baza_pawn).Head(sand.self()).units_of(null).forEach(visit);
             };
             this.units_of(null).forEach(visit);
             return [...peers];
@@ -8911,29 +8911,29 @@ var $;
     }
     __decorate([
         $mol_memo.method
-    ], $giper_baza_node.prototype, "link", null);
+    ], $giper_baza_pawn.prototype, "link", null);
     __decorate([
         $mol_mem_key
-    ], $giper_baza_node.prototype, "cast", null);
+    ], $giper_baza_pawn.prototype, "cast", null);
     __decorate([
         $mol_mem_key
-    ], $giper_baza_node.prototype, "nodes", null);
+    ], $giper_baza_pawn.prototype, "pawns", null);
     __decorate([
         $mol_mem_key
-    ], $giper_baza_node.prototype, "units_of", null);
+    ], $giper_baza_pawn.prototype, "units_of", null);
     __decorate([
         $mol_mem
-    ], $giper_baza_node.prototype, "meta", null);
+    ], $giper_baza_pawn.prototype, "meta", null);
     __decorate([
         $mol_mem_key
-    ], $giper_baza_node.prototype, "meta_of", null);
+    ], $giper_baza_pawn.prototype, "meta_of", null);
     __decorate([
         $mol_mem
-    ], $giper_baza_node.prototype, "last_change", null);
+    ], $giper_baza_pawn.prototype, "last_change", null);
     __decorate([
         $mol_mem
-    ], $giper_baza_node.prototype, "authors", null);
-    $.$giper_baza_node = $giper_baza_node;
+    ], $giper_baza_pawn.prototype, "authors", null);
+    $.$giper_baza_pawn = $giper_baza_pawn;
 })($ || ($ = {}));
 
 ;
@@ -8980,7 +8980,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $giper_baza_list_vary extends $giper_baza_node {
+    class $giper_baza_list_vary extends $giper_baza_pawn {
         static tag = $giper_baza_unit_sand_tag[$giper_baza_unit_sand_tag.vals];
         items_vary(next, tag = 'term') {
             const units = this.units();
@@ -9039,9 +9039,9 @@ var $;
         wipe(seat) {
             this.land().sand_wipe(this.units()[seat]);
         }
-        node_make(Node, vary, tag = 'term') {
+        pawn_make(Pawn, vary, tag = 'term') {
             this.splice([vary], undefined, undefined, tag);
-            return this.land().Node(Node).Item(this.units().at(-1).self());
+            return this.land().Pawn(Pawn).Head(this.units().at(-1).self());
         }
         ;
         [$mol_dev_format_head]() {
@@ -9121,11 +9121,11 @@ var $;
             }
             remote_list(next) {
                 const glob = this.$.$giper_baza_glob;
-                const Node = Value();
+                const Pawn = Value();
                 return this.items_vary(next?.map(item => item.link()))
                     .map($giper_baza_vary_cast_link)
                     .filter($mol_guard_defined)
-                    .map(link => glob.Node(link, Node));
+                    .map(link => glob.Pawn(link, Pawn));
             }
             remote_add(item) {
                 this.add(item.link());
@@ -9133,19 +9133,19 @@ var $;
             make(config) {
                 if (config === null || typeof config === 'number') {
                     const self = this.land().self_make(config || undefined);
-                    const node = this.land().Node(Value()).Item(self);
-                    this.splice([node.link()]);
-                    return node;
+                    const pawn = this.land().Pawn(Value()).Head(self);
+                    this.splice([pawn.link()]);
+                    return pawn;
                 }
                 else if (config instanceof $giper_baza_land) {
                     const land = config.area_make();
                     this.splice([land.link()]);
-                    return land.Node(Value()).Data();
+                    return land.Pawn(Value()).Data();
                 }
                 else if (config) {
                     const land = this.$.$giper_baza_glob.land_grab(config);
                     this.splice([land.link()]);
-                    return land.Node(Value()).Data();
+                    return land.Pawn(Value()).Data();
                 }
             }
         }
@@ -9175,11 +9175,11 @@ var $;
         keys() {
             return this.items_vary();
         }
-        dive(key, Node, auto) {
+        dive(key, Pawn, auto) {
             if (this.can_change() && auto !== undefined)
-                this.has(key, true, Node.tag);
+                this.has(key, true, Pawn.tag);
             const unit = this.find(key);
-            return unit ? this.land().Node(Node).Item(unit.self()) : null;
+            return unit ? this.land().Pawn(Pawn).Head(unit.self()) : null;
         }
         static schema = {};
         static with(schema) {
@@ -9203,8 +9203,8 @@ var $;
         ;
         [$mol_dev_format_head]() {
             const keys = $mol_wire_probe(() => this.keys());
-            const nodes = $mol_wire_probe(() => this.nodes(null)) ?? [];
-            return $mol_dev_format_span({}, $mol_dev_format_native(this), ' ', this.head(), ' ', $mol_dev_format_auto(keys?.map((key, index) => new Pair(key, nodes[index]))));
+            const pawns = $mol_wire_probe(() => this.pawns(null)) ?? [];
+            return $mol_dev_format_span({}, $mol_dev_format_native(this), ' ', this.head(), ' ', $mol_dev_format_auto(keys?.map((key, index) => new Pair(key, pawns[index]))));
         }
     }
     __decorate([
@@ -9254,7 +9254,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $giper_baza_atom_vary extends $giper_baza_node {
+    class $giper_baza_atom_vary extends $giper_baza_pawn {
         static tag = $giper_baza_unit_sand_tag[$giper_baza_unit_sand_tag.solo];
         pick_unit(peer) {
             return this.units_of(peer).at(0);
@@ -9400,7 +9400,7 @@ var $;
                 link = $giper_baza_vary_cast_link(this.vary_of(peer, link));
                 if (!link)
                     return null;
-                return this.$.$giper_baza_glob.Node(link, Value());
+                return this.$.$giper_baza_glob.Pawn(link, Value());
             }
             ensure(config) {
                 return this.ensure_of($giper_baza_link.hole, config);
@@ -9421,8 +9421,8 @@ var $;
             ensure_here(peer) {
                 const idea = $mol_hash_string(this.link().str);
                 const head = this.land().self_make(idea);
-                const node = this.land().Node(Value()).Item(head);
-                this.remote_of(peer, node);
+                const pawn = this.land().Pawn(Value()).Head(head);
+                this.remote_of(peer, pawn);
             }
             ensure_area(peer, land) {
                 const idea = $mol_hash_string(this.link().str);
@@ -9482,8 +9482,8 @@ var $;
         Selection: $giper_baza_atom_text,
         Hall: $giper_baza_atom_link_to(() => $giper_baza_dict),
     }) {
-        hall_by(Node, auto) {
-            return this.Hall(auto)?.ensure(auto === null ? this.land() : undefined)?.cast(Node) ?? null;
+        hall_by(Pawn, auto) {
+            return this.Hall(auto)?.ensure(auto === null ? this.land() : undefined)?.cast(Pawn) ?? null;
         }
     }
     $.$giper_baza_home = $giper_baza_home;
@@ -9498,8 +9498,8 @@ var $;
         static yard() {
             return new this.$.$giper_baza_yard;
         }
-        static home(Node) {
-            return this.Land(this.$.$giper_baza_auth.current().pass().lord()).Data(Node ?? this.$.$giper_baza_home);
+        static home(Pawn) {
+            return this.Land(this.$.$giper_baza_auth.current().pass().lord()).Data(Pawn ?? this.$.$giper_baza_home);
         }
         static king_grab(preset = [[null, this.$.$giper_baza_rank_read]]) {
             const mapping = new Map(preset);
@@ -9525,9 +9525,9 @@ var $;
                 link: $mol_const(link),
             });
         }
-        static Node(link, Node) {
+        static Pawn(link, Pawn) {
             const land = this.Land(link.land());
-            return land.Node(Node).Item(link.head());
+            return land.Pawn(Pawn).Head(link.head());
         }
         static apply_pack(pack) {
             return this.apply_parts(pack.parts());
@@ -17415,7 +17415,7 @@ var $;
             }
             title() {
                 const link = this.value();
-                return this.$.$giper_baza_glob.Node(link, $giper_baza_flex_thing).Title()?.val() || link?.str;
+                return this.$.$giper_baza_glob.Pawn(link, $giper_baza_flex_thing).Title()?.val() || link?.str;
             }
             arg() {
                 const link = this.value().str;
@@ -19139,14 +19139,14 @@ var $;
 		dict_title(){
 			return "";
 		}
-		dict_node(){
+		dict_pawn(){
 			const obj = new this.$.$giper_baza_dict();
 			return obj;
 		}
 		Dict_form(){
 			const obj = new this.$.$giper_baza_flex_form();
 			(obj.enabled) = () => ((this.enabled()));
-			(obj.node) = () => ((this.dict_node()));
+			(obj.pawn) = () => ((this.dict_pawn()));
 			return obj;
 		}
 		text(next){
@@ -19256,13 +19256,13 @@ var $;
 		sub(){
 			return [(this.Sub())];
 		}
-		node(next){
+		pawn(next){
 			if(next !== undefined) return next;
-			const obj = new this.$.$giper_baza_node();
+			const obj = new this.$.$giper_baza_pawn();
 			return obj;
 		}
 		land(){
-			return (this.node().land());
+			return (this.pawn().land());
 		}
 		prop(){
 			const obj = new this.$.$giper_baza_flex_prop();
@@ -19340,7 +19340,7 @@ var $;
 	($mol_mem(($.$giper_baza_flex_field.prototype), "Link_new"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "str"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "time"));
-	($mol_mem(($.$giper_baza_flex_field.prototype), "dict_node"));
+	($mol_mem(($.$giper_baza_flex_field.prototype), "dict_pawn"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "Dict_form"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "text"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "list_item_adopt"));
@@ -19357,7 +19357,7 @@ var $;
 	($mol_mem(($.$giper_baza_flex_field.prototype), "List_item_add"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "List_items"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "List_drop"));
-	($mol_mem(($.$giper_baza_flex_field.prototype), "node"));
+	($mol_mem(($.$giper_baza_flex_field.prototype), "pawn"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "prop"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "Enum"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "Bool"));
@@ -19444,7 +19444,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $giper_baza_text extends $giper_baza_node {
+    class $giper_baza_text extends $giper_baza_pawn {
         static tag = $giper_baza_unit_sand_tag[$giper_baza_unit_sand_tag.vals];
         value(next) {
             return this.text(next);
@@ -19460,16 +19460,16 @@ var $;
                     to: prev.length,
                     next: lines,
                     equal: (next, prev) => {
-                        return land.Node($giper_baza_text).Item(prev.self()).str() === next;
+                        return land.Pawn($giper_baza_text).Head(prev.self()).str() === next;
                     },
                     drop: (prev, lead) => this.land().post(lead?.self() ?? $giper_baza_link.hole, prev.head(), prev.self(), null),
                     insert: (next, lead) => {
                         const sand = this.land().post(lead?.self() ?? $giper_baza_link.hole, this.head(), land.self_make(), 'p', 'vals');
-                        land.Node($giper_baza_text).Item(sand.self()).str(next);
+                        land.Pawn($giper_baza_text).Head(sand.self()).str(next);
                         return sand;
                     },
                     replace: (next, prev, lead) => {
-                        land.Node($giper_baza_text).Item(prev.self()).str(next);
+                        land.Pawn($giper_baza_text).Head(prev.self()).str(next);
                         return prev;
                     },
                 });
@@ -19484,7 +19484,7 @@ var $;
                     if (unit.tag() === 'term')
                         str += $giper_baza_vary_cast_text(land.sand_decode(unit)) ?? '';
                     else
-                        str += land.Node($giper_baza_text).Item(unit.self()).str();
+                        str += land.Pawn($giper_baza_text).Head(unit.self()).str();
                 }
                 return str;
             }
@@ -19539,7 +19539,7 @@ var $;
                         off -= len;
                 }
                 else {
-                    const found = land.Node($giper_baza_text).Item(unit.self()).point_by_offset(off);
+                    const found = land.Pawn($giper_baza_text).Head(unit.self()).point_by_offset(off);
                     if (found[0])
                         return found;
                     off = found[1];
@@ -19556,7 +19556,7 @@ var $;
                     offset += $giper_baza_vary_cast_text(land.sand_decode(unit))?.length ?? 0;
                 }
                 else {
-                    const found = land.Node($giper_baza_text).Item(unit.self()).offset_by_point([self, offset]);
+                    const found = land.Pawn($giper_baza_text).Head(unit.self()).offset_by_point([self, offset]);
                     if (found[0])
                         return [self, found[1]];
                     offset = found[1];
@@ -19610,8 +19610,8 @@ var $;
     var $$;
     (function ($$) {
         class $giper_baza_flex_field extends $.$giper_baza_flex_field {
-            dict_node() {
-                return this.node();
+            dict_pawn() {
+                return this.pawn();
             }
             Sub() {
                 const type = this.prop().Type()?.val();
@@ -19627,11 +19627,11 @@ var $;
                     case 'dict': return this.Dict();
                     case 'text': return this.Text();
                     case 'list': return this.List();
-                    default: return $mol_fail(new Error(`Unsuported node type (${type})`));
+                    default: return $mol_fail(new Error(`Unsuported Pawn type (${type})`));
                 }
             }
             enum(next) {
-                return this.node(next)?.cast($giper_baza_atom_vary).vary(next) ?? null;
+                return this.pawn(next)?.cast($giper_baza_atom_vary).vary(next) ?? null;
             }
             enum_options() {
                 return this.prop().Enum()?.remote()?.items_vary() ?? [];
@@ -19640,22 +19640,22 @@ var $;
                 return $giper_baza_vary_cast_text(option) ?? '';
             }
             bool(next) {
-                return this.node(next)?.cast($giper_baza_atom_bool).val(next) ?? false;
+                return this.pawn(next)?.cast($giper_baza_atom_bool).val(next) ?? false;
             }
             int(next) {
-                return Number(this.node(next)?.cast($giper_baza_atom_bint).val(next === undefined ? undefined : BigInt(next)) ?? Number.NaN);
+                return Number(this.pawn(next)?.cast($giper_baza_atom_bint).val(next === undefined ? undefined : BigInt(next)) ?? Number.NaN);
             }
             real(next) {
-                return this.node(next)?.cast($giper_baza_atom_real).val(next) ?? Number.NaN;
+                return this.pawn(next)?.cast($giper_baza_atom_real).val(next) ?? Number.NaN;
             }
             str(next) {
-                return this.node(next)?.cast($giper_baza_atom_text).val(next) ?? '';
+                return this.pawn(next)?.cast($giper_baza_atom_text).val(next) ?? '';
             }
             time(next) {
-                return this.node(next)?.cast($giper_baza_atom_time).val(next) ?? null;
+                return this.pawn(next)?.cast($giper_baza_atom_time).val(next) ?? null;
             }
             link(next) {
-                this.node(next)?.cast($giper_baza_atom_link).val(next) ?? null;
+                this.pawn(next)?.cast($giper_baza_atom_link).val(next) ?? null;
                 return null;
             }
             link_content() {
@@ -19666,26 +19666,26 @@ var $;
                 ];
             }
             link_value() {
-                return this.node()?.cast($giper_baza_atom_vary).vary() ?? null;
+                return this.pawn()?.cast($giper_baza_atom_vary).vary() ?? null;
             }
             link_options() {
                 return this.prop().Enum()?.remote()?.items_vary() ?? [];
             }
             link_label(link) {
                 if (link instanceof $giper_baza_link)
-                    return this.$.$giper_baza_glob.Node(link, $giper_baza_flex_thing).Title()?.val() ?? link.str;
+                    return this.$.$giper_baza_glob.Pawn(link, $giper_baza_flex_thing).Title()?.val() ?? link.str;
                 return $giper_baza_vary_cast_text(link) ?? '';
             }
             link_remote() {
-                return (this.node().cast($giper_baza_atom_link_to(() => $giper_baza_dict))).remote();
+                return (this.pawn().cast($giper_baza_atom_link_to(() => $giper_baza_dict))).remote();
             }
             link_new(rights) {
                 if (!rights)
                     return null;
-                const node = this.node('auto').cast($giper_baza_flex_thing_link);
+                const pawn = this.pawn('auto').cast($giper_baza_flex_thing_link);
                 const Target = this.prop().Target()?.remote();
                 if (rights === 'local') {
-                    const remote = node.ensure(null);
+                    const remote = pawn.ensure(null);
                     if (Target)
                         remote.meta(Target.link());
                     return null;
@@ -19697,7 +19697,7 @@ var $;
                     pull: [[null, $giper_baza_rank_pull('just')]],
                 }[rights];
                 if (preset) {
-                    const remote = node.ensure(preset);
+                    const remote = pawn.ensure(preset);
                     if (Target)
                         remote.meta(Target.link());
                     return null;
@@ -19705,14 +19705,14 @@ var $;
                 return null;
             }
             text(next) {
-                return this.node(next)?.cast($giper_baza_text).value(next) ?? '';
+                return this.pawn(next)?.cast($giper_baza_text).value(next) ?? '';
             }
             dict_title() {
-                return this.node().cast($giper_baza_entity).Title()?.val() || this.node().link().str;
+                return this.pawn().cast($giper_baza_entity).Title()?.val() || this.pawn().link().str;
             }
             list_items() {
                 return [
-                    ...this.node()?.units().map((unit, i) => this.List_item(unit)) ?? [],
+                    ...this.pawn()?.units().map((unit, i) => this.List_item(unit)) ?? [],
                     ...this.link_options().length ? [this.List_pick()] : [],
                     this.List_item_add(),
                 ];
@@ -19720,11 +19720,11 @@ var $;
             list_pick(next) {
                 if (!next)
                     return null;
-                this.node(next)?.cast($giper_baza_list_vary).add(next);
+                this.pawn(next)?.cast($giper_baza_list_vary).add(next);
                 return null;
             }
             list_item_add() {
-                const target = this.node(null).cast($giper_baza_list_link_to(() => $giper_baza_flex_thing)).make(null);
+                const target = this.pawn(null).cast($giper_baza_list_link_to(() => $giper_baza_flex_thing)).make(null);
                 const meta = this.prop().Target()?.remote()?.link() ?? null;
                 if (meta)
                     target.meta(meta);
@@ -19742,12 +19742,12 @@ var $;
                 return val;
             }
             list_item_receive(sand, value) {
-                const list = this.node().cast($giper_baza_list_vary);
-                this.node()?.cast($giper_baza_list_vary).splice([value], list.units().indexOf(sand));
+                const list = this.pawn().cast($giper_baza_list_vary);
+                this.pawn()?.cast($giper_baza_list_vary).splice([value], list.units().indexOf(sand));
             }
             list_receive(value) {
-                const list = this.node().cast($giper_baza_list_vary);
-                this.node()?.cast($giper_baza_list_vary).splice([value]);
+                const list = this.pawn().cast($giper_baza_list_vary);
+                this.pawn()?.cast($giper_baza_list_vary).splice([value]);
             }
             list_item_drag_end(sand, event) {
                 if (event.dataTransfer?.dropEffect !== 'move')
@@ -20207,9 +20207,9 @@ var $;
 		field_name(id){
 			return "";
 		}
-		field_node(id, next){
+		field_pawn(id, next){
 			if(next !== undefined) return next;
-			const obj = new this.$.$giper_baza_node();
+			const obj = new this.$.$giper_baza_pawn();
 			return obj;
 		}
 		field_prop(id){
@@ -20221,7 +20221,7 @@ var $;
 		}
 		Field_control(id){
 			const obj = new this.$.$giper_baza_flex_field();
-			(obj.node) = (next) => ((this.field_node(id, next)));
+			(obj.pawn) = (next) => ((this.field_pawn(id, next)));
 			(obj.prop) = () => ((this.field_prop(id)));
 			(obj.enabled) = () => ((this.enabled()));
 			return obj;
@@ -20240,7 +20240,7 @@ var $;
 		fields(){
 			return [(this.Field("0"))];
 		}
-		node(){
+		pawn(){
 			const obj = new this.$.$giper_baza_dict();
 			return obj;
 		}
@@ -20252,12 +20252,12 @@ var $;
 			return (this.fields());
 		}
 	};
-	($mol_mem_key(($.$giper_baza_flex_form.prototype), "field_node"));
+	($mol_mem_key(($.$giper_baza_flex_form.prototype), "field_pawn"));
 	($mol_mem_key(($.$giper_baza_flex_form.prototype), "field_prop"));
 	($mol_mem_key(($.$giper_baza_flex_form.prototype), "Field_control"));
 	($mol_mem_key(($.$giper_baza_flex_form.prototype), "Field_content"));
 	($mol_mem_key(($.$giper_baza_flex_form.prototype), "Field"));
-	($mol_mem(($.$giper_baza_flex_form.prototype), "node"));
+	($mol_mem(($.$giper_baza_flex_form.prototype), "pawn"));
 	($mol_mem(($.$giper_baza_flex_form.prototype), "kind"));
 
 
@@ -20274,9 +20274,9 @@ var $;
             kind() {
                 const land = this.$.$giper_baza_glob.home().hall_by($giper_baza_flex_domain, null).land();
                 const domain = $giper_baza_flex_domain.ensure(land);
-                const link = this.node().meta();
+                const link = this.pawn().meta();
                 if (link)
-                    return this.$.$giper_baza_glob.Node(link, $giper_baza_flex_kind);
+                    return this.$.$giper_baza_glob.Pawn(link, $giper_baza_flex_kind);
                 return domain.Kinds()?.remote_list()[0] ?? null;
             }
             fields() {
@@ -20285,14 +20285,14 @@ var $;
             field_name(prop) {
                 return prop.Title()?.val() ?? prop.link().str;
             }
-            field_node(prop, auto) {
-                return this.node().cast($giper_baza_dict).dive(prop.Key(auto)?.val() ?? prop.link(), $giper_baza_node, auto);
+            field_pawn(prop, auto) {
+                return this.pawn().cast($giper_baza_dict).dive(prop.Key(auto)?.val() ?? prop.link(), $giper_baza_pawn, auto);
             }
             field_prop(prop) {
                 return prop;
             }
             enabled() {
-                return this.node()?.can_change() ?? false;
+                return this.pawn()?.can_change() ?? false;
             }
         }
         __decorate([
@@ -20306,12 +20306,12 @@ var $;
 })($ || ($ = {}));
 
 ;
-	($.$giper_baza_node_dump) = class $giper_baza_node_dump extends ($.$mol_expander) {
+	($.$giper_baza_pawn_dump) = class $giper_baza_pawn_dump extends ($.$mol_expander) {
 		can_change(){
-			return (this.node().can_change());
+			return (this.pawn().can_change());
 		}
 		land(){
-			return (this.node().land());
+			return (this.pawn().land());
 		}
 		title(){
 			return "";
@@ -20421,7 +20421,7 @@ var $;
 			(obj.sand) = () => ((this.unit_value(id)));
 			return obj;
 		}
-		node_addons(id){
+		pawn_addons(id){
 			return [
 				(this.Unit_tag(id)), 
 				(this.Unit_time(id)), 
@@ -20429,27 +20429,27 @@ var $;
 				(this.Unit_value(id))
 			];
 		}
-		node_inner(id){
-			const obj = new this.$.$giper_baza_node();
+		pawn_inner(id){
+			const obj = new this.$.$giper_baza_pawn();
 			return obj;
 		}
-		Node_inner(id){
-			const obj = new this.$.$giper_baza_node_dump();
+		Pawn_inner(id){
+			const obj = new this.$.$giper_baza_pawn_dump();
 			(obj.tag) = () => ((this.unit_tag(id)));
-			(obj.addons) = () => ((this.node_addons(id)));
-			(obj.node) = () => ((this.node_inner(id)));
+			(obj.addons) = () => ((this.pawn_addons(id)));
+			(obj.pawn) = () => ((this.pawn_inner(id)));
 			return obj;
 		}
 		Inner(id){
 			const obj = new this.$.$mol_view();
-			(obj.sub) = () => ([(this.Node_inner(id))]);
+			(obj.sub) = () => ([(this.Pawn_inner(id))]);
 			return obj;
 		}
-		nodes(){
+		pawns(){
 			return [(this.Inner("0"))];
 		}
-		node(){
-			const obj = new this.$.$giper_baza_node();
+		pawn(){
+			const obj = new this.$.$giper_baza_pawn();
 			return obj;
 		}
 		tag(){
@@ -20475,32 +20475,32 @@ var $;
 			];
 		}
 		content(){
-			return (this.nodes());
+			return (this.pawns());
 		}
 	};
-	($mol_mem(($.$giper_baza_node_dump.prototype), "Head"));
-	($mol_mem(($.$giper_baza_node_dump.prototype), "key_new"));
-	($mol_mem(($.$giper_baza_node_dump.prototype), "add_key"));
-	($mol_mem(($.$giper_baza_node_dump.prototype), "Add_key"));
-	($mol_mem(($.$giper_baza_node_dump.prototype), "value_new"));
-	($mol_mem(($.$giper_baza_node_dump.prototype), "add_value"));
-	($mol_mem(($.$giper_baza_node_dump.prototype), "Add_value"));
-	($mol_mem(($.$giper_baza_node_dump.prototype), "text"));
-	($mol_mem(($.$giper_baza_node_dump.prototype), "Value_text"));
-	($mol_mem(($.$giper_baza_node_dump.prototype), "value_str"));
-	($mol_mem(($.$giper_baza_node_dump.prototype), "Value_str"));
-	($mol_mem_key(($.$giper_baza_node_dump.prototype), "unit_tag"));
-	($mol_mem_key(($.$giper_baza_node_dump.prototype), "Unit_tag"));
-	($mol_mem_key(($.$giper_baza_node_dump.prototype), "Unit_time"));
-	($mol_mem_key(($.$giper_baza_node_dump.prototype), "Unit_wipe_icon"));
-	($mol_mem_key(($.$giper_baza_node_dump.prototype), "unit_wipe"));
-	($mol_mem_key(($.$giper_baza_node_dump.prototype), "Unit_wipe"));
-	($mol_mem_key(($.$giper_baza_node_dump.prototype), "Unit_value"));
-	($mol_mem_key(($.$giper_baza_node_dump.prototype), "node_inner"));
-	($mol_mem_key(($.$giper_baza_node_dump.prototype), "Node_inner"));
-	($mol_mem_key(($.$giper_baza_node_dump.prototype), "Inner"));
-	($mol_mem(($.$giper_baza_node_dump.prototype), "node"));
-	($mol_mem(($.$giper_baza_node_dump.prototype), "Tools"));
+	($mol_mem(($.$giper_baza_pawn_dump.prototype), "Head"));
+	($mol_mem(($.$giper_baza_pawn_dump.prototype), "key_new"));
+	($mol_mem(($.$giper_baza_pawn_dump.prototype), "add_key"));
+	($mol_mem(($.$giper_baza_pawn_dump.prototype), "Add_key"));
+	($mol_mem(($.$giper_baza_pawn_dump.prototype), "value_new"));
+	($mol_mem(($.$giper_baza_pawn_dump.prototype), "add_value"));
+	($mol_mem(($.$giper_baza_pawn_dump.prototype), "Add_value"));
+	($mol_mem(($.$giper_baza_pawn_dump.prototype), "text"));
+	($mol_mem(($.$giper_baza_pawn_dump.prototype), "Value_text"));
+	($mol_mem(($.$giper_baza_pawn_dump.prototype), "value_str"));
+	($mol_mem(($.$giper_baza_pawn_dump.prototype), "Value_str"));
+	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "unit_tag"));
+	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "Unit_tag"));
+	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "Unit_time"));
+	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "Unit_wipe_icon"));
+	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "unit_wipe"));
+	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "Unit_wipe"));
+	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "Unit_value"));
+	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "pawn_inner"));
+	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "Pawn_inner"));
+	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "Inner"));
+	($mol_mem(($.$giper_baza_pawn_dump.prototype), "pawn"));
+	($mol_mem(($.$giper_baza_pawn_dump.prototype), "Tools"));
 
 
 ;
@@ -20512,27 +20512,27 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
-        class $giper_baza_node_dump extends $.$giper_baza_node_dump {
+        class $giper_baza_pawn_dump extends $.$giper_baza_pawn_dump {
             title() {
-                return this.node().head().str || '__root__';
+                return this.pawn().head().str || '__root__';
             }
             value() {
-                return this.node().cast($giper_baza_atom_vary).vary();
+                return this.pawn().cast($giper_baza_atom_vary).vary();
             }
             items() {
-                return this.node().cast($giper_baza_list_vary).items_vary();
+                return this.pawn().cast($giper_baza_list_vary).items_vary();
             }
             units() {
-                return this.node().land().sand_ordered({ head: this.node().head(), peer: null });
+                return this.pawn().land().sand_ordered({ head: this.pawn().head(), peer: null });
             }
-            nodes() {
+            pawns() {
                 return this.units().map((_, i) => this.Inner(i));
             }
             unit_tag(index, next) {
                 if (next) {
                     const units = this.units();
                     const unit = units[index];
-                    this.node().land().post(index ? units[index - 1].self() : $giper_baza_link.hole, unit.head(), unit.self(), this.node().land().sand_decode(unit), next);
+                    this.pawn().land().post(index ? units[index - 1].self() : $giper_baza_link.hole, unit.head(), unit.self(), this.pawn().land().sand_decode(unit), next);
                 }
                 return this.units()[index].tag();
             }
@@ -20544,28 +20544,28 @@ var $;
                 return this.units()[index];
             }
             unit_wipe(index, event) {
-                this.node().land().sand_wipe(this.units()[index]);
+                this.pawn().land().sand_wipe(this.units()[index]);
             }
-            node_inner(index) {
-                return this.node().land().Node($giper_baza_dict).Item(this.units()[index].self());
+            pawn_inner(index) {
+                return this.pawn().land().Pawn($giper_baza_dict).Head(this.units()[index].self());
             }
             add_key(event) {
                 if (!this.expandable())
                     this.expanded(true);
-                this.node().cast($giper_baza_list_vary).has(this.key_new(), true, 'solo');
+                this.pawn().cast($giper_baza_list_vary).has(this.key_new(), true, 'solo');
                 this.key_new('');
             }
             add_value(event) {
                 if (!this.expandable())
                     this.expanded(true);
-                this.node().cast($giper_baza_list_vary).splice([this.value_new()]);
+                this.pawn().cast($giper_baza_list_vary).splice([this.value_new()]);
                 this.value_new('');
             }
             value_str(next) {
-                return this.node().cast($giper_baza_atom_text).val(next) ?? '';
+                return this.pawn().cast($giper_baza_atom_text).val(next) ?? '';
             }
             text(next) {
-                return this.node().cast($giper_baza_text).str(next);
+                return this.pawn().cast($giper_baza_text).str(next);
             }
             editors() {
                 return [
@@ -20578,14 +20578,14 @@ var $;
         }
         __decorate([
             $mol_mem
-        ], $giper_baza_node_dump.prototype, "units", null);
+        ], $giper_baza_pawn_dump.prototype, "units", null);
         __decorate([
             $mol_mem
-        ], $giper_baza_node_dump.prototype, "nodes", null);
+        ], $giper_baza_pawn_dump.prototype, "pawns", null);
         __decorate([
             $mol_mem
-        ], $giper_baza_node_dump.prototype, "editors", null);
-        $$.$giper_baza_node_dump = $giper_baza_node_dump;
+        ], $giper_baza_pawn_dump.prototype, "editors", null);
+        $$.$giper_baza_pawn_dump = $giper_baza_pawn_dump;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
@@ -20595,7 +20595,7 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
-        $mol_style_define($giper_baza_node_dump, {
+        $mol_style_define($giper_baza_pawn_dump, {
             font: {
                 family: 'monospace',
             },
@@ -20628,7 +20628,7 @@ var $;
             Label: {
                 justify: {},
             },
-            Node_inner: {
+            Pawn_inner: {
                 flex: {
                     grow: 1,
                 },
@@ -20847,7 +20847,7 @@ var $;
             peer_name(lord) {
                 if (!lord.str)
                     return super.peer_name(lord);
-                return this.$.$giper_baza_glob.Node(lord, $giper_baza_entity).title() || lord.str;
+                return this.$.$giper_baza_glob.Pawn(lord, $giper_baza_entity).title() || lord.str;
             }
             gift_tier(lord, next) {
                 const rank = this.land().lord_rank(lord, next && $giper_baza_rank_make(next, 'just'));
@@ -21036,23 +21036,23 @@ var $;
 		}
 		Flex(){
 			const obj = new this.$.$giper_baza_flex_form();
-			(obj.node) = () => ((this.node()));
+			(obj.pawn) = () => ((this.pawn()));
 			return obj;
 		}
 		Raw_data(){
-			const obj = new this.$.$giper_baza_node_dump();
+			const obj = new this.$.$giper_baza_pawn_dump();
 			(obj.title) = () => ("Data");
-			(obj.node) = () => ((this.node()));
+			(obj.pawn) = () => ((this.pawn()));
 			return obj;
 		}
 		tine(){
-			const obj = new this.$.$giper_baza_node();
+			const obj = new this.$.$giper_baza_pawn();
 			return obj;
 		}
 		Raw_tine(){
-			const obj = new this.$.$giper_baza_node_dump();
+			const obj = new this.$.$giper_baza_pawn_dump();
 			(obj.title) = () => ("Tine");
-			(obj.node) = () => ((this.tine()));
+			(obj.pawn) = () => ((this.tine()));
 			return obj;
 		}
 		Raw_content(){
@@ -21121,7 +21121,7 @@ var $;
 			const obj = new this.$.$giper_baza_land();
 			return obj;
 		}
-		node(){
+		pawn(){
 			const obj = new this.$.$giper_baza_dict();
 			return obj;
 		}
@@ -21157,7 +21157,7 @@ var $;
 	($mol_mem(($.$giper_baza_land_page.prototype), "Dump"));
 	($mol_mem(($.$giper_baza_land_page.prototype), "Dumping"));
 	($mol_mem(($.$giper_baza_land_page.prototype), "land"));
-	($mol_mem(($.$giper_baza_land_page.prototype), "node"));
+	($mol_mem(($.$giper_baza_land_page.prototype), "pawn"));
 
 
 ;
@@ -21275,8 +21275,8 @@ var $;
             tine() {
                 return this.land().Tine();
             }
-            dump_data_node() {
-                return this.node();
+            dump_data_pawn() {
+                return this.pawn();
             }
             fork() {
                 this.$.$mol_dom_context.location.href = this.$.$mol_state_arg.link({
@@ -21352,6 +21352,28 @@ var $;
 	($.$mol_icon_delete_forever) = class $mol_icon_delete_forever extends ($.$mol_icon) {
 		path(){
 			return "M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19M8.46,11.88L9.87,10.47L12,12.59L14.12,10.47L15.53,11.88L13.41,14L15.53,16.12L14.12,17.53L12,15.41L9.88,17.53L8.47,16.12L10.59,14L8.46,11.88M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+	($.$mol_icon_sprout) = class $mol_icon_sprout extends ($.$mol_icon) {
+		path(){
+			return "M2,22V20C2,20 7,18 12,18C17,18 22,20 22,20V22H2M11.3,9.1C10.1,5.2 4,6.1 4,6.1C4,6.1 4.2,13.9 9.9,12.7C9.5,9.8 8,9 8,9C10.8,9 11,12.4 11,12.4V17C11.3,17 11.7,17 12,17C12.3,17 12.7,17 13,17V12.8C13,12.8 13,8.9 16,7.9C16,7.9 14,10.9 14,12.9C21,13.6 21,4 21,4C21,4 12.1,3 11.3,9.1Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+	($.$mol_icon_sprout_outline) = class $mol_icon_sprout_outline extends ($.$mol_icon) {
+		path(){
+			return "M23,4.1V2.3L21.2,2.1C21.1,2.1 20.5,2 19.5,2C15.4,2 12.4,3.2 10.7,5.3C9.4,4.5 7.6,4 5.5,4C4.5,4 3.8,4.1 3.8,4.1L1.9,4.4L2,6.1C2.1,9.1 3.6,14.8 8.8,14.8C8.9,14.8 8.9,14.8 9,14.8V18.2C5.2,18.7 2,20 2,20V22H22V20C22,20 18.8,18.7 15,18.2V15C21.3,14.9 23,7.8 23,4.1M12,18C11.7,18 11.3,18 11,18V12.4C11,12.4 10.8,9 8,9C8,9 9.5,9.8 9.9,12.7C9.5,12.8 9.1,12.8 8.8,12.8C4.2,12.8 4,6.1 4,6.1C4,6.1 4.6,6 5.5,6C7.4,6 10.5,6.4 11.4,9.1C11.9,4.6 17,4 19.5,4C20.4,4 21,4.1 21,4.1C21,4.1 21,13.1 14.7,13.1C14.5,13.1 14.2,13.1 14,13.1C14,11.1 16,8.1 16,8.1C13,9.1 13,13 13,13V18C12.7,18 12.3,18 12,18Z";
 		}
 	};
 
@@ -21542,14 +21564,14 @@ var $;
 			const obj = new this.$.$giper_baza_land();
 			return obj;
 		}
-		node(id){
+		pawn(id){
 			const obj = new this.$.$giper_baza_dict();
 			return obj;
 		}
 		Land(id){
 			const obj = new this.$.$giper_baza_land_page();
 			(obj.land) = () => ((this.land(id)));
-			(obj.node) = () => ((this.node(id)));
+			(obj.pawn) = () => ((this.pawn(id)));
 			(obj.Close) = () => ((this.Spread_close()));
 			return obj;
 		}
@@ -21568,6 +21590,21 @@ var $;
 			(obj.align_hor) = () => ("right");
 			(obj.trigger_content) = () => ([(this.Wipe_icon())]);
 			(obj.bubble_content) = () => (["Double to wipe database"]);
+			return obj;
+		}
+		config_make(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Config_make_icon(){
+			const obj = new this.$.$mol_icon_sprout_outline();
+			return obj;
+		}
+		Config_make(){
+			const obj = new this.$.$mol_button_minor();
+			(obj.hint) = () => ("Make core config");
+			(obj.click) = (next) => ((this.config_make(next)));
+			(obj.sub) = () => ([(this.Config_make_icon())]);
 			return obj;
 		}
 		update(next){
@@ -21603,17 +21640,21 @@ var $;
 		menu_foot(){
 			return [
 				(this.Wipe_pick()), 
+				(this.Config_make()), 
 				(this.Update()), 
 				(this.Land_add())
 			];
 		}
 	};
 	($mol_mem_key(($.$giper_baza_glob_book.prototype), "land"));
-	($mol_mem_key(($.$giper_baza_glob_book.prototype), "node"));
+	($mol_mem_key(($.$giper_baza_glob_book.prototype), "pawn"));
 	($mol_mem_key(($.$giper_baza_glob_book.prototype), "Land"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "wipe"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Wipe_icon"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Wipe_pick"));
+	($mol_mem(($.$giper_baza_glob_book.prototype), "config_make"));
+	($mol_mem(($.$giper_baza_glob_book.prototype), "Config_make_icon"));
+	($mol_mem(($.$giper_baza_glob_book.prototype), "Config_make"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "update"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Update"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "land_add"));
@@ -21665,13 +21706,13 @@ var $;
             land(id) {
                 return this.$.$giper_baza_glob.Land(new $giper_baza_link(id).land());
             }
-            node(id) {
-                return this.$.$giper_baza_glob.Node(new $giper_baza_link(id), $giper_baza_dict);
+            pawn(id) {
+                return this.$.$giper_baza_glob.Pawn(new $giper_baza_link(id), $giper_baza_dict);
             }
             spread_title(id) {
                 const link = new $giper_baza_link(id);
                 try {
-                    var title = this.$.$giper_baza_glob.Node(link, $giper_baza_entity).Title()?.val();
+                    var title = this.$.$giper_baza_glob.Pawn(link, $giper_baza_entity).Title()?.val();
                 }
                 catch (error) {
                     $mol_fail_log(error);
@@ -24604,7 +24645,7 @@ var $;
         class $giper_baza_app_stat_page extends $.$giper_baza_app_stat_page {
             home() {
                 const link = new $giper_baza_link(this.$.$mol_fetch.text(this.$.$giper_baza_glob.yard().master_current() + 'link'));
-                return this.$.$giper_baza_glob.Node(link, $giper_baza_app_home);
+                return this.$.$giper_baza_glob.Pawn(link, $giper_baza_app_home);
             }
             stat() {
                 return this.home().stat();

@@ -1812,15 +1812,15 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $giper_baza_node extends $mol_object {
+    class $giper_baza_pawn extends $mol_object {
         static tag: keyof typeof $giper_baza_unit_sand_tag;
         land(): $giper_baza_land;
         head(): $giper_baza_link;
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node extends typeof $giper_baza_node>(Node: Node): InstanceType<Node>;
-        nodes<Node extends typeof $giper_baza_node>(Node: Node | null): readonly InstanceType<Node>[];
+        cast<Pawn extends typeof $giper_baza_pawn>(Pawn: Pawn): InstanceType<Pawn>;
+        pawns<Pawn extends typeof $giper_baza_pawn>(Pawn: Pawn | null): readonly InstanceType<Pawn>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -1834,12 +1834,12 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $giper_baza_fund<Node> extends $mol_object {
-        readonly item_make: (head: $giper_baza_link) => Node;
-        constructor(item_make: (head: $giper_baza_link) => Node);
-        Item(head: $giper_baza_link): Node;
-        Data(): Node;
-        Tine(): Node;
+    class $giper_baza_fund<Pawn> extends $mol_object {
+        readonly item_make: (head: $giper_baza_link) => Pawn;
+        constructor(item_make: (head: $giper_baza_link) => Pawn);
+        Head(head: $giper_baza_link): Pawn;
+        Data(): Pawn;
+        Tine(): Pawn;
     }
 }
 
@@ -1891,9 +1891,9 @@ declare namespace $ {
         area_make(idea?: number): $giper_baza_land;
         sync_rights(): $mol_wire_atom<unknown, [], void> | undefined;
         inherit(): void;
-        Data<Node extends typeof $giper_baza_node>(Node: Node): InstanceType<Node>;
+        Data<Pawn extends typeof $giper_baza_pawn>(Pawn: Pawn): InstanceType<Pawn>;
         Tine(): $giper_baza_list_link;
-        Node<Node extends typeof $giper_baza_node>(Node: Node): $giper_baza_fund<InstanceType<Node>>;
+        Pawn<Pawn extends typeof $giper_baza_pawn>(Pawn: Pawn): $giper_baza_fund<InstanceType<Pawn>>;
         total(): number;
         king_pass(): $giper_baza_auth_pass;
         pass_rank(pass: $giper_baza_auth_pass | null, next?: typeof $giper_baza_rank.Value): typeof $giper_baza_rank.Value;
@@ -2127,7 +2127,7 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    export class $giper_baza_list_vary extends $giper_baza_node {
+    export class $giper_baza_list_vary extends $giper_baza_pawn {
         static tag: keyof typeof $giper_baza_unit_sand_tag;
         items_vary(next?: readonly $giper_baza_vary_type[], tag?: keyof typeof $giper_baza_unit_sand_tag): readonly $giper_baza_vary_type[];
         splice(next: readonly $giper_baza_vary_type[], from?: number, to?: number, tag?: keyof typeof $giper_baza_unit_sand_tag): void;
@@ -2137,7 +2137,7 @@ declare namespace $ {
         cut(vary: $giper_baza_vary_type): void;
         move(from: number, to: number): void;
         wipe(seat: number): void;
-        node_make<Node extends typeof $giper_baza_node>(Node: Node, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Node>;
+        pawn_make<Pawn extends typeof $giper_baza_pawn>(Pawn: Pawn, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Pawn>;
         [$mol_dev_format_head](): any[];
     }
     export function $giper_baza_list<Parse extends $mol_data_value>(parse: Parse): (abstract new () => {
@@ -2150,15 +2150,15 @@ declare namespace $ {
         cut(vary: $giper_baza_vary_type): void;
         move(from: number, to: number): void;
         wipe(seat: number): void;
-        node_make<Node_1 extends typeof $giper_baza_node>(Node: Node_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Node_1>;
+        pawn_make<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Pawn_1>;
         [$mol_dev_format_head](): any[];
         land(): $giper_baza_land;
         head(): $giper_baza_link;
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -2195,15 +2195,15 @@ declare namespace $ {
         cut(vary: $giper_baza_vary_type): void;
         move(from: number, to: number): void;
         wipe(seat: number): void;
-        node_make<Node_1 extends typeof $giper_baza_node>(Node: Node_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Node_1>;
+        pawn_make<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Pawn_1>;
         [$mol_dev_format_head](): any[];
         land(): $giper_baza_land;
         head(): $giper_baza_link;
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -2242,15 +2242,15 @@ declare namespace $ {
         cut(vary: $giper_baza_vary_type): void;
         move(from: number, to: number): void;
         wipe(seat: number): void;
-        node_make<Node_1 extends typeof $giper_baza_node>(Node: Node_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Node_1>;
+        pawn_make<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Pawn_1>;
         [$mol_dev_format_head](): any[];
         land(): $giper_baza_land;
         head(): $giper_baza_link;
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -2289,15 +2289,15 @@ declare namespace $ {
         cut(vary: $giper_baza_vary_type): void;
         move(from: number, to: number): void;
         wipe(seat: number): void;
-        node_make<Node_1 extends typeof $giper_baza_node>(Node: Node_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Node_1>;
+        pawn_make<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Pawn_1>;
         [$mol_dev_format_head](): any[];
         land(): $giper_baza_land;
         head(): $giper_baza_link;
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -2336,15 +2336,15 @@ declare namespace $ {
         cut(vary: $giper_baza_vary_type): void;
         move(from: number, to: number): void;
         wipe(seat: number): void;
-        node_make<Node_1 extends typeof $giper_baza_node>(Node: Node_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Node_1>;
+        pawn_make<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Pawn_1>;
         [$mol_dev_format_head](): any[];
         land(): $giper_baza_land;
         head(): $giper_baza_link;
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -2383,15 +2383,15 @@ declare namespace $ {
         cut(vary: $giper_baza_vary_type): void;
         move(from: number, to: number): void;
         wipe(seat: number): void;
-        node_make<Node_1 extends typeof $giper_baza_node>(Node: Node_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Node_1>;
+        pawn_make<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Pawn_1>;
         [$mol_dev_format_head](): any[];
         land(): $giper_baza_land;
         head(): $giper_baza_link;
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -2430,15 +2430,15 @@ declare namespace $ {
         cut(vary: $giper_baza_vary_type): void;
         move(from: number, to: number): void;
         wipe(seat: number): void;
-        node_make<Node_1 extends typeof $giper_baza_node>(Node: Node_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Node_1>;
+        pawn_make<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Pawn_1>;
         [$mol_dev_format_head](): any[];
         land(): $giper_baza_land;
         head(): $giper_baza_link;
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -2477,15 +2477,15 @@ declare namespace $ {
         cut(vary: $giper_baza_vary_type): void;
         move(from: number, to: number): void;
         wipe(seat: number): void;
-        node_make<Node_1 extends typeof $giper_baza_node>(Node: Node_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Node_1>;
+        pawn_make<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Pawn_1>;
         [$mol_dev_format_head](): any[];
         land(): $giper_baza_land;
         head(): $giper_baza_link;
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -2524,15 +2524,15 @@ declare namespace $ {
         cut(vary: $giper_baza_vary_type): void;
         move(from: number, to: number): void;
         wipe(seat: number): void;
-        node_make<Node_1 extends typeof $giper_baza_node>(Node: Node_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Node_1>;
+        pawn_make<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Pawn_1>;
         [$mol_dev_format_head](): any[];
         land(): $giper_baza_land;
         head(): $giper_baza_link;
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -2571,15 +2571,15 @@ declare namespace $ {
         cut(vary: $giper_baza_vary_type): void;
         move(from: number, to: number): void;
         wipe(seat: number): void;
-        node_make<Node_1 extends typeof $giper_baza_node>(Node: Node_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Node_1>;
+        pawn_make<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Pawn_1>;
         [$mol_dev_format_head](): any[];
         land(): $giper_baza_land;
         head(): $giper_baza_link;
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -2618,15 +2618,15 @@ declare namespace $ {
         cut(vary: $giper_baza_vary_type): void;
         move(from: number, to: number): void;
         wipe(seat: number): void;
-        node_make<Node_1 extends typeof $giper_baza_node>(Node: Node_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Node_1>;
+        pawn_make<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Pawn_1>;
         [$mol_dev_format_head](): any[];
         land(): $giper_baza_land;
         head(): $giper_baza_link;
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -2665,15 +2665,15 @@ declare namespace $ {
         cut(vary: $giper_baza_vary_type): void;
         move(from: number, to: number): void;
         wipe(seat: number): void;
-        node_make<Node_1 extends typeof $giper_baza_node>(Node: Node_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Node_1>;
+        pawn_make<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Pawn_1>;
         [$mol_dev_format_head](): any[];
         land(): $giper_baza_land;
         head(): $giper_baza_link;
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -2712,15 +2712,15 @@ declare namespace $ {
         cut(vary: $giper_baza_vary_type): void;
         move(from: number, to: number): void;
         wipe(seat: number): void;
-        node_make<Node_1 extends typeof $giper_baza_node>(Node: Node_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Node_1>;
+        pawn_make<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Pawn_1>;
         [$mol_dev_format_head](): any[];
         land(): $giper_baza_land;
         head(): $giper_baza_link;
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -2759,15 +2759,15 @@ declare namespace $ {
         cut(vary: $giper_baza_vary_type): void;
         move(from: number, to: number): void;
         wipe(seat: number): void;
-        node_make<Node_1 extends typeof $giper_baza_node>(Node: Node_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Node_1>;
+        pawn_make<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Pawn_1>;
         [$mol_dev_format_head](): any[];
         land(): $giper_baza_land;
         head(): $giper_baza_link;
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -2812,15 +2812,15 @@ declare namespace $ {
             cut(vary: $giper_baza_vary_type): void;
             move(from: number, to: number): void;
             wipe(seat: number): void;
-            node_make<Node_1 extends typeof $giper_baza_node>(Node: Node_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Node_1>;
+            pawn_make<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Pawn_1>;
             [$mol_dev_format_head](): any[];
             land(): $giper_baza_land;
             head(): $giper_baza_link;
             land_link(): $giper_baza_link;
             link(): $giper_baza_link;
             toJSON(): string;
-            cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-            nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+            cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+            pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
             units(): $giper_baza_unit_sand[];
             units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
             meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -2859,14 +2859,14 @@ declare namespace $ {
     class $giper_baza_dict extends $giper_baza_list_vary {
         static tag: keyof typeof $giper_baza_unit_sand_tag;
         keys(): readonly $giper_baza_vary_type[];
-        dive<Node extends typeof $giper_baza_node>(key: $giper_baza_vary_type, Node: Node, auto?: any): InstanceType<Node> | null;
-        static schema: Record<string, typeof $giper_baza_node>;
+        dive<Pawn extends typeof $giper_baza_pawn>(key: $giper_baza_vary_type, Pawn: Pawn, auto?: any): InstanceType<Pawn> | null;
+        static schema: Record<string, typeof $giper_baza_pawn>;
         static with<This extends typeof $giper_baza_dict, const Schema extends Record<string, {
             tag: keyof typeof $giper_baza_unit_sand_tag;
             new (): {};
         }>>(this: This, schema: Schema): Omit<This, "prototype"> & (new (...args: any[]) => $mol_type_override<InstanceType<This>, { readonly [Key in keyof Schema]: (auto?: any) => InstanceType<Schema[Key]> | null; }>) & {
             schema: {
-                [x: string]: typeof $giper_baza_node;
+                [x: string]: typeof $giper_baza_pawn;
             } & Schema;
         };
         [$mol_dev_format_head](): any[];
@@ -2879,7 +2879,7 @@ declare namespace $ {
             Value: Value;
             key(key: $giper_baza_vary_type, auto?: any): InstanceType<Value>;
             keys(): readonly $giper_baza_vary_type[];
-            dive<Node_1 extends typeof $giper_baza_node>(key: $giper_baza_vary_type, Node: Node_1, auto?: any): InstanceType<Node_1> | null;
+            dive<Pawn_1 extends typeof $giper_baza_pawn>(key: $giper_baza_vary_type, Pawn: Pawn_1, auto?: any): InstanceType<Pawn_1> | null;
             [$mol_dev_format_head](): any[];
             items_vary(next?: readonly $giper_baza_vary_type[], tag?: keyof typeof $giper_baza_unit_sand_tag): readonly $giper_baza_vary_type[];
             splice(next: readonly $giper_baza_vary_type[], from?: number, to?: number, tag?: keyof typeof $giper_baza_unit_sand_tag): void;
@@ -2889,14 +2889,14 @@ declare namespace $ {
             cut(vary: $giper_baza_vary_type): void;
             move(from: number, to: number): void;
             wipe(seat: number): void;
-            node_make<Node_1 extends typeof $giper_baza_node>(Node: Node_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Node_1>;
+            pawn_make<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1, vary: $giper_baza_vary_type, tag?: keyof typeof $giper_baza_unit_sand_tag): InstanceType<Pawn_1>;
             land(): $giper_baza_land;
             head(): $giper_baza_link;
             land_link(): $giper_baza_link;
             link(): $giper_baza_link;
             toJSON(): string;
-            cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-            nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+            cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+            pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
             units(): $giper_baza_unit_sand[];
             units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
             meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -2915,13 +2915,13 @@ declare namespace $ {
         };
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
-        schema: Record<string, typeof $giper_baza_node>;
+        schema: Record<string, typeof $giper_baza_pawn>;
         with<This extends typeof $giper_baza_dict, const Schema extends Record<string, {
             tag: keyof typeof $giper_baza_unit_sand_tag;
             new (): {};
         }>>(this: This, schema: Schema): Omit<This, "prototype"> & (new (...args: any[]) => $mol_type_override<InstanceType<This>, { readonly [Key in keyof Schema]: (auto?: any) => InstanceType<Schema[Key]> | null; }>) & {
             schema: {
-                [x: string]: typeof $giper_baza_node;
+                [x: string]: typeof $giper_baza_pawn;
             } & Schema;
         };
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
@@ -2938,7 +2938,7 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    export class $giper_baza_atom_vary extends $giper_baza_node {
+    export class $giper_baza_atom_vary extends $giper_baza_pawn {
         static tag: keyof typeof $giper_baza_unit_sand_tag;
         pick_unit(peer: $giper_baza_link | null): $giper_baza_unit_sand | undefined;
         vary(next?: $giper_baza_vary_type): $giper_baza_vary_type;
@@ -2960,8 +2960,8 @@ declare namespace $ {
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3000,8 +3000,8 @@ declare namespace $ {
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3040,8 +3040,8 @@ declare namespace $ {
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3082,8 +3082,8 @@ declare namespace $ {
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3124,8 +3124,8 @@ declare namespace $ {
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3166,8 +3166,8 @@ declare namespace $ {
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3208,8 +3208,8 @@ declare namespace $ {
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3250,8 +3250,8 @@ declare namespace $ {
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3292,8 +3292,8 @@ declare namespace $ {
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3334,8 +3334,8 @@ declare namespace $ {
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3376,8 +3376,8 @@ declare namespace $ {
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3418,8 +3418,8 @@ declare namespace $ {
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3460,8 +3460,8 @@ declare namespace $ {
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3502,8 +3502,8 @@ declare namespace $ {
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3544,8 +3544,8 @@ declare namespace $ {
         land_link(): $giper_baza_link;
         link(): $giper_baza_link;
         toJSON(): string;
-        cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-        nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+        cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+        pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
         units(): $giper_baza_unit_sand[];
         units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
         meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3600,8 +3600,8 @@ declare namespace $ {
             land_link(): $giper_baza_link;
             link(): $giper_baza_link;
             toJSON(): string;
-            cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-            nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+            cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+            pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
             units(): $giper_baza_unit_sand[];
             units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
             meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3637,7 +3637,7 @@ declare namespace $ {
         readonly Title: (auto?: any) => $giper_baza_atom_text | null;
     }>) & {
         schema: {
-            [x: string]: typeof $giper_baza_node;
+            [x: string]: typeof $giper_baza_pawn;
         } & {
             readonly Title: typeof $giper_baza_atom_text;
         };
@@ -3673,8 +3673,8 @@ declare namespace $ {
             land_link(): $giper_baza_link;
             link(): $giper_baza_link;
             toJSON(): string;
-            cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-            nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+            cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+            pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
             units(): $giper_baza_unit_sand[];
             units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
             meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3693,7 +3693,7 @@ declare namespace $ {
         } | null;
     }>) & {
         schema: {
-            [x: string]: typeof $giper_baza_node;
+            [x: string]: typeof $giper_baza_pawn;
         } & {
             readonly Selection: typeof $giper_baza_atom_text;
             readonly Hall: {
@@ -3719,8 +3719,8 @@ declare namespace $ {
                     land_link(): $giper_baza_link;
                     link(): $giper_baza_link;
                     toJSON(): string;
-                    cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-                    nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+                    cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+                    pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
                     units(): $giper_baza_unit_sand[];
                     units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
                     meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -3751,7 +3751,7 @@ declare namespace $ {
         };
     };
     export class $giper_baza_home extends $giper_baza_home_base {
-        hall_by<Node extends typeof $giper_baza_dict>(Node: Node, auto?: null): InstanceType<Node> | null;
+        hall_by<Pawn extends typeof $giper_baza_dict>(Pawn: Pawn, auto?: null): InstanceType<Pawn> | null;
     }
     export {};
 }
@@ -3864,11 +3864,11 @@ declare namespace $ {
     class $giper_baza_glob extends $mol_object {
         static lands_touched: $mol_wire_set<string>;
         static yard(): $giper_baza_yard;
-        static home<Node extends typeof $giper_baza_home = typeof $giper_baza_home>(Node?: Node): InstanceType<Node>;
+        static home<Pawn extends typeof $giper_baza_home = typeof $giper_baza_home>(Pawn?: Pawn): InstanceType<Pawn>;
         static king_grab(preset?: $giper_baza_rank_preset): $giper_baza_auth;
         static land_grab(preset?: $giper_baza_rank_preset): $giper_baza_land;
         static Land(link: $giper_baza_link): $giper_baza_land;
-        static Node<Node extends typeof $giper_baza_node>(link: $giper_baza_link, Node: Node): InstanceType<Node>;
+        static Pawn<Pawn extends typeof $giper_baza_pawn>(link: $giper_baza_link, Pawn: Pawn): InstanceType<Pawn>;
         static apply_pack(pack: $giper_baza_pack): void;
         static apply_parts(parts: $giper_baza_pack_parts): void;
     }
@@ -3893,7 +3893,7 @@ declare namespace $ {
         readonly Months: (auto?: any) => $giper_baza_stat_series | null;
     }>) & {
         schema: {
-            [x: string]: typeof $giper_baza_node;
+            [x: string]: typeof $giper_baza_pawn;
         } & {
             readonly Seconds: typeof $giper_baza_stat_series;
             readonly Minutes: typeof $giper_baza_stat_series;
@@ -3933,7 +3933,7 @@ declare namespace $ {
         readonly Land_active: (auto?: any) => $giper_baza_stat_ranges | null;
     }>) & {
         schema: {
-            [x: string]: typeof $giper_baza_node;
+            [x: string]: typeof $giper_baza_pawn;
         } & {
             readonly Uptime: typeof $giper_baza_atom_dura;
             readonly Cpu_user: typeof $giper_baza_stat_ranges;
@@ -3981,8 +3981,8 @@ declare namespace $ {
             land_link(): $giper_baza_link;
             link(): $giper_baza_link;
             toJSON(): string;
-            cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-            nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+            cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+            pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
             units(): $giper_baza_unit_sand[];
             units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
             meta(next?: $giper_baza_link): $giper_baza_link | null;
@@ -4001,7 +4001,7 @@ declare namespace $ {
         } | null;
     }>) & {
         schema: {
-            [x: string]: typeof $giper_baza_node;
+            [x: string]: typeof $giper_baza_pawn;
         } & {
             readonly Ips: typeof $giper_baza_list_str;
             readonly Stat: {
@@ -4027,8 +4027,8 @@ declare namespace $ {
                     land_link(): $giper_baza_link;
                     link(): $giper_baza_link;
                     toJSON(): string;
-                    cast<Node_1 extends typeof $giper_baza_node>(Node: Node_1): InstanceType<Node_1>;
-                    nodes<Node_1 extends typeof $giper_baza_node>(Node: Node_1 | null): readonly InstanceType<Node_1>[];
+                    cast<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1): InstanceType<Pawn_1>;
+                    pawns<Pawn_1 extends typeof $giper_baza_pawn>(Pawn: Pawn_1 | null): readonly InstanceType<Pawn_1>[];
                     units(): $giper_baza_unit_sand[];
                     units_of(peer: $giper_baza_link | null): $giper_baza_unit_sand[];
                     meta(next?: $giper_baza_link): $giper_baza_link | null;

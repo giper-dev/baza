@@ -192,7 +192,7 @@
     "$giper_baza_entity",
     "$giper_baza_dict",
     "$giper_baza_list",
-    "$giper_baza_node",
+    "$giper_baza_pawn",
     "$giper_baza_atom",
     "$giper_baza_vary_cast",
     "$mol_tree2_bin",

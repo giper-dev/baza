@@ -8166,7 +8166,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $giper_baza_node extends $mol_object {
+    class $giper_baza_pawn extends $mol_object {
         static tag = 'vals';
         land() {
             return null;
@@ -8183,18 +8183,18 @@ var $;
         toJSON() {
             return this.link().str;
         }
-        cast(Node) {
-            return this.land().Node(Node).Item(this.head());
+        cast(Pawn) {
+            return this.land().Pawn(Pawn).Head(this.head());
         }
-        nodes(Node) {
+        pawns(Pawn) {
             const land = this.land();
             const map = {
-                term: () => land.Node(Node || $giper_baza_atom_vary),
-                solo: () => land.Node(Node || $giper_baza_atom_vary),
-                vals: () => land.Node(Node || $giper_baza_list_vary),
-                keys: () => land.Node(Node || $giper_baza_dict),
+                term: () => land.Pawn(Pawn || $giper_baza_atom_vary),
+                solo: () => land.Pawn(Pawn || $giper_baza_atom_vary),
+                vals: () => land.Pawn(Pawn || $giper_baza_list_vary),
+                keys: () => land.Pawn(Pawn || $giper_baza_dict),
             };
-            return this.units().map(unit => map[unit.tag()]().Item(unit.self()));
+            return this.units().map(unit => map[unit.tag()]().Head(unit.self()));
         }
         units() {
             return this.units_of($giper_baza_link.hole);
@@ -8232,7 +8232,7 @@ var $;
                     last = sand.time();
                 if (sand.tag() === 'term')
                     return;
-                land.Node($giper_baza_node).Item(sand.self()).units().forEach(visit);
+                land.Pawn($giper_baza_pawn).Head(sand.self()).units().forEach(visit);
             };
             this.units().forEach(visit);
             return last ? $giper_baza_time_moment(last) : null;
@@ -8244,7 +8244,7 @@ var $;
                 peers.add(land.lord_pass(sand.lord()));
                 if (sand.tag() === 'term')
                     return;
-                land.Node($giper_baza_node).Item(sand.self()).units_of(null).forEach(visit);
+                land.Pawn($giper_baza_pawn).Head(sand.self()).units_of(null).forEach(visit);
             };
             this.units_of(null).forEach(visit);
             return [...peers];
@@ -8256,29 +8256,29 @@ var $;
     }
     __decorate([
         $mol_memo.method
-    ], $giper_baza_node.prototype, "link", null);
+    ], $giper_baza_pawn.prototype, "link", null);
     __decorate([
         $mol_mem_key
-    ], $giper_baza_node.prototype, "cast", null);
+    ], $giper_baza_pawn.prototype, "cast", null);
     __decorate([
         $mol_mem_key
-    ], $giper_baza_node.prototype, "nodes", null);
+    ], $giper_baza_pawn.prototype, "pawns", null);
     __decorate([
         $mol_mem_key
-    ], $giper_baza_node.prototype, "units_of", null);
+    ], $giper_baza_pawn.prototype, "units_of", null);
     __decorate([
         $mol_mem
-    ], $giper_baza_node.prototype, "meta", null);
+    ], $giper_baza_pawn.prototype, "meta", null);
     __decorate([
         $mol_mem_key
-    ], $giper_baza_node.prototype, "meta_of", null);
+    ], $giper_baza_pawn.prototype, "meta_of", null);
     __decorate([
         $mol_mem
-    ], $giper_baza_node.prototype, "last_change", null);
+    ], $giper_baza_pawn.prototype, "last_change", null);
     __decorate([
         $mol_mem
-    ], $giper_baza_node.prototype, "authors", null);
-    $.$giper_baza_node = $giper_baza_node;
+    ], $giper_baza_pawn.prototype, "authors", null);
+    $.$giper_baza_pawn = $giper_baza_pawn;
 })($ || ($ = {}));
 
 ;
@@ -8291,19 +8291,19 @@ var $;
             super();
             this.item_make = item_make;
         }
-        Item(head) {
+        Head(head) {
             return this.item_make(head);
         }
         Data() {
-            return this.Item($giper_baza_land_root.data);
+            return this.Head($giper_baza_land_root.data);
         }
         Tine() {
-            return this.Item($giper_baza_land_root.tine);
+            return this.Head($giper_baza_land_root.tine);
         }
     }
     __decorate([
         $mol_mem_key
-    ], $giper_baza_fund.prototype, "Item", null);
+    ], $giper_baza_fund.prototype, "Head", null);
     $.$giper_baza_fund = $giper_baza_fund;
 })($ || ($ = {}));
 
@@ -8575,15 +8575,15 @@ var $;
             part = pack.parts()[0][1];
             this.diff_apply(part.units, 'skip_load');
         }
-        Data(Node) {
-            return this.Node(Node).Item($.$giper_baza_land_root.data);
+        Data(Pawn) {
+            return this.Pawn(Pawn).Head($.$giper_baza_land_root.data);
         }
         Tine() {
-            return this.Node($giper_baza_list_link).Item($.$giper_baza_land_root.tine);
+            return this.Pawn($giper_baza_list_link).Head($.$giper_baza_land_root.tine);
         }
-        Node(Node) {
+        Pawn(Pawn) {
             return new $giper_baza_fund((head) => {
-                return Node.make({
+                return Pawn.make({
                     land: $mol_const(this),
                     head: $mol_const(head),
                 });
@@ -9341,7 +9341,7 @@ var $;
     ], $giper_baza_land.prototype, "Tine", null);
     __decorate([
         $mol_mem_key
-    ], $giper_baza_land.prototype, "Node", null);
+    ], $giper_baza_land.prototype, "Pawn", null);
     __decorate([
         $mol_mem
     ], $giper_baza_land.prototype, "total", null);
@@ -10068,7 +10068,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $giper_baza_list_vary extends $giper_baza_node {
+    class $giper_baza_list_vary extends $giper_baza_pawn {
         static tag = $giper_baza_unit_sand_tag[$giper_baza_unit_sand_tag.vals];
         items_vary(next, tag = 'term') {
             const units = this.units();
@@ -10127,9 +10127,9 @@ var $;
         wipe(seat) {
             this.land().sand_wipe(this.units()[seat]);
         }
-        node_make(Node, vary, tag = 'term') {
+        pawn_make(Pawn, vary, tag = 'term') {
             this.splice([vary], undefined, undefined, tag);
-            return this.land().Node(Node).Item(this.units().at(-1).self());
+            return this.land().Pawn(Pawn).Head(this.units().at(-1).self());
         }
         ;
         [$mol_dev_format_head]() {
@@ -10209,11 +10209,11 @@ var $;
             }
             remote_list(next) {
                 const glob = this.$.$giper_baza_glob;
-                const Node = Value();
+                const Pawn = Value();
                 return this.items_vary(next?.map(item => item.link()))
                     .map($giper_baza_vary_cast_link)
                     .filter($mol_guard_defined)
-                    .map(link => glob.Node(link, Node));
+                    .map(link => glob.Pawn(link, Pawn));
             }
             remote_add(item) {
                 this.add(item.link());
@@ -10221,19 +10221,19 @@ var $;
             make(config) {
                 if (config === null || typeof config === 'number') {
                     const self = this.land().self_make(config || undefined);
-                    const node = this.land().Node(Value()).Item(self);
-                    this.splice([node.link()]);
-                    return node;
+                    const pawn = this.land().Pawn(Value()).Head(self);
+                    this.splice([pawn.link()]);
+                    return pawn;
                 }
                 else if (config instanceof $giper_baza_land) {
                     const land = config.area_make();
                     this.splice([land.link()]);
-                    return land.Node(Value()).Data();
+                    return land.Pawn(Value()).Data();
                 }
                 else if (config) {
                     const land = this.$.$giper_baza_glob.land_grab(config);
                     this.splice([land.link()]);
-                    return land.Node(Value()).Data();
+                    return land.Pawn(Value()).Data();
                 }
             }
         }
@@ -10263,11 +10263,11 @@ var $;
         keys() {
             return this.items_vary();
         }
-        dive(key, Node, auto) {
+        dive(key, Pawn, auto) {
             if (this.can_change() && auto !== undefined)
-                this.has(key, true, Node.tag);
+                this.has(key, true, Pawn.tag);
             const unit = this.find(key);
-            return unit ? this.land().Node(Node).Item(unit.self()) : null;
+            return unit ? this.land().Pawn(Pawn).Head(unit.self()) : null;
         }
         static schema = {};
         static with(schema) {
@@ -10291,8 +10291,8 @@ var $;
         ;
         [$mol_dev_format_head]() {
             const keys = $mol_wire_probe(() => this.keys());
-            const nodes = $mol_wire_probe(() => this.nodes(null)) ?? [];
-            return $mol_dev_format_span({}, $mol_dev_format_native(this), ' ', this.head(), ' ', $mol_dev_format_auto(keys?.map((key, index) => new Pair(key, nodes[index]))));
+            const pawns = $mol_wire_probe(() => this.pawns(null)) ?? [];
+            return $mol_dev_format_span({}, $mol_dev_format_native(this), ' ', this.head(), ' ', $mol_dev_format_auto(keys?.map((key, index) => new Pair(key, pawns[index]))));
         }
     }
     __decorate([
@@ -10342,7 +10342,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $giper_baza_atom_vary extends $giper_baza_node {
+    class $giper_baza_atom_vary extends $giper_baza_pawn {
         static tag = $giper_baza_unit_sand_tag[$giper_baza_unit_sand_tag.solo];
         pick_unit(peer) {
             return this.units_of(peer).at(0);
@@ -10488,7 +10488,7 @@ var $;
                 link = $giper_baza_vary_cast_link(this.vary_of(peer, link));
                 if (!link)
                     return null;
-                return this.$.$giper_baza_glob.Node(link, Value());
+                return this.$.$giper_baza_glob.Pawn(link, Value());
             }
             ensure(config) {
                 return this.ensure_of($giper_baza_link.hole, config);
@@ -10509,8 +10509,8 @@ var $;
             ensure_here(peer) {
                 const idea = $mol_hash_string(this.link().str);
                 const head = this.land().self_make(idea);
-                const node = this.land().Node(Value()).Item(head);
-                this.remote_of(peer, node);
+                const pawn = this.land().Pawn(Value()).Head(head);
+                this.remote_of(peer, pawn);
             }
             ensure_area(peer, land) {
                 const idea = $mol_hash_string(this.link().str);
@@ -10570,8 +10570,8 @@ var $;
         Selection: $giper_baza_atom_text,
         Hall: $giper_baza_atom_link_to(() => $giper_baza_dict),
     }) {
-        hall_by(Node, auto) {
-            return this.Hall(auto)?.ensure(auto === null ? this.land() : undefined)?.cast(Node) ?? null;
+        hall_by(Pawn, auto) {
+            return this.Hall(auto)?.ensure(auto === null ? this.land() : undefined)?.cast(Pawn) ?? null;
         }
     }
     $.$giper_baza_home = $giper_baza_home;
@@ -11339,8 +11339,8 @@ var $;
         static yard() {
             return new this.$.$giper_baza_yard;
         }
-        static home(Node) {
-            return this.Land(this.$.$giper_baza_auth.current().pass().lord()).Data(Node ?? this.$.$giper_baza_home);
+        static home(Pawn) {
+            return this.Land(this.$.$giper_baza_auth.current().pass().lord()).Data(Pawn ?? this.$.$giper_baza_home);
         }
         static king_grab(preset = [[null, this.$.$giper_baza_rank_read]]) {
             const mapping = new Map(preset);
@@ -11366,9 +11366,9 @@ var $;
                 link: $mol_const(link),
             });
         }
-        static Node(link, Node) {
+        static Pawn(link, Pawn) {
             const land = this.Land(link.land());
-            return land.Node(Node).Item(link.head());
+            return land.Pawn(Pawn).Head(link.head());
         }
         static apply_pack(pack) {
             return this.apply_parts(pack.parts());
