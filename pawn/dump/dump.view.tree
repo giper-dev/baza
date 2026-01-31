@@ -1,5 +1,5 @@
-$giper_baza_node_dump $mol_expander
-	node $giper_baza_node
+$giper_baza_pawn_dump $mol_expander
+	pawn $giper_baza_pawn
 		can_change => can_change
 		land => land
 	tag \keys
@@ -26,11 +26,11 @@ $giper_baza_node_dump $mol_expander
 		<= Value_str $mol_textarea
 			enabled <= can_change
 			value? <=> value_str? \
-	content <= nodes /
+	content <= pawns /
 		<= Inner*0 $mol_view sub /
-			<= Node_inner* $giper_baza_node_dump
+			<= Pawn_inner* $giper_baza_pawn_dump
 				tag <= unit_tag*
-				addons <= node_addons* /
+				addons <= pawn_addons* /
 					- <= Unit_tip* $mol_select
 						value? <=> unit_tip*? \bin
 						enabled <= can_change
@@ -66,4 +66,4 @@ $giper_baza_node_dump $mol_expander
 					<= Unit_value* $giper_baza_unit_sand_dump
 						land <= land
 						sand <= unit_value* null
-				node <= node_inner* $giper_baza_node
+				pawn <= pawn_inner* $giper_baza_pawn

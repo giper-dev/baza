@@ -146,14 +146,14 @@ namespace $ {
 			const Alice = $.$giper_baza_glob.home().land()
 			const Bella = Alice.fork()
 			
-			const alice_val = Alice.Node( $giper_baza_atom_text ).Item( new $giper_baza_link( 'qwertyui' ) )
-			const bella_val = Bella.Node( $giper_baza_atom_text ).Item( new $giper_baza_link( 'qwertyui' ) )
+			const alice_val = Alice.Pawn( $giper_baza_atom_text ).Head( new $giper_baza_link( 'qwertyui' ) )
+			const bella_val = Bella.Pawn( $giper_baza_atom_text ).Head( new $giper_baza_link( 'qwertyui' ) )
 			
 			alice_val.val( 'Alice' )
 			bella_val.val( 'Bella' )
 			
-			const alice_link = Alice.Node( $giper_baza_atom_link ).Item( new $giper_baza_link( 'asdfghjk' ) )
-			const bella_link = Bella.Node( $giper_baza_atom_link ).Item( new $giper_baza_link( 'asdfghjk' ) )
+			const alice_link = Alice.Pawn( $giper_baza_atom_link ).Head( new $giper_baza_link( 'asdfghjk' ) )
+			const bella_link = Bella.Pawn( $giper_baza_atom_link ).Head( new $giper_baza_link( 'asdfghjk' ) )
 			
 			alice_link.val( alice_val.link() )
 			$mol_assert_equal( alice_link.val(), alice_val.link() )

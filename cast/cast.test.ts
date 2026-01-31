@@ -5,8 +5,8 @@ namespace $ {
 		'Atom <=> List'( $ ) {
 			
 			const land = $giper_baza_land.make({ $ })
-			const reg = land.Node( $giper_baza_atom_vary ).Data()
-			const list = land.Node( $giper_baza_list_vary ).Data()
+			const reg = land.Pawn( $giper_baza_atom_vary ).Data()
+			const list = land.Pawn( $giper_baza_list_vary ).Data()
 			
 			reg.vary( 1 )
 			$mol_assert_equal( list.items_vary(), [1] )
@@ -28,8 +28,8 @@ namespace $ {
 		'Atom <=> Dict'( $ ) {
 			
 			const land = $giper_baza_land.make({ $ })
-			const reg = land.Node( $giper_baza_atom_vary ).Data()
-			const dict = land.Node( $giper_baza_dict ).Data()
+			const reg = land.Pawn( $giper_baza_atom_vary ).Data()
+			const dict = land.Pawn( $giper_baza_dict ).Data()
 			
 			reg.vary( 1 )
 			$mol_assert_equal( dict.keys(), [1] )

@@ -7,8 +7,8 @@ namespace $.$$ {
 			const land = this.$.$giper_baza_glob.home().hall_by( $giper_baza_flex_domain, null )!.land()
 			const domain = $giper_baza_flex_domain.ensure( land ) 
 			
-			const link = this.node().meta()
-			if( link ) return this.$.$giper_baza_glob.Node( link, $giper_baza_flex_kind )
+			const link = this.pawn().meta()
+			if( link ) return this.$.$giper_baza_glob.Pawn( link, $giper_baza_flex_kind )
 			
 			return domain.Kinds()?.remote_list()[0] ?? null!
 		}
@@ -22,8 +22,8 @@ namespace $.$$ {
 			return prop.Title()?.val() ?? prop.link().str
 		}
 		
-		field_node( prop: $giper_baza_flex_prop, auto?: any ) {
-			return this.node().cast( $giper_baza_dict ).dive( prop.Key(auto)?.val() ?? prop.link(), $giper_baza_node, auto )!
+		field_pawn( prop: $giper_baza_flex_prop, auto?: any ) {
+			return this.pawn().cast( $giper_baza_dict ).dive( prop.Key(auto)?.val() ?? prop.link(), $giper_baza_pawn, auto )!
 		}
 		
 		field_prop( prop: $giper_baza_flex_prop ) {
@@ -31,7 +31,7 @@ namespace $.$$ {
 		}
 		
 		enabled() {
-			return this.node()?.can_change() ?? false
+			return this.pawn()?.can_change() ?? false
 		}
 		
 	}

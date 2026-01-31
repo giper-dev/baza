@@ -5,7 +5,7 @@ namespace $.$$ {
 		async 'Dictionary invariants'( $ ) {
 			
 			const land = $giper_baza_land.make({ $ })
-			const dict = land.Node( $giper_baza_dict ).Data()
+			const dict = land.Pawn( $giper_baza_dict ).Data()
 			$mol_assert_equal( dict.keys(), [] )
 			
 			dict.dive( 123, $giper_baza_atom_vary, null )
@@ -33,8 +33,8 @@ namespace $.$$ {
 			const land1 = $giper_baza_land.make({ $ })
 			const land2 = $giper_baza_land.make({ $ })
 			
-			const dict1 = land1.Node( $giper_baza_dict ).Data()
-			const dict2 = land2.Node( $giper_baza_dict ).Data()
+			const dict1 = land1.Pawn( $giper_baza_dict ).Data()
+			const dict2 = land2.Pawn( $giper_baza_dict ).Data()
 
 			dict1.dive( 123, $giper_baza_atom_vary, null )!.vary( 666 )
 			land2.faces.tick()
@@ -70,7 +70,7 @@ namespace $.$$ {
 			
 			const land = $.$giper_baza_glob.home().land()
 			
-			const user = land.Node( User ).Item( new $giper_baza_link( '11111111' ) )
+			const user = land.Pawn( User ).Head( new $giper_baza_link( '11111111' ) )
 			$mol_assert_equal( user.Title()?.val() ?? null, null )
 			$mol_assert_equal( user.Account()?.remote() ?? null, null )
 			$mol_assert_equal( user.Articles()?.remote_list() ?? [], [] )

@@ -1,7 +1,7 @@
 namespace $ {
 
 	/** Reactive convergent list. */
-	export class $giper_baza_list_vary extends $giper_baza_node {
+	export class $giper_baza_list_vary extends $giper_baza_pawn {
 		
 		static tag = $giper_baza_unit_sand_tag[ $giper_baza_unit_sand_tag.vals ] as keyof typeof $giper_baza_unit_sand_tag
 		
@@ -102,14 +102,14 @@ namespace $ {
 			this.land().sand_wipe( this.units()[ seat ] )
 		}
 		
-		/** Add vary at the end and use maked Self as Node Head. */
-		node_make< Node extends typeof $giper_baza_node >(
-			Node: Node,
+		/** Add vary at the end and use maked Self as Pawn Head. */
+		pawn_make< Pawn extends typeof $giper_baza_pawn >(
+			Pawn: Pawn,
 			vary: $giper_baza_vary_type,
 			tag: keyof typeof $giper_baza_unit_sand_tag = 'term',
 		) {
 			this.splice( [ vary ], undefined, undefined, tag )
-			return this.land().Node( Node ).Item( this.units().at(-1)!.self() )
+			return this.land().Pawn( Pawn ).Head( this.units().at(-1)!.self() )
 		}
 		
 		;[ $mol_dev_format_head ]() {
@@ -177,7 +177,7 @@ namespace $ {
 	export class $giper_baza_list_link_base extends $giper_baza_list_link {
 	}
 	
-	/** Mergeable List of atomic Links to some Node type */
+	/** Mergeable List of atomic Links to some Pawn type */
 	export function $giper_baza_list_link_to<
 		const Value extends any,
 		Vals extends readonly any[] = readonly $mol_type_result< $mol_type_result< Value > >[]
@@ -191,15 +191,15 @@ namespace $ {
 				return this === $giper_baza_list_link_to ? '$giper_baza_list_link_to<' + ( Value as any )() + '>' : super.toString()
 			}
 			
-			/** List of linked Nodes */
+			/** List of linked Pawns */
 			@ $mol_mem
 			remote_list( next?: Vals ) {
 				const glob = this.$.$giper_baza_glob
-				const Node = ( Value as any )()
-				return this.items_vary( next?.map( item => ( item as $giper_baza_node ).link() ) )
+				const Pawn = ( Value as any )()
+				return this.items_vary( next?.map( item => ( item as $giper_baza_pawn ).link() ) )
 					.map( $giper_baza_vary_cast_link )
 					.filter( $mol_guard_defined )
-					.map( link => glob.Node( link, Node ) ) as readonly any[] as Vals
+					.map( link => glob.Pawn( link, Pawn ) ) as readonly any[] as Vals
 			}
 			
 			@ $mol_action
@@ -207,28 +207,28 @@ namespace $ {
 				this.add( item.link() )
 			}
 			
-			/** Make new Node and place it at end. */
+			/** Make new Pawn and place it at end. */
 			@ $mol_action
 			make( config: null | number | $giper_baza_rank_preset | $giper_baza_land ): Vals[number] {
 				
 				if( config === null || typeof config === 'number' ) {
 					
 					const self = this.land().self_make( config || undefined )
-					const node = this.land().Node( ( Value as any )() ).Item( self )
-					this.splice([ node.link() ])
-					return node
+					const pawn = this.land().Pawn( ( Value as any )() ).Head( self )
+					this.splice([ pawn.link() ])
+					return pawn
 					
 				} else if( config instanceof $giper_baza_land ) {
 					
 					const land = config.area_make()
 					this.splice([ land.link() ])
-					return land.Node( ( Value as any )() ).Data()
+					return land.Pawn( ( Value as any )() ).Data()
 					
 				} else if( config ) {
 					
 					const land = this.$.$giper_baza_glob.land_grab( config )
 					this.splice([ land.link() ])
-					return land.Node( ( Value as any )() ).Data()
+					return land.Pawn( ( Value as any )() ).Data()
 					
 				}
 				

@@ -1,25 +1,25 @@
 namespace $.$$ {
-	export class $giper_baza_node_dump extends $.$giper_baza_node_dump {
+	export class $giper_baza_pawn_dump extends $.$giper_baza_pawn_dump {
 		
 		title() {
-			return this.node().head().str || '__root__'
+			return this.pawn().head().str || '__root__'
 		}
 		
 		value() {
-			return this.node().cast( $giper_baza_atom_vary ).vary()
+			return this.pawn().cast( $giper_baza_atom_vary ).vary()
 		}
 		
 		items() {
-			return this.node().cast( $giper_baza_list_vary ).items_vary()
+			return this.pawn().cast( $giper_baza_list_vary ).items_vary()
 		}
 		
 		@ $mol_mem
 		units() {
-			return this.node().land().sand_ordered({ head: this.node().head(), peer: null })
+			return this.pawn().land().sand_ordered({ head: this.pawn().head(), peer: null })
 		}
 		
 		@ $mol_mem
-		nodes() {
+		pawns() {
 			return this.units().map( (_,i)=> this.Inner(i) )
 		}
 		
@@ -27,11 +27,11 @@ namespace $.$$ {
 			if( next ) {
 				const units = this.units()
 				const unit = units[ index ]
-				this.node().land().post(
+				this.pawn().land().post(
 					index ? units[ index - 1 ].self() : $giper_baza_link.hole,
 					unit.head(),
 					unit.self(),
-					this.node().land().sand_decode( unit ),
+					this.pawn().land().sand_decode( unit ),
 					next,
 				)
 			}
@@ -42,11 +42,11 @@ namespace $.$$ {
 		// 	if( next ) {
 		// 		const units = this.units()
 		// 		const unit = units[ index ]
-		// 		this.node().land().post(
+		// 		this.pawn().land().post(
 		// 			index ? units[ index - 1 ].self() : $giper_baza_link.hole,
 		// 			unit.head(),
 		// 			unit.self(),
-		// 			[ $giper_baza_vary_cast( next, this.node().land().sand_decode( unit ) ) ],
+		// 			[ $giper_baza_vary_cast( next, this.pawn().land().sand_decode( unit ) ) ],
 		// 			unit.tag(),
 		// 		)
 		// 	}
@@ -63,31 +63,31 @@ namespace $.$$ {
 		}
 		
 		unit_wipe( index: number, event?: Event ) {
-			this.node().land().sand_wipe( this.units()[ index ] )
+			this.pawn().land().sand_wipe( this.units()[ index ] )
 		}
 		
-		node_inner( index: number ) {
-			return this.node().land().Node( $giper_baza_dict ).Item( this.units()[ index ].self() )
+		pawn_inner( index: number ) {
+			return this.pawn().land().Pawn( $giper_baza_dict ).Head( this.units()[ index ].self() )
 		}
 		
 		add_key( event: Event ) {
 			if( !this.expandable() ) this.expanded( true )
-			this.node().cast( $giper_baza_list_vary ).has( this.key_new(), true, 'solo' )
+			this.pawn().cast( $giper_baza_list_vary ).has( this.key_new(), true, 'solo' )
 			this.key_new( '' )
 		}
 		
 		add_value( event: Event ) {
 			if( !this.expandable() ) this.expanded( true )
-			this.node().cast( $giper_baza_list_vary ).splice([ this.value_new() ])
+			this.pawn().cast( $giper_baza_list_vary ).splice([ this.value_new() ])
 			this.value_new( '' )
 		}
 		
 		value_str( next?: string ) {
-			return this.node().cast( $giper_baza_atom_text ).val( next ) ?? ''
+			return this.pawn().cast( $giper_baza_atom_text ).val( next ) ?? ''
 		}
 		
 		text( next?: string ) {
-			return this.node().cast( $giper_baza_text ).str( next )
+			return this.pawn().cast( $giper_baza_text ).str( next )
 		}
 		
 		@ $mol_mem

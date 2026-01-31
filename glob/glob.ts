@@ -11,8 +11,8 @@ namespace $ {
 		}
 		
 		/** Land where Lord is King. Contains only ain info */
-		static home< Node extends typeof $giper_baza_home = typeof $giper_baza_home >( Node?: Node ) {
-			return this.Land( this.$.$giper_baza_auth.current().pass().lord() ).Data( Node ?? this.$.$giper_baza_home ) as InstanceType< Node >
+		static home< Pawn extends typeof $giper_baza_home = typeof $giper_baza_home >( Pawn?: Pawn ) {
+			return this.Land( this.$.$giper_baza_auth.current().pass().lord() ).Data( Pawn ?? this.$.$giper_baza_home ) as InstanceType< Pawn >
 		}
 		
 		@ $mol_action
@@ -52,9 +52,9 @@ namespace $ {
 		}
 		
 		/** High level representation of stored data. */
-		static Node< Node extends typeof $giper_baza_node > ( link: $giper_baza_link, Node: Node ) {
+		static Pawn< Pawn extends typeof $giper_baza_pawn > ( link: $giper_baza_link, Pawn: Pawn ) {
 			const land = this.Land( link.land() )
-			return land.Node( Node ).Item( link.head() )
+			return land.Pawn( Pawn ).Head( link.head() )
 		}
 		
 		@ $mol_action

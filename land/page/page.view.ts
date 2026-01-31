@@ -32,8 +32,8 @@ namespace $.$$ {
 		// 	]
 		// }
 		
-		dump_data_node() {
-			return this.node()
+		dump_data_pawn() {
+			return this.pawn()
 		}
 		
 		override fork() {

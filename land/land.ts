@@ -319,24 +319,24 @@ namespace $ {
 		
 		/** Data root */
 		@ $mol_mem_key
-		Data< Node extends typeof $giper_baza_node >( Node: Node ) {
-			return this.Node( Node ).Item( $giper_baza_land_root.data )
+		Data< Pawn extends typeof $giper_baza_pawn >( Pawn: Pawn ) {
+			return this.Pawn( Pawn ).Head( $giper_baza_land_root.data )
 		} 
 		
 		/** Lands for inheritance */
 		@ $mol_mem
 		Tine() {
-			return this.Node( $giper_baza_list_link ).Item( $giper_baza_land_root.tine ) 
+			return this.Pawn( $giper_baza_list_link ).Head( $giper_baza_land_root.tine ) 
 		} 
 		
 		/** High level representation of stored data */
 		@ $mol_mem_key
-		Node< Node extends typeof $giper_baza_node >( Node: Node ): $giper_baza_fund< InstanceType< Node > > {
+		Pawn< Pawn extends typeof $giper_baza_pawn >( Pawn: Pawn ): $giper_baza_fund< InstanceType< Pawn > > {
 			return new $giper_baza_fund( ( head: $giper_baza_link )=> {
-				return ( Node as typeof $giper_baza_node ).make({
+				return ( Pawn as typeof $giper_baza_pawn ).make({
 					land: $mol_const( this ),//.sync(),
 					head: $mol_const( head ),
-				}) as InstanceType< Node >
+				}) as InstanceType< Pawn >
 			} )
 		} 
 		

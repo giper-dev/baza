@@ -5,7 +5,7 @@ namespace $.$$ {
 		"Empty representation"( $ ) {
 			
 			const land = $giper_baza_land.make({ $ })
-			const reg = land.Node( $giper_baza_atom_time ).Data()
+			const reg = land.Pawn( $giper_baza_atom_time ).Data()
 			
 			$mol_assert_equal( reg.val(), null )
 			
@@ -18,12 +18,12 @@ namespace $.$$ {
 			
 			const land = $.$giper_baza_glob.home().land()
 			
-			const bin = land.Node( $giper_baza_atom_blob ).Item( new $giper_baza_link( '11111111' ) )
+			const bin = land.Pawn( $giper_baza_atom_blob ).Head( new $giper_baza_link( '11111111' ) )
 			$mol_assert_equal( bin.val(), null )
 			bin.val( new Uint8Array([ 1, 2, 3 ]) )
 			$mol_assert_equal( bin.val(), new Uint8Array([ 1, 2, 3 ]) )
 			
-			const str = land.Node( $giper_baza_atom_text ).Item( new $giper_baza_link( '22222222' ) )
+			const str = land.Pawn( $giper_baza_atom_text ).Head( new $giper_baza_link( '22222222' ) )
 			$mol_assert_equal( str.val(), null )
 			str.val( 'foo' )
 			$mol_assert_equal( str.val(), 'foo' )
@@ -35,7 +35,7 @@ namespace $.$$ {
 			class Email extends $giper_baza_atom( $mol_data_email ) {}
 			
 			const land = $giper_baza_land.make({ $ })
-			const reg = land.Node( Email ).Data()
+			const reg = land.Pawn( Email ).Data()
 			
 			$mol_assert_equal( reg.val(), null )
 			
@@ -54,7 +54,7 @@ namespace $.$$ {
 			
 			const land = $.$giper_baza_glob.home().land()
 			
-			const reg = land.Node( $giper_baza_atom_link_to( ()=> $giper_baza_atom_vary ) ).Item( new $giper_baza_link( '11111111' ) )
+			const reg = land.Pawn( $giper_baza_atom_link_to( ()=> $giper_baza_atom_vary ) ).Head( new $giper_baza_link( '11111111' ) )
 			const remote = reg.ensure( land )!
 			
 			$mol_assert_unique( reg.land(), remote.land() )
@@ -63,12 +63,12 @@ namespace $.$$ {
 			
 		},
 		
-		"Register with linked nodes"( $ ) {
+		"Register with linked Pawns"( $ ) {
 			
 			const land = $.$giper_baza_glob.home().land()
 			
-			const str = land.Node( $giper_baza_atom_text ).Item( new $giper_baza_link( '11111111' ) )
-			const link = land.Node( $giper_baza_atom_link_to( ()=> $giper_baza_atom_text ) ).Item( new $giper_baza_link( '11111111' ) )
+			const str = land.Pawn( $giper_baza_atom_text ).Head( new $giper_baza_link( '11111111' ) )
+			const link = land.Pawn( $giper_baza_atom_link_to( ()=> $giper_baza_atom_text ) ).Head( new $giper_baza_link( '11111111' ) )
 			$mol_assert_equal( link.remote(), null )
 			
 			link.remote( str )

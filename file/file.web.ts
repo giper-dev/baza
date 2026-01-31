@@ -19,7 +19,7 @@ namespace $ {
 			if( !id ) return
 			
 			const link = new $giper_baza_link( id )
-			const file = $.$giper_baza_glob.Node( link, $giper_baza_file )
+			const file = $.$giper_baza_glob.Pawn( link, $giper_baza_file )
 			
 			return event.respondWith( $mol_wire_async( file ).blob().then( blob => {
 				

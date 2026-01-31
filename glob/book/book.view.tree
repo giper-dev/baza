@@ -3,7 +3,7 @@ $giper_baza_glob_book $mol_book2_catalog
 	param \link
 	Spread* <= Land* $giper_baza_land_page
 		land <= land* $giper_baza_land
-		node <= node* $giper_baza_dict
+		pawn <= pawn* $giper_baza_dict
 		Close <= Spread_close
 	menu_foot /
 		<= Wipe_pick $mol_pick
@@ -14,6 +14,10 @@ $giper_baza_glob_book $mol_book2_catalog
 				<= Wipe_icon $mol_icon_delete_forever
 			bubble_content /
 				\Double to wipe database
+		<= Config_make $mol_button_minor
+			hint \Make core config
+			click? <=> config_make? null
+			sub / <= Config_make_icon $mol_icon_sprout_outline
 		<= Update $mol_button_open
 			hint \Upload dump
 			files? <=> update? /

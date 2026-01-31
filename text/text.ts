@@ -1,6 +1,6 @@
 namespace $ {
-	/** Mergeable text node */
-	export class $giper_baza_text extends $giper_baza_node {
+	/** Mergeable text Pawn */
+	export class $giper_baza_text extends $giper_baza_pawn {
 		
 		static tag = $giper_baza_unit_sand_tag[ $giper_baza_unit_sand_tag.vals ] as keyof typeof $giper_baza_unit_sand_tag
 				
@@ -25,16 +25,16 @@ namespace $ {
 					next: lines,
 					equal: ( next, prev )=> {
 						//if( typeof prev.data === 'string' ) return false // ???
-						return land.Node( $giper_baza_text ).Item( prev.self() ).str() === next
+						return land.Pawn( $giper_baza_text ).Head( prev.self() ).str() === next
 					},
 					drop: ( prev, lead )=> this.land().post( lead?.self() ?? $giper_baza_link.hole, prev.head(), prev.self(), null ),
 					insert: ( next, lead )=> {
 						const sand = this.land().post( lead?.self() ?? $giper_baza_link.hole, this.head(), land.self_make(), 'p', 'vals' )
-						land.Node( $giper_baza_text ).Item( sand.self() ).str( next )
+						land.Pawn( $giper_baza_text ).Head( sand.self() ).str( next )
 						return sand
 					},
 					replace: ( next, prev, lead )=> {
-						land.Node( $giper_baza_text ).Item( prev.self() ).str( next )
+						land.Pawn( $giper_baza_text ).Head( prev.self() ).str( next )
 						return prev
 					},
 				})
@@ -55,7 +55,7 @@ namespace $ {
 				
 				for( const unit of this.units() ) {
 					if( unit.tag() === 'term' ) str += $giper_baza_vary_cast_text( land.sand_decode( unit ) ) ?? ''
-					else str += land.Node( $giper_baza_text ).Item( unit.self() ).str()
+					else str += land.Pawn( $giper_baza_text ).Head( unit.self() ).str()
 				}
 				
 				return str
@@ -142,7 +142,7 @@ namespace $ {
 					
 				} else {
 					
-					const found = land.Node( $giper_baza_text ).Item( unit.self() ).point_by_offset( off )
+					const found = land.Pawn( $giper_baza_text ).Head( unit.self() ).point_by_offset( off )
 					if( found[0] ) return found
 					
 					off = found[1]
@@ -169,7 +169,7 @@ namespace $ {
 					
 				} else {
 					
-					const found = land.Node( $giper_baza_text ).Item( unit.self() ).offset_by_point([ self, offset ])
+					const found = land.Pawn( $giper_baza_text ).Head( unit.self() ).offset_by_point([ self, offset ])
 					if( found[0] ) return [ self, found[1] ]
 					
 					offset = found[1]

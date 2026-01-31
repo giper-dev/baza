@@ -29,14 +29,14 @@ namespace $.$$ {
 			return this.$.$giper_baza_glob.Land( new $giper_baza_link( id ).land() )
 		}
 		
-		override node( id: string ) {
-			return this.$.$giper_baza_glob.Node( new $giper_baza_link( id ), $giper_baza_dict )
+		override pawn( id: string ) {
+			return this.$.$giper_baza_glob.Pawn( new $giper_baza_link( id ), $giper_baza_dict )
 		}
 		
 		override spread_title( id: string ) {
 			const link = new $giper_baza_link( id )
 			try {
-				var title = this.$.$giper_baza_glob.Node( link, $giper_baza_entity ).Title()?.val()
+				var title = this.$.$giper_baza_glob.Pawn( link, $giper_baza_entity ).Title()?.val()
 			} catch( error ) {
 				$mol_fail_log( error )
 			}

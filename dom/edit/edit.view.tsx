@@ -19,14 +19,14 @@ namespace $.$$ {
 		@ $mol_mem
 		sub() {
 			console.log('render')
-			let nodes = $mol_jsx_attach( $mol_dom_context.document, ()=> this.node().dom() ) as ChildNode[]
+			let nodes = $mol_jsx_attach( $mol_dom_context.document, ()=> this.pawn().dom() ) as ChildNode[]
 			nodes = this.$.$mol_dom_safe( nodes )
 			return nodes.length ? nodes : [ <p><br/></p> ]
 		}
 
 		@ $mol_mem
 		selection( next?: readonly( readonly[ string /*self*/, number /*pos*/ ] )[] ) {
-			return this.node().selection( this.$.$giper_baza_auth.current().lord(), next )
+			return this.pawn().selection( this.$.$giper_baza_auth.current().lord(), next )
 		}
 
 		save() {
@@ -40,7 +40,7 @@ namespace $.$$ {
 				container = container.parentElement!
 			}
 			
-			const dom = this.node().land().Node( $giper_baza_dom ).Item( container.id )
+			const dom = this.pawn().land().Pawn( $giper_baza_dom ).Item( container.id )
 			let nodes = [ ... container.childNodes ]
 			nodes = this.$.$mol_dom_safe( nodes as Element[] )
 			dom.dom( nodes as Element[] )
@@ -90,7 +90,7 @@ namespace $.$$ {
 		// saving() {
 		// 	const obs = new MutationObserver( $mol_wire_async( ()=> {
 		// 		console.log(1)
-		// 		this.node().dom( this.Body() )
+		// 		this.pawn().dom( this.Body() )
 		// 	} ) )
 		// 	obs.observe( this.Body(), { attributes: true, childList: true, subtree: true, characterData: true } )
 		// }

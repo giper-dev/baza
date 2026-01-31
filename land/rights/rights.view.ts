@@ -19,7 +19,7 @@ namespace $.$$ {
 		
 		override peer_name( lord: $giper_baza_link ) {
 			if( !lord.str ) return super.peer_name( lord )
-			return this.$.$giper_baza_glob.Node( lord, $giper_baza_entity ).title() || lord.str
+			return this.$.$giper_baza_glob.Pawn( lord, $giper_baza_entity ).title() || lord.str
 		}
 		
 		@ $mol_mem_key

@@ -1,0 +1,11 @@
+$giper_baza_pawn_page $mol_page
+	pawn $giper_baza_pawn
+	title \Pawn
+	body /
+		<= Dump $giper_baza_pawn_dump
+			pawn <= pawn
+		<= Text $mol_textarea
+			value? <=> text? \
+			selection? <=> selection? /
+				0
+				0

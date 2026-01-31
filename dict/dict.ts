@@ -1,5 +1,5 @@
 namespace $ {
-	/** Mergeable dictionary node with any keys mapped to any embedded Node types */
+	/** Mergeable dictionary Pawn with any keys mapped to any embedded Pawn types */
 	export class $giper_baza_dict extends $giper_baza_list_vary {
 		
 		static tag = $giper_baza_unit_sand_tag[ $giper_baza_unit_sand_tag.keys ] as keyof typeof $giper_baza_unit_sand_tag
@@ -10,20 +10,20 @@ namespace $ {
 			return this.items_vary()
 		}
 		
-		/** Inner Node by key. */
-		dive< Node extends typeof $giper_baza_node >(
+		/** Inner Pawn by key. */
+		dive< Pawn extends typeof $giper_baza_pawn >(
 			key: $giper_baza_vary_type,
-			Node: Node,
+			Pawn: Pawn,
 			auto?: any,
 		) {
-			if( this.can_change() && auto !== undefined ) this.has( key, true, Node.tag )
+			if( this.can_change() && auto !== undefined ) this.has( key, true, Pawn.tag )
 			const unit = this.find( key )
-			return unit ? this.land().Node( Node ).Item( unit.self() ) : null
+			return unit ? this.land().Pawn( Pawn ).Head( unit.self() ) : null
 		}
 		
-		static schema = {} as Record< string, typeof $giper_baza_node >
+		static schema = {} as Record< string, typeof $giper_baza_pawn >
 		
-		/** Mergeable dictionary node with defined keys mapped to different embedded Node types */
+		/** Mergeable dictionary Pawn with defined keys mapped to different embedded Pawn types */
 		static with<
 			This extends typeof $giper_baza_dict,
 			const Schema extends Record< string, { tag: keyof typeof $giper_baza_unit_sand_tag, new(): {} } >
@@ -65,14 +65,14 @@ namespace $ {
 		;[ $mol_dev_format_head ]() {
 			
 			const keys = $mol_wire_probe( ()=> this.keys() )
-			const nodes = $mol_wire_probe( ()=> this.nodes(null) ) ?? []
+			const pawns = $mol_wire_probe( ()=> this.pawns(null) ) ?? []
 			
 			return $mol_dev_format_span( {} ,
 				$mol_dev_format_native( this ) ,
 				' ',
 				this.head(),
 				' ',
-				$mol_dev_format_auto( keys?.map( ( key, index )=> new Pair( key, nodes[ index ] ) ) ),
+				$mol_dev_format_auto( keys?.map( ( key, index )=> new Pair( key, pawns[ index ] ) ) ),
 			)
 			
 		}
@@ -91,7 +91,7 @@ namespace $ {
 		}
 	}
 	
-	/** Mergeable dictionary with any keys mapped to any embedded Node types */
+	/** Mergeable dictionary with any keys mapped to any embedded Pawn types */
 	export function $giper_baza_dict_to<
 		Value extends { tag: keyof typeof $giper_baza_unit_sand_tag, new(): {} }
 	>( Value: Value ) {
@@ -101,7 +101,7 @@ namespace $ {
 			Value = Value
 			
 			key( key: $giper_baza_vary_type, auto?: any ) {
-				return this.dive( key, this.Value as any as typeof $giper_baza_node, auto ) as InstanceType< Value >
+				return this.dive( key, this.Value as any as typeof $giper_baza_pawn, auto ) as InstanceType< Value >
 			}
 			
 			static toString() {

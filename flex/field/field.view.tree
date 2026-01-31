@@ -1,7 +1,7 @@
 $giper_baza_flex_field $mol_view
 	sub / <= Sub $mol_view
-	node? $giper_baza_node
-	land = node land
+	pawn? $giper_baza_pawn
+	land = pawn land
 	prop $giper_baza_flex_prop
 	Enum $mol_select
 		enabled <= enabled true
@@ -47,7 +47,7 @@ $giper_baza_flex_field $mol_view
 		title <= dict_title \
 		content / <= Dict_form $giper_baza_flex_form
 			enabled <= enabled true
-			node <= dict_node $giper_baza_dict
+			pawn <= dict_pawn $giper_baza_dict
 	Text $mol_textarea
 		enabled <= enabled true
 		value? <=> text? \

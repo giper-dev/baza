@@ -71,7 +71,7 @@ namespace $ {
 			const text = land.Data( $giper_baza_text )
 			
 			text.text( 'foo bar\n666 777' )
-			const [ first, second ] = text.nodes( $giper_baza_text )
+			const [ first, second ] = text.pawns( $giper_baza_text )
 			
 			$mol_assert_equal( text.point_by_offset( 0 ), [ first.units()[0].self(), 0 ] )
 			$mol_assert_equal( text.offset_by_point([ first.units()[0].self(), 0 ]), [ first.units()[0].self(), 0 ] )
@@ -86,8 +86,8 @@ namespace $ {
 			const land1 = $giper_baza_land.make({ $ })
 			const land2 = $giper_baza_land.make({ $ })
 			
-			const text1 = land1.Node( $giper_baza_text ).Data()
-			const text2 = land2.Node( $giper_baza_text ).Data()
+			const text1 = land1.Pawn( $giper_baza_text ).Data()
+			const text2 = land2.Pawn( $giper_baza_text ).Data()
 			
 			text1.str( 'foo bar.' )
 			land2.faces.stat.time = land1.faces.stat.time

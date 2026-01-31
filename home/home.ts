@@ -6,11 +6,11 @@ namespace $ {
 		Hall: $giper_baza_atom_link_to( ()=> $giper_baza_dict ),
 	}) {
 		
-		hall_by< Node extends typeof $giper_baza_dict >(
-			Node: Node,
+		hall_by< Pawn extends typeof $giper_baza_dict >(
+			Pawn: Pawn,
 			auto?: null,
 		) {
-			return this.Hall( auto )?.ensure( auto === null ? this.land() : undefined )?.cast( Node ) ?? null
+			return this.Hall( auto )?.ensure( auto === null ? this.land() : undefined )?.cast( Pawn ) ?? null
 		}
 		
 	}

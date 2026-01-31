@@ -16,7 +16,7 @@ namespace $ {
 		'Basic list ops'( $ ) {
 			
 			const land = $.$giper_baza_land.make({ $ })
-			const list = land.Node( $giper_baza_list_vary ).Data()
+			const list = land.Pawn( $giper_baza_list_vary ).Data()
 			$mol_assert_equal( list.items_vary(), [] )
 			
 			list.items_vary([ 2, 3 ])
@@ -57,7 +57,7 @@ namespace $ {
 		'Different types'( $ ) {
 			
 			const land = $.$giper_baza_land.make({ $ })
-			const list = land.Node( $.$giper_baza_list_vary ).Data()
+			const list = land.Pawn( $.$giper_baza_list_vary ).Data()
 			
 			list.items_vary([
 				null,
@@ -101,8 +101,8 @@ namespace $ {
 			const land1 = $.$giper_baza_land.make({ $ })
 			const land2 = $.$giper_baza_land.make({ $ })
 			
-			const list1 = land1.Node( $giper_baza_list_vary ).Data()
-			const list2 = land2.Node( $giper_baza_list_vary ).Data()
+			const list1 = land1.Pawn( $giper_baza_list_vary ).Data()
+			const list2 = land2.Pawn( $giper_baza_list_vary ).Data()
 
 			list1.items_vary([ 'foo', 'xxx' ])
 			land2.faces.tick()
@@ -115,7 +115,7 @@ namespace $ {
 		'Insert before removed before changed'( $ ) {
 			
 			const land = $.$giper_baza_land.make({ $ })
-			const list = land.Node( $giper_baza_list_vary ).Data()
+			const list = land.Pawn( $giper_baza_list_vary ).Data()
 			
 			list.items_vary([ 'foo', 'bar' ])
 			list.items_vary([ 'xxx', 'foo', 'bar' ])
@@ -128,7 +128,7 @@ namespace $ {
 		'Many moves'( $ ) {
 			
 			const land = $.$giper_baza_land.make({ $ })
-			const list = land.Node( $giper_baza_list_vary ).Data()
+			const list = land.Pawn( $giper_baza_list_vary ).Data()
 			
 			list.items_vary([ 'foo', 'bar', 'lol' ])
 			list.move( 2, 1 )
@@ -143,7 +143,7 @@ namespace $ {
 		'Reorder separated sublists'( $ ) {
 			
 			const land = $.$giper_baza_land.make({ $ })
-			const list = land.Node( $giper_baza_list_vary ).Data()
+			const list = land.Pawn( $giper_baza_list_vary ).Data()
 			
 			list.items_vary([ 1, 2, 3, 4, 5, 6 ])
 			
@@ -366,8 +366,8 @@ namespace $ {
 				[ 1, 7, 3, 4 ],
 			)
 			$mol_assert_equal(
-				left.Node( $giper_baza_list_vary ).Item( new $giper_baza_link( '11111111' ) ).items_vary(),
-				right.Node( $giper_baza_list_vary ).Item( new $giper_baza_link( '11111111' ) ).items_vary(),
+				left.Pawn( $giper_baza_list_vary ).Head( new $giper_baza_link( '11111111' ) ).items_vary(),
+				right.Pawn( $giper_baza_list_vary ).Head( new $giper_baza_link( '11111111' ) ).items_vary(),
 				[ 2 ],
 			)
 			
@@ -392,8 +392,8 @@ namespace $ {
 				[ 1, 7, 3, 4 ],
 			)
 			$mol_assert_equal(
-				left.Node( $giper_baza_list_vary ).Item( new $giper_baza_link( '11111111' ) ).items_vary(),
-				right.Node( $giper_baza_list_vary ).Item( new $giper_baza_link( '11111111' ) ).items_vary(),
+				left.Pawn( $giper_baza_list_vary ).Head( new $giper_baza_link( '11111111' ) ).items_vary(),
+				right.Pawn( $giper_baza_list_vary ).Head( new $giper_baza_link( '11111111' ) ).items_vary(),
 				[ 2 ],
 			)
 			

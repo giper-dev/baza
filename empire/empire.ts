@@ -1,6 +1,6 @@
 namespace $ {
 	
-	export function $giper_baza_empire< Value extends typeof $giper_baza_node >( Value: Value ) {
+	export function $giper_baza_empire< Value extends typeof $giper_baza_pawn >( Value: Value ) {
 		
 		return class $giper_baza_empire extends $giper_baza_atom_link_to( $mol_const( $giper_baza_dict_to( Value ) ) ) {
 			

@@ -1,6 +1,6 @@
 namespace $.$$ {
 	
-	$mol_style_define( $giper_baza_node_dump, {
+	$mol_style_define( $giper_baza_pawn_dump, {
 		
 		font: {
 			family: 'monospace',
@@ -48,7 +48,7 @@ namespace $.$$ {
 			},
 		},
 		
-		Node_inner: {
+		Pawn_inner: {
 			flex: {
 				grow: 1,
 			},

@@ -1,6 +1,6 @@
 $giper_baza_land_page $mol_page
 	land $giper_baza_land
-	node $giper_baza_dict
+	pawn $giper_baza_dict
 	tools /
 		<= Encrypted $mol_check_icon
 			hint \Encryption
@@ -10,15 +10,15 @@ $giper_baza_land_page $mol_page
 		<= Close null
 	body /
 		<= Flex $giper_baza_flex_form
-			node <= node
+			pawn <= pawn
 		<= Raw $mol_labeler
 			Content <= Raw_content $mol_list rows /
-				<= Raw_data $giper_baza_node_dump
+				<= Raw_data $giper_baza_pawn_dump
 					title \Data
-					node <= node
-				<= Raw_tine $giper_baza_node_dump
+					pawn <= pawn
+				<= Raw_tine $giper_baza_pawn_dump
 					title \Tine
-					node <= tine $giper_baza_node
+					pawn <= tine $giper_baza_pawn
 		<= Rights $mol_labeler
 			Content <= Rights_control $giper_baza_land_rights
 				land <= land

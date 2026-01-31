@@ -109,7 +109,7 @@ namespace $ {
 			return new $giper_baza_link( this.str.split( '_' ).slice( 0, 3 ).join( '_' ) )
 		}
 		
-		/** Node Link relative to base Land: `___QWERTYUI` */
+		/** Pawn Link relative to base Land: `___QWERTYUI` */
 		relate( base: $giper_baza_link ) {
 			base = base.land()
 			if( this.land().str !== base.str ) return this
@@ -117,7 +117,7 @@ namespace $ {
 			return new $giper_baza_link(  '___' + head )
 		}
 
-		/** Absolute Node Link from relative (`___QWERTYUI`) using base Land Link. */
+		/** Absolute Pawn Link from relative (`___QWERTYUI`) using base Land Link. */
 		resolve( base: $giper_baza_link ) {
 			
 			if( this.str === '' ) return base.land()

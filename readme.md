@@ -27,15 +27,15 @@
     - **🎶Hall** - Lord's profile with full info.
 - **Lord** - Independent actor with global unique id generated from Auth key.
   - **🤴King** - Lord who have full rights to Land (with same id).
-- **Area** - Land local Node id namespace.
+- **Area** - Sub Land.
   - **Data** - some stored data.
-  - **Meta** - related meta-data.
+  - **Tine** - inflow lands.
 
 - **Auth** - Private key generated with Proof of Work.
 - **Peer** - Land local unique identifier of independent actor (first half of Lord).
 - **Sign** - Crypto sign of whole Unit data xored with Land id.
 
-- **🧩Node** - High level representation of stored data.
+- **🧩Pawn** - High level representation of stored data.
   - **Atom** - Atomic LWW-register.
   - **List** - Mergeable ordered list.
   - **Dict** - Mergeable ordered dictionary.
@@ -43,16 +43,15 @@
   - **DOM** - Mergeable Document Object Model.
   - **Tree** - Mergeable Abstract Syntax Tree.
 
-- **Unit** - Minimal independent stable part of information. Actually it's edge between nodes in graph model.
+- **Unit** - Minimal independent stable part of information. Actually it's edge between Pawns in graph model.
   - **🎫Pass** - Public key of Peer.
   - **🏅Give** - Rights and secret key given to Peer.
   - **📦Sand** - (Meta) Data.
   - **✍Seal** - Signature for units.
 
-- **🆔Self** - Self Node id
-- **🎃Head** - Parent Node id.
-- **👈Prev** - Previous Node id in the siblings list.
-- **👉Next** - Next Node id in the siblings list.
+- **🆔Self** - Self Pawn id
+- **🎃Head** - Parent Pawn id.
+- **😎Lead** - Previous Pawn id in the siblings list.
 - **💺Seat** - Position in the list.
 - **🎭Tag** - Hint how interpret inner Units.
   - **💼term** - ignore.
@@ -63,14 +62,14 @@
 - **Time** - Monotonic time as count of seconds from unix epoch.
 - **Tick** - Monotonic counter of units in one transaction.
 - **Data** - Stored data.
-- **💎Hash** - First 12B of SHA-1 hash.
+- **💎Shot** - First 12B of SHA-1 hash.
 - **🎡Vary** - Supported primitive types.
   - **💢none** - No data.
   - **💠blob** - Binary.
   - **🏁bool** - Boolean.
   - **🔢bint** - int64.
   - **💫real** - float64.
-  - **🎯link** - Reference to Node/Land/Lord.
+  - **🎯link** - Reference to Pawn/Land/Lord.
   - **🔠text** - String.
   - **⏰time** - iso8601 moment.
   - **🕓dura** - iso8601 duration.

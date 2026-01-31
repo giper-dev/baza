@@ -2,7 +2,7 @@
 namespace $ {
 
 	/** Atomic dynamic register */
-	export class $giper_baza_atom_vary extends $giper_baza_node {
+	export class $giper_baza_atom_vary extends $giper_baza_pawn {
 
 		static tag = $giper_baza_unit_sand_tag[ $giper_baza_unit_sand_tag.solo ] as keyof typeof $giper_baza_unit_sand_tag;
 		
@@ -101,7 +101,7 @@ namespace $ {
 
 			static parse = parse;
 
-			/** Get/Set value of Node field */
+			/** Get/Set value of Pawn field */
 			val( next?: ReturnType< Parse > ): ReturnType< Parse > | null {
 				return this.val_of( $giper_baza_link.hole, next )
 			}
@@ -162,7 +162,7 @@ namespace $ {
 		
 	}
 	
-	/** Atomic link to some Node type register */
+	/** Atomic link to some Pawn type register */
 	export function $giper_baza_atom_link_to< const Value extends any >( Value: Value ) {
 
 		class $giper_baza_atom_link_to extends $giper_baza_atom_link_base {
@@ -173,7 +173,7 @@ namespace $ {
 				return this === $giper_baza_atom_link_to ? '$giper_baza_atom_link_to<' + ( Value as any )() + '>' : super.toString()
 			}
 			
-			/** Target Node */
+			/** Target Pawn */
 			remote(
 				next?: null | $mol_type_result< $mol_type_result< this['Value'] > >
 			): null | $mol_type_result< $mol_type_result< this['Value'] > > {
@@ -186,15 +186,15 @@ namespace $ {
 				next?: null | $mol_type_result< $mol_type_result< this['Value'] > >
 			): null | $mol_type_result< $mol_type_result< this['Value'] > > {
 				
-				let link: $giper_baza_link | null = ( next as $giper_baza_node )?.link() ?? next
+				let link: $giper_baza_link | null = ( next as $giper_baza_pawn )?.link() ?? next
 				link = $giper_baza_vary_cast_link( this.vary_of( peer, link ) )
 				if( !link ) return null
 				
-				return this.$.$giper_baza_glob.Node( link, ( Value as any )() )
+				return this.$.$giper_baza_glob.Pawn( link, ( Value as any )() )
 				
 			}
 			
-			/** Target Node. Creates if not exists. */
+			/** Target Pawn. Creates if not exists. */
 			ensure( config?: null | $giper_baza_rank_preset | $giper_baza_land ) {
 				return this.ensure_of( $giper_baza_link.hole, config )
 			}
@@ -215,8 +215,8 @@ namespace $ {
 			ensure_here( peer: $giper_baza_link | null ) {
 				const idea = $mol_hash_string( this.link().str )
 				const head = this.land().self_make( idea )
-				const node = this.land().Node( ( Value as any )() ).Item( head )
-				this.remote_of( peer, node )
+				const pawn = this.land().Pawn( ( Value as any )() ).Head( head )
+				this.remote_of( peer, pawn )
 			}
 			
 			@ $mol_action

@@ -1,13 +1,13 @@
 /** @jsx $mol_jsx */
 /** @jsxFrag $mol_jsx_frag */
 namespace $ {
-	export class $giper_baza_dom extends $giper_baza_node {
+	export class $giper_baza_dom extends $giper_baza_pawn {
 		
 		dom( next?: ( Element | Attr | Text )[] ): ( Element | Attr | Text )[] {
 			
 			const land = this.land()
-			const doms = land.Node( $giper_baza_dom )
-			const regs = land.Node( $giper_baza_atom_text )
+			const doms = land.Pawn( $giper_baza_dom )
+			const regs = land.Pawn( $giper_baza_atom_text )
 			
 			if( next ) {
 				
@@ -150,9 +150,9 @@ namespace $ {
 					if( typeof sam === 'string' ) continue
 
 					if( sam.nodeType === sam.ATTRIBUTE_NODE ) {
-						regs.Item( units[i].self() ).val( sam.nodeValue )
+						regs.Head( units[i].self() ).val( sam.nodeValue )
 					} else if( sam.nodeName !== 'span' ) {
-						doms.Item( units[i].self() ).dom([
+						doms.Head( units[i].self() ).dom([
 							... ( sam as Element ).attributes,
 							... [ ... ( sam as Element ).childNodes ] as Element[],
 						] )
@@ -174,15 +174,15 @@ namespace $ {
 					
 					const attrs = unit.tag() === 'vals'
 						? Object.fromEntries(
-							regs.Item( unit.self() ).units()
+							regs.Head( unit.self() ).units()
 							.filter( sand => sand.tag() === 'solo' )
-							.map( sand => [ land.sand_decode( sand ), regs.Item( sand.self() ).val() ] )
+							.map( sand => [ land.sand_decode( sand ), regs.Head( sand.self() ).val() ] )
 						)
 						: {}
 					
 					const content = unit.tag() === 'term'
 						? $giper_baza_vary_cast_text( land.sand_decode( unit ) )
-						: doms.Item( unit.self() ).dom()
+						: doms.Head( unit.self() ).dom()
 					
 					return <Tag { ... attrs } id={ unit.self().str } >{ content }</Tag>
 					

@@ -1,7 +1,7 @@
 namespace $ {
 	
-	/** Virtual Node that represents contained units as high-level data types. */
-	export class $giper_baza_node extends $mol_object {
+	/** Virtual Pawn that represents contained units as high-level data types. */
+	export class $giper_baza_pawn extends $mol_object {
 		
 		static tag: keyof typeof $giper_baza_unit_sand_tag = 'vals'
 		
@@ -10,7 +10,7 @@ namespace $ {
 			return null as any as $giper_baza_land
 		}
 		
-		/** Land local Node id */
+		/** Land local Pawn id */
 		head() {
 			return $giper_baza_link.hole
 		}
@@ -20,7 +20,7 @@ namespace $ {
 			return this.land()?.link() ?? this.$.$giper_baza_auth.current().pass().lord()
 		}
 		
-		/** Link to Node/Land/Lord. */
+		/** Link to Pawn/Land/Lord. */
 		@ $mol_memo.method
 		link() {
 			return new $giper_baza_link( '___' + this.head() ).resolve( this.land_link() )
@@ -30,23 +30,23 @@ namespace $ {
 			return this.link().str
 		}
 		
-		/** Returns another representation of this node. */
+		/** Returns another representation of this Pawn. */
 		@ $mol_mem_key
-		cast< Node extends typeof $giper_baza_node >( Node: Node ): InstanceType< Node > {
-			return this.land().Node( Node ).Item( this.head() )
+		cast< Pawn extends typeof $giper_baza_pawn >( Pawn: Pawn ): InstanceType< Pawn > {
+			return this.land().Pawn( Pawn ).Head( this.head() )
 		}
 		
-		/** Ordered inner alive Node. */
+		/** Ordered inner alive Pawn. */
 		@ $mol_mem_key
-		nodes< Node extends typeof $giper_baza_node >( Node: Node | null ): readonly InstanceType< Node >[] {
+		pawns< Pawn extends typeof $giper_baza_pawn >( Pawn: Pawn | null ): readonly InstanceType< Pawn >[] {
 			const land = this.land()
 			const map = {
-				term: ()=> land.Node( Node || $giper_baza_atom_vary ),
-				solo: ()=> land.Node( Node || $giper_baza_atom_vary ),
-				vals: ()=> land.Node( Node || $giper_baza_list_vary ),
-				keys: ()=> land.Node( Node || $giper_baza_dict ),
+				term: ()=> land.Pawn( Pawn || $giper_baza_atom_vary ),
+				solo: ()=> land.Pawn( Pawn || $giper_baza_atom_vary ),
+				vals: ()=> land.Pawn( Pawn || $giper_baza_list_vary ),
+				keys: ()=> land.Pawn( Pawn || $giper_baza_dict ),
 			}
-			return this.units().map( unit => map[ unit.tag() ]().Item( unit.self() ) ) as any
+			return this.units().map( unit => map[ unit.tag() ]().Head( unit.self() ) ) as any
 		}
 		
 		/** All ordered alive Units */
@@ -89,7 +89,7 @@ namespace $ {
 			return this.land().pass_rank( this.land().auth().pass() ) >= $giper_baza_rank_post( 'late' )
 		}
 		
-		/** Time of last changed unit inside Node subtree */
+		/** Time of last changed unit inside Pawn subtree */
 		@ $mol_mem
 		last_change() {
 			
@@ -99,7 +99,7 @@ namespace $ {
 			const visit = ( sand: $giper_baza_unit_sand )=> {
 				if( sand.time() > last ) last = sand.time()
 				if( sand.tag() === 'term' ) return
-				land.Node( $giper_baza_node ).Item( sand.self() ).units().forEach( visit )
+				land.Pawn( $giper_baza_pawn ).Head( sand.self() ).units().forEach( visit )
 			}
 			this.units().forEach( visit )
 			
@@ -107,7 +107,7 @@ namespace $ {
 			
 		}
 		
-		/** All author Passes of Node subtree */
+		/** All author Passes of Pawn subtree */
 		@ $mol_mem
 		authors() {
 			
@@ -117,7 +117,7 @@ namespace $ {
 			const visit = ( sand: $giper_baza_unit_sand )=> {
 				peers.add( land.lord_pass( sand.lord() )! )
 				if( sand.tag() === 'term' ) return
-				land.Node( $giper_baza_node ).Item( sand.self() ).units_of( null ).forEach( visit )
+				land.Pawn( $giper_baza_pawn ).Head( sand.self() ).units_of( null ).forEach( visit )
 			}
 			this.units_of( null ).forEach( visit )
 			

@@ -10,7 +10,7 @@ namespace $.$$ {
 			const Targets = $giper_baza_empire( $giper_baza_list_link_to( ()=> Target ) )
 			
 			const land = $.$giper_baza_glob.home().land()
-			const targets = land.Node( Targets ).Data()
+			const targets = land.Pawn( Targets ).Data()
 			
 			const start = new $mol_time_moment( '2024-01-01T12' )
 			const before = start.shift( 'PT-1h' )

@@ -1,10 +1,10 @@
 $giper_baza_flex_form $mol_list
-	node $giper_baza_dict
+	pawn $giper_baza_dict
 	kind $giper_baza_flex_kind
 	rows <= fields /
 		<= Field*0 $mol_form_field
 			name <= field_name* \
 			Content <= Field_content* $mol_view sub / <= Field_control* $giper_baza_flex_field
-				node? <=> field_node*? $giper_baza_node
+				pawn? <=> field_pawn*? $giper_baza_pawn
 				prop <= field_prop* $giper_baza_flex_prop
 				enabled <= enabled true

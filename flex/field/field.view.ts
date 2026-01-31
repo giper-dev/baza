@@ -1,8 +1,8 @@
 namespace $.$$ {
 	export class $giper_baza_flex_field extends $.$giper_baza_flex_field {
 		
-		override dict_node() {
-			return this.node() as $giper_baza_dict
+		override dict_pawn() {
+			return this.pawn() as $giper_baza_dict
 		}
 		
 		@ $mol_mem
@@ -20,12 +20,12 @@ namespace $.$$ {
 				case 'dict': return this.Dict()
 				case 'text': return this.Text()
 				case 'list': return this.List()
-				default: return $mol_fail( new Error( `Unsuported node type (${type})` ) )
+				default: return $mol_fail( new Error( `Unsuported Pawn type (${type})` ) )
 			}
 		}
 		
 		override enum( next?: $giper_baza_vary_type ) {
-			return this.node( next as any )?.cast( $giper_baza_atom_vary ).vary( next ) ?? null
+			return this.pawn( next as any )?.cast( $giper_baza_atom_vary ).vary( next ) ?? null
 		}
 		
 		@ $mol_mem
@@ -39,27 +39,27 @@ namespace $.$$ {
 		}
 		
 		bool( next?: boolean ) {
-			return this.node( next as any )?.cast( $giper_baza_atom_bool ).val( next ) ?? false
+			return this.pawn( next as any )?.cast( $giper_baza_atom_bool ).val( next ) ?? false
 		}
 		
 		int( next?: number ) {
-			return Number( this.node( next as any )?.cast( $giper_baza_atom_bint ).val( next === undefined ? undefined : BigInt( next ) ) ?? Number.NaN )
+			return Number( this.pawn( next as any )?.cast( $giper_baza_atom_bint ).val( next === undefined ? undefined : BigInt( next ) ) ?? Number.NaN )
 		}
 		
 		real( next?: number ) {
-			return this.node( next as any )?.cast( $giper_baza_atom_real ).val( next ) ?? Number.NaN
+			return this.pawn( next as any )?.cast( $giper_baza_atom_real ).val( next ) ?? Number.NaN
 		}
 		
 		str( next?: string ) {
-			return this.node( next as any )?.cast( $giper_baza_atom_text ).val( next ) ?? ''
+			return this.pawn( next as any )?.cast( $giper_baza_atom_text ).val( next ) ?? ''
 		}
 		
 		time( next?: $mol_time_moment ) {
-			return this.node( next as any )?.cast( $giper_baza_atom_time ).val( next ) ?? null!
+			return this.pawn( next as any )?.cast( $giper_baza_atom_time ).val( next ) ?? null!
 		}
 		
 		link( next?: $giper_baza_link ) {
-			this.node( next as any )?.cast( $giper_baza_atom_link ).val( next ) ?? null
+			this.pawn( next as any )?.cast( $giper_baza_atom_link ).val( next ) ?? null
 			return null
 		}
 		
@@ -74,7 +74,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		link_value() {
-			return this.node()?.cast( $giper_baza_atom_vary ).vary() ?? null
+			return this.pawn()?.cast( $giper_baza_atom_vary ).vary() ?? null
 		}
 		
 		link_options() {
@@ -82,12 +82,12 @@ namespace $.$$ {
 		}
 		
 		link_label( link: $giper_baza_vary_type ) {
-			if( link instanceof $giper_baza_link ) return this.$.$giper_baza_glob.Node( link, $giper_baza_flex_thing ).Title()?.val() ?? link.str
+			if( link instanceof $giper_baza_link ) return this.$.$giper_baza_glob.Pawn( link, $giper_baza_flex_thing ).Title()?.val() ?? link.str
 			return $giper_baza_vary_cast_text( link ) ?? ''
 		}
 		
 		link_remote() {
-			return ( this.node().cast( $giper_baza_atom_link_to( ()=> $giper_baza_dict ) ) ).remote()!
+			return ( this.pawn().cast( $giper_baza_atom_link_to( ()=> $giper_baza_dict ) ) ).remote()!
 		}
 		
 		@ $mol_action
@@ -95,11 +95,11 @@ namespace $.$$ {
 			
 			if( !rights ) return null
 			
-			const node =  this.node( 'auto' as any ).cast( $giper_baza_flex_thing_link )
+			const pawn =  this.pawn( 'auto' as any ).cast( $giper_baza_flex_thing_link )
 			const Target = this.prop().Target()?.remote()
 			
 			if( rights === 'local' ) {
-				const remote = node.ensure(null)!
+				const remote = pawn.ensure(null)!
 				if( Target ) remote.meta( Target.link() )
 				return null
 			}
@@ -112,7 +112,7 @@ namespace $.$$ {
 			} as Record< string, $giper_baza_rank_preset > )[ rights as any ]
 			
 			if( preset ) {
-				const remote = node.ensure( preset )!
+				const remote = pawn.ensure( preset )!
 				if( Target ) remote.meta( Target.link() )
 				return null
 			}
@@ -121,18 +121,18 @@ namespace $.$$ {
 		}
 		
 		text( next?: string ) {
-			return this.node( next as any )?.cast( $giper_baza_text ).value( next ) ?? ''
+			return this.pawn( next as any )?.cast( $giper_baza_text ).value( next ) ?? ''
 		}
 		
 		@ $mol_mem
 		dict_title() {
-			return this.node().cast( $giper_baza_entity ).Title()?.val() || this.node().link().str
+			return this.pawn().cast( $giper_baza_entity ).Title()?.val() || this.pawn().link().str
 		}
 		
 		@ $mol_mem
 		list_items() {
 			return [
-				... this.node()?.units().map( ( unit, i )=> this.List_item( unit ) ) ?? [],
+				... this.pawn()?.units().map( ( unit, i )=> this.List_item( unit ) ) ?? [],
 				... this.link_options().length ? [ this.List_pick() ] : [],
 				this.List_item_add(),
 			]
@@ -140,13 +140,13 @@ namespace $.$$ {
 		
 		list_pick( next?: $giper_baza_link ) {
 			if( !next ) return null
-			this.node( next as any )?.cast( $giper_baza_list_vary ).add( next )
+			this.pawn( next as any )?.cast( $giper_baza_list_vary ).add( next )
 			return null
 		}
 		
 		@ $mol_action
 		list_item_add() {
-			const target = this.node( null as any ).cast( $giper_baza_list_link_to( ()=> $giper_baza_flex_thing ) ).make( null )
+			const target = this.pawn( null as any ).cast( $giper_baza_list_link_to( ()=> $giper_baza_flex_thing ) ).make( null )
 			const meta = this.prop().Target()?.remote()?.link() ?? null
 			if( meta ) target.meta( meta )
 		}
@@ -167,13 +167,13 @@ namespace $.$$ {
 		}
 
 		list_item_receive( sand: $giper_baza_unit_sand, value: string ) {
-			const list = this.node()!.cast( $giper_baza_list_vary )
-			this.node()?.cast( $giper_baza_list_vary ).splice( [ value ], list.units().indexOf( sand ) )
+			const list = this.pawn()!.cast( $giper_baza_list_vary )
+			this.pawn()?.cast( $giper_baza_list_vary ).splice( [ value ], list.units().indexOf( sand ) )
 		}
 		
 		list_receive( value: string ) {
-			const list = this.node()!.cast( $giper_baza_list_vary )
-			this.node()?.cast( $giper_baza_list_vary ).splice( [ value ] )
+			const list = this.pawn()!.cast( $giper_baza_list_vary )
+			this.pawn()?.cast( $giper_baza_list_vary ).splice( [ value ] )
 		}
 		
 		list_item_drag_end( sand: $giper_baza_unit_sand, event: DragEvent ) {

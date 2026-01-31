@@ -12,7 +12,7 @@ namespace $ {
 		keys = 0b11_000_000,
 	}
 	
-	/**  (Meta) Data. Actually it's edge between nodes in graph model. */
+	/** Data. Actually it's edge between nodes in graph model. */
 	export class $giper_baza_unit_sand extends $giper_baza_unit_base {
 
 		static size_equator = 63
