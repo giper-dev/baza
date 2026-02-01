@@ -107,14 +107,14 @@ namespace $.$$ {
 			$mol_assert_equal( land.length, 18 )
 			$mol_assert_equal( lord.length, 12 )
 			
-			$mol_assert_equal( rel_pawn.length, 24 )
-			$mol_assert_equal( rel_root.length, 6 )
+			$mol_assert_equal( rel_pawn.length, 6 )
+			$mol_assert_equal( rel_root.length, 0 )
 			
 			$mol_assert_equal( $giper_baza_link.from_bin( pawn ), new $giper_baza_link( 'qwertyui_asdfghjk_qazwsxed_zxcvbnm0' ) )
 			$mol_assert_equal( $giper_baza_link.from_bin( land ), new $giper_baza_link( 'qwertyui_asdfghjk_qazwsxed' ) )
 			$mol_assert_equal( $giper_baza_link.from_bin( lord ), new $giper_baza_link( 'qwertyui_asdfghjk' ) )
 			
-			$mol_assert_equal( $giper_baza_link.from_bin( rel_pawn ), new $giper_baza_link( '___zxcvbnm0' ) )
+			$mol_assert_equal( $giper_baza_link.from_bin( rel_pawn ), new $giper_baza_link( 'zxcvbnm0' ) )
 			$mol_assert_equal( $giper_baza_link.from_bin( rel_root ), new $giper_baza_link( '' ) )
 			
 		},

@@ -80,7 +80,7 @@ namespace $ {
 			$mol_assert_equal( list.items_vary(), [
 				false,
 				true,
-				0n,
+				0,
 				4611686018427387904n,
 				0,
 				Math.PI,

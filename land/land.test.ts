@@ -141,7 +141,7 @@ namespace $ {
 			
 		} ),
 		
-		'Inner Links is relative to Land': $mol_wire_async( ( $: $ )=> {
+		'Inner Links are relative to forked Land': $mol_wire_async( ( $: $ )=> {
 			
 			const Alice = $.$giper_baza_glob.home().land()
 			const Bella = Alice.fork()

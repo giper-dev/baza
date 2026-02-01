@@ -863,17 +863,15 @@ namespace $ {
 			
 			this.join()
 			
-			if( vary instanceof $giper_baza_link ) vary = vary.relate( this.link() )
-			
 			const lord_pass = this.auth().pass()
 			const encrypted = this.encrypted()
 			
-			let bin = $giper_baza_vary.pack([ vary ])
+			let open = $giper_baza_link_base( this.link(), ()=> $giper_baza_vary.pack([ vary ]) )
 			
-			const length = encrypted ? Math.ceil( ( bin.byteLength + 1 ) / 16 ) * 16 : bin.byteLength
+			const length = encrypted ? Math.ceil( ( open.byteLength + 1 ) / 16 ) * 16 : open.byteLength
 			const sand = $giper_baza_unit_sand.make( length, tag )
 			
-			sand._open = bin
+			sand._open = open
 			sand._land = this
 			
 			$giper_baza_unit_trusted_grant( sand )
@@ -884,7 +882,7 @@ namespace $ {
 			sand.head( head )
 			sand._vary = vary
 			
-			sand.self( self ?? this.self_make( $mol_hash_numbers( bin, sand.idea_seed() ) ) )
+			sand.self( self ?? this.self_make( $mol_hash_numbers( open, sand.idea_seed() ) ) )
 			
 			this.diff_apply( [ lord_pass, sand ] )
 			
@@ -1247,11 +1245,8 @@ namespace $ {
 		sand_decode( sand: $giper_baza_unit_sand ): $giper_baza_vary_type {
 			
 			try {
-
-				let vary = this.sand_decode_raw( sand )
-				if( vary instanceof $giper_baza_link ) vary = vary.resolve( this.link() )
-				return vary
-
+				const open = this.sand_decrypt( sand )
+				return $giper_baza_link_base( this.link(), ()=> ( $giper_baza_vary.take( open ) as any )[0] )
 			} catch( error ) {
 				
 				if( error instanceof Promise ) return $mol_fail_hidden( error )
@@ -1263,20 +1258,19 @@ namespace $ {
 		}
 		
 		@ $mol_mem_key
-		sand_decode_raw( sand: $giper_baza_unit_sand ): $giper_baza_vary_type {
+		sand_decrypt( sand: $giper_baza_unit_sand ): Uint8Array< ArrayBuffer > {
 			
 			if( this.sand_get( sand.head(), sand.lord(), sand.self() ) !== sand ) {
 				for( const id of this.Tine().items_vary() ?? [] ) {
-					const vary = this.$.$giper_baza_glob.Land( $giper_baza_vary_cast_link( id! )! ).sand_decode_raw( sand )
-					if( vary !== undefined ) return vary
+					const open = this.$.$giper_baza_glob.Land( $giper_baza_vary_cast_link( id! )! ).sand_decrypt( sand )
+					if( open ) return open
 				}
 				return undefined!
 			}
 			
 			const secret = this.secret()
 			
-			if( sand._vary !== undefined ) return sand._vary
-			if( sand._open !== null ) return sand._vary = ( $giper_baza_vary.take( sand._open ) as $giper_baza_vary_type[] )[0] ?? null
+			if( sand._open ) return sand._open
 			
 			if( !sand._ball ) sand._ball = sand.big() ? $mol_wire_sync( this.mine() ).ball_load( sand ) : sand.data()
 			if( secret && sand._ball && !sand.dead() ) {
@@ -1292,7 +1286,7 @@ namespace $ {
 				sand._open = sand._ball
 			}
 			
-			return sand._vary = ( sand._open ? ( $giper_baza_vary.take( sand._open ) as $giper_baza_vary_type[] )[0] ?? null : null )
+			return sand._open!
 			
 		}
 		

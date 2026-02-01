@@ -43,11 +43,15 @@ namespace $ {
 			return $mol_dev_format_span( { 'color': 'darkorange' }, this.str || '_' )
 		}
 		
-		/** Binary represntation (6/12/18/24 bytes). */
-		toBin() {
-			return $mol_base64_ae_decode(
-				( this.str ).split( '_' ).map( numb => numb || 'AAAAAAAA' ).join( '' )
-			)
+		/** Binary representation (6/12/18/24 bytes). */
+		toBin(): Uint8Array< ArrayBuffer > {
+			const str = this.relate( _base ).str
+			const norm = str && str
+				.replace( /^___/, '' )
+				.split( '_' )
+				.map( numb => numb || 'AAAAAAAA' )
+				.join( '' )
+			return $mol_base64_ae_decode( norm )
 		}
 		
 		/** Make from integer (6 bytes). */
@@ -59,9 +63,8 @@ namespace $ {
 		
 		/** Read from binary (6/12/18/24 bytes). */
 		static from_bin( bin: Uint8Array< ArrayBuffer > ) {
-			return new this(
-				[ ... $mol_base64_ae_encode( bin ).match( /(.{8})/g ) ?? [] ].join( '_' )
-			)	
+			const str = [ ... $mol_base64_ae_encode( bin ).match( /(.{8})/g ) ?? [] ].join( '_' )
+			return new this( str ).resolve( _base )
 		}
 		
 		static _hash_cache = new WeakMap< ArrayBufferView, $giper_baza_link >()
@@ -111,6 +114,7 @@ namespace $ {
 		
 		/** Pawn Link relative to base Land: `___QWERTYUI` */
 		relate( base: $giper_baza_link ) {
+			if( base.str === '' ) return this
 			base = base.land()
 			if( this.land().str !== base.str ) return this
 			const head = this.head()
@@ -120,12 +124,13 @@ namespace $ {
 		/** Absolute Pawn Link from relative (`___QWERTYUI`) using base Land Link. */
 		resolve( base: $giper_baza_link ) {
 			
+			if( base.str === '' ) return this
 			if( this.str === '' ) return base.land()
-			if( !this.str.startsWith( '___' ) ) return this
+			if( this.str.length > 16 ) return this
 			
 			const parts = base.land().toString().split( '_' )
 			while( parts.length < 3 ) parts.push( '' )
-			parts.push( this.str.slice( 3 ) )
+			parts.push( this.str.replace( /^___/, '' ) )
 			
 			return new $giper_baza_link( parts.join( '_' ) )
 		}
@@ -137,6 +142,20 @@ namespace $ {
 			return mix
 		}
 	
+	}
+	
+	let _base = $giper_baza_link.hole
+	export function $giper_baza_link_base< Res >( base: $giper_baza_link, task: ()=> Res ): Res {
+		
+		const prev = _base
+		_base = base
+		
+		try {
+			return task()
+		} finally {
+			_base = prev
+		}
+		
 	}
 	
 }

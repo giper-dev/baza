@@ -139,6 +139,7 @@ namespace $ {
 				return $giper_baza_link.from_bin( new Uint8Array( this.buffer, this.byteOffset + offset, 6 ) )
 			} else {
 				const bin = next.toBin()
+				if( bin.byteLength === 0 ) return next
 				if( bin.byteLength !== 6 ) $mol_fail( new Error( `Wrong Link size (${ next })` ) )
 				this.asArray().set( bin, this.byteOffset + offset )
 				return next
@@ -150,6 +151,7 @@ namespace $ {
 				return $giper_baza_link.from_bin( new Uint8Array( this.buffer, this.byteOffset + offset, 12 ) )
 			} else {
 				const bin = next.toBin()
+				if( bin.byteLength === 0 ) return next
 				if( bin.byteLength !== 12 ) $mol_fail( new Error( `Wrong Link size (${ next })` ) )
 				this.asArray().set( bin, this.byteOffset + offset )
 				return next
