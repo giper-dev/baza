@@ -2579,13 +2579,20 @@ var $;
             return $mol_dev_format_span({ 'color': 'darkorange' }, this.str || '_');
         }
         toBin() {
-            return $mol_base64_ae_decode((this.str).split('_').map(numb => numb || 'AAAAAAAA').join(''));
+            const str = this.relate(_base).str;
+            const norm = str && str
+                .replace(/^___/, '')
+                .split('_')
+                .map(numb => numb || 'AAAAAAAA')
+                .join('');
+            return $mol_base64_ae_decode(norm);
         }
         static from_int(int) {
             return new this($mol_base64_ae_encode(new Uint8Array(new BigUint64Array([BigInt(int)]).buffer, 0, 6)));
         }
         static from_bin(bin) {
-            return new this([...$mol_base64_ae_encode(bin).match(/(.{8})/g) ?? []].join('_'));
+            const str = [...$mol_base64_ae_encode(bin).match(/(.{8})/g) ?? []].join('_');
+            return new this(str).resolve(_base);
         }
         static _hash_cache = new WeakMap();
         static hash_bin(bin) {
@@ -2616,6 +2623,8 @@ var $;
             return new $giper_baza_link(this.str.split('_').slice(0, 3).join('_'));
         }
         relate(base) {
+            if (base.str === '')
+                return this;
             base = base.land();
             if (this.land().str !== base.str)
                 return this;
@@ -2623,14 +2632,16 @@ var $;
             return new $giper_baza_link('___' + head);
         }
         resolve(base) {
+            if (base.str === '')
+                return this;
             if (this.str === '')
                 return base.land();
-            if (!this.str.startsWith('___'))
+            if (this.str.length > 16)
                 return this;
             const parts = base.land().toString().split('_');
             while (parts.length < 3)
                 parts.push('');
-            parts.push(this.str.slice(3));
+            parts.push(this.str.replace(/^___/, ''));
             return new $giper_baza_link(parts.join('_'));
         }
         mix(mixin) {
@@ -2643,6 +2654,18 @@ var $;
         }
     }
     $.$giper_baza_link = $giper_baza_link;
+    let _base = $giper_baza_link.hole;
+    function $giper_baza_link_base(base, task) {
+        const prev = _base;
+        _base = base;
+        try {
+            return task();
+        }
+        finally {
+            _base = prev;
+        }
+    }
+    $.$giper_baza_link_base = $giper_baza_link_base;
 })($ || ($ = {}));
 
 ;
@@ -7424,14 +7447,12 @@ var $;
         }
         post(lead, head, self, vary, tag = 'term') {
             this.join();
-            if (vary instanceof $giper_baza_link)
-                vary = vary.relate(this.link());
             const lord_pass = this.auth().pass();
             const encrypted = this.encrypted();
-            let bin = $giper_baza_vary.pack([vary]);
-            const length = encrypted ? Math.ceil((bin.byteLength + 1) / 16) * 16 : bin.byteLength;
+            let open = $giper_baza_link_base(this.link(), () => $giper_baza_vary.pack([vary]));
+            const length = encrypted ? Math.ceil((open.byteLength + 1) / 16) * 16 : open.byteLength;
             const sand = $giper_baza_unit_sand.make(length, tag);
-            sand._open = bin;
+            sand._open = open;
             sand._land = this;
             $giper_baza_unit_trusted_grant(sand);
             sand.time_tick(this.faces.tick().time_tick);
@@ -7439,7 +7460,7 @@ var $;
             sand.lead(lead);
             sand.head(head);
             sand._vary = vary;
-            sand.self(self ?? this.self_make($mol_hash_numbers(bin, sand.idea_seed())));
+            sand.self(self ?? this.self_make($mol_hash_numbers(open, sand.idea_seed())));
             this.diff_apply([lord_pass, sand]);
             this.broadcast();
             return sand;
@@ -7682,10 +7703,8 @@ var $;
         }
         sand_decode(sand) {
             try {
-                let vary = this.sand_decode_raw(sand);
-                if (vary instanceof $giper_baza_link)
-                    vary = vary.resolve(this.link());
-                return vary;
+                const open = this.sand_decrypt(sand);
+                return $giper_baza_link_base(this.link(), () => $giper_baza_vary.take(open)[0]);
             }
             catch (error) {
                 if (error instanceof Promise)
@@ -7694,20 +7713,18 @@ var $;
                 return null;
             }
         }
-        sand_decode_raw(sand) {
+        sand_decrypt(sand) {
             if (this.sand_get(sand.head(), sand.lord(), sand.self()) !== sand) {
                 for (const id of this.Tine().items_vary() ?? []) {
-                    const vary = this.$.$giper_baza_glob.Land($giper_baza_vary_cast_link(id)).sand_decode_raw(sand);
-                    if (vary !== undefined)
-                        return vary;
+                    const open = this.$.$giper_baza_glob.Land($giper_baza_vary_cast_link(id)).sand_decrypt(sand);
+                    if (open)
+                        return open;
                 }
                 return undefined;
             }
             const secret = this.secret();
-            if (sand._vary !== undefined)
-                return sand._vary;
-            if (sand._open !== null)
-                return sand._vary = $giper_baza_vary.take(sand._open)[0] ?? null;
+            if (sand._open)
+                return sand._open;
             if (!sand._ball)
                 sand._ball = sand.big() ? $mol_wire_sync(this.mine()).ball_load(sand) : sand.data();
             if (secret && sand._ball && !sand.dead()) {
@@ -7726,7 +7743,7 @@ var $;
             else {
                 sand._open = sand._ball;
             }
-            return sand._vary = (sand._open ? $giper_baza_vary.take(sand._open)[0] ?? null : null);
+            return sand._open;
         }
         encryptable() {
             return !this._sand.size;
@@ -7894,7 +7911,7 @@ var $;
     ], $giper_baza_land.prototype, "sand_decode", null);
     __decorate([
         $mol_mem_key
-    ], $giper_baza_land.prototype, "sand_decode_raw", null);
+    ], $giper_baza_land.prototype, "sand_decrypt", null);
     __decorate([
         $mol_mem
     ], $giper_baza_land.prototype, "encryptable", null);
@@ -8052,6 +8069,8 @@ var $;
             }
             else {
                 const bin = next.toBin();
+                if (bin.byteLength === 0)
+                    return next;
                 if (bin.byteLength !== 6)
                     $mol_fail(new Error(`Wrong Link size (${next})`));
                 this.asArray().set(bin, this.byteOffset + offset);
@@ -8064,6 +8083,8 @@ var $;
             }
             else {
                 const bin = next.toBin();
+                if (bin.byteLength === 0)
+                    return next;
                 if (bin.byteLength !== 12)
                     $mol_fail(new Error(`Wrong Link size (${next})`));
                 this.asArray().set(bin, this.byteOffset + offset);
