@@ -35,8 +35,9 @@ namespace $.$$ {
 		
 		override spread_title( id: string ) {
 			const link = new $giper_baza_link( id )
+			let title = ''
 			try {
-				var title = this.$.$giper_baza_glob.Pawn( link, $giper_baza_entity ).Title()?.val()
+				title = this.$.$giper_baza_glob.Pawn( link, $giper_baza_flex_subj ).Name()?.val() ?? ''
 			} catch( error ) {
 				$mol_fail_log( error )
 			}

@@ -15,7 +15,7 @@ namespace $.$$ {
 		@ $mol_mem
 		title() {
 			const link = this.value() as $giper_baza_link
-			return this.$.$giper_baza_glob.Pawn( link , $giper_baza_flex_pawn ).Title()?.val() || link?.str
+			return this.$.$giper_baza_glob.Pawn( link , $giper_baza_flex_subj ).Name()?.val() || link?.str
 		}
 		
 		@ $mol_mem
