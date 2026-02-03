@@ -21684,6 +21684,7 @@ var $;
 		}
 		Rights_page(){
 			const obj = new this.$.$mol_page();
+			(obj.title) = () => ("Rights");
 			(obj.tools) = () => ([(this.Rights_close())]);
 			(obj.body) = () => ([(this.Rights_form())]);
 			return obj;

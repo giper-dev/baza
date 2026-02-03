@@ -1263,6 +1263,7 @@ $giper_baza_glob_book $mol_book2_catalog
 			align_hor \left
 			grab? <=> land_add? null $giper_baza_rank_preset
 	Rights_page $mol_page
+		title \Rights
 		tools /
 			<= Rights_close $mol_link
 				arg * side null

@@ -9677,12 +9677,17 @@ declare namespace $ {
 		,
 		ReturnType< $giper_baza_land_rights['land'] >
 	>
-	type $mol_page__tools_giper_baza_glob_book_22 = $mol_type_enforce<
+	type $mol_page__title_giper_baza_glob_book_22 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_page['title'] >
+	>
+	type $mol_page__tools_giper_baza_glob_book_23 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['tools'] >
 	>
-	type $mol_page__body_giper_baza_glob_book_23 = $mol_type_enforce<
+	type $mol_page__body_giper_baza_glob_book_24 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['body'] >
