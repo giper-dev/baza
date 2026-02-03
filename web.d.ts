@@ -6064,17 +6064,6 @@ declare namespace $ {
 
 //# sourceMappingURL=lock.view.tree.d.ts.map
 declare namespace $ {
-}
-
-declare namespace $ {
-
-	export class $mol_check_icon extends $mol_check {
-	}
-	
-}
-
-//# sourceMappingURL=icon.view.tree.d.ts.map
-declare namespace $ {
     const $giper_baza_flex_subj_base: Omit<typeof $giper_baza_dict, "prototype"> & (new (...args: any[]) => $mol_type_override<$giper_baza_dict, {
         readonly Name: (auto?: any) => $giper_baza_atom_text | null;
     }>) & {
@@ -9053,6 +9042,343 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
+	export class $mol_icon_source extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=source.view.tree.d.ts.map
+declare namespace $ {
+
+	export class $mol_icon_source_fork extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=fork.view.tree.d.ts.map
+declare namespace $ {
+
+	export class $mol_icon_download extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=download.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_button_download extends $.$mol_button_download {
+        uri(): string;
+        click(): void;
+    }
+}
+
+declare namespace $ {
+
+	export class $mol_button_download extends $mol_button_minor {
+		Icon( ): $mol_icon_download
+		title( ): string
+		blob( ): any
+		uri( ): string
+		file_name( ): string
+		sub( ): readonly(any)[]
+	}
+	
+}
+
+//# sourceMappingURL=download.view.tree.d.ts.map
+declare namespace $ {
+    class $mol_after_work extends $mol_object2 {
+        delay: number;
+        task: () => void;
+        id: any;
+        constructor(delay: number, task: () => void);
+        destructor(): void;
+    }
+}
+
+declare namespace $ {
+    function $mol_wait_rest_async(this: $): Promise<unknown>;
+    function $mol_wait_rest(this: $): unknown;
+}
+
+declare namespace $ {
+    enum $mol_si_prefix {
+        y = -8,
+        z = -7,
+        a = -6,
+        f = -5,
+        p = -4,
+        n = -3,
+        µ = -2,
+        m = -1,
+        '' = 0,
+        k = 1,
+        M = 2,
+        G = 3,
+        T = 4,
+        P = 5,
+        E = 6,
+        Z = 7,
+        Y = 8
+    }
+}
+
+declare namespace $ {
+    function $mol_si_short(numb: number, unit?: string): string;
+}
+
+declare namespace $ {
+
+	type $giper_baza_flex_form__pawn_giper_baza_land_page_1 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_page['pawn'] >
+		,
+		ReturnType< $giper_baza_flex_form['pawn'] >
+	>
+	type $giper_baza_pawn_dump__title_giper_baza_land_page_2 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $giper_baza_pawn_dump['title'] >
+	>
+	type $giper_baza_pawn_dump__pawn_giper_baza_land_page_3 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_page['pawn'] >
+		,
+		ReturnType< $giper_baza_pawn_dump['pawn'] >
+	>
+	type $giper_baza_pawn_dump__title_giper_baza_land_page_4 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $giper_baza_pawn_dump['title'] >
+	>
+	type $giper_baza_pawn_dump__pawn_giper_baza_land_page_5 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_page['tine'] >
+		,
+		ReturnType< $giper_baza_pawn_dump['pawn'] >
+	>
+	type $mol_list__rows_giper_baza_land_page_6 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_list['rows'] >
+	>
+	type $mol_labeler__Content_giper_baza_land_page_7 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_page['Raw_content'] >
+		,
+		ReturnType< $mol_labeler['Content'] >
+	>
+	type $mol_button_minor__hint_giper_baza_land_page_8 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['hint'] >
+	>
+	type $mol_button_minor__sub_giper_baza_land_page_9 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_button_minor['sub'] >
+	>
+	type $mol_button_minor__click_giper_baza_land_page_10 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_page['fork'] >
+		,
+		ReturnType< $mol_button_minor['click'] >
+	>
+	type $mol_view__sub_giper_baza_land_page_11 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	type $mol_button_download__hint_giper_baza_land_page_12 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_download['hint'] >
+	>
+	type $mol_button_download__blob_giper_baza_land_page_13 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_page['dump'] >
+		,
+		ReturnType< $mol_button_download['blob'] >
+	>
+	type $mol_button_download__file_name_giper_baza_land_page_14 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_page['dump_name'] >
+		,
+		ReturnType< $mol_button_download['file_name'] >
+	>
+	type $mol_view__sub_giper_baza_land_page_15 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	export class $giper_baza_land_page extends $mol_page {
+		Flex( ): $giper_baza_flex_form
+		Raw_data( ): $giper_baza_pawn_dump
+		tine( ): $giper_baza_pawn
+		Raw_tine( ): $giper_baza_pawn_dump
+		Raw_content( ): $mol_list
+		Raw( ): $mol_labeler
+		Fork_icon( ): $mol_icon_source_fork
+		fork( next?: any ): any
+		Fork( ): $mol_button_minor
+		size( ): string
+		Size( ): $mol_view
+		dump( ): $mol_blob
+		dump_name( ): string
+		Dump( ): $mol_button_download
+		Dumping( ): $mol_view
+		land( ): $giper_baza_land
+		pawn( ): $giper_baza_dict
+		body( ): readonly(any)[]
+		foot( ): readonly(any)[]
+	}
+	
+}
+
+//# sourceMappingURL=page.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $giper_baza_land_page extends $.$giper_baza_land_page {
+        title(): string;
+        theme(): "$mol_theme_special" | null;
+        encrypted(): boolean;
+        tine(): $giper_baza_list_link;
+        dump_data_pawn(): $giper_baza_dict;
+        fork(): void;
+        pack(): $giper_baza_pack;
+        size(): string;
+        dump(): Blob;
+        dump_name(): string;
+    }
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+
+	export class $mol_icon_delete extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=delete.view.tree.d.ts.map
+declare namespace $ {
+
+	export class $mol_icon_delete_forever extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=forever.view.tree.d.ts.map
+declare namespace $ {
+
+	export class $mol_icon_sprout extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=sprout.view.tree.d.ts.map
+declare namespace $ {
+
+	export class $mol_icon_sprout_outline extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=outline.view.tree.d.ts.map
+declare namespace $ {
+
+	export class $mol_icon_upload extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=upload.view.tree.d.ts.map
+declare namespace $ {
+
+	type $mol_button_open_native__files_mol_button_open_1 = $mol_type_enforce<
+		ReturnType< $mol_button_open['files_handled'] >
+		,
+		ReturnType< $mol_button_open_native['files'] >
+	>
+	type $mol_button_open_native__accept_mol_button_open_2 = $mol_type_enforce<
+		ReturnType< $mol_button_open['accept'] >
+		,
+		ReturnType< $mol_button_open_native['accept'] >
+	>
+	type $mol_button_open_native__multiple_mol_button_open_3 = $mol_type_enforce<
+		ReturnType< $mol_button_open['multiple'] >
+		,
+		ReturnType< $mol_button_open_native['multiple'] >
+	>
+	export class $mol_button_open extends $mol_button_minor {
+		Icon( ): $mol_icon_upload
+		files( next?: readonly(File)[] ): readonly(File)[]
+		files_handled( next?: ReturnType< $mol_button_open['files'] > ): ReturnType< $mol_button_open['files'] >
+		accept( ): string
+		multiple( ): boolean
+		Native( ): $mol_button_open_native
+		sub( ): readonly(any)[]
+	}
+	
+	export class $mol_button_open_native extends $mol_view {
+		accept( ): string
+		multiple( ): boolean
+		picked( next?: any ): any
+		dom_name( ): string
+		files( next?: readonly(File)[] ): readonly(File)[]
+		attr( ): ({ 
+			'type': string,
+			'accept': ReturnType< $mol_button_open_native['accept'] >,
+			'multiple': ReturnType< $mol_button_open_native['multiple'] >,
+		}) 
+		event( ): ({ 
+			change( next?: ReturnType< $mol_button_open_native['picked'] > ): ReturnType< $mol_button_open_native['picked'] >,
+		}) 
+	}
+	
+}
+
+//# sourceMappingURL=open.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_button_open extends $.$mol_button_open {
+        files_handled(next?: readonly File[]): readonly File[];
+    }
+    class $mol_button_open_native extends $.$mol_button_open_native {
+        dom_node(): HTMLInputElement;
+        picked(): void;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+
+	export class $giper_baza_land_grab extends $mol_select {
+		Trigger_icon( ): $mol_icon_plus
+		Filter( ): any
+		trigger_content( ): readonly(any)[]
+		dictionary( ): ({ 
+			'pull': string,
+			'post': string,
+			'read': string,
+			'deny': string,
+		}) 
+		grab( next?: $giper_baza_rank_preset | null ): $giper_baza_rank_preset | null
+	}
+	
+}
+
+//# sourceMappingURL=grab.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $giper_baza_land_grab extends $.$giper_baza_land_grab {
+        value(rights?: string): string;
+    }
+}
+
+declare namespace $ {
+
 	type $mol_string__hint_giper_baza_land_rights_1 = $mol_type_enforce<
 		string
 		,
@@ -9237,468 +9563,135 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-
-	export class $mol_icon_source extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=source.view.tree.d.ts.map
-declare namespace $ {
-
-	export class $mol_icon_source_fork extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=fork.view.tree.d.ts.map
-declare namespace $ {
-
-	export class $mol_icon_download extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=download.view.tree.d.ts.map
-declare namespace $.$$ {
-    class $mol_button_download extends $.$mol_button_download {
-        uri(): string;
-        click(): void;
-    }
-}
-
-declare namespace $ {
-
-	export class $mol_button_download extends $mol_button_minor {
-		Icon( ): $mol_icon_download
-		title( ): string
-		blob( ): any
-		uri( ): string
-		file_name( ): string
-		sub( ): readonly(any)[]
-	}
-	
-}
-
-//# sourceMappingURL=download.view.tree.d.ts.map
-declare namespace $ {
-    class $mol_after_work extends $mol_object2 {
-        delay: number;
-        task: () => void;
-        id: any;
-        constructor(delay: number, task: () => void);
-        destructor(): void;
-    }
-}
-
-declare namespace $ {
-    function $mol_wait_rest_async(this: $): Promise<unknown>;
-    function $mol_wait_rest(this: $): unknown;
-}
-
-declare namespace $ {
-    enum $mol_si_prefix {
-        y = -8,
-        z = -7,
-        a = -6,
-        f = -5,
-        p = -4,
-        n = -3,
-        µ = -2,
-        m = -1,
-        '' = 0,
-        k = 1,
-        M = 2,
-        G = 3,
-        T = 4,
-        P = 5,
-        E = 6,
-        Z = 7,
-        Y = 8
-    }
-}
-
-declare namespace $ {
-    function $mol_si_short(numb: number, unit?: string): string;
-}
-
-declare namespace $ {
-
-	type $mol_check_icon__hint_giper_baza_land_page_1 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_check_icon['hint'] >
-	>
-	type $mol_check_icon__Icon_giper_baza_land_page_2 = $mol_type_enforce<
-		ReturnType< $giper_baza_land_page['Encrypted_icon'] >
-		,
-		ReturnType< $mol_check_icon['Icon'] >
-	>
-	type $mol_check_icon__checked_giper_baza_land_page_3 = $mol_type_enforce<
-		ReturnType< $giper_baza_land_page['encrypted'] >
-		,
-		ReturnType< $mol_check_icon['checked'] >
-	>
-	type $mol_check_icon__enabled_giper_baza_land_page_4 = $mol_type_enforce<
-		ReturnType< $giper_baza_land_page['encrypted'] >
-		,
-		ReturnType< $mol_check_icon['enabled'] >
-	>
-	type $giper_baza_flex_form__pawn_giper_baza_land_page_5 = $mol_type_enforce<
-		ReturnType< $giper_baza_land_page['pawn'] >
-		,
-		ReturnType< $giper_baza_flex_form['pawn'] >
-	>
-	type $giper_baza_pawn_dump__title_giper_baza_land_page_6 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $giper_baza_pawn_dump['title'] >
-	>
-	type $giper_baza_pawn_dump__pawn_giper_baza_land_page_7 = $mol_type_enforce<
-		ReturnType< $giper_baza_land_page['pawn'] >
-		,
-		ReturnType< $giper_baza_pawn_dump['pawn'] >
-	>
-	type $giper_baza_pawn_dump__title_giper_baza_land_page_8 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $giper_baza_pawn_dump['title'] >
-	>
-	type $giper_baza_pawn_dump__pawn_giper_baza_land_page_9 = $mol_type_enforce<
-		ReturnType< $giper_baza_land_page['tine'] >
-		,
-		ReturnType< $giper_baza_pawn_dump['pawn'] >
-	>
-	type $mol_list__rows_giper_baza_land_page_10 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_list['rows'] >
-	>
-	type $mol_labeler__Content_giper_baza_land_page_11 = $mol_type_enforce<
-		ReturnType< $giper_baza_land_page['Raw_content'] >
-		,
-		ReturnType< $mol_labeler['Content'] >
-	>
-	type $giper_baza_land_rights__land_giper_baza_land_page_12 = $mol_type_enforce<
-		ReturnType< $giper_baza_land_page['land'] >
-		,
-		ReturnType< $giper_baza_land_rights['land'] >
-	>
-	type $mol_labeler__Content_giper_baza_land_page_13 = $mol_type_enforce<
-		ReturnType< $giper_baza_land_page['Rights_control'] >
-		,
-		ReturnType< $mol_labeler['Content'] >
-	>
-	type $mol_button_minor__hint_giper_baza_land_page_14 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_button_minor['hint'] >
-	>
-	type $mol_button_minor__sub_giper_baza_land_page_15 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_button_minor['sub'] >
-	>
-	type $mol_button_minor__click_giper_baza_land_page_16 = $mol_type_enforce<
-		ReturnType< $giper_baza_land_page['fork'] >
-		,
-		ReturnType< $mol_button_minor['click'] >
-	>
-	type $mol_view__sub_giper_baza_land_page_17 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_view['sub'] >
-	>
-	type $mol_button_download__hint_giper_baza_land_page_18 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_button_download['hint'] >
-	>
-	type $mol_button_download__blob_giper_baza_land_page_19 = $mol_type_enforce<
-		ReturnType< $giper_baza_land_page['dump'] >
-		,
-		ReturnType< $mol_button_download['blob'] >
-	>
-	type $mol_button_download__file_name_giper_baza_land_page_20 = $mol_type_enforce<
-		ReturnType< $giper_baza_land_page['dump_name'] >
-		,
-		ReturnType< $mol_button_download['file_name'] >
-	>
-	type $mol_view__sub_giper_baza_land_page_21 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_view['sub'] >
-	>
-	export class $giper_baza_land_page extends $mol_page {
-		Encrypted_icon( ): $mol_icon_lock
-		encrypted( ): boolean
-		Encrypted( ): $mol_check_icon
-		Close( ): any
-		Flex( ): $giper_baza_flex_form
-		Raw_data( ): $giper_baza_pawn_dump
-		tine( ): $giper_baza_pawn
-		Raw_tine( ): $giper_baza_pawn_dump
-		Raw_content( ): $mol_list
-		Raw( ): $mol_labeler
-		Rights_control( ): $giper_baza_land_rights
-		Rights( ): $mol_labeler
-		Fork_icon( ): $mol_icon_source_fork
-		fork( next?: any ): any
-		Fork( ): $mol_button_minor
-		size( ): string
-		Size( ): $mol_view
-		dump( ): $mol_blob
-		dump_name( ): string
-		Dump( ): $mol_button_download
-		Dumping( ): $mol_view
-		land( ): $giper_baza_land
-		pawn( ): $giper_baza_dict
-		tools( ): readonly(any)[]
-		body( ): readonly(any)[]
-		foot( ): readonly(any)[]
-	}
-	
-}
-
-//# sourceMappingURL=page.view.tree.d.ts.map
-declare namespace $.$$ {
-    class $giper_baza_land_page extends $.$giper_baza_land_page {
-        title(): string;
-        theme(): "$mol_theme_special" | null;
-        encrypted(): boolean;
-        tine(): $giper_baza_list_link;
-        dump_data_pawn(): $giper_baza_dict;
-        fork(): void;
-        pack(): $giper_baza_pack;
-        size(): string;
-        dump(): Blob;
-        dump_name(): string;
-    }
-}
-
-declare namespace $.$$ {
-}
-
-declare namespace $ {
-
-	export class $mol_icon_delete extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=delete.view.tree.d.ts.map
-declare namespace $ {
-
-	export class $mol_icon_delete_forever extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=forever.view.tree.d.ts.map
-declare namespace $ {
-
-	export class $mol_icon_sprout extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=sprout.view.tree.d.ts.map
-declare namespace $ {
-
-	export class $mol_icon_sprout_outline extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=outline.view.tree.d.ts.map
-declare namespace $ {
-
-	export class $mol_icon_upload extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=upload.view.tree.d.ts.map
-declare namespace $ {
-
-	type $mol_button_open_native__files_mol_button_open_1 = $mol_type_enforce<
-		ReturnType< $mol_button_open['files_handled'] >
-		,
-		ReturnType< $mol_button_open_native['files'] >
-	>
-	type $mol_button_open_native__accept_mol_button_open_2 = $mol_type_enforce<
-		ReturnType< $mol_button_open['accept'] >
-		,
-		ReturnType< $mol_button_open_native['accept'] >
-	>
-	type $mol_button_open_native__multiple_mol_button_open_3 = $mol_type_enforce<
-		ReturnType< $mol_button_open['multiple'] >
-		,
-		ReturnType< $mol_button_open_native['multiple'] >
-	>
-	export class $mol_button_open extends $mol_button_minor {
-		Icon( ): $mol_icon_upload
-		files( next?: readonly(File)[] ): readonly(File)[]
-		files_handled( next?: ReturnType< $mol_button_open['files'] > ): ReturnType< $mol_button_open['files'] >
-		accept( ): string
-		multiple( ): boolean
-		Native( ): $mol_button_open_native
-		sub( ): readonly(any)[]
-	}
-	
-	export class $mol_button_open_native extends $mol_view {
-		accept( ): string
-		multiple( ): boolean
-		picked( next?: any ): any
-		dom_name( ): string
-		files( next?: readonly(File)[] ): readonly(File)[]
-		attr( ): ({ 
-			'type': string,
-			'accept': ReturnType< $mol_button_open_native['accept'] >,
-			'multiple': ReturnType< $mol_button_open_native['multiple'] >,
-		}) 
-		event( ): ({ 
-			change( next?: ReturnType< $mol_button_open_native['picked'] > ): ReturnType< $mol_button_open_native['picked'] >,
-		}) 
-	}
-	
-}
-
-//# sourceMappingURL=open.view.tree.d.ts.map
-declare namespace $.$$ {
-    class $mol_button_open extends $.$mol_button_open {
-        files_handled(next?: readonly File[]): readonly File[];
-    }
-    class $mol_button_open_native extends $.$mol_button_open_native {
-        dom_node(): HTMLInputElement;
-        picked(): void;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-
-	export class $giper_baza_land_grab extends $mol_select {
-		Trigger_icon( ): $mol_icon_plus
-		Filter( ): any
-		trigger_content( ): readonly(any)[]
-		dictionary( ): ({ 
-			'pull': string,
-			'post': string,
-			'read': string,
-			'deny': string,
-		}) 
-		grab( next?: $giper_baza_rank_preset | null ): $giper_baza_rank_preset | null
-	}
-	
-}
-
-//# sourceMappingURL=grab.view.tree.d.ts.map
-declare namespace $.$$ {
-    class $giper_baza_land_grab extends $.$giper_baza_land_grab {
-        value(rights?: string): string;
-    }
-}
-
-declare namespace $ {
     function $mol_array_groups<Item, Groups extends string>(all: readonly Item[], group: (item: Item) => Groups): Readonly<Record<Groups, Item[] | undefined>>;
 }
 
 declare namespace $ {
 
-	type $giper_baza_land_page__land_giper_baza_glob_book_1 = $mol_type_enforce<
+	type $mol_link__arg_giper_baza_glob_book_1 = $mol_type_enforce<
+		({ 
+			'side': string,
+		}) 
+		,
+		ReturnType< $mol_link['arg'] >
+	>
+	type $mol_link__sub_giper_baza_glob_book_2 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_link['sub'] >
+	>
+	type $giper_baza_land_page__land_giper_baza_glob_book_3 = $mol_type_enforce<
 		ReturnType< $giper_baza_glob_book['land'] >
 		,
 		ReturnType< $giper_baza_land_page['land'] >
 	>
-	type $giper_baza_land_page__pawn_giper_baza_glob_book_2 = $mol_type_enforce<
+	type $giper_baza_land_page__pawn_giper_baza_glob_book_4 = $mol_type_enforce<
 		ReturnType< $giper_baza_glob_book['pawn'] >
 		,
 		ReturnType< $giper_baza_land_page['pawn'] >
 	>
-	type $giper_baza_land_page__Close_giper_baza_glob_book_3 = $mol_type_enforce<
-		ReturnType< $giper_baza_glob_book['Spread_close'] >
+	type $giper_baza_land_page__tools_giper_baza_glob_book_5 = $mol_type_enforce<
+		readonly(any)[]
 		,
-		ReturnType< $giper_baza_land_page['Close'] >
+		ReturnType< $giper_baza_land_page['tools'] >
 	>
-	type $mol_pick__hint_giper_baza_glob_book_4 = $mol_type_enforce<
+	type $mol_pick__hint_giper_baza_glob_book_6 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_pick['hint'] >
 	>
-	type $mol_pick__clicks_giper_baza_glob_book_5 = $mol_type_enforce<
+	type $mol_pick__clicks_giper_baza_glob_book_7 = $mol_type_enforce<
 		ReturnType< $giper_baza_glob_book['wipe'] >
 		,
 		ReturnType< $mol_pick['clicks'] >
 	>
-	type $mol_pick__align_hor_giper_baza_glob_book_6 = $mol_type_enforce<
+	type $mol_pick__align_hor_giper_baza_glob_book_8 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_pick['align_hor'] >
 	>
-	type $mol_pick__trigger_content_giper_baza_glob_book_7 = $mol_type_enforce<
+	type $mol_pick__trigger_content_giper_baza_glob_book_9 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_pick['trigger_content'] >
 	>
-	type $mol_pick__bubble_content_giper_baza_glob_book_8 = $mol_type_enforce<
+	type $mol_pick__bubble_content_giper_baza_glob_book_10 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_pick['bubble_content'] >
 	>
-	type $mol_button_minor__hint_giper_baza_glob_book_9 = $mol_type_enforce<
+	type $mol_button_minor__hint_giper_baza_glob_book_11 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['hint'] >
 	>
-	type $mol_button_minor__click_giper_baza_glob_book_10 = $mol_type_enforce<
+	type $mol_button_minor__click_giper_baza_glob_book_12 = $mol_type_enforce<
 		ReturnType< $giper_baza_glob_book['deck_make'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__sub_giper_baza_glob_book_11 = $mol_type_enforce<
+	type $mol_button_minor__sub_giper_baza_glob_book_13 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_button_minor['sub'] >
 	>
-	type $mol_button_open__hint_giper_baza_glob_book_12 = $mol_type_enforce<
+	type $mol_button_open__hint_giper_baza_glob_book_14 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_open['hint'] >
 	>
-	type $mol_button_open__files_giper_baza_glob_book_13 = $mol_type_enforce<
+	type $mol_button_open__files_giper_baza_glob_book_15 = $mol_type_enforce<
 		ReturnType< $giper_baza_glob_book['update'] >
 		,
 		ReturnType< $mol_button_open['files'] >
 	>
-	type $giper_baza_land_grab__hint_giper_baza_glob_book_14 = $mol_type_enforce<
+	type $giper_baza_land_grab__hint_giper_baza_glob_book_16 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $giper_baza_land_grab['hint'] >
 	>
-	type $giper_baza_land_grab__align_hor_giper_baza_glob_book_15 = $mol_type_enforce<
+	type $giper_baza_land_grab__align_hor_giper_baza_glob_book_17 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $giper_baza_land_grab['align_hor'] >
 	>
-	type $giper_baza_land_grab__grab_giper_baza_glob_book_16 = $mol_type_enforce<
+	type $giper_baza_land_grab__grab_giper_baza_glob_book_18 = $mol_type_enforce<
 		ReturnType< $giper_baza_glob_book['land_add'] >
 		,
 		ReturnType< $giper_baza_land_grab['grab'] >
 	>
+	type $mol_link__arg_giper_baza_glob_book_19 = $mol_type_enforce<
+		({ 
+			'side': any,
+		}) 
+		,
+		ReturnType< $mol_link['arg'] >
+	>
+	type $mol_link__sub_giper_baza_glob_book_20 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_link['sub'] >
+	>
+	type $giper_baza_land_rights__land_giper_baza_glob_book_21 = $mol_type_enforce<
+		ReturnType< $giper_baza_glob_book['land_current'] >
+		,
+		ReturnType< $giper_baza_land_rights['land'] >
+	>
+	type $mol_page__tools_giper_baza_glob_book_22 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_page['tools'] >
+	>
+	type $mol_page__body_giper_baza_glob_book_23 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_page['body'] >
+	>
 	export class $giper_baza_glob_book extends $mol_book2_catalog {
 		land( id: any): $giper_baza_land
 		pawn( id: any): $giper_baza_dict
+		Rights_open_icon( ): $mol_icon_lock
+		Rights_open( ): $mol_link
 		Land( id: any): $giper_baza_land_page
 		wipe( next?: any ): any
 		Wipe_icon( ): $mol_icon_delete_forever
@@ -9710,10 +9703,15 @@ declare namespace $ {
 		Update( ): $mol_button_open
 		land_add( next?: $giper_baza_rank_preset | null ): $giper_baza_rank_preset | null
 		Land_add( ): $giper_baza_land_grab
+		Rights_close_icon( ): $mol_icon_close
+		Rights_close( ): $mol_link
+		land_current( ): $giper_baza_land
+		Rights_form( ): $giper_baza_land_rights
 		menu_title( ): string
 		param( ): string
 		Spread( id: any): ReturnType< $giper_baza_glob_book['Land'] >
 		menu_foot( ): readonly(any)[]
+		Rights_page( ): $mol_page
 	}
 	
 }
@@ -9722,6 +9720,9 @@ declare namespace $ {
 declare namespace $.$$ {
     class $giper_baza_glob_book extends $.$giper_baza_glob_book {
         spread_ids(): string[];
+        pages(): any[];
+        side(): string;
+        land_current(): $giper_baza_land;
         land(id: string): $giper_baza_land;
         pawn(id: string): $giper_baza_dict;
         spread_title(id: string): string;
@@ -11379,6 +11380,17 @@ declare namespace $ {
 }
 
 //# sourceMappingURL=play.view.tree.d.ts.map
+declare namespace $ {
+}
+
+declare namespace $ {
+
+	export class $mol_check_icon extends $mol_check {
+	}
+	
+}
+
+//# sourceMappingURL=icon.view.tree.d.ts.map
 declare namespace $ {
     class $mol_state_session<Value> extends $mol_object {
         static 'native()': Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;

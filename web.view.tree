@@ -459,8 +459,6 @@ $giper_baza_status $mol_select
 
 $mol_icon_lock $mol_icon path \M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z
 
-$mol_check_icon $mol_check
-
 $mol_stack $mol_view
 
 $mol_text_code_token $mol_dimmer
@@ -1093,61 +1091,6 @@ $giper_baza_pawn_dump $mol_expander
 						sand <= unit_value* null
 				pawn <= pawn_inner* $giper_baza_pawn
 
-$giper_baza_land_rights $mol_list
-	land $giper_baza_land
-	rows /
-		<= Add $mol_view sub /
-			<= Add_key $mol_string
-				hint @ \Public key
-				value? <=> add_key? \
-				submit? <=> add_commit? null
-				enabled <= enabled false
-			<= Add_commit $mol_button_minor
-				click? <=> add_commit? null
-				enabled <= enabled false
-				sub /
-					<= Add_commit_icon $mol_icon_plus
-		^ gifts /
-			<= Gift*0 $mol_view sub /
-				<= Gift_rate* $mol_select
-					hint @ \Speed
-					value? <=> gift_rate*? \0
-					enabled <= enabled false
-					Filter null
-					dictionary *
-						0 \0 🦼 ~1W
-						1 \1 🚲 ~3D
-						2 \2 🛵 ~1D
-						3 \3 🚜 ~D/2
-						4 \4 🏇 ~8h
-						5 \5 🚂 ~4h
-						6 \6 🚛 ~2h
-						7 \7 🚗 ~1h
-						8 \8 🏍️ ~h/2
-						9 \9 🏎️ ~5m
-						A \A 🚅 ~2m
-						B \B 🚁 ~m/2
-						C \C 🛩️ ~2s
-						D \D ✈️ ~s/2
-						E \E 🚀 ~50ms
-						F \F 🛸 ~1ms
-				<= Gift_tier* $mol_select
-					hint @ \Level
-					value? <=> gift_tier*? \deny
-					Filter null
-					dictionary <= tier_options *
-						deny @ \🛑 Deny
-						read @ \👀 Read
-						post @ \✍ Post
-						pull @ \🥂 Pull
-						rule @ \👑 Rule
-					enabled <= enabled false
-				<= Gift_peer* $mol_view sub /
-					<= Gift_avatar* $mol_avatar
-						id <= peer_id* \
-					<= Gift_name* $mol_paragraph
-						title <= peer_name* \All
-
 $mol_icon_source $mol_icon path \M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z
 
 $mol_icon_source_fork $mol_icon path \M6,2A3,3 0 0,1 9,5C9,6.28 8.19,7.38 7.06,7.81C7.15,8.27 7.39,8.83 8,9.63C9,10.92 11,12.83 12,14.17C13,12.83 15,10.92 16,9.63C16.61,8.83 16.85,8.27 16.94,7.81C15.81,7.38 15,6.28 15,5A3,3 0 0,1 18,2A3,3 0 0,1 21,5C21,6.32 20.14,7.45 18.95,7.85C18.87,8.37 18.64,9 18,9.83C17,11.17 15,13.08 14,14.38C13.39,15.17 13.15,15.73 13.06,16.19C14.19,16.62 15,17.72 15,19A3,3 0 0,1 12,22A3,3 0 0,1 9,19C9,17.72 9.81,16.62 10.94,16.19C10.85,15.73 10.61,15.17 10,14.38C9,13.08 7,11.17 6,9.83C5.36,9 5.13,8.37 5.05,7.85C3.86,7.45 3,6.32 3,5A3,3 0 0,1 6,2M6,4A1,1 0 0,0 5,5A1,1 0 0,0 6,6A1,1 0 0,0 7,5A1,1 0 0,0 6,4M18,4A1,1 0 0,0 17,5A1,1 0 0,0 18,6A1,1 0 0,0 19,5A1,1 0 0,0 18,4M12,18A1,1 0 0,0 11,19A1,1 0 0,0 12,20A1,1 0 0,0 13,19A1,1 0 0,0 12,18Z
@@ -1165,13 +1108,6 @@ $mol_button_download $mol_button_minor
 $giper_baza_land_page $mol_page
 	land $giper_baza_land
 	pawn $giper_baza_dict
-	tools /
-		<= Encrypted $mol_check_icon
-			hint \Encryption
-			Icon <= Encrypted_icon $mol_icon_lock
-			checked <= encrypted false
-			enabled <= encrypted false
-		<= Close null
 	body /
 		<= Flex $giper_baza_flex_form
 			pawn <= pawn
@@ -1183,9 +1119,6 @@ $giper_baza_land_page $mol_page
 				<= Raw_tine $giper_baza_pawn_dump
 					title \Tine
 					pawn <= tine $giper_baza_pawn
-		<= Rights $mol_labeler
-			Content <= Rights_control $giper_baza_land_rights
-				land <= land
 		- <= Text $mol_textarea
 			value? <=> text? \
 			selection? <=> selection? /
@@ -1242,13 +1175,73 @@ $giper_baza_land_grab $mol_select
 		deny @ \🔐 Private
 	grab? null $giper_baza_rank_preset
 
+$giper_baza_land_rights $mol_list
+	land $giper_baza_land
+	rows /
+		<= Add $mol_view sub /
+			<= Add_key $mol_string
+				hint @ \Public key
+				value? <=> add_key? \
+				submit? <=> add_commit? null
+				enabled <= enabled false
+			<= Add_commit $mol_button_minor
+				click? <=> add_commit? null
+				enabled <= enabled false
+				sub /
+					<= Add_commit_icon $mol_icon_plus
+		^ gifts /
+			<= Gift*0 $mol_view sub /
+				<= Gift_rate* $mol_select
+					hint @ \Speed
+					value? <=> gift_rate*? \0
+					enabled <= enabled false
+					Filter null
+					dictionary *
+						0 \0 🦼 ~1W
+						1 \1 🚲 ~3D
+						2 \2 🛵 ~1D
+						3 \3 🚜 ~D/2
+						4 \4 🏇 ~8h
+						5 \5 🚂 ~4h
+						6 \6 🚛 ~2h
+						7 \7 🚗 ~1h
+						8 \8 🏍️ ~h/2
+						9 \9 🏎️ ~5m
+						A \A 🚅 ~2m
+						B \B 🚁 ~m/2
+						C \C 🛩️ ~2s
+						D \D ✈️ ~s/2
+						E \E 🚀 ~50ms
+						F \F 🛸 ~1ms
+				<= Gift_tier* $mol_select
+					hint @ \Level
+					value? <=> gift_tier*? \deny
+					Filter null
+					dictionary <= tier_options *
+						deny @ \🛑 Deny
+						read @ \👀 Read
+						post @ \✍ Post
+						pull @ \🥂 Pull
+						rule @ \👑 Rule
+					enabled <= enabled false
+				<= Gift_peer* $mol_view sub /
+					<= Gift_avatar* $mol_avatar
+						id <= peer_id* \
+					<= Gift_name* $mol_paragraph
+						title <= peer_name* \All
+
 $giper_baza_glob_book $mol_book2_catalog
 	menu_title \🌐 Glob
 	param \link
 	Spread* <= Land* $giper_baza_land_page
 		land <= land* $giper_baza_land
 		pawn <= pawn* $giper_baza_dict
-		Close <= Spread_close
+		tools /
+			<= Rights_open $mol_link
+				arg * side \rights
+				sub /
+					<= Rights_open_icon $mol_icon_lock
+			<= Spread_close
 	menu_foot /
 		<= Wipe_pick $mol_pick
 			hint \Wipe database
@@ -1269,6 +1262,15 @@ $giper_baza_glob_book $mol_book2_catalog
 			hint \Grab new Land
 			align_hor \left
 			grab? <=> land_add? null $giper_baza_rank_preset
+	Rights_page $mol_page
+		tools /
+			<= Rights_close $mol_link
+				arg * side null
+				sub /
+					<= Rights_close_icon $mol_icon_close
+		body /
+			<= Rights_form $giper_baza_land_rights
+				land <= land_current $giper_baza_land
 
 $mol_chip $mol_view
 	minimal_height 40
@@ -1758,6 +1760,8 @@ $giper_baza_app_stat_page $mol_page
 							<= Land_active
 
 $mol_icon_play $mol_icon path \M8,5.14V19.14L19,12.14L8,5.14Z
+
+$mol_check_icon $mol_check
 
 $giper_baza_auth_slot $mol_page
 	title \🎰 Grab
