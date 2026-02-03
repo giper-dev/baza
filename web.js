@@ -16003,131 +16003,171 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $giper_baza_flex_pawn extends $giper_baza_dict.with({
-        Title: $giper_baza_atom_text,
+    class $giper_baza_flex_subj extends $giper_baza_dict.with({
+        Name: $giper_baza_atom_text,
     }) {
+        name(next) {
+            return this.Name(next)?.val(next) ?? this.link().str;
+        }
     }
-    $.$giper_baza_flex_pawn = $giper_baza_flex_pawn;
-    class $giper_baza_flex_pawn_link extends $giper_baza_atom_link_to(() => $giper_baza_flex_pawn) {
+    $.$giper_baza_flex_subj = $giper_baza_flex_subj;
+    class $giper_baza_flex_subj_link extends $giper_baza_atom_link_to(() => $giper_baza_flex_subj) {
     }
-    $.$giper_baza_flex_pawn_link = $giper_baza_flex_pawn_link;
-    class $giper_baza_flex_meta extends $giper_baza_flex_pawn.with({
-        Props: $giper_baza_list_link_to(() => $giper_baza_flex_prop),
+    $.$giper_baza_flex_subj_link = $giper_baza_flex_subj_link;
+    class $giper_baza_flex_meta extends $giper_baza_flex_subj.with({
+        Prop: $giper_baza_list_link_to(() => $giper_baza_flex_prop),
+        Pull: $giper_baza_list_link_to(() => $giper_baza_flex_subj),
     }) {
+        prop_make() {
+            return this.Prop(null).make(null);
+        }
+        prop_add(prop) {
+            this.Prop(prop).add(prop.link());
+        }
+        pull_add(meta) {
+            this.Pull(meta).add(meta.link());
+        }
+        pull_all() {
+            return (this.Pull()?.remote_list() ?? []).map(subj => subj.cast($giper_baza_flex_meta));
+        }
+        prop_all() {
+            return [
+                ...this.pull_all().flatMap(meta => meta.prop_all()),
+                ...this.Prop()?.remote_list() ?? [],
+            ];
+        }
     }
+    __decorate([
+        $mol_action
+    ], $giper_baza_flex_meta.prototype, "prop_make", null);
+    __decorate([
+        $mol_action
+    ], $giper_baza_flex_meta.prototype, "prop_add", null);
+    __decorate([
+        $mol_action
+    ], $giper_baza_flex_meta.prototype, "pull_add", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_flex_meta.prototype, "pull_all", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_flex_meta.prototype, "prop_all", null);
     $.$giper_baza_flex_meta = $giper_baza_flex_meta;
-    class $giper_baza_flex_prop extends $giper_baza_flex_pawn.with({
-        Key: $giper_baza_atom_text,
+    class $giper_baza_flex_prop extends $giper_baza_flex_subj.with({
+        Path: $giper_baza_atom_text,
         Type: $giper_baza_atom_text,
-        Target: $giper_baza_atom_link_to(() => $giper_baza_flex_meta),
+        Kind: $giper_baza_atom_link_to(() => $giper_baza_flex_meta),
         Enum: $giper_baza_atom_link_to(() => $giper_baza_list_vary),
         Base: $giper_baza_atom_vary,
     }) {
-    }
-    $.$giper_baza_flex_prop = $giper_baza_flex_prop;
-    class $giper_baza_flex_deck extends $giper_baza_flex_pawn.with({
-        Metas: $giper_baza_list_link_to(() => $giper_baza_flex_meta),
-        Props: $giper_baza_list_link_to(() => $giper_baza_flex_prop),
-        Types: $giper_baza_list_str,
-    }) {
-        static ensure(land) {
-            const deck = land.Data(this);
-            if (deck.units().length)
-                return deck;
-            deck.Title(null).val('Base Deck');
-            deck.Types(null).items_vary(['vary', 'enum', 'bool', 'int', 'real', 'str', 'link', 'time', 'dict', 'text', 'list']);
-            const Pawn = deck.Metas(null).make(null);
-            const Meta = deck.Metas(null).make(null);
-            const Prop = deck.Metas(null).make(null);
-            const Deck = deck.Metas(null).make(null);
-            Meta.meta(Meta.link());
-            Prop.meta(Meta.link());
-            Pawn.meta(Meta.link());
-            Deck.meta(Meta.link());
-            deck.meta(Deck.link());
-            Meta.Title(null).val('Meta');
-            Prop.Title(null).val('Prop');
-            Pawn.Title(null).val('Pawn');
-            Deck.Title(null).val('Deck');
-            const pawn_title = deck.Props(null).make(null);
-            const meta_props = deck.Props(null).make(null);
-            const prop_key = deck.Props(null).make(null);
-            const prop_type = deck.Props(null).make(null);
-            const prop_target = deck.Props(null).make(null);
-            const prop_enum = deck.Props(null).make(null);
-            const prop_base = deck.Props(null).make(null);
-            const deck_metas = deck.Props(null).make(null);
-            const deck_props = deck.Props(null).make(null);
-            const deck_types = deck.Props(null).make(null);
-            pawn_title.Key(null).val('Title');
-            meta_props.Key(null).val('Props');
-            prop_key.Key(null).val('Key');
-            prop_type.Key(null).val('Type');
-            prop_target.Key(null).val('Target');
-            prop_enum.Key(null).val('Enum');
-            prop_base.Key(null).val('Base');
-            deck_metas.Key(null).val('Metas');
-            deck_props.Key(null).val('Props');
-            deck_types.Key(null).val('Types');
-            pawn_title.Title(null).val('Title');
-            meta_props.Title(null).val('Props');
-            prop_key.Title(null).val('Key');
-            prop_type.Title(null).val('Type');
-            prop_target.Title(null).val('Target Meta');
-            prop_enum.Title(null).val('Variants');
-            prop_base.Title(null).val('Default');
-            deck_metas.Title(null).val('Metas');
-            deck_props.Title(null).val('Props');
-            deck_types.Title(null).val('Types');
-            pawn_title.meta(Prop.link());
-            meta_props.meta(Prop.link());
-            prop_key.meta(Prop.link());
-            prop_type.meta(Prop.link());
-            prop_target.meta(Prop.link());
-            prop_enum.meta(Prop.link());
-            prop_base.meta(Prop.link());
-            deck_metas.meta(Prop.link());
-            deck_props.meta(Prop.link());
-            deck_types.meta(Prop.link());
-            Meta.Props(null).add(pawn_title.link());
-            Prop.Props(null).add(pawn_title.link());
-            Pawn.Props(null).add(pawn_title.link());
-            Deck.Props(null).add(pawn_title.link());
-            Meta.Props(null).add(meta_props.link());
-            Prop.Props(null).add(prop_key.link());
-            Prop.Props(null).add(prop_type.link());
-            Prop.Props(null).add(prop_target.link());
-            Prop.Props(null).add(prop_enum.link());
-            Prop.Props(null).add(prop_base.link());
-            Deck.Props(null).add(deck_metas.link());
-            Deck.Props(null).add(deck_props.link());
-            Deck.Props(null).add(deck_types.link());
-            pawn_title.Type(null).val('str');
-            meta_props.Type(null).val('list');
-            prop_key.Type(null).val('str');
-            prop_type.Type(null).val('enum');
-            prop_target.Type(null).val('link');
-            prop_enum.Type(null).val('link');
-            prop_base.Type(null).val('vary');
-            deck_metas.Type(null).val('list');
-            deck_props.Type(null).val('list');
-            deck_types.Type(null).val('list');
-            meta_props.Target(null).remote(Prop);
-            prop_target.Target(null).remote(Meta);
-            prop_enum.Target(null).remote(Pawn);
-            prop_base.Target(null).remote(Pawn);
-            deck_metas.Target(null).remote(Meta);
-            deck_props.Target(null).remote(Prop);
-            meta_props.Enum(null).vary(deck.Props().link());
-            prop_type.Enum(null).vary(deck.Types().link());
-            prop_target.Enum(null).vary(deck.Metas().link());
-            prop_enum.Enum(null).vary(deck.link());
-            pawn_title.Base(null).vary('');
-            prop_type.Base(null).vary('vary');
-            prop_target.Base(null).vary(Pawn.link());
-            return deck;
+        path(next) {
+            return this.Path(next)?.val(next) ?? '';
+        }
+        type(next) {
+            return this.Type(next)?.val(next) ?? '';
+        }
+        base(next) {
+            return this.Base(next)?.vary(next) ?? null;
+        }
+        kind(next) {
+            return this.Kind(next)?.remote(next) ?? null;
+        }
+        enum(next) {
+            return this.Enum(next)?.remote(next) ?? null;
         }
     }
+    $.$giper_baza_flex_prop = $giper_baza_flex_prop;
+    class $giper_baza_flex_deck extends $giper_baza_flex_subj.with({
+        Subj: $giper_baza_list_link_to(() => $giper_baza_flex_meta),
+        Type: $giper_baza_list_str,
+    }) {
+        subj_make() {
+            return this.Subj(null).make(null);
+        }
+        static ensure(land) {
+            const deck_base = land.Data(this);
+            if (deck_base.units().length)
+                return deck_base;
+            deck_base.name('Base Deck');
+            deck_base.Type(null).items_vary(['vary', 'enum', 'bool', 'int', 'real', 'str', 'link', 'time', 'dict', 'text', 'list']);
+            const Subj = deck_base.subj_make();
+            const Meta = deck_base.subj_make();
+            const Prop = deck_base.subj_make();
+            const Deck = deck_base.subj_make();
+            Meta.meta(Meta.link());
+            Prop.meta(Meta.link());
+            Subj.meta(Meta.link());
+            Deck.meta(Meta.link());
+            deck_base.meta(Deck.link());
+            Meta.name('Meta');
+            Prop.name('Prop');
+            Subj.name('Subj');
+            Deck.name('Deck');
+            const subj_name = Subj.prop_make();
+            const meta_prop = Meta.prop_make();
+            const prop_path = Prop.prop_make();
+            const prop_type = Prop.prop_make();
+            const prop_kind = Prop.prop_make();
+            const prop_enum = Prop.prop_make();
+            const prop_base = Prop.prop_make();
+            const deck_subj = Deck.prop_make();
+            const deck_type = Deck.prop_make();
+            Meta.pull_add(Subj);
+            Prop.pull_add(Subj);
+            Deck.pull_add(Subj);
+            subj_name.meta(Prop.link());
+            meta_prop.meta(Prop.link());
+            prop_path.meta(Prop.link());
+            prop_type.meta(Prop.link());
+            prop_kind.meta(Prop.link());
+            prop_enum.meta(Prop.link());
+            prop_base.meta(Prop.link());
+            deck_subj.meta(Prop.link());
+            deck_type.meta(Prop.link());
+            subj_name.path('Name');
+            meta_prop.path('Prop');
+            prop_path.path('Path');
+            prop_type.path('Type');
+            prop_kind.path('Kind');
+            prop_enum.path('Enum');
+            prop_base.path('Base');
+            deck_subj.path('Subj');
+            deck_type.path('Type');
+            subj_name.name('Subj Name');
+            meta_prop.name('Meta Prop');
+            prop_path.name('Prop Path');
+            prop_type.name('Prop Type');
+            prop_kind.name('Prop Kind');
+            prop_enum.name('Prop Enum');
+            prop_base.name('Prop Base');
+            deck_subj.name('Deck Subj');
+            deck_type.name('Deck Type');
+            subj_name.type('str');
+            meta_prop.type('list');
+            prop_path.type('str');
+            prop_type.type('enum');
+            prop_kind.type('link');
+            prop_enum.type('link');
+            prop_base.type('vary');
+            deck_subj.type('list');
+            deck_type.type('list');
+            meta_prop.kind(Prop);
+            prop_kind.kind(Meta);
+            prop_enum.kind(Subj);
+            prop_base.kind(Subj);
+            deck_subj.kind(Meta);
+            prop_type.enum(deck_base.Type());
+            prop_kind.enum(deck_base.Subj());
+            prop_enum.enum(deck_base);
+            subj_name.base('');
+            prop_type.base('vary');
+            prop_kind.base(Subj.link());
+            return deck_base;
+        }
+    }
+    __decorate([
+        $mol_action
+    ], $giper_baza_flex_deck.prototype, "subj_make", null);
     __decorate([
         $mol_action
     ], $giper_baza_flex_deck, "ensure", null);
@@ -17436,7 +17476,7 @@ var $;
             }
             title() {
                 const link = this.value();
-                return this.$.$giper_baza_glob.Pawn(link, $giper_baza_flex_pawn).Title()?.val() || link?.str;
+                return this.$.$giper_baza_glob.Pawn(link, $giper_baza_flex_subj).Name()?.val() || link?.str;
             }
             arg() {
                 const link = this.value().str;
@@ -19694,7 +19734,7 @@ var $;
             }
             link_label(link) {
                 if (link instanceof $giper_baza_link)
-                    return this.$.$giper_baza_glob.Pawn(link, $giper_baza_flex_pawn).Title()?.val() ?? link.str;
+                    return this.$.$giper_baza_glob.Pawn(link, $giper_baza_flex_subj).Name()?.val() ?? link.str;
                 return $giper_baza_vary_cast_text(link) ?? '';
             }
             link_remote() {
@@ -19703,8 +19743,8 @@ var $;
             link_new(rights) {
                 if (!rights)
                     return null;
-                const pawn = this.pawn('auto').cast($giper_baza_flex_pawn_link);
-                const Target = this.prop().Target()?.remote();
+                const pawn = this.pawn('auto').cast($giper_baza_flex_subj_link);
+                const Target = this.prop().Kind()?.remote();
                 if (rights === 'local') {
                     const remote = pawn.ensure(null);
                     if (Target)
@@ -19745,8 +19785,8 @@ var $;
                 return null;
             }
             list_item_add() {
-                const target = this.pawn(null).cast($giper_baza_list_link_to(() => $giper_baza_flex_pawn)).make(null);
-                const meta = this.prop().Target()?.remote()?.link() ?? null;
+                const target = this.pawn(null).cast($giper_baza_list_link_to(() => $giper_baza_flex_subj)).make(null);
+                const meta = this.prop().Kind()?.remote()?.link() ?? null;
                 if (meta)
                     target.meta(meta);
             }
@@ -19758,7 +19798,7 @@ var $;
             }
             list_item_adopt(transfer) {
                 let val = transfer.getData("text/plain");
-                if (this.prop().Target()?.val())
+                if (this.prop().Kind()?.val())
                     val = $giper_baza_vary_cast_link(val);
                 return val;
             }
@@ -20296,18 +20336,18 @@ var $;
                 const link = this.pawn().meta();
                 if (link)
                     return this.$.$giper_baza_glob.Pawn(link, $giper_baza_flex_meta);
-                const deck = this.$.$giper_baza_glob.Pawn(new $giper_baza_link('B7eENiTu_lxfWqjoP'), $giper_baza_flex_deck);
-                const Pawn = deck.Metas()?.remote_list()[0];
+                const deck = this.$.$giper_baza_glob.Pawn(new $giper_baza_link('jxYnCnkk_T23Mqbbd'), $giper_baza_flex_deck);
+                const Pawn = deck.Subj()?.remote_list()[0];
                 return Pawn;
             }
             fields() {
-                return this.meta()?.Props()?.remote_list().map(key => this.Field(key)) ?? [];
+                return this.meta()?.prop_all().map(key => this.Field(key)) ?? [];
             }
             field_name(prop) {
-                return prop.Title()?.val() ?? prop.link().str;
+                return prop.name();
             }
             field_pawn(prop, auto) {
-                return this.pawn().cast($giper_baza_dict).dive(prop.Key(auto)?.val() ?? prop.link(), $giper_baza_pawn, auto);
+                return this.pawn().cast($giper_baza_dict).dive(prop.Path(auto)?.val() ?? prop.link(), $giper_baza_pawn, auto);
             }
             field_prop(prop) {
                 return prop;
@@ -21732,8 +21772,9 @@ var $;
             }
             spread_title(id) {
                 const link = new $giper_baza_link(id);
+                let title = '';
                 try {
-                    var title = this.$.$giper_baza_glob.Pawn(link, $giper_baza_entity).Title()?.val();
+                    title = this.$.$giper_baza_glob.Pawn(link, $giper_baza_flex_subj).Name()?.val() ?? '';
                 }
                 catch (error) {
                     $mol_fail_log(error);
