@@ -9,7 +9,7 @@ namespace $.$$ {
 			return this.encrypted() ? '$mol_theme_special' : null
 		}
 		
-		override encrypted() {
+		encrypted() {
 			return this.land().encrypted()
 		}
 		

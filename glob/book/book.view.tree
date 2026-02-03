@@ -4,7 +4,12 @@ $giper_baza_glob_book $mol_book2_catalog
 	Spread* <= Land* $giper_baza_land_page
 		land <= land* $giper_baza_land
 		pawn <= pawn* $giper_baza_dict
-		Close <= Spread_close
+		tools /
+			<= Rights_open $mol_link
+				arg * side \rights
+				sub /
+					<= Rights_open_icon $mol_icon_lock
+			<= Spread_close
 	menu_foot /
 		<= Wipe_pick $mol_pick
 			hint \Wipe database
@@ -25,3 +30,12 @@ $giper_baza_glob_book $mol_book2_catalog
 			hint \Grab new Land
 			align_hor \left
 			grab? <=> land_add? null $giper_baza_rank_preset
+	Rights_page $mol_page
+		tools /
+			<= Rights_close $mol_link
+				arg * side null
+				sub /
+					<= Rights_close_icon $mol_icon_close
+		body /
+			<= Rights_form $giper_baza_land_rights
+				land <= land_current $giper_baza_land

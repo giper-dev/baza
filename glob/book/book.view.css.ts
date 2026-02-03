@@ -23,6 +23,12 @@ namespace $.$$ {
 			},
 		},
 		
+		Rights_page: {
+			flex: {
+				basis: `30rem`,
+			},
+		},
+		
 	} )
 	
 }

@@ -25,6 +25,22 @@ namespace $.$$ {
 			return ids
 		}
 		
+		@ $mol_mem
+		override pages() {
+			return [
+				... super.pages(),
+				... this.side() === 'rights' ? [ this.Rights_page() ] : [],
+			]
+		}
+		
+		side() {
+			return this.$.$mol_state_arg.value( 'side' ) ?? ''
+		}
+		
+		land_current() {
+			return this.land( this.spread() )
+		}
+		
 		override land( id: string ) {
 			return this.$.$giper_baza_glob.Land( new $giper_baza_link( id ).land() )
 		}

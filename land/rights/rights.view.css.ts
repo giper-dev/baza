@@ -19,7 +19,7 @@ namespace $.$$ {
 		Gift_tier: {
 			flex: {
 				grow: 0,
-				basis: `8em`,
+				basis: `7em`,
 			},
 		},
 		

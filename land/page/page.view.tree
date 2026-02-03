@@ -1,13 +1,6 @@
 $giper_baza_land_page $mol_page
 	land $giper_baza_land
 	pawn $giper_baza_dict
-	tools /
-		<= Encrypted $mol_check_icon
-			hint \Encryption
-			Icon <= Encrypted_icon $mol_icon_lock
-			checked <= encrypted false
-			enabled <= encrypted false
-		<= Close null
 	body /
 		<= Flex $giper_baza_flex_form
 			pawn <= pawn
@@ -19,9 +12,6 @@ $giper_baza_land_page $mol_page
 				<= Raw_tine $giper_baza_pawn_dump
 					title \Tine
 					pawn <= tine $giper_baza_pawn
-		<= Rights $mol_labeler
-			Content <= Rights_control $giper_baza_land_rights
-				land <= land
 		- <= Text $mol_textarea
 			value? <=> text? \
 			selection? <=> selection? /
