@@ -55,7 +55,7 @@ namespace $.$$ {
 		
 		unit_time( index: number ) {
 			const unit = this.units()[ index ]
-			return $giper_baza_time_dump( unit.time() ) + ' &' + unit.tick()
+			return $giper_baza_time_dump( unit.time() ) + ' !' + String( unit.tick() ).padStart( 2, '0' )
 		}
 		
 		unit_value( index: number ) {

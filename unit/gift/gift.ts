@@ -104,7 +104,7 @@ namespace $ {
 				' ',
 				$mol_dev_format_shade(
 					this.moment().toString( 'YYYY-MM-DD hh:mm:ss' ),
-					' &',
+					' !',
 					this.tick(),
 				),
 				' #',
