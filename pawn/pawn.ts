@@ -57,7 +57,7 @@ namespace $ {
 		@ $mol_mem_key
 		units_of( peer: $giper_baza_link | null ) {
 			const head = this.head()
-			return this.land().sand_ordered({ head, peer }).filter( unit => !unit.dead() && unit.self().str !== head.str )
+			return this.land().sand_ordered({ head, peer }).filter( unit => !unit.dead() && unit.self().str !== '' )
 		}
 		
 		@ $mol_mem
@@ -68,7 +68,7 @@ namespace $ {
 			if( prev?.str === next?.str ) return prev
 			
 			const head = this.head()
-			this.land().post( head, head, head, next )
+			this.land().post( $giper_baza_link.hole, head, $giper_baza_link.hole, next )
 			
 			return next
 		}
@@ -76,7 +76,7 @@ namespace $ {
 		@ $mol_mem_key
 		meta_of( peer: $giper_baza_link | null ) {
 			const head = this.head()
-			const unit = this.land().sand_ordered({ head, peer }).find( unit => !unit.dead() && unit.self().str === head.str ) ?? null
+			const unit = this.land().sand_ordered({ head, peer }).find( unit => !unit.dead() && unit.self().str === '' ) ?? null
 			return unit ? $giper_baza_vary_cast_link( this.land().sand_decode( unit ) ) : null
 		}
 		

@@ -8,7 +8,7 @@ $giper_baza_glob_book $mol_book2_catalog
 			<= Rights_open $mol_link
 				arg * side \rights
 				sub /
-					<= Rights_open_icon $mol_icon_lock
+					<= Rights_open_icon $mol_icon_security
 			<= Spread_close
 	menu_foot /
 		<= Wipe_pick $mol_pick
@@ -19,10 +19,10 @@ $giper_baza_glob_book $mol_book2_catalog
 				<= Wipe_icon $mol_icon_delete_forever
 			bubble_content /
 				\Double to wipe database
-		<= Deck_make $mol_button_minor
-			hint \Make Base Deck
-			click? <=> deck_make? null
-			sub / <= Deck_make_icon $mol_icon_sprout_outline
+		<= Seed_make $mol_button_minor
+			hint \Make Seed
+			click? <=> seed_make? null
+			sub / <= Seed_make_icon $mol_icon_sprout_outline
 		<= Update $mol_button_open
 			hint \Upload dump
 			files? <=> update? /

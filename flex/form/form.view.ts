@@ -12,7 +12,7 @@ namespace $.$$ {
 				$giper_baza_flex_deck,
 			)
 			
-			const Pawn = deck.Subj()?.remote_list()[0]!
+			const Pawn = deck.Metas()?.remote_list()[0]!
 			return Pawn
 			
 		}

@@ -97,11 +97,10 @@ namespace $.$$ {
 			location.reload()
 		}
 		
-		override deck_make() {
-			const land = this.$.$giper_baza_glob.land_grab()
-			const deck = $giper_baza_flex_deck.ensure( land ) 
+		override seed_make() {
+			const seed = this.$.$giper_baza_flex_init() 
 			this.$.$mol_state_arg.go({
-				[ this.param() ]: land.link().str
+				[ this.param() ]: seed.link().str
 			})
 		}
 		

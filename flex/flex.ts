@@ -14,36 +14,36 @@ namespace $ {
 	
 	/** Meta of Pawns */
 	export class $giper_baza_flex_meta extends $giper_baza_flex_subj.with({
-		Prop: $giper_baza_list_link_to( ()=> $giper_baza_flex_prop ),
-		Pull: $giper_baza_list_link_to( ()=> $giper_baza_flex_subj ),
+		Props: $giper_baza_list_link_to( ()=> $giper_baza_flex_prop ),
+		Pulls: $giper_baza_list_link_to( ()=> $giper_baza_flex_subj ),
 	}) {
 		
 		@ $mol_action
-		prop_make() {
-			return this.Prop(null)!.make( null )
+		prop_new() {
+			return this.Props(null)!.make( null )
 		}
 		
 		@ $mol_action
 		prop_add( prop: $giper_baza_flex_prop ) {
-			this.Prop( prop )!.add( prop.link() )
-		}
-		
-		@ $mol_action
-		pull_add( meta: $giper_baza_flex_meta ) {
-			this.Pull( meta )!.add( meta.link() )
-		}
-		
-		@ $mol_mem
-		pull_all() {
-			return ( this.Pull()?.remote_list() ?? [] ).map( subj => subj.cast( $giper_baza_flex_meta ) )
+			this.Props( prop )!.add( prop.link() )
 		}
 		
 		@ $mol_mem
 		prop_all(): readonly $giper_baza_flex_prop[] {
 			return [
 				... this.pull_all().flatMap( meta => meta.prop_all() ),
-				... this.Prop()?.remote_list() ?? [],
+				... this.Props()?.remote_list() ?? [],
 			]
+		}
+		
+		@ $mol_action
+		pull_add( meta: $giper_baza_flex_meta ) {
+			this.Pulls( meta )!.add( meta.link() )
+		}
+		
+		@ $mol_mem
+		pull_all() {
+			return ( this.Pulls()?.remote_list() ?? [] ).map( subj => subj.cast( $giper_baza_flex_meta ) )
 		}
 		
 	}
@@ -86,117 +86,153 @@ namespace $ {
 	
 	/** All schemas in one place */
 	export class $giper_baza_flex_deck extends $giper_baza_flex_subj.with({
-		Subj: $giper_baza_list_link_to( ()=> $giper_baza_flex_meta ),
-		Type: $giper_baza_list_str,
+		Metas: $giper_baza_list_link_to( ()=> $giper_baza_flex_meta ),
+		Types: $giper_baza_list_str,
 	}) {
 		
 		@ $mol_action
-		subj_make() {
-			return this.Subj(null)!.make( null )
+		meta_new() {
+			return this.Metas(null)!.make( null )
 		}
 		
-		@ $mol_action
-		static ensure( land: $giper_baza_land ): $giper_baza_flex_deck {
-			
-			const deck = land.Data( this )
-			if( deck.units().length ) return deck
-			
-			deck.name( 'Base Deck' )
-			deck.Type(null)!.items_vary([ 'vary', 'enum', 'bool', 'int', 'real', 'str', 'link', 'time', 'dict', 'text', 'list' ])
-			
-			const Subj = deck.subj_make()
-			const Meta = deck.subj_make()
-			const Prop = deck.subj_make()
-			const Deck = deck.subj_make()
-			
-			Meta.meta( Meta.link() )
-			Prop.meta( Meta.link() )
-			Subj.meta( Meta.link() )
-			Deck.meta( Meta.link() )
-			deck.meta( Deck.link() )
-			
-			Meta.name( 'Meta of Meta' )
-			Prop.name( 'Meta of Property' )
-			Subj.name( 'Meta of Subject' )
-			Deck.name( 'Meta of Deck' )
-			
-			const subj_name = Subj.prop_make()
-			const meta_prop = Meta.prop_make()
-			const meta_pull = Meta.prop_make()
-			const prop_path = Prop.prop_make()
-			const prop_type = Prop.prop_make()
-			const prop_kind = Prop.prop_make()
-			const prop_enum = Prop.prop_make()
-			const prop_base = Prop.prop_make()
-			const deck_subj = Deck.prop_make()
-			const deck_type = Deck.prop_make()
-			
-			Meta.pull_add( Subj )
-			Prop.pull_add( Subj )
-			Deck.pull_add( Subj )
-			
-			// @TODO: auto set
-			subj_name.meta( Prop.link() )
-			meta_prop.meta( Prop.link() )
-			meta_pull.meta( Prop.link() )
-			prop_path.meta( Prop.link() )
-			prop_type.meta( Prop.link() )
-			prop_kind.meta( Prop.link() )
-			prop_enum.meta( Prop.link() )
-			prop_base.meta( Prop.link() )
-			deck_subj.meta( Prop.link() )
-			deck_type.meta( Prop.link() )
-			
-			subj_name.path( 'Name' )
-			meta_prop.path( 'Prop' )
-			meta_pull.path( 'Pull' )
-			prop_path.path( 'Path' )
-			prop_type.path( 'Type' )
-			prop_kind.path( 'Kind' )
-			prop_enum.path( 'Enum' )
-			prop_base.path( 'Base' )
-			deck_subj.path( 'Subj' )
-			deck_type.path( 'Type' )
-			
-			subj_name.name( 'Name' )
-			meta_prop.name( 'Instance Properties' )
-			meta_pull.name( 'Parent Metas' )
-			prop_path.name( 'Property Path' )
-			prop_type.name( 'Property Type' )
-			prop_kind.name( 'Property Kind' )
-			prop_enum.name( 'Property Enum' )
-			prop_base.name( 'Property Base' )
-			deck_subj.name( 'Deck Metas' )
-			deck_type.name( 'Deck Types' )
-			
-			subj_name.type( 'str' )
-			meta_prop.type( 'list' )
-			meta_pull.type( 'list' )
-			prop_path.type( 'str' )
-			prop_type.type( 'enum' )
-			prop_kind.type( 'link' )
-			prop_enum.type( 'link' )
-			prop_base.type( 'vary' )
-			deck_subj.type( 'list' )
-			deck_type.type( 'list' )
-			
-			meta_prop.kind( Prop )
-			meta_pull.kind( Meta )
-			prop_kind.kind( Meta )
-			prop_enum.kind( Subj )
-			prop_base.kind( Subj )
-			deck_subj.kind( Meta )
-			
-			prop_type.enum( deck.Type()! )
-			prop_kind.enum( deck.Subj()! )
-			prop_enum.enum( deck )
-			
-			subj_name.base( '' )
-			prop_type.base( 'vary' )
-			prop_kind.base( Subj.link() )
-
-			return deck
+	}
+	
+	export class $giper_baza_flex_seed extends $giper_baza_flex_subj.with({
+		Deck: $giper_baza_atom_link_to( ()=> $giper_baza_flex_deck ),
+		Peers: $giper_baza_list_str,
+	}) {
+		
+		@ $mol_mem
+		deck() {
+			return this.Deck(null)!.ensure( this.land() )
 		}
+		
+		@ $mol_mem
+		peers() {
+			return ( this.Peers()?.items() ?? [] ).filter( $mol_guard_defined )
+		}
+		
+	}
+	
+	export function $giper_baza_flex_init( this: $ ): $giper_baza_flex_seed {
+			
+		const seed_land = this.$.$giper_baza_glob.land_grab()
+		const seed = seed_land.Data( $giper_baza_flex_seed )
+		seed.name( 'Base Seed' )
+		
+		const deck = seed.deck()!
+		deck.name( 'Base Deck' )
+		deck.Types(null)!.items_vary([ 'vary', 'enum', 'bool', 'int', 'real', 'str', 'link', 'time', 'dict', 'text', 'list' ])
+		
+		const Subj = deck.meta_new()
+		const Meta = deck.meta_new()
+		const Seed = deck.meta_new()
+		const Prop = deck.meta_new()
+		const Deck = deck.meta_new()
+		
+		Subj.meta( Meta.link() )
+		Meta.meta( Meta.link() )
+		Seed.meta( Meta.link() )
+		Prop.meta( Meta.link() )
+		Deck.meta( Meta.link() )
+		
+		seed.meta( Seed.link() )
+		deck.meta( Deck.link() )
+		
+		Meta.name( 'Meta' )
+		Seed.name( 'Seed' )
+		Prop.name( 'Property' )
+		Subj.name( 'Subject' )
+		Deck.name( 'Deck' )
+		
+		const subj_name = Subj.prop_new()
+		const meta_props = Meta.prop_new()
+		const meta_pulls = Meta.prop_new()
+		const seed_deck = Seed.prop_new()
+		const seed_peers = Seed.prop_new()
+		const prop_path = Prop.prop_new()
+		const prop_type = Prop.prop_new()
+		const prop_kind = Prop.prop_new()
+		const prop_enum = Prop.prop_new()
+		const prop_base = Prop.prop_new()
+		const deck_metas = Deck.prop_new()
+		const deck_types = Deck.prop_new()
+		
+		Meta.pull_add( Subj )
+		Seed.pull_add( Subj )
+		Prop.pull_add( Subj )
+		Deck.pull_add( Subj )
+		
+		// @TODO: auto set
+		subj_name.meta( Prop.link() )
+		meta_props.meta( Prop.link() )
+		meta_pulls.meta( Prop.link() )
+		seed_deck.meta( Prop.link() )
+		seed_peers.meta( Prop.link() )
+		prop_path.meta( Prop.link() )
+		prop_type.meta( Prop.link() )
+		prop_kind.meta( Prop.link() )
+		prop_enum.meta( Prop.link() )
+		prop_base.meta( Prop.link() )
+		deck_metas.meta( Prop.link() )
+		deck_types.meta( Prop.link() )
+		
+		subj_name.path( 'Name' )
+		meta_props.path( 'Props' )
+		meta_pulls.path( 'Pulls' )
+		seed_deck.path( 'Deck' )
+		seed_peers.path( 'Peers' )
+		prop_path.path( 'Path' )
+		prop_type.path( 'Type' )
+		prop_kind.path( 'Kind' )
+		prop_enum.path( 'Enum' )
+		prop_base.path( 'Base' )
+		deck_metas.path( 'Metas' )
+		deck_types.path( 'Types' )
+		
+		subj_name.name( 'Name' )
+		meta_props.name( 'Properties' )
+		meta_pulls.name( 'Parents' )
+		seed_deck.name( 'Deck' )
+		seed_peers.name( 'Peers' )
+		prop_path.name( 'Path' )
+		prop_type.name( 'Type' )
+		prop_kind.name( 'Kind' )
+		prop_enum.name( 'Enum' )
+		prop_base.name( 'Base' )
+		deck_metas.name( 'Metas' )
+		deck_types.name( 'Types' )
+		
+		subj_name.type( 'str' )
+		meta_props.type( 'list' )
+		meta_pulls.type( 'list' )
+		seed_deck.type( 'link' )
+		seed_peers.type( 'list' )
+		prop_path.type( 'str' )
+		prop_type.type( 'enum' )
+		prop_kind.type( 'link' )
+		prop_enum.type( 'link' )
+		prop_base.type( 'vary' )
+		deck_metas.type( 'list' )
+		deck_types.type( 'list' )
+		
+		meta_props.kind( Prop )
+		meta_pulls.kind( Meta )
+		prop_kind.kind( Meta )
+		prop_enum.kind( Subj )
+		prop_base.kind( Subj )
+		seed_deck.kind( Deck )
+		deck_metas.kind( Meta )
+		
+		prop_type.enum( deck.Types()! )
+		prop_kind.enum( deck.Metas()! )
+		// prop_enum.enum( deck )
+		
+		subj_name.base( '' )
+		prop_type.base( 'vary' )
+		prop_kind.base( Subj.link() )
+
+		return seed
 		
 	}
 	

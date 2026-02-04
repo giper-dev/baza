@@ -2,7 +2,7 @@ namespace $.$$ {
 	export class $giper_baza_pawn_dump extends $.$giper_baza_pawn_dump {
 		
 		title() {
-			return this.pawn().head().str || '__root__'
+			return this.pawn().head().str || '__meta__'
 		}
 		
 		value() {

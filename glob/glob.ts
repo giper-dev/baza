@@ -57,6 +57,12 @@ namespace $ {
 			return land.Pawn( Pawn ).Head( link.head() )
 		}
 		
+		@ $mol_mem
+		static Seed() {
+			const link = new $giper_baza_link( 'sXquVC6U_li2u23mG' )
+			return this.Pawn( link, $giper_baza_flex_seed ) 
+		}
+		
 		@ $mol_action
 		static apply_pack( pack: $giper_baza_pack ) {
 			return this.apply_parts( pack.parts() )
