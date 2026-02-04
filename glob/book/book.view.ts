@@ -104,5 +104,36 @@ namespace $.$$ {
 			})
 		}
 		
+		@ $mol_mem
+		lands_checked() {
+			const lands_touched = [ ... this.$.$giper_baza_glob.lands_touched.values() ]
+			const lands_checked = lands_touched.filter( land => this.land_checked( land ) )
+			return lands_checked
+		}
+		
+		dump_enabled() {
+			return Boolean( this.lands_checked().length )
+		}
+		
+		@ $mol_mem
+		dump_pack() {
+			
+			const lands = this.lands_checked()
+			if( !lands.length ) return null
+			
+			const parts = lands.flatMap( land => this.land( land ).diff_parts() )
+			const pack = $giper_baza_pack.make( parts )
+			
+			return pack
+		}
+		
+		override dump() {
+			return this.dump_pack()?.toBlob()!
+		}
+		
+		override dump_name() {
+			return `dump.baza`
+		}
+		
 	}
 }

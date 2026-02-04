@@ -10,6 +10,10 @@ $giper_baza_glob_book $mol_book2_catalog
 				sub /
 					<= Rights_open_icon $mol_icon_security
 			<= Spread_close
+	menu_item_content* /$mol_view
+		<= Menu_link*
+		<= Land_checked* $mol_check_box
+			checked? <=> land_checked*? false
 	menu_foot /
 		<= Wipe_pick $mol_pick
 			hint \Wipe database
@@ -23,13 +27,18 @@ $giper_baza_glob_book $mol_book2_catalog
 			hint \Make Seed
 			click? <=> seed_make? null
 			sub / <= Seed_make_icon $mol_icon_sprout_outline
-		<= Update $mol_button_open
-			hint \Upload dump
-			files? <=> update? /
 		<= Land_add $giper_baza_land_grab
 			hint \Grab new Land
 			align_hor \left
 			grab? <=> land_add? null $giper_baza_rank_preset
+		<= Update $mol_button_open
+			hint \Upload dump
+			files? <=> update? /
+		<= Dump $mol_button_download
+			hint \Download selected
+			enabled <= dump_enabled false
+			blob <= dump $mol_blob
+			file_name <= dump_name \AAAAAAAA_AAAAAAAA.baza
 	Rights_page $mol_page
 		title \Rights
 		tools /

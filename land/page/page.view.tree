@@ -27,4 +27,4 @@ $giper_baza_land_page $mol_page
 			<= Dump $mol_button_download
 				hint \Download dump
 				blob <= dump $mol_blob
-				file_name <= dump_name \AAAAAAAA_AAAAAAAA.land
+				file_name <= dump_name \AAAAAAAA_AAAAAAAA.baza
