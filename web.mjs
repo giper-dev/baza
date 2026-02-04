@@ -20910,7 +20910,7 @@ var $;
 			return obj;
 		}
 		dump_name(){
-			return "AAAAAAAA_AAAAAAAA.land";
+			return "AAAAAAAA_AAAAAAAA.baza";
 		}
 		Dump(){
 			const obj = new this.$.$mol_button_download();
@@ -21178,6 +21178,61 @@ var $;
 "use strict";
 
 ;
+	($.$giper_baza_land_grab) = class $giper_baza_land_grab extends ($.$mol_select) {
+		Trigger_icon(){
+			const obj = new this.$.$mol_icon_plus();
+			return obj;
+		}
+		Filter(){
+			return null;
+		}
+		trigger_content(){
+			return [(this.Trigger_icon())];
+		}
+		dictionary(){
+			return {
+				"pull": (this.$.$mol_locale.text("$giper_baza_land_grab_dictionary_pull")), 
+				"post": (this.$.$mol_locale.text("$giper_baza_land_grab_dictionary_post")), 
+				"read": (this.$.$mol_locale.text("$giper_baza_land_grab_dictionary_read")), 
+				"deny": (this.$.$mol_locale.text("$giper_baza_land_grab_dictionary_deny"))
+			};
+		}
+		grab(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+	};
+	($mol_mem(($.$giper_baza_land_grab.prototype), "Trigger_icon"));
+	($mol_mem(($.$giper_baza_land_grab.prototype), "grab"));
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $giper_baza_land_grab extends $.$giper_baza_land_grab {
+            value(rights) {
+                const preset = {
+                    deny: [],
+                    read: [[null, $giper_baza_rank_read]],
+                    post: [[null, $giper_baza_rank_post('slow')]],
+                    pull: [[null, $giper_baza_rank_pull('slow')]],
+                }[rights];
+                if (preset)
+                    this.grab(preset);
+                return '';
+            }
+        }
+        $$.$giper_baza_land_grab = $giper_baza_land_grab;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$mol_icon_upload) = class $mol_icon_upload extends ($.$mol_icon) {
 		path(){
 			return "M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z";
@@ -21297,61 +21352,6 @@ var $;
 var $;
 (function ($) {
     $mol_style_attach("mol/button/open/open.view.css", "[mol_button_open_native] {\n\tposition: absolute;\n\tleft: 0;\n\ttop: -100%;\n\twidth: 100%;\n\theight: 200%;\n\tcursor: pointer;\n\topacity: 0;\n}\n");
-})($ || ($ = {}));
-
-;
-	($.$giper_baza_land_grab) = class $giper_baza_land_grab extends ($.$mol_select) {
-		Trigger_icon(){
-			const obj = new this.$.$mol_icon_plus();
-			return obj;
-		}
-		Filter(){
-			return null;
-		}
-		trigger_content(){
-			return [(this.Trigger_icon())];
-		}
-		dictionary(){
-			return {
-				"pull": (this.$.$mol_locale.text("$giper_baza_land_grab_dictionary_pull")), 
-				"post": (this.$.$mol_locale.text("$giper_baza_land_grab_dictionary_post")), 
-				"read": (this.$.$mol_locale.text("$giper_baza_land_grab_dictionary_read")), 
-				"deny": (this.$.$mol_locale.text("$giper_baza_land_grab_dictionary_deny"))
-			};
-		}
-		grab(next){
-			if(next !== undefined) return next;
-			return null;
-		}
-	};
-	($mol_mem(($.$giper_baza_land_grab.prototype), "Trigger_icon"));
-	($mol_mem(($.$giper_baza_land_grab.prototype), "grab"));
-
-
-;
-"use strict";
-
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $giper_baza_land_grab extends $.$giper_baza_land_grab {
-            value(rights) {
-                const preset = {
-                    deny: [],
-                    read: [[null, $giper_baza_rank_read]],
-                    post: [[null, $giper_baza_rank_post('slow')]],
-                    pull: [[null, $giper_baza_rank_pull('slow')]],
-                }[rights];
-                if (preset)
-                    this.grab(preset);
-                return '';
-            }
-        }
-        $$.$giper_baza_land_grab = $giper_baza_land_grab;
-    })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
 ;
@@ -21638,6 +21638,15 @@ var $;
 			(obj.tools) = () => ([(this.Rights_open()), (this.Spread_close())]);
 			return obj;
 		}
+		land_checked(id, next){
+			if(next !== undefined) return next;
+			return false;
+		}
+		Land_checked(id){
+			const obj = new this.$.$mol_check_box();
+			(obj.checked) = (next) => ((this.land_checked(id, next)));
+			return obj;
+		}
 		wipe(next){
 			if(next !== undefined) return next;
 			return null;
@@ -21670,6 +21679,17 @@ var $;
 			(obj.sub) = () => ([(this.Seed_make_icon())]);
 			return obj;
 		}
+		land_add(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		Land_add(){
+			const obj = new this.$.$giper_baza_land_grab();
+			(obj.hint) = () => ("Grab new Land");
+			(obj.align_hor) = () => ("left");
+			(obj.grab) = (next) => ((this.land_add(next)));
+			return obj;
+		}
 		update(next){
 			if(next !== undefined) return next;
 			return [];
@@ -21680,15 +21700,22 @@ var $;
 			(obj.files) = (next) => ((this.update(next)));
 			return obj;
 		}
-		land_add(next){
-			if(next !== undefined) return next;
-			return null;
+		dump_enabled(){
+			return false;
 		}
-		Land_add(){
-			const obj = new this.$.$giper_baza_land_grab();
-			(obj.hint) = () => ("Grab new Land");
-			(obj.align_hor) = () => ("left");
-			(obj.grab) = (next) => ((this.land_add(next)));
+		dump(){
+			const obj = new this.$.$mol_blob();
+			return obj;
+		}
+		dump_name(){
+			return "AAAAAAAA_AAAAAAAA.baza";
+		}
+		Dump(){
+			const obj = new this.$.$mol_button_download();
+			(obj.hint) = () => ("Download selected");
+			(obj.enabled) = () => ((this.dump_enabled()));
+			(obj.blob) = () => ((this.dump()));
+			(obj.file_name) = () => ((this.dump_name()));
 			return obj;
 		}
 		Rights_close_icon(){
@@ -21719,12 +21746,16 @@ var $;
 		Spread(id){
 			return (this.Land(id));
 		}
+		menu_item_content(id){
+			return [(this.Menu_link(id)), (this.Land_checked(id))];
+		}
 		menu_foot(){
 			return [
 				(this.Wipe_pick()), 
 				(this.Seed_make()), 
+				(this.Land_add()), 
 				(this.Update()), 
-				(this.Land_add())
+				(this.Dump())
 			];
 		}
 		Rights_page(){
@@ -21740,16 +21771,20 @@ var $;
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Rights_open_icon"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Rights_open"));
 	($mol_mem_key(($.$giper_baza_glob_book.prototype), "Land"));
+	($mol_mem_key(($.$giper_baza_glob_book.prototype), "land_checked"));
+	($mol_mem_key(($.$giper_baza_glob_book.prototype), "Land_checked"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "wipe"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Wipe_icon"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Wipe_pick"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "seed_make"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Seed_make_icon"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Seed_make"));
-	($mol_mem(($.$giper_baza_glob_book.prototype), "update"));
-	($mol_mem(($.$giper_baza_glob_book.prototype), "Update"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "land_add"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Land_add"));
+	($mol_mem(($.$giper_baza_glob_book.prototype), "update"));
+	($mol_mem(($.$giper_baza_glob_book.prototype), "Update"));
+	($mol_mem(($.$giper_baza_glob_book.prototype), "dump"));
+	($mol_mem(($.$giper_baza_glob_book.prototype), "Dump"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Rights_close_icon"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Rights_close"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "land_current"));
@@ -21865,6 +21900,28 @@ var $;
                     [this.param()]: seed.link().str
                 });
             }
+            lands_checked() {
+                const lands_touched = [...this.$.$giper_baza_glob.lands_touched.values()];
+                const lands_checked = lands_touched.filter(land => this.land_checked(land));
+                return lands_checked;
+            }
+            dump_enabled() {
+                return Boolean(this.lands_checked().length);
+            }
+            dump_pack() {
+                const lands = this.lands_checked();
+                if (!lands.length)
+                    return null;
+                const parts = lands.flatMap(land => this.land(land).diff_parts());
+                const pack = $giper_baza_pack.make(parts);
+                return pack;
+            }
+            dump() {
+                return this.dump_pack()?.toBlob();
+            }
+            dump_name() {
+                return `dump.baza`;
+            }
         }
         __decorate([
             $mol_mem
@@ -21875,6 +21932,12 @@ var $;
         __decorate([
             $mol_action
         ], $giper_baza_glob_book.prototype, "update", null);
+        __decorate([
+            $mol_mem
+        ], $giper_baza_glob_book.prototype, "lands_checked", null);
+        __decorate([
+            $mol_mem
+        ], $giper_baza_glob_book.prototype, "dump_pack", null);
         $$.$giper_baza_glob_book = $giper_baza_glob_book;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -21888,7 +21951,7 @@ var $;
         $mol_style_define($giper_baza_glob_book, {
             Menu: {
                 flex: {
-                    basis: `15rem`,
+                    basis: `20rem`,
                 },
             },
             Menu_link: {
