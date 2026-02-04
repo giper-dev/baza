@@ -457,7 +457,7 @@ $giper_baza_status $mol_select
 				<= Fail $mol_icon_sync_off
 			hint <= message <= hint \Sync status
 
-$mol_icon_lock $mol_icon path \M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z
+$mol_icon_security $mol_icon path \M12,12H19C18.47,16.11 15.72,19.78 12,20.92V12H5V6.3L12,3.19M12,1L3,5V11C3,16.55 6.84,21.73 12,23C17.16,21.73 21,16.55 21,11V5L12,1Z
 
 $mol_stack $mol_view
 
@@ -1240,7 +1240,7 @@ $giper_baza_glob_book $mol_book2_catalog
 			<= Rights_open $mol_link
 				arg * side \rights
 				sub /
-					<= Rights_open_icon $mol_icon_lock
+					<= Rights_open_icon $mol_icon_security
 			<= Spread_close
 	menu_foot /
 		<= Wipe_pick $mol_pick
@@ -1251,10 +1251,10 @@ $giper_baza_glob_book $mol_book2_catalog
 				<= Wipe_icon $mol_icon_delete_forever
 			bubble_content /
 				\Double to wipe database
-		<= Deck_make $mol_button_minor
-			hint \Make Base Deck
-			click? <=> deck_make? null
-			sub / <= Deck_make_icon $mol_icon_sprout_outline
+		<= Seed_make $mol_button_minor
+			hint \Make Seed
+			click? <=> seed_make? null
+			sub / <= Seed_make_icon $mol_icon_sprout_outline
 		<= Update $mol_button_open
 			hint \Upload dump
 			files? <=> update? /

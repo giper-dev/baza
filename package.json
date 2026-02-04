@@ -209,6 +209,7 @@
     "$mol_memory_pool",
     "$mol_memory",
     "$mol_bus",
+    "$giper_baza_flex",
     "$giper_baza_app_home",
     "$giper_baza_app_stat",
     "$giper_baza_stat_ranges",

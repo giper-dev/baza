@@ -8877,7 +8877,7 @@ var $;
         }
         units_of(peer) {
             const head = this.head();
-            return this.land().sand_ordered({ head, peer }).filter(unit => !unit.dead() && unit.self().str !== head.str);
+            return this.land().sand_ordered({ head, peer }).filter(unit => !unit.dead() && unit.self().str !== '');
         }
         meta(next) {
             const prev = this.meta_of($giper_baza_link.hole);
@@ -8886,12 +8886,12 @@ var $;
             if (prev?.str === next?.str)
                 return prev;
             const head = this.head();
-            this.land().post(head, head, head, next);
+            this.land().post($giper_baza_link.hole, head, $giper_baza_link.hole, next);
             return next;
         }
         meta_of(peer) {
             const head = this.head();
-            const unit = this.land().sand_ordered({ head, peer }).find(unit => !unit.dead() && unit.self().str === head.str) ?? null;
+            const unit = this.land().sand_ordered({ head, peer }).find(unit => !unit.dead() && unit.self().str === '') ?? null;
             return unit ? $giper_baza_vary_cast_link(this.land().sand_decode(unit)) : null;
         }
         filled() {
@@ -9550,6 +9550,10 @@ var $;
             const land = this.Land(link.land());
             return land.Pawn(Pawn).Head(link.head());
         }
+        static Seed() {
+            const link = new $giper_baza_link('sXquVC6U_li2u23mG');
+            return this.Pawn(link, $giper_baza_flex_seed);
+        }
         static apply_pack(pack) {
             return this.apply_parts(pack.parts());
         }
@@ -9572,6 +9576,9 @@ var $;
     __decorate([
         $mol_mem_key
     ], $giper_baza_glob, "Land", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_glob, "Seed", null);
     __decorate([
         $mol_action
     ], $giper_baza_glob, "apply_pack", null);
@@ -9960,6 +9967,219 @@ var $;
         $mol_mem_key
     ], $giper_baza_yard.prototype, "face_port_land", null);
     $.$giper_baza_yard = $giper_baza_yard;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    class $giper_baza_flex_subj extends $giper_baza_dict.with({
+        Name: $giper_baza_atom_text,
+    }) {
+        name(next) {
+            return this.Name(next)?.val(next) ?? this.link().str;
+        }
+    }
+    $.$giper_baza_flex_subj = $giper_baza_flex_subj;
+    class $giper_baza_flex_subj_link extends $giper_baza_atom_link_to(() => $giper_baza_flex_subj) {
+    }
+    $.$giper_baza_flex_subj_link = $giper_baza_flex_subj_link;
+    class $giper_baza_flex_meta extends $giper_baza_flex_subj.with({
+        Props: $giper_baza_list_link_to(() => $giper_baza_flex_prop),
+        Pulls: $giper_baza_list_link_to(() => $giper_baza_flex_subj),
+    }) {
+        prop_new() {
+            return this.Props(null).make(null);
+        }
+        prop_add(prop) {
+            this.Props(prop).add(prop.link());
+        }
+        prop_all() {
+            return [
+                ...this.pull_all().flatMap(meta => meta.prop_all()),
+                ...this.Props()?.remote_list() ?? [],
+            ];
+        }
+        pull_add(meta) {
+            this.Pulls(meta).add(meta.link());
+        }
+        pull_all() {
+            return (this.Pulls()?.remote_list() ?? []).map(subj => subj.cast($giper_baza_flex_meta));
+        }
+    }
+    __decorate([
+        $mol_action
+    ], $giper_baza_flex_meta.prototype, "prop_new", null);
+    __decorate([
+        $mol_action
+    ], $giper_baza_flex_meta.prototype, "prop_add", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_flex_meta.prototype, "prop_all", null);
+    __decorate([
+        $mol_action
+    ], $giper_baza_flex_meta.prototype, "pull_add", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_flex_meta.prototype, "pull_all", null);
+    $.$giper_baza_flex_meta = $giper_baza_flex_meta;
+    class $giper_baza_flex_prop extends $giper_baza_flex_subj.with({
+        Path: $giper_baza_atom_text,
+        Type: $giper_baza_atom_text,
+        Kind: $giper_baza_atom_link_to(() => $giper_baza_flex_meta),
+        Enum: $giper_baza_atom_link_to(() => $giper_baza_list_vary),
+        Base: $giper_baza_atom_vary,
+    }) {
+        path(next) {
+            return this.Path(next)?.val(next) ?? '';
+        }
+        type(next) {
+            return this.Type(next)?.val(next) ?? '';
+        }
+        base(next) {
+            return this.Base(next)?.vary(next) ?? null;
+        }
+        kind(next) {
+            return this.Kind(next)?.remote(next) ?? null;
+        }
+        enum(next) {
+            return this.Enum(next)?.remote(next) ?? null;
+        }
+    }
+    $.$giper_baza_flex_prop = $giper_baza_flex_prop;
+    class $giper_baza_flex_deck extends $giper_baza_flex_subj.with({
+        Metas: $giper_baza_list_link_to(() => $giper_baza_flex_meta),
+        Types: $giper_baza_list_str,
+    }) {
+        meta_new() {
+            return this.Metas(null).make(null);
+        }
+    }
+    __decorate([
+        $mol_action
+    ], $giper_baza_flex_deck.prototype, "meta_new", null);
+    $.$giper_baza_flex_deck = $giper_baza_flex_deck;
+    class $giper_baza_flex_seed extends $giper_baza_flex_subj.with({
+        Deck: $giper_baza_atom_link_to(() => $giper_baza_flex_deck),
+        Peers: $giper_baza_list_str,
+    }) {
+        deck() {
+            return this.Deck(null).ensure(this.land());
+        }
+        peers() {
+            return (this.Peers()?.items() ?? []).filter($mol_guard_defined);
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $giper_baza_flex_seed.prototype, "deck", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_flex_seed.prototype, "peers", null);
+    $.$giper_baza_flex_seed = $giper_baza_flex_seed;
+    function $giper_baza_flex_init() {
+        const seed_land = this.$.$giper_baza_glob.land_grab();
+        const seed = seed_land.Data($giper_baza_flex_seed);
+        seed.name('Base Seed');
+        const deck = seed.deck();
+        deck.name('Base Deck');
+        deck.Types(null).items_vary(['vary', 'enum', 'bool', 'int', 'real', 'str', 'link', 'time', 'dict', 'text', 'list']);
+        const Subj = deck.meta_new();
+        const Meta = deck.meta_new();
+        const Seed = deck.meta_new();
+        const Prop = deck.meta_new();
+        const Deck = deck.meta_new();
+        Subj.meta(Meta.link());
+        Meta.meta(Meta.link());
+        Seed.meta(Meta.link());
+        Prop.meta(Meta.link());
+        Deck.meta(Meta.link());
+        seed.meta(Seed.link());
+        deck.meta(Deck.link());
+        Meta.name('Meta');
+        Seed.name('Seed');
+        Prop.name('Property');
+        Subj.name('Subject');
+        Deck.name('Deck');
+        const subj_name = Subj.prop_new();
+        const meta_props = Meta.prop_new();
+        const meta_pulls = Meta.prop_new();
+        const seed_deck = Seed.prop_new();
+        const seed_peers = Seed.prop_new();
+        const prop_path = Prop.prop_new();
+        const prop_type = Prop.prop_new();
+        const prop_kind = Prop.prop_new();
+        const prop_enum = Prop.prop_new();
+        const prop_base = Prop.prop_new();
+        const deck_metas = Deck.prop_new();
+        const deck_types = Deck.prop_new();
+        Meta.pull_add(Subj);
+        Seed.pull_add(Subj);
+        Prop.pull_add(Subj);
+        Deck.pull_add(Subj);
+        subj_name.meta(Prop.link());
+        meta_props.meta(Prop.link());
+        meta_pulls.meta(Prop.link());
+        seed_deck.meta(Prop.link());
+        seed_peers.meta(Prop.link());
+        prop_path.meta(Prop.link());
+        prop_type.meta(Prop.link());
+        prop_kind.meta(Prop.link());
+        prop_enum.meta(Prop.link());
+        prop_base.meta(Prop.link());
+        deck_metas.meta(Prop.link());
+        deck_types.meta(Prop.link());
+        subj_name.path('Name');
+        meta_props.path('Props');
+        meta_pulls.path('Pulls');
+        seed_deck.path('Deck');
+        seed_peers.path('Peers');
+        prop_path.path('Path');
+        prop_type.path('Type');
+        prop_kind.path('Kind');
+        prop_enum.path('Enum');
+        prop_base.path('Base');
+        deck_metas.path('Metas');
+        deck_types.path('Types');
+        subj_name.name('Name');
+        meta_props.name('Properties');
+        meta_pulls.name('Parents');
+        seed_deck.name('Deck');
+        seed_peers.name('Peers');
+        prop_path.name('Path');
+        prop_type.name('Type');
+        prop_kind.name('Kind');
+        prop_enum.name('Enum');
+        prop_base.name('Base');
+        deck_metas.name('Metas');
+        deck_types.name('Types');
+        subj_name.type('str');
+        meta_props.type('list');
+        meta_pulls.type('list');
+        seed_deck.type('link');
+        seed_peers.type('list');
+        prop_path.type('str');
+        prop_type.type('enum');
+        prop_kind.type('link');
+        prop_enum.type('link');
+        prop_base.type('vary');
+        deck_metas.type('list');
+        deck_types.type('list');
+        meta_props.kind(Prop);
+        meta_pulls.kind(Meta);
+        prop_kind.kind(Meta);
+        prop_enum.kind(Subj);
+        prop_base.kind(Subj);
+        seed_deck.kind(Deck);
+        deck_metas.kind(Meta);
+        prop_type.enum(deck.Types());
+        prop_kind.enum(deck.Metas());
+        subj_name.base('');
+        prop_type.base('vary');
+        prop_kind.base(Subj.link());
+        return seed;
+    }
+    $.$giper_baza_flex_init = $giper_baza_flex_init;
 })($ || ($ = {}));
 
 ;
@@ -10679,7 +10899,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/view/view/view.css", "[mol_view] {\n\ttransition-property: height, width, min-height, min-width, max-width, max-height, transform, scale, translate, rotate;\n\ttransition-duration: .2s;\n\ttransition-timing-function: ease-out;\n\t-webkit-appearance: none;\n\tbox-sizing: border-box;\n\tdisplay: flex;\n\tflex-shrink: 0;\n\tcontain: style;\n\tscrollbar-color: var(--mol_theme_line) transparent;\n\tscrollbar-width: thin;\n}\t\n\n[mol_view]::selection {\n\tbackground: var(--mol_theme_line);\n}\t\n\n[mol_view]::-webkit-scrollbar {\n\twidth: .25rem;\n\theight: .25rem;\n}\n\n[mol_view]::-webkit-scrollbar-corner {\n\tbackground-color: var(--mol_theme_line);\n}\n\n[mol_view]::-webkit-scrollbar-track {\n\tbackground-color: transparent;\n}\n\n[mol_view]::-webkit-scrollbar-thumb {\n\tbackground-color: var(--mol_theme_line);\n\tborder-radius: var(--mol_gap_round);\n}\n\n[mol_view] > * {\n\tword-break: inherit;\n}\n\n[mol_view_root] {\n\tmargin: 0;\n\tpadding: 0;\n\twidth: 100%;\n\theight: 100%;\n\tbox-sizing: border-box;\n\tfont-family: system-ui, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n\tfont-size: 1rem;\n\tline-height: 1.5rem;\n\t/* background: var(--mol_theme_back);\n\tcolor: var(--mol_theme_text); */\n\tcontain: unset; /** Fixes bg ignoring when applied to body on Chrome */\n\ttab-size: 4;\n\toverscroll-behavior: contain; /** Disable navigation gestures **/\n}\n\n@media print {\n\t[mol_view_root] {\n\t\theight: auto;\n\t}\n}\n[mol_view][mol_view_error]:not([mol_view_error=\"Promise\"], [mol_view_error=\"$mol_promise_blocker\"]) {\n\tbackground-image: repeating-linear-gradient(\n\t\t-45deg,\n\t\t#f92323,\n\t\t#f92323 .5rem,\n\t\t#ff3d3d .5rem,\n\t\t#ff3d3d 1.5rem\n\t);\n\tcolor: black;\n\talign-items: center;\n\tjustify-content: center;\n}\n\n@keyframes mol_view_wait {\n\tfrom {\n\t\topacity: .25;\n\t}\n\t20% {\n\t\topacity: .75;\n\t}\n\tto {\n\t\topacity: .25;\n\t}\n}\n\n:where([mol_view][mol_view_error=\"$mol_promise_blocker\"]),\n:where([mol_view][mol_view_error=\"Promise\"]) {\n\tbackground: var(--mol_theme_hover);\n}\n\n[mol_view][mol_view_error=\"Promise\"] {\n\tanimation: mol_view_wait 1s steps(20,end) infinite;\n}\n");
+    $mol_style_attach("mol/view/view/view.css", "@view-transition {\n\tnavigation: auto;\n}\n\n[mol_view] {\n\ttransition-property: height, width, min-height, min-width, max-width, max-height, transform, scale, translate, rotate;\n\ttransition-duration: .2s;\n\ttransition-timing-function: ease-out;\n\t-webkit-appearance: none;\n\tbox-sizing: border-box;\n\tdisplay: flex;\n\tflex-shrink: 0;\n\tcontain: style;\n\tscrollbar-color: var(--mol_theme_line) transparent;\n\tscrollbar-width: thin;\n}\t\n\n[mol_view]::selection {\n\tbackground: var(--mol_theme_line);\n}\t\n\n[mol_view]::-webkit-scrollbar {\n\twidth: .25rem;\n\theight: .25rem;\n}\n\n[mol_view]::-webkit-scrollbar-corner {\n\tbackground-color: var(--mol_theme_line);\n}\n\n[mol_view]::-webkit-scrollbar-track {\n\tbackground-color: transparent;\n}\n\n[mol_view]::-webkit-scrollbar-thumb {\n\tbackground-color: var(--mol_theme_line);\n\tborder-radius: var(--mol_gap_round);\n}\n\n[mol_view] > * {\n\tword-break: inherit;\n}\n\n[mol_view_root] {\n\tmargin: 0;\n\tpadding: 0;\n\twidth: 100%;\n\theight: 100%;\n\tbox-sizing: border-box;\n\tfont-family: system-ui, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n\tfont-size: 1rem;\n\tline-height: 1.5rem;\n\t/* background: var(--mol_theme_back);\n\tcolor: var(--mol_theme_text); */\n\tcontain: unset; /** Fixes bg ignoring when applied to body on Chrome */\n\ttab-size: 4;\n\toverscroll-behavior: contain; /** Disable navigation gestures **/\n}\n\n@media print {\n\t[mol_view_root] {\n\t\theight: auto;\n\t}\n}\n[mol_view][mol_view_error]:not([mol_view_error=\"Promise\"], [mol_view_error=\"$mol_promise_blocker\"]) {\n\tbackground-image: repeating-linear-gradient(\n\t\t-45deg,\n\t\t#f92323,\n\t\t#f92323 .5rem,\n\t\t#ff3d3d .5rem,\n\t\t#ff3d3d 1.5rem\n\t);\n\tcolor: black;\n\talign-items: center;\n\tjustify-content: center;\n}\n\n@keyframes mol_view_wait {\n\tfrom {\n\t\topacity: .25;\n\t}\n\t20% {\n\t\topacity: .75;\n\t}\n\tto {\n\t\topacity: .25;\n\t}\n}\n\n:where([mol_view][mol_view_error=\"$mol_promise_blocker\"]),\n:where([mol_view][mol_view_error=\"Promise\"]) {\n\tbackground: var(--mol_theme_hover);\n}\n\n[mol_view][mol_view_error=\"Promise\"] {\n\tanimation: mol_view_wait 1s steps(20,end) infinite;\n}\n");
 })($ || ($ = {}));
 
 ;
@@ -15975,196 +16195,15 @@ var $;
 })($ || ($ = {}));
 
 ;
-	($.$mol_icon_lock) = class $mol_icon_lock extends ($.$mol_icon) {
+	($.$mol_icon_security) = class $mol_icon_security extends ($.$mol_icon) {
 		path(){
-			return "M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z";
+			return "M12,12H19C18.47,16.11 15.72,19.78 12,20.92V12H5V6.3L12,3.19M12,1L3,5V11C3,16.55 6.84,21.73 12,23C17.16,21.73 21,16.55 21,11V5L12,1Z";
 		}
 	};
 
 
 ;
 "use strict";
-
-;
-"use strict";
-var $;
-(function ($) {
-    class $giper_baza_flex_subj extends $giper_baza_dict.with({
-        Name: $giper_baza_atom_text,
-    }) {
-        name(next) {
-            return this.Name(next)?.val(next) ?? this.link().str;
-        }
-    }
-    $.$giper_baza_flex_subj = $giper_baza_flex_subj;
-    class $giper_baza_flex_subj_link extends $giper_baza_atom_link_to(() => $giper_baza_flex_subj) {
-    }
-    $.$giper_baza_flex_subj_link = $giper_baza_flex_subj_link;
-    class $giper_baza_flex_meta extends $giper_baza_flex_subj.with({
-        Prop: $giper_baza_list_link_to(() => $giper_baza_flex_prop),
-        Pull: $giper_baza_list_link_to(() => $giper_baza_flex_subj),
-    }) {
-        prop_make() {
-            return this.Prop(null).make(null);
-        }
-        prop_add(prop) {
-            this.Prop(prop).add(prop.link());
-        }
-        pull_add(meta) {
-            this.Pull(meta).add(meta.link());
-        }
-        pull_all() {
-            return (this.Pull()?.remote_list() ?? []).map(subj => subj.cast($giper_baza_flex_meta));
-        }
-        prop_all() {
-            return [
-                ...this.pull_all().flatMap(meta => meta.prop_all()),
-                ...this.Prop()?.remote_list() ?? [],
-            ];
-        }
-    }
-    __decorate([
-        $mol_action
-    ], $giper_baza_flex_meta.prototype, "prop_make", null);
-    __decorate([
-        $mol_action
-    ], $giper_baza_flex_meta.prototype, "prop_add", null);
-    __decorate([
-        $mol_action
-    ], $giper_baza_flex_meta.prototype, "pull_add", null);
-    __decorate([
-        $mol_mem
-    ], $giper_baza_flex_meta.prototype, "pull_all", null);
-    __decorate([
-        $mol_mem
-    ], $giper_baza_flex_meta.prototype, "prop_all", null);
-    $.$giper_baza_flex_meta = $giper_baza_flex_meta;
-    class $giper_baza_flex_prop extends $giper_baza_flex_subj.with({
-        Path: $giper_baza_atom_text,
-        Type: $giper_baza_atom_text,
-        Kind: $giper_baza_atom_link_to(() => $giper_baza_flex_meta),
-        Enum: $giper_baza_atom_link_to(() => $giper_baza_list_vary),
-        Base: $giper_baza_atom_vary,
-    }) {
-        path(next) {
-            return this.Path(next)?.val(next) ?? '';
-        }
-        type(next) {
-            return this.Type(next)?.val(next) ?? '';
-        }
-        base(next) {
-            return this.Base(next)?.vary(next) ?? null;
-        }
-        kind(next) {
-            return this.Kind(next)?.remote(next) ?? null;
-        }
-        enum(next) {
-            return this.Enum(next)?.remote(next) ?? null;
-        }
-    }
-    $.$giper_baza_flex_prop = $giper_baza_flex_prop;
-    class $giper_baza_flex_deck extends $giper_baza_flex_subj.with({
-        Subj: $giper_baza_list_link_to(() => $giper_baza_flex_meta),
-        Type: $giper_baza_list_str,
-    }) {
-        subj_make() {
-            return this.Subj(null).make(null);
-        }
-        static ensure(land) {
-            const deck = land.Data(this);
-            if (deck.units().length)
-                return deck;
-            deck.name('Base Deck');
-            deck.Type(null).items_vary(['vary', 'enum', 'bool', 'int', 'real', 'str', 'link', 'time', 'dict', 'text', 'list']);
-            const Subj = deck.subj_make();
-            const Meta = deck.subj_make();
-            const Prop = deck.subj_make();
-            const Deck = deck.subj_make();
-            Meta.meta(Meta.link());
-            Prop.meta(Meta.link());
-            Subj.meta(Meta.link());
-            Deck.meta(Meta.link());
-            deck.meta(Deck.link());
-            Meta.name('Meta of Meta');
-            Prop.name('Meta of Property');
-            Subj.name('Meta of Subject');
-            Deck.name('Meta of Deck');
-            const subj_name = Subj.prop_make();
-            const meta_prop = Meta.prop_make();
-            const meta_pull = Meta.prop_make();
-            const prop_path = Prop.prop_make();
-            const prop_type = Prop.prop_make();
-            const prop_kind = Prop.prop_make();
-            const prop_enum = Prop.prop_make();
-            const prop_base = Prop.prop_make();
-            const deck_subj = Deck.prop_make();
-            const deck_type = Deck.prop_make();
-            Meta.pull_add(Subj);
-            Prop.pull_add(Subj);
-            Deck.pull_add(Subj);
-            subj_name.meta(Prop.link());
-            meta_prop.meta(Prop.link());
-            meta_pull.meta(Prop.link());
-            prop_path.meta(Prop.link());
-            prop_type.meta(Prop.link());
-            prop_kind.meta(Prop.link());
-            prop_enum.meta(Prop.link());
-            prop_base.meta(Prop.link());
-            deck_subj.meta(Prop.link());
-            deck_type.meta(Prop.link());
-            subj_name.path('Name');
-            meta_prop.path('Prop');
-            meta_pull.path('Pull');
-            prop_path.path('Path');
-            prop_type.path('Type');
-            prop_kind.path('Kind');
-            prop_enum.path('Enum');
-            prop_base.path('Base');
-            deck_subj.path('Subj');
-            deck_type.path('Type');
-            subj_name.name('Name');
-            meta_prop.name('Instance Properties');
-            meta_pull.name('Parent Metas');
-            prop_path.name('Property Path');
-            prop_type.name('Property Type');
-            prop_kind.name('Property Kind');
-            prop_enum.name('Property Enum');
-            prop_base.name('Property Base');
-            deck_subj.name('Deck Metas');
-            deck_type.name('Deck Types');
-            subj_name.type('str');
-            meta_prop.type('list');
-            meta_pull.type('list');
-            prop_path.type('str');
-            prop_type.type('enum');
-            prop_kind.type('link');
-            prop_enum.type('link');
-            prop_base.type('vary');
-            deck_subj.type('list');
-            deck_type.type('list');
-            meta_prop.kind(Prop);
-            meta_pull.kind(Meta);
-            prop_kind.kind(Meta);
-            prop_enum.kind(Subj);
-            prop_base.kind(Subj);
-            deck_subj.kind(Meta);
-            prop_type.enum(deck.Type());
-            prop_kind.enum(deck.Subj());
-            prop_enum.enum(deck);
-            subj_name.base('');
-            prop_type.base('vary');
-            prop_kind.base(Subj.link());
-            return deck;
-        }
-    }
-    __decorate([
-        $mol_action
-    ], $giper_baza_flex_deck.prototype, "subj_make", null);
-    __decorate([
-        $mol_action
-    ], $giper_baza_flex_deck, "ensure", null);
-    $.$giper_baza_flex_deck = $giper_baza_flex_deck;
-})($ || ($ = {}));
 
 ;
 	($.$mol_stack) = class $mol_stack extends ($.$mol_view) {};
@@ -20329,7 +20368,7 @@ var $;
                 if (link)
                     return this.$.$giper_baza_glob.Pawn(link, $giper_baza_flex_meta);
                 const deck = this.$.$giper_baza_glob.Pawn(new $giper_baza_link('jxYnCnkk_T23Mqbbd'), $giper_baza_flex_deck);
-                const Pawn = deck.Subj()?.remote_list()[0];
+                const Pawn = deck.Metas()?.remote_list()[0];
                 return Pawn;
             }
             fields() {
@@ -20567,7 +20606,7 @@ var $;
     (function ($$) {
         class $giper_baza_pawn_dump extends $.$giper_baza_pawn_dump {
             title() {
-                return this.pawn().head().str || '__root__';
+                return this.pawn().head().str || '__meta__';
             }
             value() {
                 return this.pawn().cast($giper_baza_atom_vary).vary();
@@ -21583,7 +21622,7 @@ var $;
 			return obj;
 		}
 		Rights_open_icon(){
-			const obj = new this.$.$mol_icon_lock();
+			const obj = new this.$.$mol_icon_security();
 			return obj;
 		}
 		Rights_open(){
@@ -21616,19 +21655,19 @@ var $;
 			(obj.bubble_content) = () => (["Double to wipe database"]);
 			return obj;
 		}
-		deck_make(next){
+		seed_make(next){
 			if(next !== undefined) return next;
 			return null;
 		}
-		Deck_make_icon(){
+		Seed_make_icon(){
 			const obj = new this.$.$mol_icon_sprout_outline();
 			return obj;
 		}
-		Deck_make(){
+		Seed_make(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.hint) = () => ("Make Base Deck");
-			(obj.click) = (next) => ((this.deck_make(next)));
-			(obj.sub) = () => ([(this.Deck_make_icon())]);
+			(obj.hint) = () => ("Make Seed");
+			(obj.click) = (next) => ((this.seed_make(next)));
+			(obj.sub) = () => ([(this.Seed_make_icon())]);
 			return obj;
 		}
 		update(next){
@@ -21683,7 +21722,7 @@ var $;
 		menu_foot(){
 			return [
 				(this.Wipe_pick()), 
-				(this.Deck_make()), 
+				(this.Seed_make()), 
 				(this.Update()), 
 				(this.Land_add())
 			];
@@ -21704,9 +21743,9 @@ var $;
 	($mol_mem(($.$giper_baza_glob_book.prototype), "wipe"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Wipe_icon"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Wipe_pick"));
-	($mol_mem(($.$giper_baza_glob_book.prototype), "deck_make"));
-	($mol_mem(($.$giper_baza_glob_book.prototype), "Deck_make_icon"));
-	($mol_mem(($.$giper_baza_glob_book.prototype), "Deck_make"));
+	($mol_mem(($.$giper_baza_glob_book.prototype), "seed_make"));
+	($mol_mem(($.$giper_baza_glob_book.prototype), "Seed_make_icon"));
+	($mol_mem(($.$giper_baza_glob_book.prototype), "Seed_make"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "update"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Update"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "land_add"));
@@ -21820,11 +21859,10 @@ var $;
                 mine.kill();
                 location.reload();
             }
-            deck_make() {
-                const land = this.$.$giper_baza_glob.land_grab();
-                const deck = $giper_baza_flex_deck.ensure(land);
+            seed_make() {
+                const seed = this.$.$giper_baza_flex_init();
                 this.$.$mol_state_arg.go({
-                    [this.param()]: land.link().str
+                    [this.param()]: seed.link().str
                 });
             }
         }
