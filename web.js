@@ -9448,19 +9448,30 @@ var $;
                 return this.remote_of(peer);
             }
             ensure_here(peer) {
+                const Pawn = Value();
                 const idea = $mol_hash_string(this.link().str);
                 const head = this.land().self_make(idea);
-                const pawn = this.land().Pawn(Value()).Head(head);
+                const pawn = this.land().Pawn(Pawn).Head(head);
+                if (Pawn.meta)
+                    pawn.meta(Pawn.meta);
                 this.remote_of(peer, pawn);
             }
             ensure_area(peer, land) {
+                const Pawn = Value();
                 const idea = $mol_hash_string(this.link().str);
                 const area = land.area_make(idea);
-                this.val_of(peer, area.link());
+                const pawn = area.Data(Pawn);
+                if (Pawn.meta)
+                    pawn.meta(Pawn.meta);
+                this.val_of(peer, pawn.link());
             }
             ensure_lord(peer, preset) {
+                const Pawn = Value();
                 const land = this.$.$giper_baza_glob.land_grab(preset);
-                this.val_of(peer, land.link());
+                const pawn = land.Data(Pawn);
+                if (Pawn.meta)
+                    pawn.meta(Pawn.meta);
+                this.val_of(peer, pawn.link());
             }
             remote_ensure(preset) {
                 return this.ensure(preset);
