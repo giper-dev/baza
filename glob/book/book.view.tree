@@ -5,6 +5,7 @@ $giper_baza_glob_book $mol_book2_catalog
 		land <= land* $giper_baza_land
 		pawn <= pawn* $giper_baza_dict
 		tools /
+			^
 			<= Rights_open $mol_link
 				arg * side \rights
 				sub /

@@ -11,8 +11,8 @@ namespace $ {
 		}
 		
 		/** Land where Lord is King. Contains only ain info */
-		static home< Pawn extends typeof $giper_baza_home = typeof $giper_baza_home >( Pawn?: Pawn ) {
-			return this.Land( this.$.$giper_baza_auth.current().pass().lord() ).Data( Pawn ?? this.$.$giper_baza_home ) as InstanceType< Pawn >
+		static home< Pawn extends typeof $giper_baza_flex_subj = typeof $giper_baza_flex_subj >( Pawn?: Pawn ) {
+			return this.Land( this.$.$giper_baza_auth.current().pass().lord() ).Data( Pawn ?? this.$.$giper_baza_flex_subj ) as InstanceType< Pawn >
 		}
 		
 		@ $mol_action
@@ -59,16 +59,17 @@ namespace $ {
 		
 		@ $mol_mem
 		static Seed() {
-			
-			const link = new $giper_baza_link( 'H62jgoWJ_p8AvJ1Gl' )
+			const link = new $giper_baza_link( 'u1bm5ZvJ_cFNQgcqc' )
 			const seed = this.Pawn( link, $giper_baza_flex_seed ) 
-			if( seed.meta() ) return seed
-			
-			const file = $mol_file.relative( 'giper/baza/glob/glob.baza' )
-			const pack = $giper_baza_pack.from( file.buffer() )
-			this.apply_pack( pack )
-			
+			if( !$mol_wire_sync( seed ).meta() ) this.boot()
 			return seed
+		}
+		
+		@ $mol_action
+		static boot() {
+			const file = $mol_file.relative( 'giper/baza/glob/glob.baza' )
+			const pack = $mol_wire_sync( $giper_baza_pack ).from( file.buffer() ) as $giper_baza_pack
+			this.apply_pack( pack )
 		}
 		
 		@ $mol_action

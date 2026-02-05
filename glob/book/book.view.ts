@@ -83,7 +83,7 @@ namespace $.$$ {
 			const glob = this.$.$giper_baza_glob
 			for( const file of files ) {
 				const dump = $mol_wire_sync( file ).arrayBuffer()
-				const pack = new $giper_baza_pack( dump )
+				const pack = $mol_wire_sync( $giper_baza_pack ).from( dump ) as $giper_baza_pack
 				glob.apply_pack( pack )
 			}
 			return []

@@ -1,6 +1,9 @@
 $giper_baza_land_page $mol_page
 	land $giper_baza_land
 	pawn $giper_baza_dict
+	tools /
+		<= Meta_link $giper_baza_link_chip
+			link <= meta_link $giper_baza_link
 	body /
 		<= Flex $giper_baza_flex_form
 			pawn <= pawn

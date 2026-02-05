@@ -14,7 +14,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		domain() {
-			return this.home().title() ?? super.domain()
+			return this.home().name() ?? super.domain()
 		}
 		
 		@ $mol_mem

@@ -1,8 +1,7 @@
 $giper_baza_unit_sand_dump $mol_view
 	land $giper_baza_land
 	sand $giper_baza_unit_sand
-	Ref $mol_link
-		title <= title
-		arg <= arg *
+	Ref $giper_baza_link_chip
+		link <= value
 	Other $mol_dump_value
 		value <= value null

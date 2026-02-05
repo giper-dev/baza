@@ -1,7 +1,7 @@
 $giper_baza_app_stat_page $mol_page
 	title \📊 Stat
 	head /
-		<= Domain $mol_chip title <= domain \
+		<= Domain $mol_chip title <= domain \Undefined Domain
 		<= Uptime $mol_chip title <= uptime \🔴 00:00
 		<= Tools
 	body_content /

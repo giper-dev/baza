@@ -1,16 +1,17 @@
 namespace $ {
 	
-	export class $giper_baza_app_home extends $giper_baza_home.with({
-		Ips: $giper_baza_list_str,
-		Stat: $giper_baza_atom_link_to( ()=> $giper_baza_app_stat ),
-	}) {
+	export class $giper_baza_app_home extends $giper_baza_flex_peer {
 		
-		stat( auto?: any ) {
-			return this.Stat( auto )?.ensure( this.land() ) ?? null
+		@ $mol_mem
+		init() {
+			this.meta( $giper_baza_flex_peer.meta )
+			console.log( this.meta() )
 		}
 		
-		init() {}
-		tick() {}
+		tick() {
+			this.init()
+			this.stat( null )!.tick()
+		}
 		
 	}
 	

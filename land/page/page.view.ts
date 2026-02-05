@@ -13,6 +13,17 @@ namespace $.$$ {
 			return this.land().encrypted()
 		}
 		
+		@ $mol_mem
+		tools() {
+			return [
+				... this.pawn().meta() ? [ this.Meta_link() ] : []
+			]
+		}
+		
+		meta_link() {
+			return this.pawn().meta()!
+		}
+		
 		// override node_title( head: string ) {
 		// 	const id = this.node_dump( head ).head()
 		// 	if( id === $giper_baza_land_root.tine ) return 'Meta'

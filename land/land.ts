@@ -240,11 +240,6 @@ namespace $ {
 			$mol_fail( new Error( `Too long self generation` ) )
 		}
 		
-		/** Land where Lord is King. Should contains only main info */
-		home() {
-			return this.Data( $giper_baza_home )
-		}
-		
 		/** Makes new Area based on Idea or random. Once transfers rights from this Land. */
 		@ $mol_action
 		area_make( idea = Math.floor( $mol_wire_sync( Math ).random() * 2**48 ) ) {

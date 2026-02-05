@@ -5,28 +5,18 @@ namespace $ {
 		@ $mol_mem
 		init() {
 			
-			const admin = $mol_state_arg.value( 'admin' )
-			if( admin ) {
-				const pass = $giper_baza_auth_pass.from( admin )
+			super.init()
+			
+			if( process.env.ADMIN ) {
+				const pass = $giper_baza_auth_pass.from( process.env.ADMIN )
 				this.land().give( pass, $giper_baza_rank_rule )
 			}
 			
-			this.title( process.env.DOMAIN || $node.os.hostname() )
+			const host = process.env.DOMAIN || $node.os.hostname()
 			
-			this.Ips(null)!.items( this.ips() )
+			this.name( host )
+			this.urls([ `https://${host}/` ])
 			
-		}
-		
-		@ $mol_mem
-		ips() {
-			const ips = [] as string[]
-			for( const group of Object.values( $node.os.networkInterfaces() ) ) {
-				for( const face of group! ) {
-					if( face.internal ) continue
-					ips.push( face.address )
-				}
-			}
-			return ips
 		}
 		
 	}

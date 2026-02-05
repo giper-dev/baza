@@ -1,6 +1,6 @@
 namespace $ {
 	
-	const deck = 'H62jgoWJ_p8AvJ1Gl_CRW0Ujn6'
+	const deck = 'u1bm5ZvJ_cFNQgcqc_FIxZr1Aa'
 	
 	/** Subj - named entity */
 	export class $giper_baza_flex_subj extends $giper_baza_dict.with({
@@ -144,6 +144,40 @@ namespace $ {
 		
 	}
 	
+	/** Peer - network peering info */
+	export class $giper_baza_flex_peer extends $giper_baza_flex_subj.with({
+		Urls: $giper_baza_list_str,
+		Stat: $giper_baza_atom_link_to( ()=> $giper_baza_app_stat ),
+	}) {
+		
+		static override meta = new $giper_baza_link( `${deck}_xEibvNCP` )
+		
+		@ $mol_mem
+		stat( auto?: any ) {
+			return this.Stat( auto )?.ensure( this.land() ) ?? null
+		}
+		
+		@ $mol_mem
+		urls( next?: string[] ) {
+			return ( this.Urls()?.items( next ) ?? [] ).filter( $mol_guard_defined )
+		}
+		
+	}
+	
+	/** User - human profile */
+	export class $giper_baza_flex_user extends $giper_baza_flex_subj.with({
+		Caret: $giper_baza_atom_text,
+	}) {
+		
+		static override meta = new $giper_baza_link( `${deck}_csm0VtAK` )
+		
+		@ $mol_mem
+		caret( next?: string ) {
+			return this.Caret( next )?.val( next ) ?? null
+		}
+		
+	}
+	
 	/** Makes new Seed with Deck */
 	export function $giper_baza_flex_init( this: $ ): $giper_baza_flex_seed {
 			
@@ -162,11 +196,15 @@ namespace $ {
 		const Seed = deck.meta_new( 'Seed' )
 		const Prop = deck.meta_new( 'Prop' )
 		const Deck = deck.meta_new( 'Deck' )
+		const Peer = deck.meta_new( 'Peer' )
+		const User = deck.meta_new( 'User' )
 		
 		$giper_baza_flex_subj.meta = Subj.link()
 		$giper_baza_flex_seed.meta = Seed.link()
 		$giper_baza_flex_prop.meta = Prop.link()
 		$giper_baza_flex_deck.meta = Deck.link()
+		$giper_baza_flex_peer.meta = Peer.link()
+		$giper_baza_flex_user.meta = User.link()
 		
 		seed.meta( Seed.link() )
 		deck.meta( Deck.link() )
@@ -175,10 +213,12 @@ namespace $ {
 		Seed.pull_add( Subj )
 		Prop.pull_add( Subj )
 		Deck.pull_add( Subj )
+		Peer.pull_add( Subj )
+		User.pull_add( Subj )
 		
 		Subj.prop_new( 'Name', 'str', undefined, undefined, '' )
 		Meta.prop_new( 'Props', 'list', Prop )
-		Meta.prop_new( 'Pulls', 'list', Meta )
+		Meta.prop_new( 'Pulls', 'list', Meta, deck.Metas()! )
 		Seed.prop_new( 'Deck', 'link', Deck )
 		Seed.prop_new( 'Peers', 'list' )
 		Prop.prop_new( 'Path', 'str' )
@@ -188,6 +228,9 @@ namespace $ {
 		Prop.prop_new( 'Base', 'vary', Subj )
 		Deck.prop_new( 'Metas', 'list', Meta )
 		Deck.prop_new( 'Types', 'list' )
+		Peer.prop_new( 'Urls', 'list' )
+		Peer.prop_new( 'Stat', 'link' )
+		User.prop_new( 'Caret', 'vary' )
 		
 		return seed
 		

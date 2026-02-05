@@ -184,17 +184,17 @@ namespace $ {
 		@ $mol_mem_key
 		selection( lord: $giper_baza_link, next?: readonly[ begin: number, end: number ] ) {
 			
-			const base = this.$.$giper_baza_glob.Land( lord ).Data( $giper_baza_home )
+			const user = this.$.$giper_baza_glob.Land( lord ).Data( $giper_baza_flex_user )
 			
 			if( next ) {
 				
-				base.Selection(null)?.val( next.map( offset => this.point_by_offset( offset ).join( ':' ) ).join( '|' ) )
+				user.caret( next.map( offset => this.point_by_offset( offset ).join( ':' ) ).join( '|' ) )
 				return next
 				
 			} else {
 				
 				this.text() // track text to recalc selection on its change
-				return base.Selection()?.val()?.split( '|' ).map( point => {
+				return user.caret()?.split( '|' ).map( point => {
 					const chunks = point.split( ':' )
 					return this.offset_by_point([ new $giper_baza_link( chunks[0] ), Number( chunks[1] ) || 0 ])[1]
 				} ) ?? [ 0, 0 ]

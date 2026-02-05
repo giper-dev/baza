@@ -31,14 +31,7 @@ namespace $ {
 		
 		@ $mol_mem
 		_stat_update() {
-			
-			const home = this._home()
-			home.init()
-			home.tick()
-			
-			const stat = home.stat( null )!
-			stat.tick()
-			
+			this._home().tick()
 		}
 		
 	}
