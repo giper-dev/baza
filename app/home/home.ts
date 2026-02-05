@@ -5,7 +5,6 @@ namespace $ {
 		@ $mol_mem
 		init() {
 			this.meta( $giper_baza_flex_peer.meta )
-			console.log( this.meta() )
 		}
 		
 		tick() {
