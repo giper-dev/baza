@@ -4,6 +4,7 @@ namespace $ {
 	export class $giper_baza_pawn extends $mol_object {
 		
 		static tag: keyof typeof $giper_baza_unit_sand_tag = 'vals'
+		static meta = null as null | $giper_baza_link
 		
 		/** Standalone part of Glob which syncs separately, have own rights, and contains Units */
 		land() {

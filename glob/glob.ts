@@ -59,8 +59,16 @@ namespace $ {
 		
 		@ $mol_mem
 		static Seed() {
-			const link = new $giper_baza_link( 'sXquVC6U_li2u23mG' )
-			return this.Pawn( link, $giper_baza_flex_seed ) 
+			
+			const link = new $giper_baza_link( 'H62jgoWJ_p8AvJ1Gl' )
+			const seed = this.Pawn( link, $giper_baza_flex_seed ) 
+			if( seed.meta() ) return seed
+			
+			const file = $mol_file.relative( 'giper/baza/glob/glob.baza' )
+			const pack = $giper_baza_pack.from( file.buffer() )
+			this.apply_pack( pack )
+			
+			return seed
 		}
 		
 		@ $mol_action

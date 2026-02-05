@@ -211,27 +211,34 @@ namespace $ {
 			@ $mol_action
 			make( config: null | number | $giper_baza_rank_preset | $giper_baza_land ): Vals[number] {
 				
+				const Pawn = ( Value as any )() as typeof $giper_baza_pawn
+				let pawn: Vals[number]
+				
 				if( config === null || typeof config === 'number' ) {
 					
 					const self = this.land().self_make( config || undefined )
-					const pawn = this.land().Pawn( ( Value as any )() ).Head( self )
+					pawn = this.land().Pawn( Pawn ).Head( self )
 					this.splice([ pawn.link() ])
-					return pawn
 					
 				} else if( config instanceof $giper_baza_land ) {
 					
 					const land = config.area_make()
 					this.splice([ land.link() ])
-					return land.Pawn( ( Value as any )() ).Data()
+					pawn = land.Pawn( Pawn ).Data()
 					
 				} else if( config ) {
 					
 					const land = this.$.$giper_baza_glob.land_grab( config )
 					this.splice([ land.link() ])
-					return land.Pawn( ( Value as any )() ).Data()
+					pawn = land.Pawn( Pawn ).Data()
 					
+				} else {
+					return $mol_fail( new Error( 'Wrong config' ) )
 				}
 				
+				if( Pawn.meta ) pawn.meta( Pawn.meta )
+				return pawn
+			
 			}
 			
 		}
