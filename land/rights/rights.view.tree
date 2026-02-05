@@ -47,8 +47,10 @@ $giper_baza_land_rights $mol_list
 						pull @ \🥂 Pull
 						rule @ \👑 Rule
 					enabled <= enabled false
-				<= Gift_peer* $mol_view sub /
-					<= Gift_avatar* $mol_avatar
-						id <= peer_id* \
-					<= Gift_name* $mol_paragraph
-						title <= peer_name* \All
+				<= Gift_name* $giper_baza_link_chip
+					param <= link_param \link
+					link <= peer_link* $giper_baza_link
+					sub /
+						<= Gift_avatar* $mol_avatar
+							id <= peer_id* \
+						^

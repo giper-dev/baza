@@ -13,13 +13,12 @@ namespace $.$$ {
 				.map( link => this.Gift( new $giper_baza_link( link ) ) )
 		}
 		
-		override peer_id( lord: $giper_baza_link ) {
-			return lord.str
+		override peer_link( lord: $giper_baza_link ) {
+			return lord
 		}
 		
-		override peer_name( lord: $giper_baza_link ) {
-			if( !lord.str ) return super.peer_name( lord )
-			return this.$.$giper_baza_glob.Pawn( lord, $giper_baza_entity ).title() || lord.str
+		override peer_id( lord: $giper_baza_link ) {
+			return lord.str
 		}
 		
 		@ $mol_mem_key

@@ -4,12 +4,13 @@ namespace $.$$ {
 		@ $mol_mem
 		title() {
 			const link = this.link()
+			if( !link.str ) return '__hole__'
 			return this.$.$giper_baza_glob.Pawn( link , $giper_baza_flex_subj ).name() || link.str
 		}
 		
 		@ $mol_mem
 		arg() {
-			return { link: this.link().str }
+			return { [ this.param() ]: this.link().str }
 		}
 		
 	}

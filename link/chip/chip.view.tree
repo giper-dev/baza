@@ -1,2 +1,3 @@
 $giper_baza_link_chip $mol_link
+	param \link
 	link $giper_baza_link
