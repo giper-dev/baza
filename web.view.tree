@@ -459,6 +459,10 @@ $giper_baza_status $mol_select
 
 $mol_icon_security $mol_icon path \M12,12H19C18.47,16.11 15.72,19.78 12,20.92V12H5V6.3L12,3.19M12,1L3,5V11C3,16.55 6.84,21.73 12,23C17.16,21.73 21,16.55 21,11V5L12,1Z
 
+$giper_baza_link_chip $mol_link
+	param \link
+	link $giper_baza_link
+
 $mol_stack $mol_view
 
 $mol_text_code_token $mol_dimmer
@@ -598,9 +602,8 @@ $mol_dump_value $mol_view
 $giper_baza_unit_sand_dump $mol_view
 	land $giper_baza_land
 	sand $giper_baza_unit_sand
-	Ref $mol_link
-		title <= title
-		arg <= arg *
+	Ref $giper_baza_link_chip
+		link <= value
 	Other $mol_dump_value
 		value <= value null
 
@@ -1108,6 +1111,9 @@ $mol_button_download $mol_button_minor
 $giper_baza_land_page $mol_page
 	land $giper_baza_land
 	pawn $giper_baza_dict
+	tools /
+		<= Meta_link $giper_baza_link_chip
+			link <= meta_link $giper_baza_link
 	body /
 		<= Flex $giper_baza_flex_form
 			pawn <= pawn
@@ -1224,11 +1230,13 @@ $giper_baza_land_rights $mol_list
 						pull @ \🥂 Pull
 						rule @ \👑 Rule
 					enabled <= enabled false
-				<= Gift_peer* $mol_view sub /
-					<= Gift_avatar* $mol_avatar
-						id <= peer_id* \
-					<= Gift_name* $mol_paragraph
-						title <= peer_name* \All
+				<= Gift_name* $giper_baza_link_chip
+					param <= link_param \link
+					link <= peer_link* $giper_baza_link
+					sub /
+						<= Gift_avatar* $mol_avatar
+							id <= peer_id* \
+						^
 
 $giper_baza_glob_book $mol_book2_catalog
 	menu_title \🌐 Glob
@@ -1237,6 +1245,7 @@ $giper_baza_glob_book $mol_book2_catalog
 		land <= land* $giper_baza_land
 		pawn <= pawn* $giper_baza_dict
 		tools /
+			^
 			<= Rights_open $mol_link
 				arg * side \rights
 				sub /
@@ -1687,7 +1696,7 @@ $mol_chart $mol_view
 $giper_baza_app_stat_page $mol_page
 	title \📊 Stat
 	head /
-		<= Domain $mol_chip title <= domain \
+		<= Domain $mol_chip title <= domain \Undefined Domain
 		<= Uptime $mol_chip title <= uptime \🔴 00:00
 		<= Tools
 	body_content /
@@ -1768,6 +1777,16 @@ $giper_baza_app_stat_page $mol_page
 						labels <= times /
 						graphs /
 							<= Land_active
+			<= Error_count $mol_chart
+				graphs /
+					<= Errors $mol_plot_line
+						title \Errors
+						series_y <= errors /
+					<= Error_count_ruler $mol_plot_ruler_vert
+					<= Error_count_mark $mol_plot_mark_cross
+						labels <= times /
+						graphs /
+							<= Errors
 
 $mol_icon_play $mol_icon path \M8,5.14V19.14L19,12.14L8,5.14Z
 
