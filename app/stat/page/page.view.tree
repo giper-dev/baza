@@ -82,3 +82,13 @@ $giper_baza_app_stat_page $mol_page
 						labels <= times /
 						graphs /
 							<= Land_active
+			<= Error_count $mol_chart
+				graphs /
+					<= Errors $mol_plot_line
+						title \Errors
+						series_y <= errors /
+					<= Error_count_ruler $mol_plot_ruler_vert
+					<= Error_count_mark $mol_plot_mark_cross
+						labels <= times /
+						graphs /
+							<= Errors

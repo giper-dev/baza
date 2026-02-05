@@ -75,6 +75,11 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
+		errors() {
+			return this.stat()?.Errors()?.series() ?? []
+		}
+		
+		@ $mol_mem
 		times() {
 			const times = [] as string[]
 			for( let i = 1; i < 59; ++i ) times.push( `${i} secs ago` )

@@ -30,6 +30,9 @@ namespace $ {
 		/** Active lands count */
 		Land_active: $giper_baza_stat_ranges,
 		
+		/** Unhandled errors */
+		Errors: $giper_baza_stat_ranges,
+		
 	}) {
 
 		@ $mol_mem
@@ -52,7 +55,16 @@ namespace $ {
 		}
 		
 		@ $mol_mem
+		init() {
+			let handler: $mol_report_handler_type = ()=> this.Errors( null )!.tick_instant( 1 )
+			$mol_report_handler_all.add( handler )
+			return { destructor: ()=> $mol_report_handler_all.delete( handler ) }
+		}
+		
+		@ $mol_mem
 		tick() {
+			
+			this.init()
 			
 			if( this.$.$giper_baza_log() ) {
 				this.$.$mol_log3_warn({
@@ -89,6 +101,8 @@ namespace $ {
 			
 			const lands = ports.reduce( ( sum, port )=> sum + yard.port_lands_active( port ).size, 0 )
 			this.Land_active( null )!.tick_instant( lands ) // pct
+			
+			this.Errors( null )!.tick_instant( 0 ) // pct
 			
 		}
 		

@@ -22,6 +22,8 @@ namespace $.$$ {
 				
 			}
 			
+			ids.sort( $mol_compare_text( id => id ) )
+			
 			return ids
 		}
 		
