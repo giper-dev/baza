@@ -209,13 +209,17 @@ namespace $ {
 			return this.toString()
 		}
 		
+		toJSON() {
+			return this.toString()
+		}
+		
 		toString() {
 			
-			const hash = '🔖' + $mol_term_color.magenta( this.hash().str )
-			const lord = '👾' + $mol_term_color.magenta( this.lord().str )
-			const time = $mol_term_color.gray( this.moment().toString( 'YYYY-MM-DD hh:mm:ss' ) + ' !' + this.tick() )
+			const hash = $mol_term_color.cyan( '#' + this.hash().str )
+			const lord = $mol_term_color.magenta( '@' + this.lord().str )
+			const time = $mol_term_color.gray( $giper_baza_time_dump( this.time(), this.tick() ) )
 			
-			return `${lord} ${time} ${hash}`
+			return `${lord} ${hash} ${time}`
 		}
 		
 	}

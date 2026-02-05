@@ -88,11 +88,11 @@ namespace $ {
 		
 		toString() {
 			
-			const mate = '👾' + $mol_term_color.magenta( this.mate().str || '______anyone_____' )
-			const read = this.code().some( v => v ) ? ' 🔐' : ' 👀'
-			const rank = $giper_baza_rank_tier[ this.tier() ] + ':' + this.rate().toString( 16 ).toUpperCase()
+			const mate = $mol_term_color.magenta( '@' + ( this.mate().str || '______anyone_____' ) )
+			const read = $mol_term_color.green( this.code().some( v => v ) ? 'X' : 'O' )
+			const rank = $mol_term_color.cyan( $giper_baza_rank_tier[ this.tier() ] + ':' + this.rate().toString( 16 ).toUpperCase() )
 			
-			return `${ super.toString() } 🏅 ${mate} ${read} ${rank}`
+			return `${ super.toString() } ${read} ${mate} ${rank}`
 		}
 		
 		[ $mol_dev_format_head ]() {
@@ -105,7 +105,7 @@ namespace $ {
 				$mol_dev_format_shade(
 					this.moment().toString( 'YYYY-MM-DD hh:mm:ss' ),
 					' !',
-					this.tick(),
+					this.tick().toString(16).padStart( 2, '0' ),
 				),
 				' #',
 				$mol_dev_format_auto( this.hash() ),

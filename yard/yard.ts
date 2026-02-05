@@ -56,7 +56,7 @@ namespace $ {
 					
 					this.$.$mol_log3_fail({	
 						place: this,
-						message: '💥 Wrong data',
+						message: 'Wrong data',
 						data: event.data
 					})
 					
@@ -85,7 +85,7 @@ namespace $ {
 					
 					this.$.$mol_log3_come({
 						place: this,
-						message: '🔗 Connected',
+						message: 'Connected',
 						port: $mol_key( port ),
 						server: link,
 					})
@@ -198,7 +198,7 @@ namespace $ {
 					
 					if( this.$.$giper_baza_log() ) $mol_wire_sync( this.$ ).$mol_log3_done({
 						place: this,
-						message: '➕ Take Free',
+						message: 'Take Free',
 						port: $mol_key( port ),
 						land: Land,
 					})
@@ -212,7 +212,7 @@ namespace $ {
 					
 					if( this.$.$giper_baza_log() ) $mol_wire_sync( this.$ ).$mol_log3_rise({
 						place: this,
-						message: '➕ Take Unit',
+						message: 'Take Unit',
 						port: $mol_key( port ),
 						land: Land,
 						units: part.units,
@@ -224,7 +224,7 @@ namespace $ {
 					
 					if( this.$.$giper_baza_log() ) $mol_wire_sync( this.$ ).$mol_log3_rise({
 						place: this,
-						message: '➕ Take Face',
+						message: 'Take Face',
 						port: $mol_key( port ),
 						land: Land,
 						faces: part.faces,
@@ -296,7 +296,7 @@ namespace $ {
 				
 				if( this.$.$giper_baza_log() ) this.$.$mol_log3_done({
 					place: this,
-					message: '🔱 Send Free',
+					message: 'Send Free',
 					port: $mol_key( port ),
 					land,
 				})
@@ -325,7 +325,7 @@ namespace $ {
 				
 				if( this.$.$giper_baza_log() ) this.$.$mol_log3_rise({
 					place: this,
-					message: '🔱 Send Unit',
+					message: 'Send Unit',
 					port: $mol_key( port ),
 					land: Land,
 					units,
@@ -352,7 +352,7 @@ namespace $ {
 			Land.loading()
 			if( this.$.$giper_baza_log() ) this.$.$mol_log3_come({
 				place: this,
-				message: '🔱 Send Face',
+				message: 'Send Face',
 				port: $mol_key( port ),
 				land: Land,
 				faces: Land.faces,

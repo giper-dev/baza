@@ -54,6 +54,15 @@ namespace $ {
 		@ $mol_mem
 		tick() {
 			
+			if( this.$.$giper_baza_log() ) {
+				this.$.$mol_log3_warn({
+					place: this,
+					message: 'Stat disabled due logging',
+					hint: 'Disable $giper_baza_log to start monitoring'
+				})
+				return
+			}
+			
 			this.$.$mol_state_time.now( 1000 )
 			
 			this.uptime( new $mol_time_duration({ second: Math.floor( process.uptime() ) }).normal )

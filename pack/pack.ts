@@ -172,7 +172,7 @@ namespace $ {
 					default:
 						$$.$mol_log3_warn({
 							place: '$giper_baza_pack..parts',
-							message: '💢 Unknown Kind',
+							message: 'Unknown Kind',
 							kind,
 							offset,
 							hint: 'Try to update application',

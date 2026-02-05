@@ -449,7 +449,7 @@ namespace $ {
 				
 				if( this.$.$giper_baza_log() ) $mol_wire_sync( this.$ ).$mol_log3_warn({
 					place: this,
-					message: '💔 Fail Summ',
+					message: 'Fail Summ',
 					hint: 'Relax and wait for full peer resync',
 					peer,
 					mass,
@@ -1010,12 +1010,13 @@ namespace $ {
 		
 		@ $mol_mem
 		loading() {
+			$mol_wire_solid()
 			
 			let units = $mol_wire_sync( this.mine() ).units_load()
 			
 			if( this.$.$giper_baza_log() ) $mol_wire_sync( this.$ ).$mol_log3_rise({
 				place: this,
-				message: '🌱 Load Unit',
+				message: 'Load Unit',
 				units: units,
 			})
 			
@@ -1146,7 +1147,7 @@ namespace $ {
 			
 			if( this.$.$giper_baza_log() ) this.$.$mol_log3_done({
 				place: this,
-				message: '💾 Save Unit',
+				message: 'Save Unit',
 				ins: units,
 				del: reaping,
 			})

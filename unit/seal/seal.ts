@@ -110,14 +110,15 @@ namespace $ {
 		}
 		
 		path(): string {
-			return `seal:${ this.lord() }/${ $giper_baza_time_dump( this.time() ) } &${ this.tick() }`
+			return `seal:${ this.lord() }/${ $giper_baza_time_dump( this.time(), this.tick() ) }`
 		}
 		
 		toString() {
 			
-			const items = this.hash_list().map( hash => $mol_term_color.magenta( hash.str ) ).join( ',' )
+			const items = this.hash_list().map( hash => $mol_term_color.cyan( '#' + hash.str ) ).join( ', ' )
+			const kind = $mol_term_color.green( '%' )
 			
-			return `${ super.toString() } ✍ ${items}`
+			return `${ super.toString() } ${kind} ${items}`
 		}
 		
 		[ $mol_dev_format_head ]() {
@@ -128,8 +129,8 @@ namespace $ {
 				' ✍ ',
 				$mol_dev_format_shade(
 					this.moment().toString( 'YYYY-MM-DD hh:mm:ss' ),
-					' !',
-					this.tick(),
+					' &',
+					this.tick().toString(16).padStart( 2, '0' ),
 				),
 				' #',
 				$mol_dev_format_auto( this.hash() ),

@@ -161,16 +161,16 @@ namespace $ {
 			
 			const lead = $mol_term_color.blue( this.lead().str || '__knot__' )
 			const head = $mol_term_color.blue( this.head().str || '__root__' )
-			const self = $mol_term_color.blue( this.self().str || '__spec__' )
-			const tag = {
-				term: '💼',
-				solo: '1️⃣',
-				vals: '🎹',
-				keys: '🔑',
-			}[ this.tag() ]
-			const vary = $mol_term_color.yellow( String( this._vary ) )
+			const self = $mol_term_color.blue( this.self().str || '__meta__' )
+			const tag = $mol_term_color.green( {
+				term: 'T',
+				solo: 'S',
+				vals: 'V',
+				keys: 'K',
+			}[ this.tag() ] )
+			const vary = this._vary === undefined ? '' : $mol_term_color.yellow( String( this._vary ) )
 			
-			return `${ super.toString() } 📦 ${lead}\\${head}/${self} ${tag} ${vary}`
+			return `${ super.toString() } ${tag} ${lead}\\${head}/${self} ${vary}`
 		}
 		
 		[ $mol_dev_format_head ]() {
@@ -182,7 +182,7 @@ namespace $ {
 				$mol_dev_format_shade(
 					this.moment().toString( 'YYYY-MM-DD hh:mm:ss' ),
 					' !',
-					this.tick(),
+					this.tick().toString(16).padStart( 2, '0' ),
 				),
 				' #',
 				$mol_dev_format_auto( this.hash() ),
@@ -191,7 +191,7 @@ namespace $ {
 				$mol_dev_format_shade( '\\' ),
 				$mol_dev_format_accent( this.head().str || '__root__' ),
 				$mol_dev_format_shade( '/' ),
-				this.self().str || '__spec__',
+				this.self().str || '__meta__',
 				' ',
 				{
 					term: '💼',

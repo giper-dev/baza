@@ -7,8 +7,10 @@ namespace $ {
 	}
 	
 	/** User readable time+tick view. */
-	export function $giper_baza_time_dump( time: number ) {
-		return $giper_baza_time_moment( time ).toString( 'YYYY-MM-DD hh:mm:ss' )
+	export function $giper_baza_time_dump( time: number, tick?: number ) {
+		let res = $giper_baza_time_moment( time ).toString( 'YYYY-MM-DD hh:mm:ss Z' )
+		if( tick !== undefined ) res += ' !' + tick.toString(16).toUpperCase().padStart( 2, '0' )
+		return res
 	}
 
 	/** Current time with 0 tick. */

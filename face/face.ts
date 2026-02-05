@@ -41,13 +41,18 @@ namespace $ {
 			if( this.summ < summ ) this.summ = summ
 		}
 		
+		toJSON() {
+			const time = $giper_baza_time_dump( this.time, this.tick )
+			const summ = '%' + this.summ
+			return $mol_term_color.gray( `${time} ${summ}` )
+		}
+		
 		[ $mol_dev_format_head ]() {
 			
 			return $mol_dev_format_span( {},
 				$mol_dev_format_native( this ),
 				$mol_dev_format_shade(
-					' ', $giper_baza_time_dump( this.time ),
-					' !', this.tick,
+					' ', $giper_baza_time_dump( this.time, this.tick ),
 					' %', this.summ,
 				)
 			)
@@ -132,6 +137,10 @@ namespace $ {
 				if( !this.stat.tick ) ++ this.stat.time
 			}
 			return this.stat
+		}
+		
+		toJSON() {
+			return Object.fromEntries( this.entries() )
 		}
 
 		[ $mol_dev_format_head ]() {
