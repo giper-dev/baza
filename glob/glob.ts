@@ -59,7 +59,7 @@ namespace $ {
 		
 		@ $mol_mem
 		static Seed() {
-			const link = new $giper_baza_link( 'u1bm5ZvJ_cFNQgcqc' )
+			const link = $giper_baza_flex_deck_base.lord()
 			const seed = this.Pawn( link, $giper_baza_flex_seed ) 
 			if( !$mol_wire_sync( seed ).meta() ) this.boot()
 			return seed

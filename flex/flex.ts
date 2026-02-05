@@ -1,27 +1,30 @@
 namespace $ {
 	
-	const deck = 'u1bm5ZvJ_cFNQgcqc_FIxZr1Aa'
+	export const $giper_baza_flex_deck_base = new $giper_baza_link( 'hSVSar1S_he4KVyXM_CftXZh1s' )
 	
 	/** Subj - named entity */
-	export class $giper_baza_flex_subj extends $giper_baza_dict.with({
+	export class $giper_baza_flex_subj extends $giper_baza_dict.with( {
 		Name: $giper_baza_atom_text,
-	}) {
-		static meta = new $giper_baza_link( `${deck}_pla3dXt3` )
+	}, 'Subj' ) {
+		
+		static meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_pla3dXt3` )
+		
 		name( next?: string ) {
 			return this.Name( next )?.val( next ) ?? this.link().str
 		}
+		
 	}
 	
 	/** Atomic Link to any Subj */
 	export class $giper_baza_flex_subj_link extends $giper_baza_atom_link_to( ()=> $giper_baza_flex_subj ) {}
 	
 	/** Meta - schema of entitiy */
-	export class $giper_baza_flex_meta extends $giper_baza_flex_subj.with({
+	export class $giper_baza_flex_meta extends $giper_baza_flex_subj.with( {
 		Props: $giper_baza_list_link_to( ()=> $giper_baza_flex_prop ),
 		Pulls: $giper_baza_list_link_to( ()=> $giper_baza_flex_subj ),
-	}) {
+	}, 'Meta' ) {
 		
-		static override meta = new $giper_baza_link( `${deck}_a1JLFBay` )
+		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_a1JLFBay` )
 		
 		@ $mol_action
 		prop_new(
@@ -33,7 +36,7 @@ namespace $ {
 		) {
 			const prop = this.Props(null)!.make( $mol_hash_string( key ) )
 			
-			prop.path( key )
+			prop.path( this.name() + ':' + key )
 			prop.name( key )
 			prop.type( type )
 			
@@ -81,9 +84,9 @@ namespace $ {
 		Enum: $giper_baza_atom_link_to( () => $giper_baza_list_vary ),
 		/** Base value */
 		Base: $giper_baza_atom_vary,
-	}) {
+	}, 'Prop' ) {
 		
-		static override meta = new $giper_baza_link( `${deck}_7ovrwQ6t` )
+		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_7ovrwQ6t` )
 		
 		path( next?: string ) {
 			return this.Path( next )?.val( next ) ?? ''
@@ -108,12 +111,12 @@ namespace $ {
 	}
 	
 	/** Deck - set of schemes and types */
-	export class $giper_baza_flex_deck extends $giper_baza_flex_subj.with({
+	export class $giper_baza_flex_deck extends $giper_baza_flex_subj.with( {
 		Metas: $giper_baza_list_link_to( ()=> $giper_baza_flex_meta ),
 		Types: $giper_baza_list_str,
-	}) {
+	}, 'Deck' ) {
 		
-		static override meta = new $giper_baza_link( `${deck}_TAv7CAua` )
+		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_TAv7CAua` )
 		
 		@ $mol_action
 		meta_new( key: string ) {
@@ -122,15 +125,22 @@ namespace $ {
 			return meta
 		}
 		
+		@ $mol_action
+		meta_for( Meta: typeof $giper_baza_flex_subj ) {
+			const meta = this.meta_new( Meta.path )
+			Meta.meta = meta.link()
+			return meta
+		}
+		
 	}
 	
 	/** Seed - global network config */
-	export class $giper_baza_flex_seed extends $giper_baza_flex_subj.with({
+	export class $giper_baza_flex_seed extends $giper_baza_flex_subj.with( {
 		Deck: $giper_baza_atom_link_to( ()=> $giper_baza_flex_deck ),
 		Peers: $giper_baza_list_str,
-	}) {
+	}, 'Seed' ) {
 		
-		static override meta = new $giper_baza_link( `${deck}_dELUKvvS` )
+		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_dELUKvvS` )
 		
 		@ $mol_mem
 		deck() {
@@ -145,12 +155,12 @@ namespace $ {
 	}
 	
 	/** Peer - network peering info */
-	export class $giper_baza_flex_peer extends $giper_baza_flex_subj.with({
+	export class $giper_baza_flex_peer extends $giper_baza_flex_subj.with( {
 		Urls: $giper_baza_list_str,
 		Stat: $giper_baza_atom_link_to( ()=> $giper_baza_app_stat ),
-	}) {
+	}, 'Peer' ) {
 		
-		static override meta = new $giper_baza_link( `${deck}_xEibvNCP` )
+		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_xEibvNCP` )
 		
 		@ $mol_mem
 		stat( auto?: any ) {
@@ -165,11 +175,11 @@ namespace $ {
 	}
 	
 	/** User - human profile */
-	export class $giper_baza_flex_user extends $giper_baza_flex_subj.with({
+	export class $giper_baza_flex_user extends $giper_baza_flex_subj.with( {
 		Caret: $giper_baza_atom_text,
-	}) {
+	}, 'User' ) {
 		
-		static override meta = new $giper_baza_link( `${deck}_csm0VtAK` )
+		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_csm0VtAK` )
 		
 		@ $mol_mem
 		caret( next?: string ) {
@@ -189,22 +199,15 @@ namespace $ {
 		deck.name( 'Base Deck' )
 		deck.Types(null)!.items_vary([ 'vary', 'enum', 'bool', 'int', 'real', 'str', 'link', 'time', 'dict', 'text', 'list' ])
 		
-		const Meta = deck.meta_new( 'Meta' )
-		Meta.meta( $giper_baza_flex_meta.meta = Meta.link() )
+		const Meta = deck.meta_for( $giper_baza_flex_meta )
+		Meta.meta( Meta.link() )
 		
-		const Subj = deck.meta_new( 'Subj' )
-		const Seed = deck.meta_new( 'Seed' )
-		const Prop = deck.meta_new( 'Prop' )
-		const Deck = deck.meta_new( 'Deck' )
-		const Peer = deck.meta_new( 'Peer' )
-		const User = deck.meta_new( 'User' )
-		
-		$giper_baza_flex_subj.meta = Subj.link()
-		$giper_baza_flex_seed.meta = Seed.link()
-		$giper_baza_flex_prop.meta = Prop.link()
-		$giper_baza_flex_deck.meta = Deck.link()
-		$giper_baza_flex_peer.meta = Peer.link()
-		$giper_baza_flex_user.meta = User.link()
+		const Subj = deck.meta_for( $giper_baza_flex_subj )
+		const Seed = deck.meta_for( $giper_baza_flex_seed )
+		const Prop = deck.meta_for( $giper_baza_flex_prop )
+		const Deck = deck.meta_for( $giper_baza_flex_deck )
+		const Peer = deck.meta_for( $giper_baza_flex_peer )
+		const User = deck.meta_for( $giper_baza_flex_user )
 		
 		seed.meta( Seed.link() )
 		deck.meta( Deck.link() )

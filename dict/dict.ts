@@ -27,10 +27,14 @@ namespace $ {
 		static with<
 			This extends typeof $giper_baza_dict,
 			const Schema extends Record< string, { tag: keyof typeof $giper_baza_unit_sand_tag, new(): {} } >
-		>( this: This, schema: Schema ) {
+		>( this: This, schema: Schema, path = '' ) {
+			
+			const prefix = path ? path + ':' : ''
 			
 			const $giper_baza_dict_with = class $giper_baza_dict_with extends ( this as any ) {
 				// static get schema() { return { ... this.schema, ... schema } }
+				
+				static path = path
 				
 				static toString() {
 					
@@ -42,6 +46,7 @@ namespace $ {
 				}
 				
 			} as Omit< This, 'prototype' > & {
+				path: string
 				new( ...args: any[] ): $mol_type_override< InstanceType< This >, {
 					readonly [ Key in keyof Schema ]: ( auto?: any )=> InstanceType< Schema[ Key ] > | null
 				} >
@@ -51,7 +56,7 @@ namespace $ {
 				
 				Object.defineProperty( $giper_baza_dict_with.prototype, Field, {
 					value: function( this: InstanceType< This >, auto?: any ) {
-						return this.dive( Field, schema[ Field ] as any, auto )
+						return this.dive( prefix + Field, schema[ Field ] as any, auto )
 					}
 				} )
 				
