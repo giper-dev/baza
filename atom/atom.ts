@@ -213,23 +213,31 @@ namespace $ {
 			
 			@ $mol_action
 			ensure_here( peer: $giper_baza_link | null ) {
+				const Pawn = ( Value as any )() as typeof $giper_baza_pawn
 				const idea = $mol_hash_string( this.link().str )
 				const head = this.land().self_make( idea )
-				const pawn = this.land().Pawn( ( Value as any )() ).Head( head )
-				this.remote_of( peer, pawn )
+				const pawn = this.land().Pawn( Pawn ).Head( head )
+				if( Pawn.meta ) pawn.meta( Pawn.meta )
+				this.remote_of( peer, pawn as any )
 			}
 			
 			@ $mol_action
 			ensure_area( peer: $giper_baza_link | null, land: $giper_baza_land ) {
+				const Pawn = ( Value as any )() as typeof $giper_baza_pawn
 				const idea = $mol_hash_string( this.link().str )
 				const area = land.area_make( idea )
-				this.val_of( peer, area.link() )
+				const pawn = area.Data( Pawn )
+				if( Pawn.meta ) pawn.meta( Pawn.meta )
+				this.val_of( peer, pawn.link() )
 			}
 			
 			@ $mol_action
 			ensure_lord( peer: $giper_baza_link | null, preset: $giper_baza_rank_preset ) {
+				const Pawn = ( Value as any )() as typeof $giper_baza_pawn
 				const land = this.$.$giper_baza_glob.land_grab( preset )
-				this.val_of( peer, land.link() )
+				const pawn = land.Data( Pawn )
+				if( Pawn.meta ) pawn.meta( Pawn.meta )
+				this.val_of( peer, pawn.link() )
 			}
 			
 			/** @deprecated Use ensure( preset ) */
