@@ -1815,6 +1815,7 @@ declare namespace $ {
 declare namespace $ {
     class $giper_baza_pawn extends $mol_object {
         static tag: keyof typeof $giper_baza_unit_sand_tag;
+        static meta: null | $giper_baza_link;
         land(): $giper_baza_land;
         head(): $giper_baza_link;
         land_link(): $giper_baza_link;
@@ -2179,6 +2180,7 @@ declare namespace $ {
         parse: Parse;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -2224,6 +2226,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_blob;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -2271,6 +2274,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_bool;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -2318,6 +2322,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_bint;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -2365,6 +2370,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_real;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -2412,6 +2418,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_link;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -2459,6 +2466,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_text;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -2506,6 +2514,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_time;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -2553,6 +2562,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_dura;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -2600,6 +2610,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_span;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -2647,6 +2658,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_dict;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -2694,6 +2706,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_list;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -2741,6 +2754,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_elem;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -2788,6 +2802,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_tree;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -2842,6 +2857,7 @@ declare namespace $ {
         toString(): any;
         parse: typeof $giper_baza_vary_cast_link;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -2925,6 +2941,7 @@ declare namespace $ {
                 [x: string]: typeof $giper_baza_pawn;
             } & Schema;
         };
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -2982,6 +2999,7 @@ declare namespace $ {
         options: Options;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -3022,6 +3040,7 @@ declare namespace $ {
         parse: Parse;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -3062,6 +3081,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_blob;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -3104,6 +3124,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_bool;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -3146,6 +3167,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_bint;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -3188,6 +3210,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_real;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -3230,6 +3253,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_link;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -3272,6 +3296,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_text;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -3314,6 +3339,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_time;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -3356,6 +3382,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_dura;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -3398,6 +3425,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_span;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -3440,6 +3468,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_dict;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -3482,6 +3511,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_list;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -3524,6 +3554,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_elem;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -3566,6 +3597,7 @@ declare namespace $ {
         parse: typeof $giper_baza_vary_cast_tree;
         toString(): any;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -3623,6 +3655,7 @@ declare namespace $ {
         Value: typeof $giper_baza_dict;
         parse: typeof $giper_baza_vary_cast_link;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -3742,6 +3775,7 @@ declare namespace $ {
                 Value: typeof $giper_baza_dict;
                 parse: typeof $giper_baza_vary_cast_link;
                 tag: keyof typeof $giper_baza_unit_sand_tag;
+                meta: null | $giper_baza_link;
                 make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
                 $: $;
                 create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -4051,6 +4085,7 @@ declare namespace $ {
                 Value: typeof $giper_baza_dict;
                 parse: typeof $giper_baza_vary_cast_link;
                 tag: keyof typeof $giper_baza_unit_sand_tag;
+                meta: null | $giper_baza_link;
                 make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
                 $: $;
                 create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -4086,6 +4121,7 @@ declare namespace $ {
         };
     };
     export class $giper_baza_flex_subj extends $giper_baza_flex_subj_base {
+        static meta: $giper_baza_link;
         name(next?: string): string;
     }
     const $giper_baza_flex_subj_link_base: {
@@ -4133,6 +4169,7 @@ declare namespace $ {
         Value: typeof $giper_baza_dict;
         parse: typeof $giper_baza_vary_cast_link;
         tag: keyof typeof $giper_baza_unit_sand_tag;
+        meta: null | $giper_baza_link;
         make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
         $: $;
         create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -4266,6 +4303,7 @@ declare namespace $ {
                 toString(): any;
                 parse: typeof $giper_baza_vary_cast_link;
                 tag: keyof typeof $giper_baza_unit_sand_tag;
+                meta: null | $giper_baza_link;
                 make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
                 $: $;
                 create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -4316,6 +4354,7 @@ declare namespace $ {
                 toString(): any;
                 parse: typeof $giper_baza_vary_cast_link;
                 tag: keyof typeof $giper_baza_unit_sand_tag;
+                meta: null | $giper_baza_link;
                 make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
                 $: $;
                 create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -4326,7 +4365,8 @@ declare namespace $ {
         };
     };
     export class $giper_baza_flex_meta extends $giper_baza_flex_meta_base {
-        prop_new(): $giper_baza_flex_prop;
+        static meta: $giper_baza_link;
+        prop_new(key: string, type: string, kind?: $giper_baza_flex_meta, vars?: $giper_baza_list_vary, base?: $giper_baza_vary_type): $giper_baza_flex_prop;
         prop_add(prop: $giper_baza_flex_prop): void;
         prop_all(): readonly $giper_baza_flex_prop[];
         pull_add(meta: $giper_baza_flex_meta): void;
@@ -4467,6 +4507,7 @@ declare namespace $ {
                 Value: typeof $giper_baza_dict;
                 parse: typeof $giper_baza_vary_cast_link;
                 tag: keyof typeof $giper_baza_unit_sand_tag;
+                meta: null | $giper_baza_link;
                 make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
                 $: $;
                 create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -4519,6 +4560,7 @@ declare namespace $ {
                 Value: typeof $giper_baza_dict;
                 parse: typeof $giper_baza_vary_cast_link;
                 tag: keyof typeof $giper_baza_unit_sand_tag;
+                meta: null | $giper_baza_link;
                 make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
                 $: $;
                 create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -4530,6 +4572,7 @@ declare namespace $ {
         };
     };
     export class $giper_baza_flex_prop extends $giper_baza_flex_prop_base {
+        static meta: $giper_baza_link;
         path(next?: string): string;
         type(next?: string): string;
         base(next?: $giper_baza_vary_type): string | number | bigint | boolean | Element | Uint8Array<ArrayBuffer> | $mol_tree2 | Uint16Array<ArrayBuffer> | Uint32Array<ArrayBuffer> | Int32Array<ArrayBuffer> | $giper_baza_link | BigUint64Array<ArrayBuffer> | $mol_time_duration | $mol_time_moment | $mol_time_interval | Int8Array<ArrayBuffer> | Int16Array<ArrayBuffer> | BigInt64Array<ArrayBuffer> | Float64Array<ArrayBuffer> | Float32Array<ArrayBuffer> | readonly $giper_baza_vary_type[] | {
@@ -4625,6 +4668,7 @@ declare namespace $ {
                 toString(): any;
                 parse: typeof $giper_baza_vary_cast_link;
                 tag: keyof typeof $giper_baza_unit_sand_tag;
+                meta: null | $giper_baza_link;
                 make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
                 $: $;
                 create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -4636,7 +4680,8 @@ declare namespace $ {
         };
     };
     export class $giper_baza_flex_deck extends $giper_baza_flex_deck_base {
-        meta_new(): $giper_baza_flex_meta;
+        static meta: $giper_baza_link;
+        meta_new(key: string): $giper_baza_flex_meta;
     }
     const $giper_baza_flex_seed_base: Omit<typeof $giper_baza_flex_subj, "prototype"> & (new (...args: any[]) => $mol_type_override<$giper_baza_flex_subj, {
         readonly Deck: (auto?: any) => {
@@ -4729,6 +4774,7 @@ declare namespace $ {
                 Value: typeof $giper_baza_dict;
                 parse: typeof $giper_baza_vary_cast_link;
                 tag: keyof typeof $giper_baza_unit_sand_tag;
+                meta: null | $giper_baza_link;
                 make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
                 $: $;
                 create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -4740,6 +4786,7 @@ declare namespace $ {
         };
     };
     export class $giper_baza_flex_seed extends $giper_baza_flex_seed_base {
+        static meta: $giper_baza_link;
         deck(): $giper_baza_flex_deck | null;
         peers(): string[];
     }
