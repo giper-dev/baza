@@ -21,7 +21,7 @@ namespace $ {
 			const self = this.$.$giper_baza_auth.current().pass().lord()
 			const pos = all.findLastIndex( peer => peer.link().str === self.str )
 			const links = all.slice( pos + 1 ).flatMap( peer => peer.urls() )
-			return links.length ? links : this.masters_default
+			return [ ... this.masters_default, ... links ]
 		}
 		
 		@ $mol_mem
