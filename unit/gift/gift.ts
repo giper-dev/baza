@@ -88,7 +88,7 @@ namespace $ {
 		
 		toString() {
 			
-			const mate = $mol_term_color.magenta( '@' + ( this.mate().str || '______anyone_____' ) )
+			const mate = $mol_term_color.magenta( '@' + ( this.mate().str || '____every_one____' ) )
 			const read = $mol_term_color.green( this.code().some( v => v ) ? 'X' : 'O' )
 			const rank = $mol_term_color.cyan( $giper_baza_rank_tier[ this.tier() ] + ':' + this.rate().toString( 16 ).toUpperCase() )
 			
@@ -110,7 +110,7 @@ namespace $ {
 				' #',
 				$mol_dev_format_auto( this.hash() ),
 				' 👾',
-				$mol_dev_format_accent( this.mate().str || '______anyone_____' ),
+				$mol_dev_format_accent( this.mate().str || '____every_one____' ),
 				this.code().some( v => v ) ? ' 🔐' : ' 👀',
 				$giper_baza_rank_tier[ this.tier() ],
 				':',
