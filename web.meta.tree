@@ -30,10 +30,10 @@
 	pack web git \https://github.com/giper-dev/web.git
 \/mol
 	pack icon git \https://github.com/nin-jin/mol_icon.git
-\/giper/baza/glob
-	deploy \giper/baza/glob/glob.baza
 \/mol/view
 	include \/mol/view/tree/test
+\/giper/baza/glob
+	deploy \giper/baza/glob/glob.baza
 \/giper/baza/app
 	deploy \/giper/baza/logo/logo.svg
 	deploy \/giper/baza/logo/logo-512.png
