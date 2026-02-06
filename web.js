@@ -25037,7 +25037,7 @@ var $;
     (function ($$) {
         class $giper_baza_app_stat_page extends $.$giper_baza_app_stat_page {
             home() {
-                const link = new $giper_baza_link(this.$.$mol_fetch.text(this.$.$giper_baza_glob.yard().master_current() + 'link'));
+                const link = new $giper_baza_link(this.$.$mol_fetch.text('/link'));
                 return this.$.$giper_baza_glob.Pawn(link, $giper_baza_app_home);
             }
             stat() {
