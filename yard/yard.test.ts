@@ -11,6 +11,6 @@ namespace $ {
 		$.$giper_baza_yard = $giper_baza_yard_mock
 	} )
 	
-	$giper_baza_yard.masters_default.unshift( 'http://localhost:9090/' )
+	$giper_baza_yard.masters = ()=>[ 'http://localhost:9090/' ]
 	
 }
