@@ -11648,7 +11648,7 @@ declare namespace $ {
 //# sourceMappingURL=page.view.tree.d.ts.map
 declare namespace $.$$ {
     class $giper_baza_app_stat_page extends $.$giper_baza_app_stat_page {
-        home(): $giper_baza_app_home;
+        home(): $giper_baza_app_home | null;
         stat(): $giper_baza_app_stat | null;
         domain(): string;
         uptime(): string;
