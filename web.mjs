@@ -16352,8 +16352,7 @@ var $;
         static Seed() {
             const link = $giper_baza_flex_deck_base.lord();
             const seed = this.Pawn(link, $giper_baza_flex_seed);
-            if (!$mol_wire_sync(seed).meta())
-                this.boot();
+            this.boot();
             return seed;
         }
         static boot() {
