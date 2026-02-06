@@ -137,7 +137,7 @@ namespace $ {
 	/** Seed - global network config */
 	export class $giper_baza_flex_seed extends $giper_baza_flex_subj.with( {
 		Deck: $giper_baza_atom_link_to( ()=> $giper_baza_flex_deck ),
-		Peers: $giper_baza_list_str,
+		Peers: $giper_baza_list_link_to( ()=> $giper_baza_flex_peer ),
 	}, 'Seed' ) {
 		
 		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_dELUKvvS` )
@@ -148,8 +148,8 @@ namespace $ {
 		}
 		
 		@ $mol_mem
-		peers() {
-			return ( this.Peers()?.items() ?? [] ).filter( $mol_guard_defined )
+		peers( next?: readonly $giper_baza_flex_peer[] ) {
+			return this.Peers( next )?.remote_list( next ) ?? []
 		}
 		
 	}
@@ -169,7 +169,7 @@ namespace $ {
 		
 		@ $mol_mem
 		urls( next?: string[] ) {
-			return ( this.Urls()?.items( next ) ?? [] ).filter( $mol_guard_defined )
+			return ( this.Urls( next )?.items( next ) ?? [] ).filter( $mol_guard_defined )
 		}
 		
 	}
@@ -223,7 +223,7 @@ namespace $ {
 		Meta.prop_new( 'Props', 'list', Prop )
 		Meta.prop_new( 'Pulls', 'list', Meta, deck.Metas()! )
 		Seed.prop_new( 'Deck', 'link', Deck )
-		Seed.prop_new( 'Peers', 'list' )
+		Seed.prop_new( 'Peers', 'list', Peer )
 		Prop.prop_new( 'Path', 'str' )
 		Prop.prop_new( 'Type', 'enum', undefined, deck.Types()!, 'vary' )
 		Prop.prop_new( 'Kind', 'link', Meta, deck.Metas()!, Subj.link() )

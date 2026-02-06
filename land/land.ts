@@ -985,7 +985,9 @@ namespace $ {
 		
 		@ $mol_mem
 		sync_yard() {
-			return new $mol_wire_atom( '', ()=> this.$.$giper_baza_glob.yard().sync_land( this.link() ) ).fresh()
+			const root = new $mol_wire_atom( 'sync_yard', ()=> this.$.$giper_baza_glob.yard().sync_land( this.link() ) )
+			setTimeout( ()=> root.fresh() )
+			return root
 		}
 		
 		@ $mol_mem

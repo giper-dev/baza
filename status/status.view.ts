@@ -45,28 +45,29 @@ namespace $.$$ {
 		// }
 		
 		options() {
-			return this.$.$giper_baza_yard.masters
+			return this.$.$giper_baza_yard.masters().map( peer => peer.link().str )
 		}
 		
 		@ $mol_mem
 		master_link() {
-			return this.$.$giper_baza_glob.yard().master_current()
+			return this.$.$giper_baza_glob.yard().master_current()?.urls()[0] ?? 'javascript: return false'
 		}
 		
-		master_id( uri: string ) {
-			return uri.replace( /^\w+:\/\//, '' ).replace( /\/$/, '' )
+		master_id( id: string ) {
+			return id
 		}
 		
-		option_label( uri: string ) {
-			return uri.replace( /^\w+:\/\//, '' ).replace( /\/$/, '' )
+		option_label( id: string ) {
+			return id
 		}
 		
 		value( next?: string ) {
-			return this.$.$giper_baza_yard.masters[
+			const peers = this.$.$giper_baza_yard.masters()
+			return peers[
 				this.$.$giper_baza_glob.yard().master_cursor(
-					next == undefined ? undefined : this.$.$giper_baza_yard.masters.indexOf( next )
+					next == undefined ? undefined : peers.findIndex( peer => peer.link().str === next )
 				)
-			]
+			]?.link().str ?? ''
 		}
 		
 	}

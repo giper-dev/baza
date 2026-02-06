@@ -10,7 +10,7 @@ namespace $ {
 			return new this.$.$giper_baza_yard
 		}
 		
-		/** Land where Lord is King. Contains only ain info */
+		/** Land where Lord is King. Contains only main info */
 		static home< Pawn extends typeof $giper_baza_flex_subj = typeof $giper_baza_flex_subj >( Pawn?: Pawn ) {
 			return this.Land( this.$.$giper_baza_auth.current().pass().lord() ).Data( Pawn ?? this.$.$giper_baza_flex_subj ) as InstanceType< Pawn >
 		}

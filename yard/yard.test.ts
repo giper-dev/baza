@@ -11,9 +11,11 @@ namespace $ {
 		$.$giper_baza_yard = $giper_baza_yard_mock
 	} )
 	
-	$giper_baza_yard.masters = [
-		`http://localhost:9090/`,
-		// $mol_dom_context.document.location.origin +'/',
-	]
+	$giper_baza_yard.masters = function() {
+		return [
+			this.$.$giper_baza_glob.Pawn( new $giper_baza_link( 'hSVSar1S_he4KVyXM__5PMQdsAw' ), $giper_baza_flex_peer ), // localhost:9090
+			// $mol_dom_context.document.location.origin +'/',
+		]
+	}
 	
 }
