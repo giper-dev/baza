@@ -3,18 +3,26 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		home() {
-			const link = new $giper_baza_link( this.$.$mol_fetch.text( '/link' ) )
+			
+			const peer = this.$.$giper_baza_glob.yard().master_current()
+			if( !peer ) return null
+			
+			const url = peer.urls()[0]
+			if( !url ) return null
+			
+			const link = new $giper_baza_link( this.$.$mol_fetch.text( url + 'link' ) )
 			return this.$.$giper_baza_glob.Pawn( link, $giper_baza_app_home )
+			
 		}
 
 		@ $mol_mem
 		stat() {
-			return this.home().stat()
+			return this.home()?.stat() ?? null
 		}
 		
 		@ $mol_mem
 		domain() {
-			return this.home().name() ?? super.domain()
+			return this.home()?.name() ?? super.domain()
 		}
 		
 		@ $mol_mem
