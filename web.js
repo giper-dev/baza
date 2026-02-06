@@ -15511,11 +15511,13 @@ var $;
             return null;
         }
         lands_news = new $mol_wire_set();
+        static masters_default = [];
         static masters() {
             const all = this.$.$giper_baza_glob.Seed().peers();
             const self = this.$.$giper_baza_auth.current().pass().lord();
             const pos = all.findLastIndex(peer => peer.link().str === self.str);
-            return all.slice(pos + 1);
+            const links = all.slice(pos + 1).flatMap(peer => peer.urls());
+            return links.length ? links : this.masters_default;
         }
         master_cursor(next = 0) {
             return next;
@@ -15531,10 +15533,7 @@ var $;
         }
         master() {
             this.reconnects();
-            const peer = this.master_current();
-            if (!peer)
-                return null;
-            const link = peer.urls()[0];
+            const link = this.master_current();
             if (!link)
                 return null;
             const socket = new $mol_dom_context.WebSocket(link.replace(/^http/, 'ws'));
@@ -15572,14 +15571,14 @@ var $;
                         place: this,
                         message: 'Connected',
                         port: $mol_key(port),
-                        server: peer.link().str,
+                        server: link,
                     });
                     interval = setInterval(() => socket.send(new Uint8Array), 30000);
                     done(port);
                 };
                 socket.onerror = () => {
                     socket.onclose = event => {
-                        fail(new Error(`Master (${peer.link().str}) is unavailable (${event.code})`));
+                        fail(new Error(`Master (${link}) is unavailable (${event.code})`));
                         clearInterval(interval);
                         interval = setTimeout(() => {
                             this.master_next();
@@ -15847,6 +15846,13 @@ var $;
         $mol_mem
     ], $giper_baza_yard, "masters", null);
     $.$giper_baza_yard = $giper_baza_yard;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $giper_baza_yard.masters_default.push($mol_dom_context.document.location.origin + '/');
 })($ || ($ = {}));
 
 ;
@@ -16426,20 +16432,20 @@ var $;
                 }
             }
             options() {
-                return this.$.$giper_baza_yard.masters().map(peer => peer.link().str);
+                return this.$.$giper_baza_yard.masters();
             }
             master_link() {
-                return this.$.$giper_baza_glob.yard().master_current()?.urls()[0] ?? 'javascript: return false';
+                return this.$.$giper_baza_glob.yard().master_current() ?? 'javascript: return false';
             }
-            master_id(id) {
-                return id;
+            master_id(uri) {
+                return uri.replace(/^\w+:\/\//, '').replace(/\/$/, '');
             }
-            option_label(id) {
-                return id;
+            option_label(uri) {
+                return this.master_id(uri);
             }
             value(next) {
                 const peers = this.$.$giper_baza_yard.masters();
-                return peers[this.$.$giper_baza_glob.yard().master_cursor(next == undefined ? undefined : peers.findIndex(peer => peer.link().str === next))]?.link().str ?? '';
+                return peers[this.$.$giper_baza_glob.yard().master_cursor(next == undefined ? undefined : peers.indexOf(next))] ?? '';
             }
         }
         __decorate([
@@ -25037,10 +25043,7 @@ var $;
     (function ($$) {
         class $giper_baza_app_stat_page extends $.$giper_baza_app_stat_page {
             home() {
-                const peer = this.$.$giper_baza_glob.yard().master_current();
-                if (!peer)
-                    return null;
-                const url = peer.urls()[0];
+                const url = this.$.$giper_baza_glob.yard().master_current();
                 if (!url)
                     return null;
                 const link = new $giper_baza_link(this.$.$mol_fetch.text(url + 'link'));

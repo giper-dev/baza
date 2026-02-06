@@ -3756,9 +3756,10 @@ declare namespace $ {
     class $giper_baza_yard extends $mol_object {
         glob(): $giper_baza_glob;
         lands_news: $mol_wire_set<string>;
-        static masters(): $giper_baza_flex_peer[];
+        static masters_default: string[];
+        static masters(): string[];
         master_cursor(next?: number): number;
-        master_current(): $giper_baza_flex_peer;
+        master_current(): string;
         master_next(): void;
         reconnects(reset?: null): number;
         master(): $mol_rest_port | null;

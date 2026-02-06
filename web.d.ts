@@ -5870,9 +5870,10 @@ declare namespace $ {
     class $giper_baza_yard extends $mol_object {
         glob(): $giper_baza_glob;
         lands_news: $mol_wire_set<string>;
-        static masters(): $giper_baza_flex_peer[];
+        static masters_default: string[];
+        static masters(): string[];
         master_cursor(next?: number): number;
-        master_current(): $giper_baza_flex_peer;
+        master_current(): string;
         master_next(): void;
         reconnects(reset?: null): number;
         master(): $mol_rest_port | null;
@@ -5893,6 +5894,9 @@ declare namespace $ {
         init_port_land([port, land]: [$mol_rest_port, $giper_baza_link]): void;
         face_port_land([port, land]: [$mol_rest_port, $giper_baza_link], next?: null | $giper_baza_face_map): $giper_baza_face_map | null;
     }
+}
+
+declare namespace $ {
 }
 
 declare namespace $ {
@@ -6971,8 +6975,8 @@ declare namespace $.$$ {
         link_content(): $mol_icon_sync_off[];
         options(): string[];
         master_link(): string;
-        master_id(id: string): string;
-        option_label(id: string): string;
+        master_id(uri: string): string;
+        option_label(uri: string): string;
         value(next?: string): string;
     }
 }
