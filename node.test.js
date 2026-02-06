@@ -7073,6 +7073,8 @@ var $;
             let code = read_code();
             if (code >= 0x80)
                 code = ascii_set[code - 0x80];
+            if (code === undefined)
+                $mol_fail(new Error('Wrong byte', { cause: { text, pos: pos - 1 } }));
             return code;
         };
         while (pos < buffer.length) {
@@ -7106,6 +7108,9 @@ var $;
                 mode = code;
                 page_offset = ((mode - wide_mode) << 14) + wide_offset;
             }
+        }
+        if (mode !== tiny_mode) {
+            return $mol_fail(new Error('Wrong ending', { cause: { text, mode } }));
         }
         return text;
     }
@@ -15554,6 +15559,18 @@ var $;
                     0xF7, 0x74, 0x4B, 0xC1, 0x0D, 0x8C, 0xA9, 0x0A,
                     0xB4,
                 ]);
+            },
+            "Wrong ending"($) {
+                const bin = new Uint8Array([0x88, 0x3C, 0xE2, 0x40]);
+                const error = $mol_assert_fail(() => $mol_charset_ucf_decode(bin), 'Wrong ending');
+                $mol_assert_equal(error.cause.mode, 166);
+                $mol_assert_equal(error.cause.text, 'мир');
+            },
+            "Wrong byte"($) {
+                const bin = new Uint8Array([0xFF, 0x74, 0x4B, 0x74, 0x9B, 0x81]);
+                const error = $mol_assert_fail(() => $mol_charset_ucf_decode(bin), 'Wrong byte');
+                $mol_assert_equal(error.cause.pos, 4);
+                $mol_assert_equal(error.cause.text, '🏴');
             },
         });
     })($$ = $_1.$$ || ($_1.$$ = {}));

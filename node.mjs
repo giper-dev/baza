@@ -7082,6 +7082,8 @@ var $;
             let code = read_code();
             if (code >= 0x80)
                 code = ascii_set[code - 0x80];
+            if (code === undefined)
+                $mol_fail(new Error('Wrong byte', { cause: { text, pos: pos - 1 } }));
             return code;
         };
         while (pos < buffer.length) {
@@ -7115,6 +7117,9 @@ var $;
                 mode = code;
                 page_offset = ((mode - wide_mode) << 14) + wide_offset;
             }
+        }
+        if (mode !== tiny_mode) {
+            return $mol_fail(new Error('Wrong ending', { cause: { text, mode } }));
         }
         return text;
     }
