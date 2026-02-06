@@ -15852,7 +15852,8 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $giper_baza_yard.masters_default.push($mol_dom.document.location.origin + '/');
+    if ($mol_dom.document)
+        $giper_baza_yard.masters_default.push($mol_dom.document.location.origin + '/');
 })($ || ($ = {}));
 
 ;
