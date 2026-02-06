@@ -4,10 +4,7 @@ namespace $.$$ {
 		@ $mol_mem
 		home() {
 			
-			const peer = this.$.$giper_baza_glob.yard().master_current()
-			if( !peer ) return null
-			
-			const url = peer.urls()[0]
+			const url = this.$.$giper_baza_glob.yard().master_current()
 			if( !url ) return null
 			
 			const link = new $giper_baza_link( this.$.$mol_fetch.text( url + 'link' ) )

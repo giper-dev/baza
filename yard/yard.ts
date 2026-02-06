@@ -13,12 +13,15 @@ namespace $ {
 		
 		lands_news = new $mol_wire_set< string >()
 		
+		static masters_default = [] as string[]
+		
 		@ $mol_mem
 		static masters() {
 			const all = this.$.$giper_baza_glob.Seed().peers()
 			const self = this.$.$giper_baza_auth.current().pass().lord()
 			const pos = all.findLastIndex( peer => peer.link().str === self.str )
-			return all.slice( pos + 1 )
+			const links = all.slice( pos + 1 ).flatMap( peer => peer.urls() )
+			return links.length ? links : this.masters_default
 		}
 		
 		@ $mol_mem
@@ -46,10 +49,7 @@ namespace $ {
 			
 			this.reconnects()
 			
-			const peer = this.master_current()
-			if( !peer ) return null
-			
-			const link = peer.urls()[0]
+			const link = this.master_current()
 			if( !link ) return null
 			
 			const socket = new $mol_dom_context.WebSocket( link.replace( /^http/, 'ws' ) )
@@ -96,7 +96,7 @@ namespace $ {
 						place: this,
 						message: 'Connected',
 						port: $mol_key( port ),
-						server: peer.link().str,
+						server: link,
 					})
 					
 					interval = setInterval( ()=> socket.send( new Uint8Array ), 30000 )
@@ -107,7 +107,7 @@ namespace $ {
 				socket.onerror = ()=> {
 					
 					socket.onclose = event => {
-						fail( new Error( `Master (${peer.link().str}) is unavailable (${ event.code })` ) )
+						fail( new Error( `Master (${link}) is unavailable (${ event.code })` ) )
 						clearInterval( interval )
 						interval = setTimeout( ()=> {
 							this.master_next()
