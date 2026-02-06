@@ -15852,7 +15852,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $giper_baza_yard.masters_default.push($mol_dom_context.document.location.origin + '/');
+    $giper_baza_yard.masters_default.push($mol_dom.document.location.origin + '/');
 })($ || ($ = {}));
 
 ;
