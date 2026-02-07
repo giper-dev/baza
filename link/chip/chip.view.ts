@@ -4,7 +4,7 @@ namespace $.$$ {
 		@ $mol_mem
 		title() {
 			const link = this.link()
-			if( !link.str ) return '____every_one____'
+			if( !link.str ) return '______every______'
 			return this.$.$giper_baza_glob.Pawn( link , $giper_baza_flex_subj ).name() || link.str
 		}
 		
