@@ -16110,7 +16110,7 @@ var $;
     class $giper_baza_flex_subj extends $giper_baza_dict.with({
         Name: $giper_baza_atom_text,
     }, 'Subj') {
-        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_pla3dXt3`);
+        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_U2e5XejQ`);
         name(next) {
             return this.Name(next)?.val(next) ?? this.link().str;
         }
@@ -16123,7 +16123,7 @@ var $;
         Props: $giper_baza_list_link_to(() => $giper_baza_flex_prop),
         Pulls: $giper_baza_list_link_to(() => $giper_baza_flex_subj),
     }, 'Meta') {
-        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_a1JLFBay`);
+        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_Atd6Ty7F`);
         prop_new(key, type, kind, vars, base) {
             const prop = this.Props(null).make($mol_hash_string(key));
             prop.path(this.name() + ':' + key);
@@ -16176,7 +16176,7 @@ var $;
         Enum: $giper_baza_atom_link_to(() => $giper_baza_list_vary),
         Base: $giper_baza_atom_vary,
     }, 'Prop') {
-        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_7ovrwQ6t`);
+        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_DOnW7Ah9`);
         path(next) {
             return this.Path(next)?.val(next) ?? '';
         }
@@ -16198,7 +16198,7 @@ var $;
         Metas: $giper_baza_list_link_to(() => $giper_baza_flex_meta),
         Types: $giper_baza_list_str,
     }, 'Deck') {
-        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_TAv7CAua`);
+        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_3AvnmQ4q`);
         meta_new(key) {
             const meta = this.Metas(null).make($mol_hash_string(key));
             meta.name(key);
@@ -16221,7 +16221,7 @@ var $;
         Deck: $giper_baza_atom_link_to(() => $giper_baza_flex_deck),
         Peers: $giper_baza_list_link_to(() => $giper_baza_flex_peer),
     }, 'Seed') {
-        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_dELUKvvS`);
+        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_nrUK4ZIW`);
         deck() {
             return this.Deck(null).ensure(this.land());
         }
@@ -16319,8 +16319,11 @@ var $;
         static yard() {
             return new this.$.$giper_baza_yard;
         }
-        static home(Pawn) {
-            return this.Land(this.$.$giper_baza_auth.current().pass().lord()).Data(Pawn ?? this.$.$giper_baza_flex_subj);
+        static home(Home) {
+            const home = this.Land(this.$.$giper_baza_auth.current().pass().lord()).Data(Home ?? this.$.$giper_baza_flex_subj);
+            if (Home?.meta && !home.meta())
+                home.meta(Home.meta);
+            return home;
         }
         static king_grab(preset = [[null, this.$.$giper_baza_rank_read]]) {
             const mapping = new Map(preset);
@@ -16468,6 +16471,17 @@ var $;
 (function ($) {
     $mol_style_attach("giper/baza/status/status.view.css", "[giper_baza_status_option_row] {\n\tpadding: var(--mol_gap_text);\n}\n\n[giper_baza_status_well] {\n\tcolor: var(--mol_theme_current);\n}\n\n[giper_baza_status_fail] {\n\tcolor: var(--mol_theme_focus);\n}\n\n[giper_baza_status][mol_view_error=\"Promise\"] {\n\tanimation: giper_baza_status_wait 1s linear infinite;\n}\n\n@keyframes giper_baza_status_wait {\n\tfrom {\n\t\topacity: 1;\n\t}\n\tto {\n\t\topacity: .5;\n\t}\n}\n");
 })($ || ($ = {}));
+
+;
+	($.$mol_icon_account) = class $mol_icon_account extends ($.$mol_icon) {
+		path(){
+			return "M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z";
+		}
+	};
+
+
+;
+"use strict";
 
 ;
 	($.$mol_icon_security) = class $mol_icon_security extends ($.$mol_icon) {
@@ -21940,6 +21954,20 @@ var $;
 
 ;
 	($.$giper_baza_glob_book) = class $giper_baza_glob_book extends ($.$mol_book2_catalog) {
+		home_link(){
+			return "";
+		}
+		Home_link_icon(){
+			const obj = new this.$.$mol_icon_account();
+			return obj;
+		}
+		Home_link(){
+			const obj = new this.$.$mol_link();
+			(obj.hint) = () => ("Your Home");
+			(obj.arg) = () => ({"link": (this.home_link())});
+			(obj.sub) = () => ([(this.Home_link_icon())]);
+			return obj;
+		}
 		land(id){
 			const obj = new this.$.$giper_baza_land();
 			return obj;
@@ -22071,6 +22099,9 @@ var $;
 		menu_title(){
 			return "🌐 Glob";
 		}
+		menu_tools(){
+			return [(this.Home_link())];
+		}
 		param(){
 			return "link";
 		}
@@ -22097,6 +22128,8 @@ var $;
 			return obj;
 		}
 	};
+	($mol_mem(($.$giper_baza_glob_book.prototype), "Home_link_icon"));
+	($mol_mem(($.$giper_baza_glob_book.prototype), "Home_link"));
 	($mol_mem_key(($.$giper_baza_glob_book.prototype), "land"));
 	($mol_mem_key(($.$giper_baza_glob_book.prototype), "pawn"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Rights_open_icon"));
@@ -22202,6 +22235,9 @@ var $;
             }
             side() {
                 return this.$.$mol_state_arg.value('side') ?? '';
+            }
+            home_link() {
+                return this.$.$giper_baza_glob.home($giper_baza_flex_user).link().str;
             }
             land_current() {
                 return this.land(this.spread());

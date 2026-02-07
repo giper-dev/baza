@@ -11649,7 +11649,7 @@ var $;
     class $giper_baza_flex_subj extends $giper_baza_dict.with({
         Name: $giper_baza_atom_text,
     }, 'Subj') {
-        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_pla3dXt3`);
+        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_U2e5XejQ`);
         name(next) {
             return this.Name(next)?.val(next) ?? this.link().str;
         }
@@ -11662,7 +11662,7 @@ var $;
         Props: $giper_baza_list_link_to(() => $giper_baza_flex_prop),
         Pulls: $giper_baza_list_link_to(() => $giper_baza_flex_subj),
     }, 'Meta') {
-        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_a1JLFBay`);
+        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_Atd6Ty7F`);
         prop_new(key, type, kind, vars, base) {
             const prop = this.Props(null).make($mol_hash_string(key));
             prop.path(this.name() + ':' + key);
@@ -11715,7 +11715,7 @@ var $;
         Enum: $giper_baza_atom_link_to(() => $giper_baza_list_vary),
         Base: $giper_baza_atom_vary,
     }, 'Prop') {
-        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_7ovrwQ6t`);
+        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_DOnW7Ah9`);
         path(next) {
             return this.Path(next)?.val(next) ?? '';
         }
@@ -11737,7 +11737,7 @@ var $;
         Metas: $giper_baza_list_link_to(() => $giper_baza_flex_meta),
         Types: $giper_baza_list_str,
     }, 'Deck') {
-        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_TAv7CAua`);
+        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_3AvnmQ4q`);
         meta_new(key) {
             const meta = this.Metas(null).make($mol_hash_string(key));
             meta.name(key);
@@ -11760,7 +11760,7 @@ var $;
         Deck: $giper_baza_atom_link_to(() => $giper_baza_flex_deck),
         Peers: $giper_baza_list_link_to(() => $giper_baza_flex_peer),
     }, 'Seed') {
-        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_dELUKvvS`);
+        static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_base.str}_nrUK4ZIW`);
         deck() {
             return this.Deck(null).ensure(this.land());
         }
@@ -11858,8 +11858,11 @@ var $;
         static yard() {
             return new this.$.$giper_baza_yard;
         }
-        static home(Pawn) {
-            return this.Land(this.$.$giper_baza_auth.current().pass().lord()).Data(Pawn ?? this.$.$giper_baza_flex_subj);
+        static home(Home) {
+            const home = this.Land(this.$.$giper_baza_auth.current().pass().lord()).Data(Home ?? this.$.$giper_baza_flex_subj);
+            if (Home?.meta && !home.meta())
+                home.meta(Home.meta);
+            return home;
         }
         static king_grab(preset = [[null, this.$.$giper_baza_rank_read]]) {
             const mapping = new Map(preset);

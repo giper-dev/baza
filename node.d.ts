@@ -1968,7 +1968,7 @@ declare namespace $ {
     function $giper_baza_unit_sort(units: readonly $giper_baza_unit[]): $giper_baza_unit[];
     class $giper_baza_unit_base extends $mol_buffer {
         static compare(left: $giper_baza_unit_base | undefined, right: $giper_baza_unit_base | undefined): number;
-        static narrow(buf: ArrayBuffer): $giper_baza_auth_pass | $giper_baza_unit_seal | $giper_baza_unit_sand | $giper_baza_unit_gift;
+        static narrow(buf: ArrayBuffer): $giper_baza_auth_pass | $giper_baza_unit_gift | $giper_baza_unit_seal | $giper_baza_unit_sand;
         constructor(buffer: ArrayBuffer, byteOffset?: number, byteLength?: number);
         kind(next?: keyof typeof $giper_baza_unit_kind): Exclude<keyof typeof $giper_baza_unit_kind, 'pass'>;
         choose<Res>(ways: {
@@ -4798,7 +4798,7 @@ declare namespace $ {
     class $giper_baza_glob extends $mol_object {
         static lands_touched: $mol_wire_set<string>;
         static yard(): $giper_baza_yard;
-        static home<Pawn extends typeof $giper_baza_flex_subj = typeof $giper_baza_flex_subj>(Pawn?: Pawn): InstanceType<Pawn>;
+        static home<Home extends typeof $giper_baza_flex_subj = typeof $giper_baza_flex_subj>(Home?: Home): InstanceType<Home>;
         static king_grab(preset?: $giper_baza_rank_preset): $giper_baza_auth;
         static land_grab(preset?: $giper_baza_rank_preset): $giper_baza_land;
         static Land(link: $giper_baza_link): $giper_baza_land;
