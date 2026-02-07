@@ -11970,7 +11970,7 @@ var $;
                 const pass = $giper_baza_auth_pass.from(process.env.GIPER_BAZA_ADMIN);
                 this.land().give(pass, $giper_baza_rank_rule);
             }
-            const host = process.env.DOMAIN || $node.os.hostname();
+            const host = process.env.GIPER_BAZA_DOMAIN || $node.os.hostname();
             this.name(host);
             this.urls([`https://${host}/`]);
         }
