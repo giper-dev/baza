@@ -7,7 +7,7 @@ namespace $ {
 		Name: $giper_baza_atom_text,
 	}, 'Subj' ) {
 		
-		static meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_pla3dXt3` )
+		static meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_U2e5XejQ` )
 		
 		name( next?: string ) {
 			return this.Name( next )?.val( next ) ?? this.link().str
@@ -24,7 +24,7 @@ namespace $ {
 		Pulls: $giper_baza_list_link_to( ()=> $giper_baza_flex_subj ),
 	}, 'Meta' ) {
 		
-		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_a1JLFBay` )
+		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_Atd6Ty7F` )
 		
 		@ $mol_action
 		prop_new(
@@ -86,7 +86,7 @@ namespace $ {
 		Base: $giper_baza_atom_vary,
 	}, 'Prop' ) {
 		
-		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_7ovrwQ6t` )
+		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_DOnW7Ah9` )
 		
 		path( next?: string ) {
 			return this.Path( next )?.val( next ) ?? ''
@@ -116,7 +116,7 @@ namespace $ {
 		Types: $giper_baza_list_str,
 	}, 'Deck' ) {
 		
-		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_TAv7CAua` )
+		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_3AvnmQ4q` )
 		
 		@ $mol_action
 		meta_new( key: string ) {
@@ -140,7 +140,7 @@ namespace $ {
 		Peers: $giper_baza_list_link_to( ()=> $giper_baza_flex_peer ),
 	}, 'Seed' ) {
 		
-		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_dELUKvvS` )
+		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_nrUK4ZIW` )
 		
 		@ $mol_mem
 		deck() {
