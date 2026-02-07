@@ -7,8 +7,8 @@ namespace $ {
 			
 			super.init()
 			
-			if( process.env.ADMIN ) {
-				const pass = $giper_baza_auth_pass.from( process.env.ADMIN )
+			if( process.env.GIPER_BAZA_ADMIN ) {
+				const pass = $giper_baza_auth_pass.from( process.env.GIPER_BAZA_ADMIN )
 				this.land().give( pass, $giper_baza_rank_rule )
 			}
 			
