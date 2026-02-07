@@ -11,6 +11,9 @@ namespace $ {
 		$.$giper_baza_yard = $giper_baza_yard_mock
 	} )
 	
-	$giper_baza_yard.masters = ()=>[ 'http://localhost:9090/' ]
+	$giper_baza_yard.masters = ()=> {
+		$giper_baza_glob.Seed()
+		return [ 'http://localhost:9090/' ]
+	}
 	
 }
