@@ -56,6 +56,7 @@ namespace $ {
 		
 		@ $mol_mem
 		init() {
+			this.Errors( null )!.tick_instant( 1 ) // restarts as errors
 			let handler: $mol_report_handler_type = ()=> this.Errors( null )!.tick_instant( 1 )
 			$mol_report_handler_all.add( handler )
 			return { destructor: ()=> $mol_report_handler_all.delete( handler ) }
