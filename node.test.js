@@ -11580,6 +11580,7 @@ var $;
             return this.Uptime(next)?.val(next) ?? new $mol_time_duration(0);
         }
         init() {
+            this.Errors(null).tick_instant(1);
             let handler = () => this.Errors(null).tick_instant(1);
             $mol_report_handler_all.add(handler);
             return { destructor: () => $mol_report_handler_all.delete(handler) };
