@@ -1,5 +1,11 @@
 $giper_baza_glob_book $mol_book2_catalog
 	menu_title \🌐 Glob
+	menu_tools /
+		<= Home_link $mol_link
+			hint \Your Home
+			arg * link <= home_link \
+			sub /
+				<= Home_link_icon $mol_icon_account
 	param \link
 	Spread* <= Land* $giper_baza_land_page
 		land <= land* $giper_baza_land

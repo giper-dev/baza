@@ -39,6 +39,10 @@ namespace $.$$ {
 			return this.$.$mol_state_arg.value( 'side' ) ?? ''
 		}
 		
+		home_link() {
+			return this.$.$giper_baza_glob.home( $giper_baza_flex_user ).link().str
+		}
+		
 		land_current() {
 			return this.land( this.spread() )
 		}
