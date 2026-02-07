@@ -8,7 +8,7 @@ namespace $ {
 			return this.text( next )
 		}
 		
-		/** Text representation. Based on list of strings. */
+		/** Text representation. Based on list of rows. */
 		@ $mol_mem
 		text( next?: string ): string {
 			
@@ -44,7 +44,7 @@ namespace $ {
 			return this.str()
 		}
 		
-		/** Text representation. Based on list of strings. */
+		/** Text representation. Based on list of tokens. */
 		@ $mol_mem
 		str( next?: string ): string {
 			

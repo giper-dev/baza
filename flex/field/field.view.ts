@@ -54,6 +54,10 @@ namespace $.$$ {
 			return this.pawn( next as any )?.cast( $giper_baza_atom_text ).val( next ) ?? ''
 		}
 		
+		str_selection( next?: readonly[ begin: number, end: number ] ) {
+			return this.pawn( next as any )?.cast( $giper_baza_atom_text ).selection( this.land().auth().pass().lord(), next )
+		}
+		
 		time( next?: $mol_time_moment ) {
 			return this.pawn( next as any )?.cast( $giper_baza_atom_time ).val( next ) ?? null!
 		}
@@ -122,6 +126,10 @@ namespace $.$$ {
 		
 		text( next?: string ) {
 			return this.pawn( next as any )?.cast( $giper_baza_text ).value( next ) ?? ''
+		}
+		
+		text_selection( next?: readonly[ begin: number, end: number ] ) {
+			return this.pawn( next as any )?.cast( $giper_baza_text ).selection( this.land().auth().pass().lord(), next )
 		}
 		
 		@ $mol_mem

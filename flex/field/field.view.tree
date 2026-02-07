@@ -40,6 +40,7 @@ $giper_baza_flex_field $mol_view
 	Str $mol_textarea
 		enabled <= enabled true
 		value? <=> str? \
+		selection? <=> str_selection? /
 	Time $mol_date
 		enabled <= enabled true
 		value_moment? <=> time? $mol_time_moment
@@ -51,6 +52,7 @@ $giper_baza_flex_field $mol_view
 	Text $mol_textarea
 		enabled <= enabled true
 		value? <=> text? \
+		selection? <=> text_selection? /
 	List <= List_drop $mol_drop
 		adopt? <=> list_item_adopt? null
 		receive? <=> list_receive? null

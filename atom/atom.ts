@@ -131,28 +131,62 @@ namespace $ {
 	
 	/** Atomic non empty binary register */
 	export class $giper_baza_atom_blob extends $giper_baza_atom( $giper_baza_vary_cast_blob ) {}
+	
 	/** Atomic boolean register */
 	export class $giper_baza_atom_bool extends $giper_baza_atom( $giper_baza_vary_cast_bool ) {}
+	
 	/** Atomic int64 register */
 	export class $giper_baza_atom_bint extends $giper_baza_atom( $giper_baza_vary_cast_bint ) {}
+	
 	/** Atomic float64 register */
 	export class $giper_baza_atom_real extends $giper_baza_atom( $giper_baza_vary_cast_real ) {}
+	
 	/** Atomic some link register */
 	export class $giper_baza_atom_link extends $giper_baza_atom( $giper_baza_vary_cast_link ) {}
+	
 	/** Atomic string register */
-	export class $giper_baza_atom_text extends $giper_baza_atom( $giper_baza_vary_cast_text ) {}
+	export class $giper_baza_atom_text extends $giper_baza_atom( $giper_baza_vary_cast_text ) {
+		
+		@ $mol_mem_key
+		selection( lord: $giper_baza_link, next?: readonly[ begin: number, end: number ] ) {
+			
+			const user = this.$.$giper_baza_glob.Land( lord ).Data( $giper_baza_flex_user )
+			
+			if( next ) {
+				
+				user.caret( next.join( '|' ) )
+				return next
+				
+			} else {
+				
+				this.val() // track text to recalc selection on its change
+				
+				return user.caret()?.split( '|' ).map( chunk => Number( chunk ) ) ?? [ 0, 0 ]
+				
+			}
+
+		}
+		
+	}
+	
 	/** Atomic iso8601 time moment register*/
 	export class $giper_baza_atom_time extends $giper_baza_atom( $giper_baza_vary_cast_time ) {}
+	
 	/** Atomic iso8601 time duration register */
 	export class $giper_baza_atom_dura extends $giper_baza_atom( $giper_baza_vary_cast_dura ) {}
+	
 	/** Atomic iso8601 time interval register */
 	export class $giper_baza_atom_span extends $giper_baza_atom( $giper_baza_vary_cast_span ) {}
+	
 	/** Atomic plain old js object register */
 	export class $giper_baza_atom_dict extends $giper_baza_atom( $giper_baza_vary_cast_dict ) {}
+	
 	/** Atomic plain old js array register */
 	export class $giper_baza_atom_list extends $giper_baza_atom( $giper_baza_vary_cast_list ) {}
+	
 	/** Atomic DOM register */
 	export class $giper_baza_atom_elem extends $giper_baza_atom( $giper_baza_vary_cast_elem ) {}
+	
 	/** Atomic Tree register */
 	export class $giper_baza_atom_tree extends $giper_baza_atom( $giper_baza_vary_cast_tree ) {}
 	
