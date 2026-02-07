@@ -3,7 +3,7 @@ services:
   baza:
     image: ghcr.io/giper-dev/baza:master
     environment:
-      DOMAIN: ${DOMAIN}
+      GIPER_BAZA_DOMAIN: ${GIPER_BAZA_DOMAIN}
     logging:
       driver: "local"
     volumes:
@@ -12,7 +12,7 @@ services:
     restart: unless-stopped
     network_mode: host
     labels:
-      caddy: ${DOMAIN}
+      caddy: ${GIPER_BAZA_DOMAIN}
       caddy.encode: zstd gzip
       caddy.reverse_proxy: ":9090"
 
