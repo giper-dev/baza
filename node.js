@@ -11966,8 +11966,8 @@ var $;
     class $giper_baza_app_home_node extends $giper_baza_app_home {
         init() {
             super.init();
-            if (process.env.ADMIN) {
-                const pass = $giper_baza_auth_pass.from(process.env.ADMIN);
+            if (process.env.GIPER_BAZA_ADMIN) {
+                const pass = $giper_baza_auth_pass.from(process.env.GIPER_BAZA_ADMIN);
                 this.land().give(pass, $giper_baza_rank_rule);
             }
             const host = process.env.DOMAIN || $node.os.hostname();
