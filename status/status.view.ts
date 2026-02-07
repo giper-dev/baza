@@ -54,11 +54,11 @@ namespace $.$$ {
 		}
 		
 		master_id( uri: string ) {
-			return uri.replace( /^\w+:\/\//, '' ).replace( /\/$/, '' )
+			return uri
 		}
 		
 		option_label( uri: string ) {
-			return this.master_id( uri )
+			return uri.replace( /^\w+:\/\//, '' ).replace( /\/$/, '' )
 		}
 		
 		value( next?: string ) {
