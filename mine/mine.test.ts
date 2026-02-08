@@ -1,6 +1,6 @@
 namespace $ {
 	$mol_test_mocks.push( $=> {
-		class $giper_baza_mine_mock extends $.$giper_baza_mine {
+		class $giper_baza_mine_mock extends $.$giper_baza_mine_temp {
 			
 			/** Updates Units in storage */
 			override units_save( diff: $giper_baza_mine_diff ) {}

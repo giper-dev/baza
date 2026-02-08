@@ -4,7 +4,7 @@ namespace $ {
 		return task() as Result
 	}
 		
-	export class $giper_baza_mine_idb extends $giper_baza_mine {
+	export class $giper_baza_mine_idb extends $giper_baza_mine_temp {
 		
 		@ $mol_action
 		override units_save( diff: $giper_baza_mine_diff ) {

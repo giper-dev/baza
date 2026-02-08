@@ -2,7 +2,7 @@ namespace $ {
 	
 	export type $giper_baza_mine_diff = { ins: readonly $giper_baza_unit[], del: readonly $giper_baza_unit[] }
 	
-	export class $giper_baza_mine extends $mol_object {
+	export class $giper_baza_mine_temp extends $mol_object {
 		
 		@ $mol_mem_key
 		static land( land: $giper_baza_link ) {
@@ -37,4 +37,6 @@ namespace $ {
 		}
 		
 	}
+	
+	export let $giper_baza_mine = $giper_baza_mine_temp
 }

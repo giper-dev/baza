@@ -140,7 +140,7 @@ namespace $ {
 		
 	}
 	
-	export class $giper_baza_mine_fs extends $giper_baza_mine {
+	export class $giper_baza_mine_fs extends $giper_baza_mine_temp {
 		
 		@ $mol_memo.method
 		store() {

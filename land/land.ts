@@ -975,7 +975,7 @@ namespace $ {
 		}
 		
 		mine() {
-			return this.$.$giper_baza_mine.land( this.link() )
+			return this.$.$giper_baza_mine_temp.land( this.link() )
 		}
 		
 		@ $mol_mem
