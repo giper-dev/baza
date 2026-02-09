@@ -3132,6 +3132,7 @@ declare namespace $ {
         native(): Promise<CryptoKey>;
         native_derive(): Promise<CryptoKey>;
         verify(data: BufferSource, sign: BufferSource): Promise<boolean>;
+        toJSON(): string;
     }
     class $mol_crypto_key_private extends $mol_crypto_key {
         static size_str: number;
@@ -3142,6 +3143,7 @@ declare namespace $ {
         native_derive(): Promise<CryptoKey>;
         public(): $mol_crypto_key_public;
         sign(data: BufferSource): Promise<Uint8Array<ArrayBuffer>>;
+        toJSON(): string;
     }
 }
 
