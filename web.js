@@ -14204,9 +14204,6 @@ var $;
         }
     }
     __decorate([
-        $mol_mem
-    ], $giper_baza_unit_seal.prototype, "sign", null);
-    __decorate([
         $mol_action
     ], $giper_baza_unit_seal, "make", null);
     $.$giper_baza_unit_seal = $giper_baza_unit_seal;
