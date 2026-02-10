@@ -12,7 +12,7 @@ namespace $ {
 	 * Diff: -Faces +Units
 	 * Stop: -Faces -Units
 	 */
-	export class $giper_baza_pack_part extends Object {
+	export class $giper_baza_pack_part extends $mol_object {
 		
 		constructor(
 			public units = [] as readonly $giper_baza_unit[],

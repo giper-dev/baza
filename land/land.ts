@@ -194,6 +194,7 @@ namespace $ {
 			
 		}
 		
+		@ $mol_mem_key
 		lord_pass( lord: $giper_baza_link ) {
 			return this._pass.get( lord.str ) ?? null
 		}
@@ -420,7 +421,11 @@ namespace $ {
 			}
 			
 			
-			for( const seal of this._seal_item.values() ) collect( seal )
+			for( const seal of this._seal_item.values() ) {
+				if( !seal.alive_items.size ) continue
+				collect( seal )
+			}
+			
 			for( const gift of this._gift.values() ) {
 				collect( gift )
 				if( gift.mate().str ) {
@@ -975,7 +980,7 @@ namespace $ {
 		}
 		
 		mine() {
-			return this.$.$giper_baza_mine_temp.land( this.link() )
+			return this.$.$giper_baza_mine.land( this.link() )
 		}
 		
 		@ $mol_mem
@@ -1080,7 +1085,7 @@ namespace $ {
 		units_unsaved() {
 			
 			const mine = this.mine()
-			const persisting = [] as $giper_baza_unit[]
+			const persisting = new Set< $giper_baza_unit >()
 			
 			const check_lord = ( lord: $giper_baza_link )=> {
 				
@@ -1089,7 +1094,7 @@ namespace $ {
 				
 				if( mine.units_persisted.has( pass ) ) return
 				
-				persisting.push( pass )
+				persisting.add( pass )
 				
 			}
 			
@@ -1097,7 +1102,7 @@ namespace $ {
 				
 				if( mine.units_persisted.has( gift ) ) continue
 				
-				persisting.push( gift )
+				persisting.add( gift )
 				check_lord( gift.lord() )
 				check_lord( gift.mate() )
 				
@@ -1109,7 +1114,7 @@ namespace $ {
 						
 						if( $mol_wire_sync( mine.units_persisted ).has( sand ) ) continue
 						
-						persisting.push( sand )
+						persisting.add( sand )
 						check_lord( sand.lord() )
 						
 					}
@@ -1121,11 +1126,11 @@ namespace $ {
 				if( !seal.alive_items.size ) continue
 				if( mine.units_persisted.has( seal ) ) continue
 				
-				persisting.push( seal )
+				persisting.add( seal )
 				
 			}
 			
-			return persisting
+			return [ ... persisting ]
 		}
 		
 		@ $mol_mem
@@ -1370,6 +1375,11 @@ namespace $ {
 				units
 			}
 			
+		}
+		
+		;[ Symbol.for( 'nodejs.util.inspect.custom' ) ]() {
+			return $mol_term_color.blue( '$giper_baza_land' )
+				+ $mol_term_color.magenta( ` @` + this.link() )
 		}
 		
 		;[ $mol_dev_format_head ]() {

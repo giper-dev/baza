@@ -217,7 +217,8 @@ namespace $ {
 		}
 		
 		toJSON() {
-			return '#' + this.hash().str
+			// return '#' + this.hash().str
+			return this.toString()
 		}
 		
 		toString() {

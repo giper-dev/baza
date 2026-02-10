@@ -33,7 +33,7 @@ namespace $ {
 		}
 		
 		toJSON() {
-			return $mol_term_color.magenta( '@' + this.lord().str )
+			return '@' + this.lord().str
 		}
 		
 		[ $mol_dev_format_head ]() {

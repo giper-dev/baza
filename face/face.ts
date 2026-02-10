@@ -44,7 +44,15 @@ namespace $ {
 		toJSON() {
 			const time = $giper_baza_time_dump( this.time, this.tick )
 			const summ = '%' + this.summ
-			return $mol_term_color.gray( `${time} ${summ}` )
+			return `${time} ${summ}`
+		}
+		
+		;[ Symbol.for( 'nodejs.util.inspect.custom' ) ]() {
+			return $mol_term_color.blue( '$giper_baza_face ' )
+				+ $mol_term_color.gray( 
+					$giper_baza_time_dump( this.time, this.tick )
+					+ ' %' + this.summ
+				)
 		}
 		
 		[ $mol_dev_format_head ]() {
@@ -143,6 +151,11 @@ namespace $ {
 			return Object.fromEntries( this.entries() )
 		}
 
+		;[ Symbol.for( 'nodejs.util.inspect.custom' ) ]() {
+			return $mol_term_color.blue( '$giper_baza_face_map ' )
+				+ $mol_term_color.gray( this.stat.toJSON() )
+		}
+		
 		[ $mol_dev_format_head ]() {
 			
 			return $mol_dev_format_span( {},

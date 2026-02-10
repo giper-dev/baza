@@ -378,5 +378,9 @@ namespace $ {
 			return next
 		}
 		
+		;[ Symbol.for( 'nodejs.util.inspect.custom' ) ]() {
+			return $mol_term_color.blue( `$giper_baza_yard` )
+		}
+		
 	}
 }
