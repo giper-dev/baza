@@ -3026,7 +3026,7 @@ declare namespace $ {
     const $giper_baza_pack_four_code: Uint8Array<ArrayBuffer>;
     const $giper_baza_pack_head_size: number;
     type $giper_baza_pack_parts = [string, $giper_baza_pack_part][];
-    class $giper_baza_pack_part extends Object {
+    class $giper_baza_pack_part extends $mol_object {
         units: readonly $giper_baza_unit[];
         faces: $giper_baza_face_map;
         constructor(units?: readonly $giper_baza_unit[], faces?: $giper_baza_face_map);

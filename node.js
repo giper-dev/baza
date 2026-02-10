@@ -5608,7 +5608,7 @@ var $;
             return this.hash().peer();
         }
         toJSON() {
-            return $mol_term_color.magenta('@' + this.lord().str);
+            return '@' + this.lord().str;
         }
         [$mol_dev_format_head]() {
             return $mol_dev_format_span({}, $mol_dev_format_native(this), ' 👾', $mol_dev_format_auto(this.lord()), ' 🎫');
@@ -6736,7 +6736,13 @@ var $;
         toJSON() {
             const time = $giper_baza_time_dump(this.time, this.tick);
             const summ = '%' + this.summ;
-            return $mol_term_color.gray(`${time} ${summ}`);
+            return `${time} ${summ}`;
+        }
+        ;
+        [Symbol.for('nodejs.util.inspect.custom')]() {
+            return $mol_term_color.blue('$giper_baza_face ')
+                + $mol_term_color.gray($giper_baza_time_dump(this.time, this.tick)
+                    + ' %' + this.summ);
         }
         [$mol_dev_format_head]() {
             return $mol_dev_format_span({}, $mol_dev_format_native(this), $mol_dev_format_shade(' ', $giper_baza_time_dump(this.time, this.tick), ' %', this.summ));
@@ -6796,6 +6802,11 @@ var $;
         }
         toJSON() {
             return Object.fromEntries(this.entries());
+        }
+        ;
+        [Symbol.for('nodejs.util.inspect.custom')]() {
+            return $mol_term_color.blue('$giper_baza_face_map ')
+                + $mol_term_color.gray(this.stat.toJSON());
         }
         [$mol_dev_format_head]() {
             return $mol_dev_format_span({}, $mol_dev_format_native(this), ' ', $mol_dev_format_auto(this.stat));
@@ -8697,8 +8708,11 @@ var $;
                 else
                     skipped.set(peer, new Set([unit]));
             }
-            for (const seal of this._seal_item.values())
+            for (const seal of this._seal_item.values()) {
+                if (!seal.alive_items.size)
+                    continue;
                 collect(seal);
+            }
             for (const gift of this._gift.values()) {
                 collect(gift);
                 if (gift.mate().str) {
@@ -9069,7 +9083,7 @@ var $;
             this.$.$giper_baza_glob.yard().forget_land(this);
         }
         mine() {
-            return this.$.$giper_baza_mine_temp.land(this.link());
+            return this.$.$giper_baza_mine.land(this.link());
         }
         sync_mine() {
             return new $mol_wire_atom('', () => this.units_saving()).fresh();
@@ -9141,19 +9155,19 @@ var $;
         }
         units_unsaved() {
             const mine = this.mine();
-            const persisting = [];
+            const persisting = new Set();
             const check_lord = (lord) => {
                 const pass = this.lord_pass(lord);
                 if (!pass)
                     return;
                 if (mine.units_persisted.has(pass))
                     return;
-                persisting.push(pass);
+                persisting.add(pass);
             };
             for (const gift of this._gift.values()) {
                 if (mine.units_persisted.has(gift))
                     continue;
-                persisting.push(gift);
+                persisting.add(gift);
                 check_lord(gift.lord());
                 check_lord(gift.mate());
             }
@@ -9162,7 +9176,7 @@ var $;
                     for (const sand of units.values()) {
                         if ($mol_wire_sync(mine.units_persisted).has(sand))
                             continue;
-                        persisting.push(sand);
+                        persisting.add(sand);
                         check_lord(sand.lord());
                     }
                 }
@@ -9172,9 +9186,9 @@ var $;
                     continue;
                 if (mine.units_persisted.has(seal))
                     continue;
-                persisting.push(seal);
+                persisting.add(seal);
             }
-            return persisting;
+            return [...persisting];
         }
         units_saving() {
             this.units_signing();
@@ -9368,10 +9382,18 @@ var $;
             };
         }
         ;
+        [Symbol.for('nodejs.util.inspect.custom')]() {
+            return $mol_term_color.blue('$giper_baza_land')
+                + $mol_term_color.magenta(` @` + this.link());
+        }
+        ;
         [$mol_dev_format_head]() {
             return $mol_dev_format_span({}, $mol_dev_format_native(this), ' ', $mol_dev_format_auto(this.faces.stat));
         }
     }
+    __decorate([
+        $mol_mem_key
+    ], $giper_baza_land.prototype, "lord_pass", null);
     __decorate([
         $mol_action
     ], $giper_baza_land.prototype, "self_make", null);
@@ -9650,7 +9672,7 @@ var $;
             return `${lord} ${hash} ${time}`;
         }
         toJSON() {
-            return '#' + this.hash().str;
+            return this.toString();
         }
         toString() {
             const hash = '#' + this.hash().str;
@@ -9837,6 +9859,9 @@ var $;
             return $mol_dev_format_span({}, $mol_dev_format_native(this), ' 👾', $mol_dev_format_auto(this.lord()), ' ✍ ', $mol_dev_format_shade(this.moment().toString('YYYY-MM-DD hh:mm:ss'), ' &', this.tick().toString(16).padStart(2, '0')), ' #', $mol_dev_format_auto(this.hash()), ' ', $mol_dev_format_auto(this.hash_list()));
         }
     }
+    __decorate([
+        $mol_mem
+    ], $giper_baza_unit_seal.prototype, "sign", null);
     __decorate([
         $mol_action
     ], $giper_baza_unit_seal, "make", null);
@@ -10658,7 +10683,7 @@ var $;
 (function ($) {
     $.$giper_baza_pack_four_code = $mol_charset_encode('LAND');
     $.$giper_baza_pack_head_size = 4 + 12 + 6 + 2;
-    class $giper_baza_pack_part extends Object {
+    class $giper_baza_pack_part extends $mol_object {
         units;
         faces;
         constructor(units = [], faces = new $giper_baza_face_map) {
@@ -11118,6 +11143,10 @@ var $;
         face_port_land([port, land], next = null) {
             $mol_wire_solid();
             return next;
+        }
+        ;
+        [Symbol.for('nodejs.util.inspect.custom')]() {
+            return $mol_term_color.blue(`$giper_baza_yard`);
         }
     }
     __decorate([

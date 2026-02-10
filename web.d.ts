@@ -3181,33 +3181,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_term_color {
-        static reset: (str: string) => string;
-        static bold: (str: string) => string;
-        static italic: (str: string) => string;
-        static underline: (str: string) => string;
-        static inverse: (str: string) => string;
-        static hidden: (str: string) => string;
-        static strike: (str: string) => string;
-        static gray: (str: string) => string;
-        static red: (str: string) => string;
-        static green: (str: string) => string;
-        static yellow: (str: string) => string;
-        static blue: (str: string) => string;
-        static magenta: (str: string) => string;
-        static cyan: (str: string) => string;
-        static Gray: (str: string) => string;
-        static Red: (str: string) => string;
-        static Green: (str: string) => string;
-        static Yellow: (str: string) => string;
-        static Blue: (str: string) => string;
-        static Magenta: (str: string) => string;
-        static Cyan: (str: string) => string;
-        static ansi(open: number, close: number): (str: string) => string;
-    }
-}
-
-declare namespace $ {
     function $mol_crypto_salt(): Uint8Array<ArrayBuffer>;
     const $mol_crypto_salt_once: Uint8Array<ArrayBuffer>;
 }
@@ -3564,6 +3537,33 @@ declare namespace $ {
     function $giper_baza_time_dump(time: number, tick?: number): string;
     function $giper_baza_time_now(): number;
     function $giper_baza_time_freeze(task: () => void): void;
+}
+
+declare namespace $ {
+    class $mol_term_color {
+        static reset: (str: string) => string;
+        static bold: (str: string) => string;
+        static italic: (str: string) => string;
+        static underline: (str: string) => string;
+        static inverse: (str: string) => string;
+        static hidden: (str: string) => string;
+        static strike: (str: string) => string;
+        static gray: (str: string) => string;
+        static red: (str: string) => string;
+        static green: (str: string) => string;
+        static yellow: (str: string) => string;
+        static blue: (str: string) => string;
+        static magenta: (str: string) => string;
+        static cyan: (str: string) => string;
+        static Gray: (str: string) => string;
+        static Red: (str: string) => string;
+        static Green: (str: string) => string;
+        static Yellow: (str: string) => string;
+        static Blue: (str: string) => string;
+        static Magenta: (str: string) => string;
+        static Cyan: (str: string) => string;
+        static ansi(open: number, close: number): (str: string) => string;
+    }
 }
 
 declare namespace $ {
@@ -5144,7 +5144,7 @@ declare namespace $ {
     const $giper_baza_pack_four_code: Uint8Array<ArrayBuffer>;
     const $giper_baza_pack_head_size: number;
     type $giper_baza_pack_parts = [string, $giper_baza_pack_part][];
-    class $giper_baza_pack_part extends Object {
+    class $giper_baza_pack_part extends $mol_object {
         units: readonly $giper_baza_unit[];
         faces: $giper_baza_face_map;
         constructor(units?: readonly $giper_baza_unit[], faces?: $giper_baza_face_map);
