@@ -1929,7 +1929,7 @@ declare namespace $ {
         broadcast(): void;
         sync(): this;
         destructor(): void;
-        mine(): $giper_baza_mine;
+        mine(): $giper_baza_mine_temp;
         sync_mine(): $mol_wire_atom<unknown, [], void> | undefined;
         sync_yard(): $mol_wire_atom<unknown, [], void>;
         bus(): $mol_bus<ArrayBuffer>;
@@ -1992,6 +1992,7 @@ declare namespace $ {
         tier_min(): $giper_baza_rank_tier;
         _land: null | $giper_baza_land;
         dump(): {};
+        inspect(): string;
         toJSON(): string;
         toString(): string;
     }
@@ -2038,6 +2039,7 @@ declare namespace $ {
         tier_min(): $giper_baza_rank_tier;
         rank_min(): number;
         path(): string;
+        inspect(): string;
         toString(): string;
         [$mol_dev_format_head](): any[];
     }
@@ -2087,6 +2089,7 @@ declare namespace $ {
             time: string;
         };
         tier_min(): $giper_baza_rank_tier.post | $giper_baza_rank_tier.pull;
+        inspect(): string;
         toString(): string;
         [$mol_dev_format_head](): any[];
     }
@@ -2116,6 +2119,7 @@ declare namespace $ {
             time: string;
         };
         tier_min(): $giper_baza_rank_tier;
+        inspect(): string;
         toString(): string;
         [$mol_dev_format_head](): any[];
     }
@@ -2880,8 +2884,8 @@ declare namespace $ {
         ins: readonly $giper_baza_unit[];
         del: readonly $giper_baza_unit[];
     };
-    class $giper_baza_mine extends $mol_object {
-        static land(land: $giper_baza_link): $giper_baza_mine;
+    class $giper_baza_mine_temp extends $mol_object {
+        static land(land: $giper_baza_link): $giper_baza_mine_temp;
         land(): $giper_baza_link;
         unit_deletes: number;
         unit_inserts: number;
@@ -2892,6 +2896,7 @@ declare namespace $ {
         units_load(): readonly $giper_baza_unit[];
         ball_load(sand: $giper_baza_unit_sand): Uint8Array<ArrayBuffer>;
     }
+    let $giper_baza_mine: typeof $giper_baza_mine_temp;
 }
 
 declare namespace $ {
@@ -2916,7 +2921,7 @@ declare namespace $ {
         save_init(): void;
         empty(): boolean;
     }
-    class $giper_baza_mine_fs extends $giper_baza_mine {
+    class $giper_baza_mine_fs extends $giper_baza_mine_temp {
         store(): $giper_baza_mine_fs_yym;
         store_init(): void;
         units_save(diff: $giper_baza_mine_diff): void;

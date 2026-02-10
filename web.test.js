@@ -5318,7 +5318,7 @@ var $;
 var $;
 (function ($_1) {
     $mol_test_mocks.push($ => {
-        class $giper_baza_mine_mock extends $.$giper_baza_mine {
+        class $giper_baza_mine_mock extends $.$giper_baza_mine_temp {
             units_save(diff) { }
             units_load() {
                 return [];

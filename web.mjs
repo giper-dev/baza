@@ -13435,7 +13435,7 @@ var $;
             this.$.$giper_baza_glob.yard().forget_land(this);
         }
         mine() {
-            return this.$.$giper_baza_mine.land(this.link());
+            return this.$.$giper_baza_mine_temp.land(this.link());
         }
         sync_mine() {
             return new $mol_wire_atom('', () => this.units_saving()).fresh();
@@ -14007,15 +14007,21 @@ var $;
             return {};
         }
         [Symbol.for('nodejs.util.inspect.custom')]() {
-            return this.toString();
+            return this.inspect();
         }
-        toJSON() {
-            return this.toString();
-        }
-        toString() {
+        inspect() {
             const hash = $mol_term_color.cyan('#' + this.hash().str);
             const lord = $mol_term_color.magenta('@' + this.lord().str);
             const time = $mol_term_color.gray($giper_baza_time_dump(this.time(), this.tick()));
+            return `${lord} ${hash} ${time}`;
+        }
+        toJSON() {
+            return '#' + this.hash().str;
+        }
+        toString() {
+            const hash = '#' + this.hash().str;
+            const lord = '@' + this.lord().str;
+            const time = $giper_baza_time_dump(this.time(), this.tick());
             return `${lord} ${hash} ${time}`;
         }
     }
@@ -14184,15 +14190,22 @@ var $;
         path() {
             return `seal:${this.lord()}/${$giper_baza_time_dump(this.time(), this.tick())}`;
         }
-        toString() {
+        inspect() {
             const items = this.hash_list().map(hash => $mol_term_color.cyan('#' + hash.str)).join(', ');
             const kind = $mol_term_color.green('%');
-            return `${super.toString()} ${kind} ${items}`;
+            return `${super.inspect()} ${kind} ${items}`;
+        }
+        toString() {
+            const items = this.hash_list().map(hash => '#' + hash.str).join(', ');
+            return `${super.toString()} % ${items}`;
         }
         [$mol_dev_format_head]() {
             return $mol_dev_format_span({}, $mol_dev_format_native(this), ' 👾', $mol_dev_format_auto(this.lord()), ' ✍ ', $mol_dev_format_shade(this.moment().toString('YYYY-MM-DD hh:mm:ss'), ' &', this.tick().toString(16).padStart(2, '0')), ' #', $mol_dev_format_auto(this.hash()), ' ', $mol_dev_format_auto(this.hash_list()));
         }
     }
+    __decorate([
+        $mol_mem
+    ], $giper_baza_unit_seal.prototype, "sign", null);
     __decorate([
         $mol_action
     ], $giper_baza_unit_seal, "make", null);
@@ -14337,7 +14350,7 @@ var $;
                 ? $giper_baza_rank_tier.pull
                 : $giper_baza_rank_tier.post;
         }
-        toString() {
+        inspect() {
             const lead = $mol_term_color.blue(this.lead().str || '__knot__');
             const head = $mol_term_color.blue(this.head().str || '__root__');
             const self = $mol_term_color.blue(this.self().str || '__meta__');
@@ -14348,6 +14361,19 @@ var $;
                 keys: 'K',
             }[this.tag()]);
             const vary = this._vary === undefined ? '' : $mol_term_color.yellow(String(this._vary));
+            return `${super.inspect()} ${tag} ${lead}\\${head}/${self} ${vary}`;
+        }
+        toString() {
+            const lead = this.lead().str || '__knot__';
+            const head = this.head().str || '__root__';
+            const self = this.self().str || '__meta__';
+            const tag = {
+                term: 'T',
+                solo: 'S',
+                vals: 'V',
+                keys: 'K',
+            }[this.tag()];
+            const vary = this._vary === undefined ? '' : String(this._vary);
             return `${super.toString()} ${tag} ${lead}\\${head}/${self} ${vary}`;
         }
         [$mol_dev_format_head]() {
@@ -14433,10 +14459,16 @@ var $;
         tier_min() {
             return $giper_baza_rank_tier.rule;
         }
-        toString() {
+        inspect() {
             const mate = $mol_term_color.magenta('@' + (this.mate().str || '______every______'));
             const read = $mol_term_color.green(this.code().some(v => v) ? 'X' : 'O');
             const rank = $mol_term_color.cyan($giper_baza_rank_tier[this.tier()] + ':' + this.rate().toString(16).toUpperCase());
+            return `${super.inspect()} ${read} ${mate} ${rank}`;
+        }
+        toString() {
+            const mate = '@' + (this.mate().str || '______every______');
+            const read = this.code().some(v => v) ? 'X' : 'O';
+            const rank = $giper_baza_rank_tier[this.tier()] + ':' + this.rate().toString(16).toUpperCase();
             return `${super.toString()} ${read} ${mate} ${rank}`;
         }
         [$mol_dev_format_head]() {
@@ -14687,7 +14719,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $giper_baza_mine extends $mol_object {
+    class $giper_baza_mine_temp extends $mol_object {
         static land(land) {
             return this.make({
                 land: $mol_const(land)
@@ -14711,8 +14743,9 @@ var $;
     }
     __decorate([
         $mol_mem_key
-    ], $giper_baza_mine, "land", null);
-    $.$giper_baza_mine = $giper_baza_mine;
+    ], $giper_baza_mine_temp, "land", null);
+    $.$giper_baza_mine_temp = $giper_baza_mine_temp;
+    $.$giper_baza_mine = $giper_baza_mine_temp;
 })($ || ($ = {}));
 
 ;
@@ -14946,7 +14979,7 @@ var $;
     function Sync(task) {
         return task();
     }
-    class $giper_baza_mine_idb extends $giper_baza_mine {
+    class $giper_baza_mine_idb extends $giper_baza_mine_temp {
         units_save(diff) {
             return Sync(async () => {
                 const db = await this.$.$giper_baza_mine_idb.db();
