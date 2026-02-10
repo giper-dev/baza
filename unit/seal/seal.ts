@@ -77,7 +77,7 @@ namespace $ {
 			return this._shot ?? ( this._shot = $giper_baza_link.hash_bin( new Uint8Array( this.buffer, this.byteOffset, this.byteLength - 64 ) ) )
 		}
 		
-		@ $mol_mem
+		// @ $mol_mem
 		sign( next?: Uint8Array< ArrayBuffer > ) {
 			const buf = new Uint8Array( this.buffer, this.byteOffset + this.byteLength - 64, 64 )
 			if( next ) buf.set( next )
