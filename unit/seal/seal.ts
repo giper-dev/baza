@@ -77,6 +77,7 @@ namespace $ {
 			return this._shot ?? ( this._shot = $giper_baza_link.hash_bin( new Uint8Array( this.buffer, this.byteOffset, this.byteLength - 64 ) ) )
 		}
 		
+		@ $mol_mem
 		sign( next?: Uint8Array< ArrayBuffer > ) {
 			const buf = new Uint8Array( this.buffer, this.byteOffset + this.byteLength - 64, 64 )
 			if( next ) buf.set( next )
@@ -113,12 +114,15 @@ namespace $ {
 			return `seal:${ this.lord() }/${ $giper_baza_time_dump( this.time(), this.tick() ) }`
 		}
 		
-		toString() {
-			
+		inspect() {
 			const items = this.hash_list().map( hash => $mol_term_color.cyan( '#' + hash.str ) ).join( ', ' )
 			const kind = $mol_term_color.green( '%' )
-			
-			return `${ super.toString() } ${kind} ${items}`
+			return `${ super.inspect() } ${kind} ${items}`
+		}
+		
+		toString() {
+			const items = this.hash_list().map( hash => '#' + hash.str ).join( ', ' )
+			return `${ super.toString() } % ${items}`
 		}
 		
 		[ $mol_dev_format_head ]() {

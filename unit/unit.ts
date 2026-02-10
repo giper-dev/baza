@@ -206,19 +206,24 @@ namespace $ {
 		}
 		
 		[ Symbol.for( 'nodejs.util.inspect.custom' ) ]() {
-			return this.toString()
+			return this.inspect()
 		}
 		
-		toJSON() {
-			return this.toString()
-		}
-		
-		toString() {
-			
+		inspect() {
 			const hash = $mol_term_color.cyan( '#' + this.hash().str )
 			const lord = $mol_term_color.magenta( '@' + this.lord().str )
 			const time = $mol_term_color.gray( $giper_baza_time_dump( this.time(), this.tick() ) )
-			
+			return `${lord} ${hash} ${time}`
+		}
+		
+		toJSON() {
+			return '#' + this.hash().str
+		}
+		
+		toString() {
+			const hash = '#' + this.hash().str
+			const lord = '@' + this.lord().str
+			const time = $giper_baza_time_dump( this.time(), this.tick() )
 			return `${lord} ${hash} ${time}`
 		}
 		

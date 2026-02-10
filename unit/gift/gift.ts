@@ -86,11 +86,20 @@ namespace $ {
 			return $giper_baza_rank_tier.rule
 		}
 		
-		toString() {
+		inspect() {
 			
 			const mate = $mol_term_color.magenta( '@' + ( this.mate().str || '______every______' ) )
 			const read = $mol_term_color.green( this.code().some( v => v ) ? 'X' : 'O' )
 			const rank = $mol_term_color.cyan( $giper_baza_rank_tier[ this.tier() ] + ':' + this.rate().toString( 16 ).toUpperCase() )
+			
+			return `${ super.inspect() } ${read} ${mate} ${rank}`
+		}
+		
+		toString() {
+			
+			const mate = '@' + ( this.mate().str || '______every______' )
+			const read = this.code().some( v => v ) ? 'X' : 'O'
+			const rank = $giper_baza_rank_tier[ this.tier() ] + ':' + this.rate().toString( 16 ).toUpperCase()
 			
 			return `${ super.toString() } ${read} ${mate} ${rank}`
 		}

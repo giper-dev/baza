@@ -157,7 +157,7 @@ namespace $ {
 				: $giper_baza_rank_tier.post
 		}
 		
-		toString() {
+		inspect() {
 			
 			const lead = $mol_term_color.blue( this.lead().str || '__knot__' )
 			const head = $mol_term_color.blue( this.head().str || '__root__' )
@@ -169,6 +169,22 @@ namespace $ {
 				keys: 'K',
 			}[ this.tag() ] )
 			const vary = this._vary === undefined ? '' : $mol_term_color.yellow( String( this._vary ) )
+			
+			return `${ super.inspect() } ${tag} ${lead}\\${head}/${self} ${vary}`
+		}
+		
+		toString() {
+			
+			const lead = this.lead().str || '__knot__'
+			const head = this.head().str || '__root__'
+			const self = this.self().str || '__meta__'
+			const tag = {
+				term: 'T',
+				solo: 'S',
+				vals: 'V',
+				keys: 'K',
+			}[ this.tag() ]
+			const vary = this._vary === undefined ? '' : String( this._vary )
 			
 			return `${ super.toString() } ${tag} ${lead}\\${head}/${self} ${vary}`
 		}
