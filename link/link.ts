@@ -27,6 +27,10 @@ namespace $ {
 			}
 		}
 		
+		[ $mol_key_handle ]() {
+			return this.str
+		}
+		
 		toString() {
 			return this.str
 		}
