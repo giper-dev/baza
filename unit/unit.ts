@@ -216,10 +216,10 @@ namespace $ {
 			return `${lord} ${hash} ${time}`
 		}
 		
-		toJSON() {
-			// return '#' + this.hash().str
-			return this.toString()
-		}
+		// toJSON() {
+		// 	return '#' + this.hash().str
+		// 	// return this.toString()
+		// }
 		
 		toString() {
 			const hash = '#' + this.hash().str
