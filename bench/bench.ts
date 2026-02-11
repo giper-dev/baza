@@ -48,11 +48,11 @@ namespace $ {
 			const $2 = this.isolate()
 			const $3 = this.isolate( this.master() )
 			
-			console.table({ config: {
-				count: this.count(),
-				master: this.master(),
-				land: $1.$giper_baza_auth.current().pass().lord().str,
-			} })
+			this.print_pair( 'Count', this.count() )
+			this.print_pair( 'Land', $1.$giper_baza_auth.current().pass().lord().str )
+			this.print_pair( 'Master', this.master() )
+			
+			this.print_table( 'Stage', 'Dur', 'Freq', $mol_term_color.gray )
 			
 			const glob1 = $1.$giper_baza_glob
 			const glob2 = $2.$giper_baza_glob
@@ -65,7 +65,7 @@ namespace $ {
 			let faces = new $giper_baza_face_map
 			const packs = [] as $giper_baza_pack[]
 			
-			const making = await this.measure( async ()=> {
+			await this.measure( 'Making', async ()=> {
 			
 				for( let i = 0; i < this.count(); ++i ) {
 					
@@ -84,7 +84,7 @@ namespace $ {
 			$mol_assert_equal( pawn1.val(), this.count() - 1 )
 			$mol_assert_equal( pawn2.val(), null )
 			
-			const applying = await this.measure( async ()=> {
+			await this.measure( 'Applying', async ()=> {
 			
 				for( const pack of packs ) {
 					await $mol_wire_async( glob2 ).apply_pack( pack )
@@ -94,46 +94,62 @@ namespace $ {
 			
 			$mol_assert_equal( pawn2.val(), this.count() - 1 )
 			
-			const connect3 = new $mol_wire_atom( 'master3', ()=> {
-				$mol_wire_solid()
-				return glob3.yard().master()!
-			})
+			if( this.master() ) {
 			
-			const port3 = await connect3.async()
-			$mol_assert_unique( port3, null )
+				const connect3 = new $mol_wire_atom( 'master3', ()=> {
+					$mol_wire_solid()
+					return glob3.yard().master()!
+				})
+				
+				const port3 = await connect3.async()
+				$mol_assert_unique( port3, null )
+				
+				const socket3 = await new Promise< WebSocket >( done => {
+					const ws = new $mol_dom.WebSocket( this.master()!.replace( /^http/, 'ws' ) )
+					ws.onopen = ()=> done( ws )
+				} )
+				
+				await this.measure( 'Sending', async ()=> {
+					for( const pack of packs ) socket3.send( pack )
+				} )
+				
+				await this.measure( 'Roundtrip', async ()=> {
+					while( pawn3.val() !== this.count() - 1 ) {
+						await this.$.$mol_wait_timeout_async(1)
+					}
+				} )
+				
+			}
 			
-			const socket3 = await new Promise< WebSocket >( done => {
-				const ws = new $mol_dom.WebSocket( this.master()!.replace( /^http/, 'ws' ) )
-				ws.onopen = ()=> done( ws )
-			} )
-			
-			const sending = await this.measure( async ()=> {
-				for( const pack of packs ) socket3.send( pack )
-			} )
-			
-			const roundtrip = await this.measure( async ()=> {
-				while( pawn3.val() !== this.count() - 1 ) {
-					await this.$.$mol_wait_timeout_async(1)
-				}
-			} )
-			
-			console.table({ making, applying, sending, roundtrip })
 			process.exit()
 			
 		}
 		
-		static async measure( task: ()=> Promise<any> ) {
+		static async measure( name: string, task: ()=> Promise<any> ) {
 			
-			let duration =- Date.now()
+			let dur =- Date.now()
 			await task()
 			await this.$.$mol_wait_rest_async()
-			duration += Date.now()
+			dur += Date.now()
+			const freq = Math.round( 1000 * this.count() / dur )
 			
-			return {
-				duration,
-				frequency: Math.round( 1000 * this.count() / duration ),
-			}
+			this.print_table( name, dur, freq )
 			
+		}
+		
+		static print_pair( name: any, value: any ) {
+			console.log(
+				$mol_term_color.cyan( String( name ).padEnd( 12 ) ),
+				$mol_term_color.yellow( String( value ) ),
+			)
+		}
+		
+		static print_table( name: any, dur: any, freq: any, color?: typeof $mol_term_color.gray ) {
+			console.log(
+				( color ?? $mol_term_color.cyan )( String( name ).padEnd( 9 ) ),
+				( color ?? $mol_term_color.yellow )( String( dur ).padStart( 6 ) ),
+				( color ?? $mol_term_color.yellow )( String( freq ).padStart( 6 ) ),
+			)
 		}
 		
 	}
