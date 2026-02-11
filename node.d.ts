@@ -162,6 +162,11 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    const $mol_key_handle: unique symbol;
+    const $mol_key_store: WeakMap<object, string>;
+}
+
+declare namespace $ {
     class $mol_object2 {
         static $: $;
         [Symbol.toStringTag]: string;
@@ -172,6 +177,7 @@ declare namespace $ {
         static [Symbol.toPrimitive](): any;
         static toString(): any;
         static toJSON(): any;
+        static [$mol_key_handle](): any;
         destructor(): void;
         static destructor(): void;
         [Symbol.dispose](): void;
@@ -609,7 +615,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    const $mol_key_store: WeakMap<object, string>;
     function $mol_key<Value>(value: Value): string;
 }
 
@@ -1217,6 +1222,7 @@ declare namespace $ {
         constructor(str: string);
         static hole: $giper_baza_link;
         static check(val: string): string | null;
+        [$mol_key_handle](): string;
         toString(): string;
         toJSON(): string;
         [Symbol.toPrimitive](): string;
@@ -1993,6 +1999,7 @@ declare namespace $ {
         _land: null | $giper_baza_land;
         dump(): {};
         inspect(): string;
+        toJSON(): string;
         toString(): string;
     }
 }
@@ -2197,6 +2204,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     const $giper_baza_list_bin_base: (abstract new () => {
         items(next?: readonly (ArrayLike<number | bigint> | null)[] | undefined): readonly (ArrayLike<number | bigint> | null)[];
@@ -2243,6 +2251,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_list_bin extends $giper_baza_list_bin_base {
     }
@@ -2291,6 +2300,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_list_bool extends $giper_baza_list_bool_base {
     }
@@ -2339,6 +2349,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_list_int extends $giper_baza_list_int_base {
     }
@@ -2387,6 +2398,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_list_real extends $giper_baza_list_real_base {
     }
@@ -2435,6 +2447,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_list_link extends $giper_baza_list_link_base_1 {
     }
@@ -2483,6 +2496,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_list_str extends $giper_baza_list_str_base {
     }
@@ -2531,6 +2545,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_list_time extends $giper_baza_list_time_base {
     }
@@ -2579,6 +2594,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_list_dur extends $giper_baza_list_dur_base {
     }
@@ -2627,6 +2643,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_list_range extends $giper_baza_list_range_base {
     }
@@ -2675,6 +2692,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_list_json extends $giper_baza_list_json_base {
     }
@@ -2723,6 +2741,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_list_jsan extends $giper_baza_list_jsan_base {
     }
@@ -2771,6 +2790,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_list_dom extends $giper_baza_list_dom_base {
     }
@@ -2819,6 +2839,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_list_tree extends $giper_baza_list_tree_base {
     }
@@ -2874,6 +2895,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export {};
 }
@@ -3018,6 +3040,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
 }
 
@@ -3128,6 +3151,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export function $giper_baza_atom<Parse extends $mol_data_value>(parse: Parse): (abstract new () => {
         val(next?: ReturnType<Parse>): ReturnType<Parse> | null;
@@ -3169,6 +3193,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     const $giper_baza_atom_blob_base: (abstract new () => {
         val(next?: ArrayLike<number | bigint> | null | undefined): ArrayLike<number | bigint> | null;
@@ -3210,6 +3235,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_atom_blob extends $giper_baza_atom_blob_base {
     }
@@ -3253,6 +3279,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_atom_bool extends $giper_baza_atom_bool_base {
     }
@@ -3296,6 +3323,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_atom_bint extends $giper_baza_atom_bint_base {
     }
@@ -3339,6 +3367,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_atom_real extends $giper_baza_atom_real_base {
     }
@@ -3382,6 +3411,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_atom_link extends $giper_baza_atom_link_base_1 {
     }
@@ -3425,6 +3455,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_atom_text extends $giper_baza_atom_text_base {
         selection(lord: $giper_baza_link, next?: readonly [begin: number, end: number]): number[] | readonly [begin: number, end: number];
@@ -3469,6 +3500,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_atom_time extends $giper_baza_atom_time_base {
     }
@@ -3512,6 +3544,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_atom_dura extends $giper_baza_atom_dura_base {
     }
@@ -3555,6 +3588,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_atom_span extends $giper_baza_atom_span_base {
     }
@@ -3598,6 +3632,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_atom_dict extends $giper_baza_atom_dict_base {
     }
@@ -3641,6 +3676,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_atom_list extends $giper_baza_atom_list_base {
     }
@@ -3684,6 +3720,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_atom_elem extends $giper_baza_atom_elem_base {
     }
@@ -3727,6 +3764,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_atom_tree extends $giper_baza_atom_tree_base {
     }
@@ -3785,6 +3823,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export {};
 }
@@ -3957,6 +3996,7 @@ declare namespace $ {
         toJSON(): any;
         destructor(): void;
         [Symbol.toPrimitive](): any;
+        [$mol_key_handle](): any;
     };
     export class $giper_baza_flex_subj_link extends $giper_baza_flex_subj_link_base {
     }
@@ -4094,6 +4134,7 @@ declare namespace $ {
                 toJSON(): any;
                 destructor(): void;
                 [Symbol.toPrimitive](): any;
+                [$mol_key_handle](): any;
             };
             readonly Pulls: {
                 new (): {
@@ -4145,6 +4186,7 @@ declare namespace $ {
                 toJSON(): any;
                 destructor(): void;
                 [Symbol.toPrimitive](): any;
+                [$mol_key_handle](): any;
             };
         };
     };
@@ -4301,6 +4343,7 @@ declare namespace $ {
                 toJSON(): any;
                 destructor(): void;
                 [Symbol.toPrimitive](): any;
+                [$mol_key_handle](): any;
             };
             readonly Enum: {
                 new (): {
@@ -4354,6 +4397,7 @@ declare namespace $ {
                 toJSON(): any;
                 destructor(): void;
                 [Symbol.toPrimitive](): any;
+                [$mol_key_handle](): any;
             };
             readonly Base: typeof $giper_baza_atom_vary;
         };
@@ -4465,6 +4509,7 @@ declare namespace $ {
                 toJSON(): any;
                 destructor(): void;
                 [Symbol.toPrimitive](): any;
+                [$mol_key_handle](): any;
             };
             readonly Types: typeof $giper_baza_list_str;
         };
@@ -4612,6 +4657,7 @@ declare namespace $ {
                 toJSON(): any;
                 destructor(): void;
                 [Symbol.toPrimitive](): any;
+                [$mol_key_handle](): any;
             };
             readonly Peers: {
                 new (): {
@@ -4663,6 +4709,7 @@ declare namespace $ {
                 toJSON(): any;
                 destructor(): void;
                 [Symbol.toPrimitive](): any;
+                [$mol_key_handle](): any;
             };
         };
     };
@@ -4773,6 +4820,7 @@ declare namespace $ {
                 toJSON(): any;
                 destructor(): void;
                 [Symbol.toPrimitive](): any;
+                [$mol_key_handle](): any;
             };
         };
     };
