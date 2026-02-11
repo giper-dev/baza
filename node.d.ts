@@ -1993,7 +1993,6 @@ declare namespace $ {
         _land: null | $giper_baza_land;
         dump(): {};
         inspect(): string;
-        toJSON(): string;
         toString(): string;
     }
 }

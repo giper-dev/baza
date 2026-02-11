@@ -9671,9 +9671,6 @@ var $;
             const time = $mol_term_color.gray($giper_baza_time_dump(this.time(), this.tick()));
             return `${lord} ${hash} ${time}`;
         }
-        toJSON() {
-            return this.toString();
-        }
         toString() {
             const hash = '#' + this.hash().str;
             const lord = '@' + this.lord().str;
