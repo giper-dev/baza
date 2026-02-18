@@ -88,7 +88,7 @@ namespace $ {
 		}
 
 		path(): string {
-			return `sand:${ this.head() }/${ this.lord() }/${ this.self() }`
+			return `sand:${ this.head().str || '__root__' }/${ this.lord() }/${ this.self().str || '__meta__' }`
 		}
 		
 		_shot!: $giper_baza_link

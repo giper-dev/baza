@@ -59,7 +59,7 @@ namespace $ {
 		}
 		
 		path(): string {
-			return `gift:${ this.mate() }`
+			return `gift:${ this.mate().str || '______every______' }`
 		}
 		
 		_code!: Uint8Array< ArrayBuffer >

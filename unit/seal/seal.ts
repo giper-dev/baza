@@ -111,7 +111,7 @@ namespace $ {
 		}
 		
 		path(): string {
-			return `seal:${ this.lord() }/${ $giper_baza_time_dump( this.time(), this.tick() ) }`
+			return `seal:${ this.lord() }/${ this.hash().str }`
 		}
 		
 		inspect() {

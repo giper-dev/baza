@@ -150,14 +150,18 @@ namespace $ {
 		@ $mol_memo.method
 		store() {
 			
-			const land = this.land().str
+			const land = this.land()
+			const area = land.area()
+			
 			const root = this.$.$mol_file.relative( '.baza' )
-			const dir = root.resolve( land.slice( 0, 2 ) )
+			let dir = root.resolve( land.str.slice( 0, 2 ) )
+			if( area.str ) dir = dir.resolve( area.str.slice( -2 ) )
+			
 			dir.exists( true )
 			
 			return new $giper_baza_mine_fs_yym([
-				dir.resolve( land + '.yin.baza' ),
-				dir.resolve( land + '.yan.baza' ),
+				dir.resolve( land.str + '.yin.baza' ),
+				dir.resolve( land.str + '.yan.baza' ),
 			])
 			
 		}
