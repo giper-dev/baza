@@ -12913,8 +12913,7 @@ var $;
             const peer = gift.lord().peer();
             if (prev)
                 this.gift_del(prev);
-            else
-                this.faces.peer_summ_shift(peer.str, +1);
+            this.faces.peer_summ_shift(peer.str, +1);
             this._gift.set(mate.str, gift);
             this.faces.peer_time(peer.str, gift.time(), gift.tick());
             this.unit_seal_inc(gift);
@@ -12934,8 +12933,7 @@ var $;
             const peer = sand.lord().peer();
             if (prev)
                 this.sand_del(prev);
-            else
-                this.faces.peer_summ_shift(peer.str, +1);
+            this.faces.peer_summ_shift(peer.str, +1);
             sands.set(sand.self().str, sand);
             this.faces.peer_time(peer.str, sand.time(), sand.tick());
             if (sand.signed())
@@ -13975,7 +13973,9 @@ var $;
             if (unit instanceof $giper_baza_auth_pass) {
                 nodes.set(unit.lord().str, unit);
             }
-            else if (!$giper_baza_unit_trusted_check(unit)) {
+            else {
+                if (unit instanceof $giper_baza_unit_sand && !unit.signed())
+                    continue;
                 const self = unit.hash().str;
                 nodes.set(self, unit);
             }
@@ -13985,19 +13985,21 @@ var $;
                 continue;
             unit.choose({
                 gift: gift => {
-                    graph.link(unit, nodes.get(unit.lord().str) ?? null, 1);
-                    graph.link(unit, null, 1);
-                    graph.link(nodes.get(gift.mate().str) ?? null, unit, 1);
+                    graph.link(gift, nodes.get(gift.lord().str) ?? null, 1);
+                    graph.link(gift, null, 0);
+                    if (gift.lord().str === gift.mate().str)
+                        return;
+                    graph.link(nodes.get(gift.mate().str) ?? null, gift, 1);
                 },
                 sand: sand => {
-                    graph.link(unit, nodes.get(unit.lord().str) ?? null, 1);
-                    graph.link(unit, null, 1);
+                    graph.link(sand, nodes.get(sand.lord().str) ?? null, 1);
+                    graph.link(sand, null, 1);
                 },
                 seal: seal => {
-                    graph.link(unit, nodes.get(unit.lord().str) ?? null, 0);
-                    graph.link(unit, null, 0);
+                    graph.link(seal, nodes.get(seal.lord().str) ?? null, 0);
+                    graph.link(seal, null, 0);
                     for (const hash of seal.hash_list()) {
-                        graph.link(nodes.get(hash.str) ?? null, unit, 1);
+                        graph.link(nodes.get(hash.str) ?? null, seal, 1);
                     }
                 }
             });

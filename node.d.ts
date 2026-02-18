@@ -2934,8 +2934,8 @@ declare namespace $ {
     }
     class $giper_baza_mine_fs_yym extends $mol_object2 {
         readonly sides: [$mol_file, $mol_file];
-        pool: $mol_memory_pool;
-        offsets: Map<ArrayBuffer, number>;
+        pool(): $mol_memory_pool;
+        offsets(): Map<ArrayBuffer, number>;
         constructor(sides: [$mol_file, $mol_file]);
         destructor(): void;
         load_init(): void;

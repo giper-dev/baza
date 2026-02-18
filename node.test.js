@@ -8498,8 +8498,7 @@ var $;
             const peer = gift.lord().peer();
             if (prev)
                 this.gift_del(prev);
-            else
-                this.faces.peer_summ_shift(peer.str, +1);
+            this.faces.peer_summ_shift(peer.str, +1);
             this._gift.set(mate.str, gift);
             this.faces.peer_time(peer.str, gift.time(), gift.tick());
             this.unit_seal_inc(gift);
@@ -8519,8 +8518,7 @@ var $;
             const peer = sand.lord().peer();
             if (prev)
                 this.sand_del(prev);
-            else
-                this.faces.peer_summ_shift(peer.str, +1);
+            this.faces.peer_summ_shift(peer.str, +1);
             sands.set(sand.self().str, sand);
             this.faces.peer_time(peer.str, sand.time(), sand.tick());
             if (sand.signed())
@@ -9560,7 +9558,9 @@ var $;
             if (unit instanceof $giper_baza_auth_pass) {
                 nodes.set(unit.lord().str, unit);
             }
-            else if (!$giper_baza_unit_trusted_check(unit)) {
+            else {
+                if (unit instanceof $giper_baza_unit_sand && !unit.signed())
+                    continue;
                 const self = unit.hash().str;
                 nodes.set(self, unit);
             }
@@ -9570,19 +9570,21 @@ var $;
                 continue;
             unit.choose({
                 gift: gift => {
-                    graph.link(unit, nodes.get(unit.lord().str) ?? null, 1);
-                    graph.link(unit, null, 1);
-                    graph.link(nodes.get(gift.mate().str) ?? null, unit, 1);
+                    graph.link(gift, nodes.get(gift.lord().str) ?? null, 1);
+                    graph.link(gift, null, 0);
+                    if (gift.lord().str === gift.mate().str)
+                        return;
+                    graph.link(nodes.get(gift.mate().str) ?? null, gift, 1);
                 },
                 sand: sand => {
-                    graph.link(unit, nodes.get(unit.lord().str) ?? null, 1);
-                    graph.link(unit, null, 1);
+                    graph.link(sand, nodes.get(sand.lord().str) ?? null, 1);
+                    graph.link(sand, null, 1);
                 },
                 seal: seal => {
-                    graph.link(unit, nodes.get(unit.lord().str) ?? null, 0);
-                    graph.link(unit, null, 0);
+                    graph.link(seal, nodes.get(seal.lord().str) ?? null, 0);
+                    graph.link(seal, null, 0);
                     for (const hash of seal.hash_list()) {
-                        graph.link(nodes.get(hash.str) ?? null, unit, 1);
+                        graph.link(nodes.get(hash.str) ?? null, seal, 1);
                     }
                 }
             });
@@ -10458,14 +10460,14 @@ var $;
         save(...data) {
             let offset = this.offsets_ins.get(data[0].buffer);
             if (offset === undefined) {
-                offset = this.yym.offsets.get(data[0].buffer);
+                offset = this.yym.offsets().get(data[0].buffer);
                 if (offset)
                     return offset;
                 let size = data.reduce((sum, buf) => sum + buf.byteLength, 0);
                 size = Math.ceil(size / 8) * 8;
-                offset = this.yym.pool.acquire(size);
+                offset = this.yym.pool().acquire(size);
                 this.offsets_ins.set(data[0].buffer, offset);
-                this.yym.offsets.set(data[0].buffer, offset);
+                this.yym.offsets().set(data[0].buffer, offset);
             }
             this.transaction.write({
                 buffer: data,
@@ -10477,12 +10479,12 @@ var $;
             size = Math.ceil(size / 8) * 8;
             let offset = this.offsets_del.get(data.buffer);
             if (offset === undefined) {
-                offset = this.yym.offsets.get(data.buffer);
+                offset = this.yym.offsets().get(data.buffer);
                 if (!offset)
                     return;
                 this.offsets_del.set(data.buffer, offset);
-                this.yym.pool.release(offset, size);
-                this.yym.offsets.delete(data.buffer);
+                this.yym.pool().release(offset, size);
+                this.yym.offsets().delete(data.buffer);
             }
             this.transaction.write({
                 buffer: new Uint8Array(size),
@@ -10499,8 +10501,12 @@ var $;
     $.$giper_baza_mine_fs_yym_act = $giper_baza_mine_fs_yym_act;
     class $giper_baza_mine_fs_yym extends $mol_object2 {
         sides;
-        pool = new $mol_memory_pool;
-        offsets = new Map;
+        pool() {
+            return new $mol_memory_pool;
+        }
+        offsets() {
+            return new Map;
+        }
         constructor(sides) {
             super();
             this.sides = sides;
@@ -10522,7 +10528,7 @@ var $;
                 const tx = this.sides[0].open('read_only');
                 const data = tx.read();
                 tx.destructor();
-                this.pool.acquire(data.byteLength);
+                this.pool().acquire(data.byteLength);
                 return data;
             }
             catch (error) {
@@ -10553,10 +10559,16 @@ var $;
         }
     }
     __decorate([
-        $mol_memo.method
+        $mol_mem
+    ], $giper_baza_mine_fs_yym.prototype, "pool", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_mine_fs_yym.prototype, "offsets", null);
+    __decorate([
+        $mol_mem
     ], $giper_baza_mine_fs_yym.prototype, "load_init", null);
     __decorate([
-        $mol_memo.method
+        $mol_mem
     ], $giper_baza_mine_fs_yym.prototype, "save_init", null);
     __decorate([
         $mol_mem
@@ -10609,7 +10621,7 @@ var $;
             if (!buf.length)
                 return [];
             const pack = $giper_baza_pack.from(buf);
-            const parts = new Map(pack.parts(this.store().offsets, this.store().pool));
+            const parts = new Map(pack.parts(this.store().offsets(), this.store().pool()));
             if (parts.size > 1)
                 return $mol_fail(new Error('Wrong lands count', { cause: { count: parts.size } }));
             for (const [land, part] of parts) {
@@ -10627,10 +10639,10 @@ var $;
         }
     }
     __decorate([
-        $mol_memo.method
+        $mol_mem
     ], $giper_baza_mine_fs.prototype, "store", null);
     __decorate([
-        $mol_memo.method
+        $mol_mem
     ], $giper_baza_mine_fs.prototype, "store_init", null);
     __decorate([
         $mol_action
