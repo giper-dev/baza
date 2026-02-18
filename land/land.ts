@@ -87,7 +87,7 @@ namespace $ {
 			const peer = gift.lord().peer()
 			
 			if( prev ) this.gift_del( prev )
-			else this.faces.peer_summ_shift( peer.str, +1 )
+			this.faces.peer_summ_shift( peer.str, +1 )
 			
 			this._gift.set( mate.str, gift )
 			this.faces.peer_time( peer.str, gift.time(), gift.tick() )
@@ -112,7 +112,7 @@ namespace $ {
 			const peer = sand.lord().peer()
 			
 			if( prev ) this.sand_del( prev )
-			else this.faces.peer_summ_shift( peer.str, +1 )
+			this.faces.peer_summ_shift( peer.str, +1 )
 		
 			sands.set( sand.self().str, sand )
 			

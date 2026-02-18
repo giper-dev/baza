@@ -18,15 +18,15 @@ namespace $ {
 			let offset = this.offsets_ins.get( data[0].buffer )
 			if( offset === undefined ) {
 				
-				offset = this.yym.offsets.get( data[0].buffer )
+				offset = this.yym.offsets().get( data[0].buffer )
 				if( offset ) return offset
 				
 				let size = data.reduce( ( sum, buf )=> sum + buf.byteLength, 0 )
 				size = Math.ceil( size / 8 ) * 8
 				
-				offset = this.yym.pool.acquire( size )
+				offset = this.yym.pool().acquire( size )
 				this.offsets_ins.set( data[0].buffer, offset )
-				this.yym.offsets.set( data[0].buffer, offset )
+				this.yym.offsets().set( data[0].buffer, offset )
 				
 			} 
 			
@@ -47,12 +47,12 @@ namespace $ {
 			let offset = this.offsets_del.get( data.buffer )
 			if( offset === undefined ) {
 				
-				offset = this.yym.offsets.get( data.buffer )
+				offset = this.yym.offsets().get( data.buffer )
 				if( !offset ) return
 				
 				this.offsets_del.set( data.buffer, offset )
-				this.yym.pool.release( offset, size )
-				this.yym.offsets.delete( data.buffer )
+				this.yym.pool().release( offset, size )
+				this.yym.offsets().delete( data.buffer )
 				
 			}
 			
@@ -69,10 +69,16 @@ namespace $ {
 	export class $giper_baza_mine_fs_yym extends $mol_object2 {
 
 		/** Memory allocator. */
-		pool = new $mol_memory_pool
+		@ $mol_mem
+		pool() {
+			return new $mol_memory_pool
+		}
 		
 		/** Offsets of stored buffers. */
-		offsets = new Map< ArrayBuffer, number >
+		@ $mol_mem
+		offsets() {
+			return new Map< ArrayBuffer, number >
+		}
 		
 		constructor(
 			/** Yin & Yan mirrors files. */
@@ -91,7 +97,7 @@ namespace $ {
 		}
 		
 		/** Prepare mirrors to read. */
-		@ $mol_memo.method
+		@ $mol_mem
 		load_init() {
 			const version = ( file: $mol_file )=> file.modified()?.valueOf() ?? Number.POSITIVE_INFINITY
 			if( version( this.sides[0] ) < version( this.sides[1] ) ) this.sides.reverse()
@@ -104,7 +110,7 @@ namespace $ {
 				const tx = this.sides[0].open( 'read_only' )
 				const data = tx.read()
 				tx.destructor()
-				this.pool.acquire( data.byteLength )
+				this.pool().acquire( data.byteLength )
 				return data
 			} catch( error: any ) {
 				if( error.code === 'ENOENT' ) return new Uint8Array()
@@ -131,7 +137,7 @@ namespace $ {
 		}
 		
 		/** Prepares mirrors to write. */
-		@ $mol_memo.method
+		@ $mol_mem
 		save_init() {
 			this.load_init()
 			this.sides[0].clone( this.sides[1].path() )
@@ -147,7 +153,7 @@ namespace $ {
 	
 	export class $giper_baza_mine_fs extends $giper_baza_mine_temp {
 		
-		@ $mol_memo.method
+		@ $mol_mem
 		store() {
 			
 			const land = this.land()
@@ -166,7 +172,7 @@ namespace $ {
 			
 		}
 		
-		@ $mol_memo.method
+		@ $mol_mem
 		store_init() {
 			
 			if( !this.store().empty() ) return
@@ -212,7 +218,7 @@ namespace $ {
 			
 			const pack = $giper_baza_pack.from( buf )
 			
-			const parts = new Map( pack.parts( this.store().offsets, this.store().pool ) )
+			const parts = new Map( pack.parts( this.store().offsets(), this.store().pool() ) )
 			if( parts.size > 1 ) return $mol_fail( new Error( 'Wrong lands count', { cause: { count: parts.size } } ) )
 			
 			for( const [ land, part ] of parts ) {
