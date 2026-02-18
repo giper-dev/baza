@@ -14289,7 +14289,7 @@ var $;
             return this.tier_min() | this.rate_min();
         }
         path() {
-            return `seal:${this.lord()}/${$giper_baza_time_dump(this.time(), this.tick())}`;
+            return `seal:${this.lord()}/${this.hash().str}`;
         }
         inspect() {
             const items = this.hash_list().map(hash => $mol_term_color.cyan('#' + hash.str)).join(', ');
@@ -14392,7 +14392,7 @@ var $;
                 return this._lead = this.id6(32, next);
         }
         path() {
-            return `sand:${this.head()}/${this.lord()}/${this.self()}`;
+            return `sand:${this.head().str || '__root__'}/${this.lord()}/${this.self().str || '__meta__'}`;
         }
         _shot;
         shot(next) {
@@ -14546,7 +14546,7 @@ var $;
             return this.id12(20, next);
         }
         path() {
-            return `gift:${this.mate()}`;
+            return `gift:${this.mate().str || '______every______'}`;
         }
         _code;
         code() {

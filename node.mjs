@@ -9883,7 +9883,7 @@ var $;
             return this.tier_min() | this.rate_min();
         }
         path() {
-            return `seal:${this.lord()}/${$giper_baza_time_dump(this.time(), this.tick())}`;
+            return `seal:${this.lord()}/${this.hash().str}`;
         }
         inspect() {
             const items = this.hash_list().map(hash => $mol_term_color.cyan('#' + hash.str)).join(', ');
@@ -9986,7 +9986,7 @@ var $;
                 return this._lead = this.id6(32, next);
         }
         path() {
-            return `sand:${this.head()}/${this.lord()}/${this.self()}`;
+            return `sand:${this.head().str || '__root__'}/${this.lord()}/${this.self().str || '__meta__'}`;
         }
         _shot;
         shot(next) {
@@ -10140,7 +10140,7 @@ var $;
             return this.id12(20, next);
         }
         path() {
-            return `gift:${this.mate()}`;
+            return `gift:${this.mate().str || '______every______'}`;
         }
         _code;
         code() {
@@ -10573,13 +10573,16 @@ var $;
     $.$giper_baza_mine_fs_yym = $giper_baza_mine_fs_yym;
     class $giper_baza_mine_fs extends $giper_baza_mine_temp {
         store() {
-            const land = this.land().str;
+            const land = this.land();
+            const area = land.area();
             const root = this.$.$mol_file.relative('.baza');
-            const dir = root.resolve(land.slice(0, 2));
+            let dir = root.resolve(land.str.slice(0, 2));
+            if (area.str)
+                dir = dir.resolve(area.str.slice(-2));
             dir.exists(true);
             return new $giper_baza_mine_fs_yym([
-                dir.resolve(land + '.yin.baza'),
-                dir.resolve(land + '.yan.baza'),
+                dir.resolve(land.str + '.yin.baza'),
+                dir.resolve(land.str + '.yan.baza'),
             ]);
         }
         store_init() {
