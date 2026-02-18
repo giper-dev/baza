@@ -118,7 +118,7 @@ namespace $ {
 			
 			this.faces.peer_time( peer.str, sand.time(), sand.tick() )
 			
-			this.unit_seal_inc( sand )
+			if( sand.signed() ) this.unit_seal_inc( sand )
 			
 		}
 		
@@ -190,7 +190,7 @@ namespace $ {
 			this.faces.peer_summ_shift( sand.lord().peer().str, -1 )
 			
 			this.units_reaping.add( sand )
-			this.unit_seal_dec( sand )
+			if( sand.signed() ) this.unit_seal_dec( sand )
 			
 		}
 		
@@ -1211,15 +1211,16 @@ namespace $ {
 						seal.sign( await auth.sign( shot ) )
 					} while( seal.rate_min() > rate )
 					
-					for( const hash of hashes ) seal.alive_items.add( hash.str )
-					
 					return seal
 				} )
 				
 			} )
 			
 			const seals = await Promise.all( threads )
-			for( const seal of seals ) this.seal_add( seal )
+			for( const seal of seals ) {
+				for( const hash of seal.hash_list() ) seal.alive_items.add( hash.str )
+				this.seal_add( seal )
+			}
 			
 			return seals
 		}

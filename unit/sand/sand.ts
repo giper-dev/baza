@@ -133,7 +133,18 @@ namespace $ {
 				
 			}
 		}
+		
+		signed() {
+			return !this._open || !!this._ball
+		}
 
+		hash() {
+			if( !this.signed() ) return $mol_fail(
+				new Error( 'No Hash for incompleted Sand', { cause: { sand: this } } )
+			)
+			return super.hash()
+		}
+		
 		idea_seed() {
 			return $mol_hash_numbers( new Uint8Array( this.buffer, this.byteOffset + 26, 12 ) ) // head + lead
 		}
@@ -195,11 +206,7 @@ namespace $ {
 				' 👾',
 				$mol_dev_format_auto( this.lord() ),
 				' 📦 ',
-				$mol_dev_format_shade(
-					this.moment().toString( 'YYYY-MM-DD hh:mm:ss' ),
-					' !',
-					this.tick().toString(16).padStart( 2, '0' ),
-				),
+				$mol_dev_format_shade( $giper_baza_time_dump( this.time(), this.tick() ) ),
 				' #',
 				$mol_dev_format_auto( this.hash() ),
 				' ',

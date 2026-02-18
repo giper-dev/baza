@@ -188,7 +188,7 @@ namespace $ {
 			static Value = $mol_memo.func( Value as any ) as Value
 			
 			static toString() {
-				return this === $giper_baza_list_link_to ? '$giper_baza_list_link_to<' + ( Value as any )() + '>' : super.toString()
+				return this === $giper_baza_list_link_to ? '$giper_baza_list_link_to[ []=> ' + ( Value as any )() + ' ]' : super.toString()
 			}
 			
 			/** List of linked Pawns */

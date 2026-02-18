@@ -35,30 +35,35 @@ namespace $ {
 	export function $giper_baza_unit_sort( units: readonly $giper_baza_unit[] ) {
 		
 		const nodes = new Map< string, $giper_baza_unit >()
-		const graph = new $mol_graph< string, number >()
+		const graph = new $mol_graph< $giper_baza_unit | null, number >()
 		
 		for( const unit of units ) {
-			
-			const self = unit.hash().str
-			nodes.set( self, unit )
-			
+			if( unit instanceof $giper_baza_auth_pass ) {
+				nodes.set( unit.lord().str, unit )
+			} else if( !$giper_baza_unit_trusted_check( unit ) ) {
+				const self = unit.hash().str
+				nodes.set( self, unit )
+			}
+		}
+		
+		for( const unit of units ) {
 			if( unit instanceof $giper_baza_auth_pass ) continue
 			
 			unit.choose({
 				gift: gift => {
-					graph.link( self, unit.lord().str, 1 )
-					graph.link( self, '', 1 )
-					graph.link( gift.mate().str, self, 1 )
+					graph.link( unit, nodes.get( unit.lord().str ) ?? null, 1 )
+					graph.link( unit, null, 1 )
+					graph.link( nodes.get( gift.mate().str ) ?? null, unit, 1 )
 				},
 				sand: sand => {
-					graph.link( self, unit.lord().str, 1 )
-					graph.link( self, '', 1 )
+					graph.link( unit, nodes.get( unit.lord().str ) ?? null, 1 )
+					graph.link( unit, null, 1 )
 				},
 				seal: seal => {
-					graph.link( self, unit.lord().str, 0 )
-					graph.link( self, '', 0 )
+					graph.link( unit, nodes.get( unit.lord().str ) ?? null, 0 )
+					graph.link( unit, null, 0 )
 					for( const hash of seal.hash_list() ) {
-						graph.link( hash.str, self, 1 )
+						graph.link( nodes.get( hash.str ) ?? null, unit, 1 )
 					}
 				}
 			})
@@ -67,7 +72,7 @@ namespace $ {
 		
 		graph.acyclic( e => e )
 		
-		return [ ... graph.sorted ].map( key => nodes.get( key )! ).filter( Boolean )
+		return [ ... graph.sorted ].filter( Boolean ) as $giper_baza_unit[]
 
 	}
 	

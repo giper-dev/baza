@@ -204,7 +204,7 @@ namespace $ {
 			Value = $mol_memo.func( Value as any ) as Value;
 
 			static toString() {
-				return this === $giper_baza_atom_link_to ? '$giper_baza_atom_link_to<' + ( Value as any )() + '>' : super.toString()
+				return this === $giper_baza_atom_link_to ? '$giper_baza_atom_link_to[ []=> ' + ( Value as any )() + ' ]' : super.toString()
 			}
 			
 			/** Target Pawn */

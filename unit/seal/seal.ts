@@ -131,11 +131,7 @@ namespace $ {
 				' 👾',
 				$mol_dev_format_auto( this.lord() ),
 				' ✍ ',
-				$mol_dev_format_shade(
-					this.moment().toString( 'YYYY-MM-DD hh:mm:ss' ),
-					' &',
-					this.tick().toString(16).padStart( 2, '0' ),
-				),
+				$mol_dev_format_shade( $giper_baza_time_dump( this.time(), this.tick() ) ),
 				' #',
 				$mol_dev_format_auto( this.hash() ),
 				' ',

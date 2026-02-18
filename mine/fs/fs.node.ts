@@ -100,11 +100,16 @@ namespace $ {
 		/** Load whole data. */
 		load() {
 			this.load_init()
-			const tx = this.sides[0].open( 'create', 'read_only' )
-			const data = tx.read()
-			tx.destructor()
-			this.pool.acquire( data.byteLength )
-			return data
+			try {
+				const tx = this.sides[0].open( 'read_only' )
+				const data = tx.read()
+				tx.destructor()
+				this.pool.acquire( data.byteLength )
+				return data
+			} catch( error: any ) {
+				if( error.code === 'ENOENT' ) return new Uint8Array()
+				return $mol_fail_hidden( error )
+			}
 		}
 		
 		/** Safe writes to both mirrors. */
@@ -211,7 +216,7 @@ namespace $ {
 				
 				for( const unit of part.units ) {
 					this.units_persisted.add( unit )
-					$giper_baza_unit_trusted_grant( unit )
+					// $giper_baza_unit_trusted_grant( unit )
 				}
 				
 				return part.units
