@@ -12938,7 +12938,8 @@ var $;
                 this.faces.peer_summ_shift(peer.str, +1);
             sands.set(sand.self().str, sand);
             this.faces.peer_time(peer.str, sand.time(), sand.tick());
-            this.unit_seal_inc(sand);
+            if (sand.signed())
+                this.unit_seal_inc(sand);
         }
         units_reaping = new Set();
         unit_seal_inc(unit) {
@@ -12990,7 +12991,8 @@ var $;
             sands.delete(sand.self().str);
             this.faces.peer_summ_shift(sand.lord().peer().str, -1);
             this.units_reaping.add(sand);
-            this.unit_seal_dec(sand);
+            if (sand.signed())
+                this.unit_seal_dec(sand);
         }
         lord_pass(lord) {
             return this._pass.get(lord.str) ?? null;
@@ -13685,14 +13687,15 @@ var $;
                     do {
                         seal.sign(await auth.sign(shot));
                     } while (seal.rate_min() > rate);
-                    for (const hash of hashes)
-                        seal.alive_items.add(hash.str);
                     return seal;
                 });
             });
             const seals = await Promise.all(threads);
-            for (const seal of seals)
+            for (const seal of seals) {
+                for (const hash of seal.hash_list())
+                    seal.alive_items.add(hash.str);
                 this.seal_add(seal);
+            }
             return seals;
         }
         async sand_encode(sand) {
@@ -13969,31 +13972,38 @@ var $;
         const nodes = new Map();
         const graph = new $mol_graph();
         for (const unit of units) {
-            const self = unit.hash().str;
-            nodes.set(self, unit);
+            if (unit instanceof $giper_baza_auth_pass) {
+                nodes.set(unit.lord().str, unit);
+            }
+            else if (!$giper_baza_unit_trusted_check(unit)) {
+                const self = unit.hash().str;
+                nodes.set(self, unit);
+            }
+        }
+        for (const unit of units) {
             if (unit instanceof $giper_baza_auth_pass)
                 continue;
             unit.choose({
                 gift: gift => {
-                    graph.link(self, unit.lord().str, 1);
-                    graph.link(self, '', 1);
-                    graph.link(gift.mate().str, self, 1);
+                    graph.link(unit, nodes.get(unit.lord().str) ?? null, 1);
+                    graph.link(unit, null, 1);
+                    graph.link(nodes.get(gift.mate().str) ?? null, unit, 1);
                 },
                 sand: sand => {
-                    graph.link(self, unit.lord().str, 1);
-                    graph.link(self, '', 1);
+                    graph.link(unit, nodes.get(unit.lord().str) ?? null, 1);
+                    graph.link(unit, null, 1);
                 },
                 seal: seal => {
-                    graph.link(self, unit.lord().str, 0);
-                    graph.link(self, '', 0);
+                    graph.link(unit, nodes.get(unit.lord().str) ?? null, 0);
+                    graph.link(unit, null, 0);
                     for (const hash of seal.hash_list()) {
-                        graph.link(hash.str, self, 1);
+                        graph.link(nodes.get(hash.str) ?? null, unit, 1);
                     }
                 }
             });
         }
         graph.acyclic(e => e);
-        return [...graph.sorted].map(key => nodes.get(key)).filter(Boolean);
+        return [...graph.sorted].filter(Boolean);
     }
     $.$giper_baza_unit_sort = $giper_baza_unit_sort;
     class $giper_baza_unit_base extends $mol_buffer {
@@ -14291,7 +14301,7 @@ var $;
             return `${super.toString()} % ${items}`;
         }
         [$mol_dev_format_head]() {
-            return $mol_dev_format_span({}, $mol_dev_format_native(this), ' 👾', $mol_dev_format_auto(this.lord()), ' ✍ ', $mol_dev_format_shade(this.moment().toString('YYYY-MM-DD hh:mm:ss'), ' &', this.tick().toString(16).padStart(2, '0')), ' #', $mol_dev_format_auto(this.hash()), ' ', $mol_dev_format_auto(this.hash_list()));
+            return $mol_dev_format_span({}, $mol_dev_format_native(this), ' 👾', $mol_dev_format_auto(this.lord()), ' ✍ ', $mol_dev_format_shade($giper_baza_time_dump(this.time(), this.tick())), ' #', $mol_dev_format_auto(this.hash()), ' ', $mol_dev_format_auto(this.hash_list()));
         }
     }
     __decorate([
@@ -14421,6 +14431,14 @@ var $;
                 }
             }
         }
+        signed() {
+            return !this._open || !!this._ball;
+        }
+        hash() {
+            if (!this.signed())
+                return $mol_fail(new Error('No Hash for incompleted Sand', { cause: { sand: this } }));
+            return super.hash();
+        }
         idea_seed() {
             return $mol_hash_numbers(new Uint8Array(this.buffer, this.byteOffset + 26, 12));
         }
@@ -14468,7 +14486,7 @@ var $;
             return `${super.toString()} ${tag} ${lead}\\${head}/${self} ${vary}`;
         }
         [$mol_dev_format_head]() {
-            return $mol_dev_format_span({}, $mol_dev_format_native(this), ' 👾', $mol_dev_format_auto(this.lord()), ' 📦 ', $mol_dev_format_shade(this.moment().toString('YYYY-MM-DD hh:mm:ss'), ' !', this.tick().toString(16).padStart(2, '0')), ' #', $mol_dev_format_auto(this.hash()), ' ', this.lead().str || '__knot__', $mol_dev_format_shade('\\'), $mol_dev_format_accent(this.head().str || '__root__'), $mol_dev_format_shade('/'), this.self().str || '__meta__', ' ', {
+            return $mol_dev_format_span({}, $mol_dev_format_native(this), ' 👾', $mol_dev_format_auto(this.lord()), ' 📦 ', $mol_dev_format_shade($giper_baza_time_dump(this.time(), this.tick())), ' #', $mol_dev_format_auto(this.hash()), ' ', this.lead().str || '__knot__', $mol_dev_format_shade('\\'), $mol_dev_format_accent(this.head().str || '__root__'), $mol_dev_format_shade('/'), this.self().str || '__meta__', ' ', {
                 term: '💼',
                 solo: '1️⃣',
                 vals: '🎹',
@@ -14563,7 +14581,7 @@ var $;
             return `${super.toString()} ${read} ${mate} ${rank}`;
         }
         [$mol_dev_format_head]() {
-            return $mol_dev_format_span({}, $mol_dev_format_native(this), ' 👾', $mol_dev_format_auto(this.lord()), ' 🏅', ' ', $mol_dev_format_shade(this.moment().toString('YYYY-MM-DD hh:mm:ss'), ' !', this.tick().toString(16).padStart(2, '0')), ' #', $mol_dev_format_auto(this.hash()), ' 👾', $mol_dev_format_accent(this.mate().str || '______every______'), this.code().some(v => v) ? ' 🔐' : ' 👀', $giper_baza_rank_tier[this.tier()], ':', this.rate().toString(16).toUpperCase());
+            return $mol_dev_format_span({}, $mol_dev_format_native(this), ' 👾', $mol_dev_format_auto(this.lord()), ' 🏅', ' ', $mol_dev_format_shade($giper_baza_time_dump(this.time(), this.tick())), ' #', $mol_dev_format_auto(this.hash()), ' 👾', $mol_dev_format_accent(this.mate().str || '______every______'), this.code().some(v => v) ? ' 🔐' : ' 👀', $giper_baza_rank_tier[this.tier()], ':', this.rate().toString(16).toUpperCase());
         }
     }
     __decorate([
@@ -14753,7 +14771,7 @@ var $;
         class $giper_baza_list_link_to extends $giper_baza_list_link_base {
             static Value = $mol_memo.func(Value);
             static toString() {
-                return this === $giper_baza_list_link_to ? '$giper_baza_list_link_to<' + Value() + '>' : super.toString();
+                return this === $giper_baza_list_link_to ? '$giper_baza_list_link_to[ []=> ' + Value() + ' ]' : super.toString();
             }
             remote_list(next) {
                 const glob = this.$.$giper_baza_glob;
@@ -15119,7 +15137,6 @@ var $;
                 const units = res.map(bin => $giper_baza_unit_base.narrow(bin[0]));
                 for (const unit of units) {
                     this.units_persisted.add(unit);
-                    $giper_baza_unit_trusted_grant(unit);
                 }
                 return units;
             });
@@ -15932,7 +15949,7 @@ var $;
         class $giper_baza_atom_link_to extends $giper_baza_atom_link_base {
             Value = $mol_memo.func(Value);
             static toString() {
-                return this === $giper_baza_atom_link_to ? '$giper_baza_atom_link_to<' + Value() + '>' : super.toString();
+                return this === $giper_baza_atom_link_to ? '$giper_baza_atom_link_to[ []=> ' + Value() + ' ]' : super.toString();
             }
             remote(next) {
                 return this.remote_of($giper_baza_link.hole, next);
