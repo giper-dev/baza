@@ -1,6 +1,6 @@
 namespace $ {
 	
-	export let $giper_baza_unit_seal_limit = 14
+	export let $giper_baza_unit_seal_limit = 10
 	
 	/**  Sign for hash list */
 	export class $giper_baza_unit_seal extends $giper_baza_unit_base {
