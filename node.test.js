@@ -9808,7 +9808,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$giper_baza_unit_seal_limit = 14;
+    $.$giper_baza_unit_seal_limit = 10;
     class $giper_baza_unit_seal extends $giper_baza_unit_base {
         static length(size) {
             return Math.ceil((84 + size * 12) / 8) * 8;
