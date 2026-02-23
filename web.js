@@ -12940,6 +12940,11 @@ var $;
                 this.unit_seal_inc(sand);
         }
         units_reaping = new Set();
+        unit_reap(unit) {
+            if (!this.mine().units_persisted.has(unit))
+                return;
+            this.units_reaping.add(unit);
+        }
         unit_seal_inc(unit) {
             const seal = this.unit_seal(unit);
             if (!seal)
@@ -12965,7 +12970,7 @@ var $;
                     this._seal_item.delete(hash.str);
                 }
             }
-            this.units_reaping.add(seal);
+            this.unit_reap(seal);
         }
         gift_del(gift) {
             const prev = this._gift.get(gift.mate().str);
@@ -12973,7 +12978,7 @@ var $;
                 return;
             this._gift.delete(gift.mate().str);
             this.faces.peer_summ_shift(gift.lord().peer().str, -1);
-            this.units_reaping.add(gift);
+            this.unit_reap(gift);
             this.unit_seal_dec(gift);
         }
         sand_del(sand) {
@@ -12988,7 +12993,7 @@ var $;
                 return;
             sands.delete(sand.self().str);
             this.faces.peer_summ_shift(sand.lord().peer().str, -1);
-            this.units_reaping.add(sand);
+            this.unit_reap(sand);
             if (sand.signed())
                 this.unit_seal_dec(sand);
         }
@@ -13073,7 +13078,7 @@ var $;
             let part = $giper_baza_pack_part.from([...units]);
             const pack = $giper_baza_pack.make([[this.link().str, part]]);
             part = pack.parts()[0][1];
-            this.diff_apply(part.units, 'skip_load');
+            this.diff_apply(part.units);
         }
         Data(Pawn) {
             return this.Pawn(Pawn).Head($.$giper_baza_land_root.data);
@@ -13518,6 +13523,7 @@ var $;
             this.$.$giper_baza_glob.yard().forget_land(this);
         }
         mine() {
+            $mol_wire_solid();
             return this.$.$giper_baza_mine.land(this.link());
         }
         sync_mine() {
@@ -13894,6 +13900,9 @@ var $;
     __decorate([
         $mol_mem
     ], $giper_baza_land.prototype, "sync", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_land.prototype, "mine", null);
     __decorate([
         $mol_mem
     ], $giper_baza_land.prototype, "sync_mine", null);

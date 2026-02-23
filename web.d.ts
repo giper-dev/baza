@@ -3942,6 +3942,7 @@ declare namespace $ {
         gift_add(gift: $giper_baza_unit_gift): void;
         sand_add(sand: $giper_baza_unit_sand): void;
         units_reaping: Set<$giper_baza_unit_base>;
+        unit_reap(unit: $giper_baza_unit_base): void;
         unit_seal_inc(unit: $giper_baza_unit): void;
         unit_seal_dec(unit: $giper_baza_unit): void;
         seal_del(seal: $giper_baza_unit_seal): void;

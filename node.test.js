@@ -8525,6 +8525,11 @@ var $;
                 this.unit_seal_inc(sand);
         }
         units_reaping = new Set();
+        unit_reap(unit) {
+            if (!this.mine().units_persisted.has(unit))
+                return;
+            this.units_reaping.add(unit);
+        }
         unit_seal_inc(unit) {
             const seal = this.unit_seal(unit);
             if (!seal)
@@ -8550,7 +8555,7 @@ var $;
                     this._seal_item.delete(hash.str);
                 }
             }
-            this.units_reaping.add(seal);
+            this.unit_reap(seal);
         }
         gift_del(gift) {
             const prev = this._gift.get(gift.mate().str);
@@ -8558,7 +8563,7 @@ var $;
                 return;
             this._gift.delete(gift.mate().str);
             this.faces.peer_summ_shift(gift.lord().peer().str, -1);
-            this.units_reaping.add(gift);
+            this.unit_reap(gift);
             this.unit_seal_dec(gift);
         }
         sand_del(sand) {
@@ -8573,7 +8578,7 @@ var $;
                 return;
             sands.delete(sand.self().str);
             this.faces.peer_summ_shift(sand.lord().peer().str, -1);
-            this.units_reaping.add(sand);
+            this.unit_reap(sand);
             if (sand.signed())
                 this.unit_seal_dec(sand);
         }
@@ -8658,7 +8663,7 @@ var $;
             let part = $giper_baza_pack_part.from([...units]);
             const pack = $giper_baza_pack.make([[this.link().str, part]]);
             part = pack.parts()[0][1];
-            this.diff_apply(part.units, 'skip_load');
+            this.diff_apply(part.units);
         }
         Data(Pawn) {
             return this.Pawn(Pawn).Head($.$giper_baza_land_root.data);
@@ -9103,6 +9108,7 @@ var $;
             this.$.$giper_baza_glob.yard().forget_land(this);
         }
         mine() {
+            $mol_wire_solid();
             return this.$.$giper_baza_mine.land(this.link());
         }
         sync_mine() {
@@ -9479,6 +9485,9 @@ var $;
     __decorate([
         $mol_mem
     ], $giper_baza_land.prototype, "sync", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_land.prototype, "mine", null);
     __decorate([
         $mol_mem
     ], $giper_baza_land.prototype, "sync_mine", null);
@@ -10480,8 +10489,9 @@ var $;
             let offset = this.offsets_del.get(data.buffer);
             if (offset === undefined) {
                 offset = this.yym.offsets().get(data.buffer);
-                if (!offset)
-                    return;
+                if (!offset) {
+                    return $mol_fail(new Error('Try to free non saved', { cause: { data, size } }));
+                }
                 this.offsets_del.set(data.buffer, offset);
                 this.yym.pool().release(offset, size);
                 this.yym.offsets().delete(data.buffer);
@@ -10501,10 +10511,12 @@ var $;
     $.$giper_baza_mine_fs_yym_act = $giper_baza_mine_fs_yym_act;
     class $giper_baza_mine_fs_yym extends $mol_object2 {
         sides;
-        pool() {
+        pool(reset) {
+            $mol_wire_solid();
             return new $mol_memory_pool;
         }
-        offsets() {
+        offsets(reset) {
+            $mol_wire_solid();
             return new Map;
         }
         constructor(sides) {
@@ -10514,11 +10526,13 @@ var $;
         destructor() {
             if (!this.sides[1].exists())
                 return;
-            this.sides[1].open('write_only', 'write_only').flush();
+            this.sides[1].open('write_only').flush();
             this.sides[0].exists(false);
+            this.pool(null);
+            this.offsets(null);
         }
         load_init() {
-            const version = (file) => file.modified()?.valueOf() ?? Number.POSITIVE_INFINITY;
+            const version = (file) => file.modified()?.valueOf() ?? 0;
             if (version(this.sides[0]) < version(this.sides[1]))
                 this.sides.reverse();
         }
@@ -10565,7 +10579,8 @@ var $;
         $mol_mem
     ], $giper_baza_mine_fs_yym.prototype, "offsets", null);
     __decorate([
-        $mol_mem
+        $mol_mem,
+        $mol_action
     ], $giper_baza_mine_fs_yym.prototype, "load_init", null);
     __decorate([
         $mol_mem
@@ -10576,6 +10591,7 @@ var $;
     $.$giper_baza_mine_fs_yym = $giper_baza_mine_fs_yym;
     class $giper_baza_mine_fs extends $giper_baza_mine_temp {
         store() {
+            $mol_wire_solid();
             const land = this.land();
             const area = land.area();
             const root = this.$.$mol_file.relative('.baza');
