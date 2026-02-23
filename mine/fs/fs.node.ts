@@ -146,8 +146,21 @@ namespace $ {
 		/** Prepares mirrors to write. */
 		@ $mol_mem
 		save_init() {
+			
+			$mol_wire_solid()
+			
 			this.load_init()
+			
+			if( this.sides[1].exists() ) {
+				$mol_wire_sync( this.$ ).$mol_log3_rise({
+					place: this,
+					message: 'Reset mirror',
+					file: this.sides[1].path(),
+				})
+			}
+
 			this.sides[0].clone( this.sides[1].path() )
+			
 		}
 		
 		@ $mol_mem
