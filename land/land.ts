@@ -124,6 +124,11 @@ namespace $ {
 		
 		units_reaping = new Set< $giper_baza_unit_base >()
 		
+		unit_reap( unit: $giper_baza_unit_base ) {
+			if( !this.mine().units_persisted.has( unit ) ) return
+			this.units_reaping.add( unit )
+		}
+		
 		unit_seal_inc( unit: $giper_baza_unit ) {
 			
 			const seal = this.unit_seal( unit )
@@ -158,7 +163,7 @@ namespace $ {
 				}
 			}
 			
-			this.units_reaping.add( seal )
+			this.unit_reap( seal )
 			
 		}
 		
@@ -170,7 +175,7 @@ namespace $ {
 			this._gift.delete( gift.mate().str  )
 			this.faces.peer_summ_shift( gift.lord().peer().str, -1 )
 			
-			this.units_reaping.add( gift )
+			this.unit_reap( gift )
 			this.unit_seal_dec( gift )
 			
 		}
@@ -189,7 +194,7 @@ namespace $ {
 			sands.delete( sand.self().str )
 			this.faces.peer_summ_shift( sand.lord().peer().str, -1 )
 			
-			this.units_reaping.add( sand )
+			this.unit_reap( sand )
 			if( sand.signed() ) this.unit_seal_dec( sand )
 			
 		}
@@ -278,7 +283,7 @@ namespace $ {
 		
 		@ $mol_mem
 		inherit() {
-				
+			
 			const area = this.link()
 			const lord = this.link().lord()
 			if( area.str === lord.str ) return
@@ -306,10 +311,10 @@ namespace $ {
 			}
 			
 			let part = $giper_baza_pack_part.from([ ... units ])
-			const pack = $giper_baza_pack.make([[ this.link().str,  part ]])
+			const pack = $giper_baza_pack.make([[ this.link().str, part ]])
 			
 			part = pack.parts()[0][1]
-			this.diff_apply( part.units, 'skip_load' )
+			this.diff_apply( part.units )
 			
 		}
 		
@@ -979,7 +984,9 @@ namespace $ {
 			this.$.$giper_baza_glob.yard().forget_land( this )
 		}
 		
+		@ $mol_mem
 		mine() {
+			$mol_wire_solid()
 			return this.$.$giper_baza_mine.land( this.link() )
 		}
 		

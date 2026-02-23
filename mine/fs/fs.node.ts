@@ -28,7 +28,7 @@ namespace $ {
 				this.offsets_ins.set( data[0].buffer, offset )
 				this.yym.offsets().set( data[0].buffer, offset )
 				
-			} 
+			}
 			
 			this.transaction.write({
 				buffer: data,
@@ -48,7 +48,9 @@ namespace $ {
 			if( offset === undefined ) {
 				
 				offset = this.yym.offsets().get( data.buffer )
-				if( !offset ) return
+				if( !offset ) {
+					return $mol_fail( new Error( 'Try to free non saved', { cause: { data, size } }, ))
+				}
 				
 				this.offsets_del.set( data.buffer, offset )
 				this.yym.pool().release( offset, size )
@@ -70,13 +72,15 @@ namespace $ {
 
 		/** Memory allocator. */
 		@ $mol_mem
-		pool() {
+		pool( reset?: null ) {
+			$mol_wire_solid()
 			return new $mol_memory_pool
 		}
 		
 		/** Offsets of stored buffers. */
 		@ $mol_mem
-		offsets() {
+		offsets( reset?: null ) {
+			$mol_wire_solid()
 			return new Map< ArrayBuffer, number >
 		}
 		
@@ -91,15 +95,18 @@ namespace $ {
 			
 			if( !this.sides[1].exists() ) return
 			
-			this.sides[1].open( 'write_only', 'write_only' ).flush()
+			this.sides[1].open( 'write_only' ).flush()
 			this.sides[0].exists( false )
+			this.pool( null )
+			this.offsets( null )
 			
-		}
+		} 
 		
 		/** Prepare mirrors to read. */
 		@ $mol_mem
+		@ $mol_action
 		load_init() {
-			const version = ( file: $mol_file )=> file.modified()?.valueOf() ?? Number.POSITIVE_INFINITY
+			const version = ( file: $mol_file )=> file.modified()?.valueOf() ?? 0
 			if( version( this.sides[0] ) < version( this.sides[1] ) ) this.sides.reverse()
 		}
 		
@@ -153,9 +160,9 @@ namespace $ {
 	
 	export class $giper_baza_mine_fs extends $giper_baza_mine_temp {
 		
-		@ $mol_mem
+		@ $mol_mem 
 		store() {
-			
+			$mol_wire_solid()
 			const land = this.land()
 			const area = land.area()
 			

@@ -46,11 +46,15 @@ namespace $ {
 		/** Standalone part of Glob which syncs separately, have own rights, and contains Units */
 		@ $mol_mem_key
 		static Land( link: $giper_baza_link ): $giper_baza_land {
+			
 			if( !link.str ) $mol_fail( new Error( 'Empty Land Link' ) )
+			
 			this.lands_touched.add( link.str )
+			
 			return this.$.$giper_baza_land.make({
 				link: $mol_const( link ),
 			})
+			
 		}
 		
 		/** High level representation of stored data. */
