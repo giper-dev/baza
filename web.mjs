@@ -13675,7 +13675,6 @@ var $;
                     lands.set(seal._land, us = []);
                 const hashes = seal.alive_list();
                 us.push(...hashes);
-                this.seal_del(seal);
             }
             const threads = [...lands.entries()].flatMap(([land, hashes]) => {
                 const auth = land.auth();
