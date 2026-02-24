@@ -163,10 +163,9 @@ namespace $ {
 			
 		}
 		
-		@ $mol_mem
 		empty() {
 			this.load_init()
-			return !this.sides[0].size()
+			return this.pool().empty()
 		}
 		
 	}
