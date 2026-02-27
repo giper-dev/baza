@@ -10641,6 +10641,7 @@ var $;
             }
         }
         units_load() {
+            this.store().pool(null);
             const buf = this.store().load();
             if (!buf.length)
                 return [];
