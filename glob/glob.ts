@@ -74,8 +74,8 @@ namespace $ {
 		
 		@ $mol_action
 		static boot() {
-			const file = $mol_fetch.buffer( 'web.baza' )
-			const pack = $mol_wire_sync( $giper_baza_pack ).from( file ) as $giper_baza_pack
+			const file = $mol_file.relative( 'web.baza' )
+			const pack = $mol_wire_sync( $giper_baza_pack ).from( file.buffer() ) as $giper_baza_pack
 			this.apply_pack( pack )
 		}
 		
