@@ -232,6 +232,8 @@ namespace $ {
 		@ $mol_action
 		override units_load() {
 			
+			this.store().pool( null )
+			
 			const buf = this.store().load()
 			if( !buf.length ) return []
 			
