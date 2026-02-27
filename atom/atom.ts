@@ -161,7 +161,7 @@ namespace $ {
 				
 				this.val() // track text to recalc selection on its change
 				
-				return user.caret()?.split( '|' ).map( chunk => Number( chunk ) ) ?? [ 0, 0 ]
+				return ( user.caret()?.split( '|' ).map( chunk => Number( chunk ) ) ?? [ 0, 0 ] ) as [ begin: number, end: number ]
 				
 			}
 

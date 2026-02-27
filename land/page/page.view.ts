@@ -1,10 +1,6 @@
 namespace $.$$ {
 	export class $giper_baza_land_page extends $.$giper_baza_land_page {
 		
-		override title() {
-			return '🌍 ' + this.land().link().str
-		}
-		
 		override theme() {
 			return this.encrypted() ? '$mol_theme_special' : null
 		}
@@ -14,10 +10,8 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
-		tools() {
-			return [
-				... this.pawn().meta() ? [ this.Meta_link() ] : []
-			]
+		Meta_link() {
+			return this.pawn().meta() ? super.Meta_link() : null
 		}
 		
 		meta_link() {

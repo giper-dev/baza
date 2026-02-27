@@ -7,7 +7,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		Sub() {
-			const type = this.prop().Type()?.val()
+			const type = this.prop().Type()?.val() ?? 'str'
 			switch( type ) {
 				case 'vary': return this.Str()
 				case 'enum': return this.Enum()
@@ -55,7 +55,7 @@ namespace $.$$ {
 		}
 		
 		str_selection( next?: readonly[ begin: number, end: number ] ) {
-			return this.pawn( next as any )?.cast( $giper_baza_atom_text ).selection( this.land().auth().pass().lord(), next )
+			return this.pawn( next as any )?.cast( $giper_baza_atom_text ).selection( this.land().auth().pass().lord(), next ) ?? [ 0, 0 ]
 		}
 		
 		time( next?: $mol_time_moment ) {

@@ -1,16 +1,26 @@
 namespace $ {
 	
-	export const $giper_baza_flex_deck_base = new $giper_baza_link( 'hSVSar1S_he4KVyXM_CftXZh1s' )
+	export const $giper_baza_flex_deck_link = new $giper_baza_link( 'huDNKdza_pspL6e2W_6byvrjHs' )
 	
 	/** Subj - named entity */
 	export class $giper_baza_flex_subj extends $giper_baza_dict.with( {
 		Name: $giper_baza_atom_text,
+		Icon: $giper_baza_atom_text,
+		Hint: $giper_baza_atom_text,
 	}, 'Subj' ) {
 		
-		static meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_U2e5XejQ` )
+		static meta = new $giper_baza_link( `${$giper_baza_flex_deck_link.str}_U2e5XejQ` )
 		
 		name( next?: string ) {
 			return this.Name( next )?.val( next ) ?? this.link().str
+		}
+		
+		icon( next?: string ) {
+			return this.Icon( next )?.val( next ) ?? '💫'
+		}
+		
+		hint( next?: string ) {
+			return this.Hint( next )?.val( next ) ?? ''
 		}
 		
 	}
@@ -20,11 +30,11 @@ namespace $ {
 	
 	/** Meta - schema of entitiy */
 	export class $giper_baza_flex_meta extends $giper_baza_flex_subj.with( {
-		Props: $giper_baza_list_link_to( ()=> $giper_baza_flex_prop ),
 		Pulls: $giper_baza_list_link_to( ()=> $giper_baza_flex_subj ),
+		Props: $giper_baza_list_link_to( ()=> $giper_baza_flex_prop ),
 	}, 'Meta' ) {
 		
-		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_Atd6Ty7F` )
+		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_link.str}_Atd6Ty7F` )
 		
 		@ $mol_action
 		prop_new(
@@ -86,7 +96,7 @@ namespace $ {
 		Base: $giper_baza_atom_vary,
 	}, 'Prop' ) {
 		
-		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_DOnW7Ah9` )
+		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_link.str}_DOnW7Ah9` )
 		
 		path( next?: string ) {
 			return this.Path( next )?.val( next ) ?? ''
@@ -116,18 +126,20 @@ namespace $ {
 		Types: $giper_baza_list_str,
 	}, 'Deck' ) {
 		
-		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_3AvnmQ4q` )
+		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_link.str}_3AvnmQ4q` )
 		
 		@ $mol_action
-		meta_new( key: string ) {
+		meta_new( key: string, icon: string, hint: string ) {
 			const meta = this.Metas(null)!.make( $mol_hash_string( key ) )
 			meta.name( key )
+			meta.icon( icon )
+			meta.hint( hint )
 			return meta
 		}
 		
 		@ $mol_action
-		meta_for( Meta: typeof $giper_baza_flex_subj ) {
-			const meta = this.meta_new( Meta.path )
+		meta_for( Meta: typeof $giper_baza_flex_subj, icon: string, hint: string ) {
+			const meta = this.meta_new( Meta.path, icon, hint )
 			Meta.meta = meta.link()
 			return meta
 		}
@@ -140,7 +152,7 @@ namespace $ {
 		Peers: $giper_baza_list_link_to( ()=> $giper_baza_flex_peer ),
 	}, 'Seed' ) {
 		
-		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_nrUK4ZIW` )
+		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_link.str}_nrUK4ZIW` )
 		
 		@ $mol_mem
 		deck() {
@@ -160,7 +172,7 @@ namespace $ {
 		Stat: $giper_baza_atom_link_to( ()=> $giper_baza_app_stat ),
 	}, 'Peer' ) {
 		
-		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_xEibvNCP` )
+		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_link.str}_xEibvNCP` )
 		
 		@ $mol_mem
 		stat( auto?: any ) {
@@ -179,7 +191,7 @@ namespace $ {
 		Caret: $giper_baza_atom_text,
 	}, 'User' ) {
 		
-		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_base.str}_csm0VtAK` )
+		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_link.str}_csm0VtAK` )
 		
 		@ $mol_mem
 		caret( next?: string ) {
@@ -199,15 +211,15 @@ namespace $ {
 		deck.name( 'Base Deck' )
 		deck.Types(null)!.items_vary([ 'vary', 'enum', 'bool', 'int', 'real', 'str', 'link', 'time', 'dict', 'text', 'list' ])
 		
-		const Meta = deck.meta_for( $giper_baza_flex_meta )
+		const Meta = deck.meta_for( $giper_baza_flex_meta, '✨', 'Meta schema of entities' )
 		Meta.meta( Meta.link() )
 		
-		const Subj = deck.meta_for( $giper_baza_flex_subj )
-		const Seed = deck.meta_for( $giper_baza_flex_seed )
-		const Prop = deck.meta_for( $giper_baza_flex_prop )
-		const Deck = deck.meta_for( $giper_baza_flex_deck )
-		const Peer = deck.meta_for( $giper_baza_flex_peer )
-		const User = deck.meta_for( $giper_baza_flex_user )
+		const Subj = deck.meta_for( $giper_baza_flex_subj, '💎', 'Named entity' )
+		const Seed = deck.meta_for( $giper_baza_flex_seed, '🌱', 'Seed of network' )
+		const Prop = deck.meta_for( $giper_baza_flex_prop, '🔖', 'Property schema' )
+		const Deck = deck.meta_for( $giper_baza_flex_deck, '📚', 'Collection of Metas' )
+		const Peer = deck.meta_for( $giper_baza_flex_peer, '🔆', 'Peer of network' )
+		const User = deck.meta_for( $giper_baza_flex_user, '👤', 'Profile of user' )
 		
 		seed.meta( Seed.link() )
 		deck.meta( Deck.link() )
@@ -220,19 +232,27 @@ namespace $ {
 		User.pull_add( Subj )
 		
 		Subj.prop_new( 'Name', 'str', undefined, undefined, '' )
-		Meta.prop_new( 'Props', 'list', Prop )
+		Subj.prop_new( 'Icon', 'str', undefined, undefined, '💫' )
+		Subj.prop_new( 'Hint', 'str', undefined, undefined, '' )
+		
 		Meta.prop_new( 'Pulls', 'list', Meta, deck.Metas()! )
+		Meta.prop_new( 'Props', 'list', Prop )
+		
 		Seed.prop_new( 'Deck', 'link', Deck )
 		Seed.prop_new( 'Peers', 'list', Peer )
+		
 		Prop.prop_new( 'Path', 'str' )
 		Prop.prop_new( 'Type', 'enum', undefined, deck.Types()!, 'vary' )
 		Prop.prop_new( 'Kind', 'link', Meta, deck.Metas()!, Subj.link() )
 		Prop.prop_new( 'Enum', 'link', Subj )
 		Prop.prop_new( 'Base', 'vary', Subj )
+		
 		Deck.prop_new( 'Metas', 'list', Meta )
 		Deck.prop_new( 'Types', 'list' )
+		
 		Peer.prop_new( 'Urls', 'list' )
 		Peer.prop_new( 'Stat', 'link' )
+		
 		User.prop_new( 'Caret', 'vary' )
 		
 		return seed

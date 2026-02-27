@@ -7,10 +7,10 @@ namespace $.$$ {
 			grow: 1,
 		},
 		
-		Title: {
-			font: {
-				family: 'monospace',
-			}
+		Pawn_link: {
+			flex: {
+				grow: 1,
+			},
 		},
 		
 		Size: {
