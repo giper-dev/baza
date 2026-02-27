@@ -216,6 +216,9 @@
     "$mol_memory_pool",
     "$mol_memory",
     "$mol_bus",
+    "$mol_fetch",
+    "$mol_error_enriched",
+    "$mol_error_fence",
     "$giper_baza_app_home"
   ],
   "dependencies": {

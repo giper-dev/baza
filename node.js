@@ -12036,6 +12036,191 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function pass(data) {
+        return data;
+    }
+    function $mol_error_fence(task, fallback, loading = pass) {
+        try {
+            return task();
+        }
+        catch (error) {
+            let normalized;
+            try {
+                normalized = $mol_promise_like(error) ? loading(error) : fallback(error);
+            }
+            catch (sub_error) {
+                normalized = $mol_promise_like(sub_error) ? sub_error : new $mol_error_mix(sub_error.message, { error }, sub_error);
+            }
+            if (normalized instanceof Error || $mol_promise_like(normalized)) {
+                $mol_fail_hidden(normalized);
+            }
+            return normalized;
+        }
+    }
+    $.$mol_error_fence = $mol_error_fence;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_error_enriched(cause, cb) {
+        return $mol_error_fence(cb, e => new $mol_error_mix(e.message, cause, e));
+    }
+    $.$mol_error_enriched = $mol_error_enriched;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_fetch_response extends $mol_object {
+        native;
+        request;
+        status() {
+            const types = ['unknown', 'inform', 'success', 'redirect', 'wrong', 'failed'];
+            return types[Math.floor(this.native.status / 100)];
+        }
+        code() {
+            return this.native.status;
+        }
+        ok() {
+            return this.native.ok;
+        }
+        message() {
+            return $mol_rest_code[this.code()] || `HTTP Error ${this.code()}`;
+        }
+        headers() {
+            return this.native.headers;
+        }
+        mime() {
+            return this.headers().get('content-type');
+        }
+        stream() {
+            return this.native.body;
+        }
+        text() {
+            const buffer = this.buffer();
+            const mime = this.mime() || '';
+            const [, charset] = /charset=(.*)/.exec(mime) || [, 'utf-8'];
+            const decoder = new TextDecoder(charset);
+            return decoder.decode(buffer);
+        }
+        json() {
+            return $mol_error_enriched(this, () => $mol_wire_sync(this.native).json());
+        }
+        blob() {
+            return $mol_error_enriched(this, () => $mol_wire_sync(this.native).blob());
+        }
+        buffer() {
+            return $mol_error_enriched(this, () => $mol_wire_sync(this.native).arrayBuffer());
+        }
+        xml() {
+            return $mol_dom_parse(this.text(), 'application/xml');
+        }
+        xhtml() {
+            return $mol_dom_parse(this.text(), 'application/xhtml+xml');
+        }
+        html() {
+            return $mol_dom_parse(this.text(), 'text/html');
+        }
+    }
+    __decorate([
+        $mol_action
+    ], $mol_fetch_response.prototype, "stream", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch_response.prototype, "text", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch_response.prototype, "xml", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch_response.prototype, "xhtml", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch_response.prototype, "html", null);
+    $.$mol_fetch_response = $mol_fetch_response;
+    class $mol_fetch_request extends $mol_object {
+        native;
+        response_async() {
+            const controller = new AbortController();
+            let done = false;
+            const request = new Request(this.native, { signal: controller.signal });
+            const promise = fetch(request).finally(() => {
+                done = true;
+            });
+            return Object.assign(promise, {
+                destructor: () => {
+                    if (!done && !controller.signal.aborted)
+                        controller.abort();
+                },
+            });
+        }
+        response() {
+            return this.$.$mol_fetch_response.make({
+                native: $mol_wire_sync(this).response_async(),
+                request: this
+            });
+        }
+        success() {
+            const response = this.response();
+            if (response.status() === 'success')
+                return response;
+            throw new Error(response.message(), { cause: response });
+        }
+    }
+    __decorate([
+        $mol_action
+    ], $mol_fetch_request.prototype, "response", null);
+    $.$mol_fetch_request = $mol_fetch_request;
+    class $mol_fetch extends $mol_object {
+        static request(input, init) {
+            return this.$.$mol_fetch_request.make({
+                native: new Request(input, init)
+            });
+        }
+        static response(input, init) {
+            return this.request(input, init).response();
+        }
+        static success(input, init) {
+            return this.request(input, init).success();
+        }
+        static stream(input, init) {
+            return this.success(input, init).stream();
+        }
+        static text(input, init) {
+            return this.success(input, init).text();
+        }
+        static json(input, init) {
+            return this.success(input, init).json();
+        }
+        static blob(input, init) {
+            return this.success(input, init).blob();
+        }
+        static buffer(input, init) {
+            return this.success(input, init).buffer();
+        }
+        static xml(input, init) {
+            return this.success(input, init).xml();
+        }
+        static xhtml(input, init) {
+            return this.success(input, init).xhtml();
+        }
+        static html(input, init) {
+            return this.success(input, init).html();
+        }
+    }
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "request", null);
+    $.$mol_fetch = $mol_fetch;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     class $giper_baza_glob extends $mol_object {
         static lands_touched = new $mol_wire_set();
         static yard() {
@@ -12082,8 +12267,8 @@ var $;
             return seed;
         }
         static boot() {
-            const file = $mol_file.relative('giper/baza/glob/glob.baza');
-            const pack = $mol_wire_sync($giper_baza_pack).from(file.buffer());
+            const file = $mol_fetch.buffer('web.baza');
+            const pack = $mol_wire_sync($giper_baza_pack).from(file);
             this.apply_pack(pack);
         }
         static apply_pack(pack) {

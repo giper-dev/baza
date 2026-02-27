@@ -16550,8 +16550,8 @@ var $;
             return seed;
         }
         static boot() {
-            const file = $mol_file.relative('giper/baza/glob/glob.baza');
-            const pack = $mol_wire_sync($giper_baza_pack).from(file.buffer());
+            const file = $mol_fetch.buffer('web.baza');
+            const pack = $mol_wire_sync($giper_baza_pack).from(file);
             this.apply_pack(pack);
         }
         static apply_pack(pack) {
