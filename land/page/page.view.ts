@@ -11,7 +11,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		Meta_link() {
-			return this.pawn().meta() ? super.Meta_link() : null
+			return this.pawn().meta() ? super.Meta_link() : null!
 		}
 		
 		meta_link() {
