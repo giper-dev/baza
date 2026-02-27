@@ -12339,7 +12339,7 @@ var $;
                 this.land().give(pass, $giper_baza_rank_rule);
             }
             const host = process.env.GIPER_BAZA_DOMAIN || $node.os.hostname();
-            this.name(host.replace(/\.ip\.*$/, ''));
+            this.name(host.replace(/\.ip\..*$/, ''));
             this.urls([`https://${host}/`]);
         }
     }
