@@ -14,7 +14,7 @@ namespace $ {
 			
 			const host = process.env.GIPER_BAZA_DOMAIN || $node.os.hostname()
 			
-			this.name( host )
+			this.name( host.replace( /\.ip\.*$/, '' ) )
 			this.urls([ `https://${host}/` ])
 			
 		}
