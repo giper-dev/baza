@@ -464,6 +464,9 @@ $mol_icon_security $mol_icon path \M12,12H19C18.47,16.11 15.72,19.78 12,20.92V12
 $giper_baza_link_chip $mol_link
 	param \link
 	link $giper_baza_link
+	sub /
+		<= icon \
+		<= title
 
 $mol_stack $mol_view
 
@@ -1115,9 +1118,13 @@ $mol_button_download $mol_button_minor
 $giper_baza_land_page $mol_page
 	land $giper_baza_land
 	pawn $giper_baza_dict
-	tools /
+		link => pawn_link
+	head /
 		<= Meta_link $giper_baza_link_chip
 			link <= meta_link $giper_baza_link
+		<= Pawn_link $giper_baza_link_chip
+			link <= pawn_link
+		<= Tools
 	body /
 		<= Flex $giper_baza_flex_form
 			pawn <= pawn
