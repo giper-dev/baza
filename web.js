@@ -15565,8 +15565,12 @@ var $;
                 this.sync_port_lands(port);
         }
         sync_port_lands(port) {
+            const masters = this.masters();
             for (const land of this.port_lands_active(port)) {
-                this.sync_port_land([port, new $giper_baza_link(land)]);
+                const land_link = new $giper_baza_link(land);
+                this.sync_port_land([port, land_link]);
+                for (const master of masters)
+                    this.sync_port_land([master, land_link]);
             }
         }
         ports() {
