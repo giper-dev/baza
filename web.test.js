@@ -6181,27 +6181,27 @@ var $;
             const text = land.Data($giper_baza_text);
             text.str('fooBar');
             const [first, second] = text.units();
-            $mol_assert_equal(text.point_by_offset(0), [first.self(), 0]);
-            $mol_assert_equal(text.offset_by_point([first.self(), 0]), [first.self(), 0]);
-            $mol_assert_equal(text.point_by_offset(3), [first.self(), 3]);
-            $mol_assert_equal(text.offset_by_point([first.self(), 3]), [first.self(), 3]);
-            $mol_assert_equal(text.offset_by_point([first.self(), 5]), [first.self(), 5]);
-            $mol_assert_equal(text.point_by_offset(5), [second.self(), 2]);
-            $mol_assert_equal(text.offset_by_point([second.self(), 2]), [second.self(), 5]);
-            $mol_assert_equal(text.point_by_offset(6), [second.self(), 3]);
-            $mol_assert_equal(text.offset_by_point([second.self(), 3]), [second.self(), 6]);
-            $mol_assert_equal(text.point_by_offset(7), [$giper_baza_link.hole, 1]);
-            $mol_assert_equal(text.offset_by_point([$giper_baza_link.hole, 1]), [$giper_baza_link.hole, 7]);
+            $mol_assert_equal(text.point_by_offset(0), [first.self().str, 0, 0]);
+            $mol_assert_equal(text.offset_by_point([first.self().str, 0, 0]), [first.self().str, 0]);
+            $mol_assert_equal(text.point_by_offset(3), [first.self().str, 3, 0]);
+            $mol_assert_equal(text.offset_by_point([first.self().str, 3, 0]), [first.self().str, 3]);
+            $mol_assert_equal(text.offset_by_point([first.self().str, 5, 0]), [first.self().str, 5]);
+            $mol_assert_equal(text.point_by_offset(5), [second.self().str, 2, 0]);
+            $mol_assert_equal(text.offset_by_point([second.self().str, 2, 0]), [second.self().str, 5]);
+            $mol_assert_equal(text.point_by_offset(6), [second.self().str, 3, 0]);
+            $mol_assert_equal(text.offset_by_point([second.self().str, 3, 0]), [second.self().str, 6]);
+            $mol_assert_equal(text.point_by_offset(7), ['', 1, 0]);
+            $mol_assert_equal(text.offset_by_point(['', 1, 0]), ['', 7]);
         },
         async 'text: Offset <=> Point'($) {
             const land = $giper_baza_land.make({ $ });
             const text = land.Data($giper_baza_text);
             text.text('foo bar\n666 777');
             const [first, second] = text.pawns($giper_baza_text);
-            $mol_assert_equal(text.point_by_offset(0), [first.units()[0].self(), 0]);
-            $mol_assert_equal(text.offset_by_point([first.units()[0].self(), 0]), [first.units()[0].self(), 0]);
-            $mol_assert_equal(text.point_by_offset(8), [first.units()[2].self(), 1]);
-            $mol_assert_equal(text.offset_by_point([first.units()[2].self(), 1]), [first.units()[2].self(), 8]);
+            $mol_assert_equal(text.point_by_offset(0), [first.units()[0].self().str, 0, 0]);
+            $mol_assert_equal(text.offset_by_point([first.units()[0].self().str, 0, 0]), [first.units()[0].self().str, 0]);
+            $mol_assert_equal(text.point_by_offset(8), [first.units()[2].self().str, 1, 0]);
+            $mol_assert_equal(text.offset_by_point([first.units()[2].self().str, 1, 0]), [first.units()[2].self().str, 8]);
         },
         async 'Merge different sequences'($) {
             const land1 = $giper_baza_land.make({ $ });

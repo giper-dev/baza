@@ -11436,14 +11436,22 @@ var $;
     $.$giper_baza_atom_link = $giper_baza_atom_link;
     class $giper_baza_atom_text extends $giper_baza_atom($giper_baza_vary_cast_text) {
         selection(lord, next) {
+            const link = this.link().head().str;
             const user = this.$.$giper_baza_glob.Land(lord).Data($giper_baza_flex_user);
             if (next) {
-                user.caret(next.join('|'));
+                user.caret([[link, next[0], 0], [link, next[1], 0]]);
                 return next;
             }
             else {
                 this.val();
-                return (user.caret()?.split('|').map(chunk => Number(chunk)) ?? [0, 0]);
+                const selection = user.caret();
+                if (!selection)
+                    return [0, 0];
+                if (selection[0][0] !== link)
+                    return [0, 0];
+                if (selection[1][0] !== link)
+                    return [0, 0];
+                return [selection[0][1], selection[0][1]];
             }
         }
     }
@@ -11988,11 +11996,11 @@ var $;
     ], $giper_baza_flex_peer.prototype, "urls", null);
     $.$giper_baza_flex_peer = $giper_baza_flex_peer;
     class $giper_baza_flex_user extends $giper_baza_flex_subj.with({
-        Caret: $giper_baza_atom_text,
+        Caret: $giper_baza_list_vary,
     }, 'User') {
         static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_link.str}_csm0VtAK`);
         caret(next) {
-            return this.Caret(next)?.val(next) ?? null;
+            return this.Caret(next)?.items_vary(next) ?? null;
         }
     }
     __decorate([
@@ -12038,7 +12046,7 @@ var $;
         Deck.prop_new('Types', 'list');
         Peer.prop_new('Urls', 'list');
         Peer.prop_new('Stat', 'link');
-        User.prop_new('Caret', 'vary');
+        User.prop_new('Caret', 'list');
         return seed;
     }
     $.$giper_baza_flex_init = $giper_baza_flex_init;

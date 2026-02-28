@@ -3803,9 +3803,9 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    type $giper_baza_vary_type = null | boolean | number | bigint | string | Uint8Array<ArrayBuffer> | Uint16Array<ArrayBuffer> | Uint32Array<ArrayBuffer> | BigUint64Array<ArrayBuffer> | Int8Array<ArrayBuffer> | Int16Array<ArrayBuffer> | Int32Array<ArrayBuffer> | BigInt64Array<ArrayBuffer> | Float64Array<ArrayBuffer> | Float32Array<ArrayBuffer> | Float64Array<ArrayBuffer> | $mol_time_moment | $mol_time_duration | $mol_time_interval | $mol_tree2 | $giper_baza_link | Element | readonly $giper_baza_vary_type[] | {
+    type $giper_baza_vary_type = null | boolean | number | bigint | string | Uint8Array<ArrayBuffer> | Uint16Array<ArrayBuffer> | Uint32Array<ArrayBuffer> | BigUint64Array<ArrayBuffer> | Int8Array<ArrayBuffer> | Int16Array<ArrayBuffer> | Int32Array<ArrayBuffer> | BigInt64Array<ArrayBuffer> | Float64Array<ArrayBuffer> | Float32Array<ArrayBuffer> | Float64Array<ArrayBuffer> | $mol_time_moment | $mol_time_duration | $mol_time_interval | $mol_tree2 | $giper_baza_link | Element | readonly $giper_baza_vary_type[] | Readonly<{
         [key in string]: $giper_baza_vary_type;
-    };
+    }>;
     let $giper_baza_vary: $mol_vary_class;
     function $giper_baza_vary_switch<Ways extends {
         none: (vary: null) => any;
@@ -5594,7 +5594,7 @@ declare namespace $ {
         [$mol_key_handle](): any;
     };
     export class $giper_baza_atom_text extends $giper_baza_atom_text_base {
-        selection(lord: $giper_baza_link, next?: readonly [begin: number, end: number]): readonly [begin: number, end: number];
+        selection(lord: $giper_baza_link, next?: readonly [begin: number, end: number]): number[] | readonly [begin: number, end: number];
     }
     const $giper_baza_atom_time_base: (abstract new () => {
         val(next?: $mol_time_moment | null | undefined): $mol_time_moment | null;
@@ -6543,9 +6543,9 @@ declare namespace $ {
         static meta: $giper_baza_link;
         path(next?: string): string;
         type(next?: string): string;
-        base(next?: $giper_baza_vary_type): string | number | bigint | boolean | Element | $giper_baza_link | Uint8Array<ArrayBuffer> | Uint16Array<ArrayBuffer> | Uint32Array<ArrayBuffer> | BigUint64Array<ArrayBuffer> | Int8Array<ArrayBuffer> | Int16Array<ArrayBuffer> | Int32Array<ArrayBuffer> | BigInt64Array<ArrayBuffer> | Float64Array<ArrayBuffer> | Float32Array<ArrayBuffer> | $mol_time_moment | $mol_time_duration | $mol_time_interval | $mol_tree2 | readonly $giper_baza_vary_type[] | {
+        base(next?: $giper_baza_vary_type): string | number | bigint | boolean | Element | $giper_baza_link | Uint8Array<ArrayBuffer> | Uint16Array<ArrayBuffer> | Uint32Array<ArrayBuffer> | BigUint64Array<ArrayBuffer> | Int8Array<ArrayBuffer> | Int16Array<ArrayBuffer> | Int32Array<ArrayBuffer> | BigInt64Array<ArrayBuffer> | Float64Array<ArrayBuffer> | Float32Array<ArrayBuffer> | $mol_time_moment | $mol_time_duration | $mol_time_interval | $mol_tree2 | readonly $giper_baza_vary_type[] | Readonly<{
             [x: string]: $giper_baza_vary_type;
-        } | null;
+        }> | null;
         kind(next?: $giper_baza_flex_meta): $giper_baza_flex_meta | null;
         enum(next?: $giper_baza_list_vary): $giper_baza_list_vary | null;
     }
@@ -6966,21 +6966,23 @@ declare namespace $ {
         stat(auto?: any): $giper_baza_app_stat | null;
         urls(next?: string[]): string[];
     }
+    type Point = readonly [head: string, x: number, y: number];
+    type Selection = readonly [from: Point, to: Point];
     const $giper_baza_flex_user_base: Omit<typeof $giper_baza_flex_subj, "prototype"> & {
         new (...args: any[]): $mol_type_override<$giper_baza_flex_subj, {
-            readonly Caret: (auto?: any) => $giper_baza_atom_text | null;
+            readonly Caret: (auto?: any) => $giper_baza_list_vary | null;
         }>;
         path: string;
     } & {
         schema: {
             [x: string]: typeof $giper_baza_pawn;
         } & {
-            readonly Caret: typeof $giper_baza_atom_text;
+            readonly Caret: typeof $giper_baza_list_vary;
         };
     };
     export class $giper_baza_flex_user extends $giper_baza_flex_user_base {
         static meta: $giper_baza_link;
-        caret(next?: string): string | null;
+        caret(next?: Selection): Selection | null;
     }
     export function $giper_baza_flex_init(this: $): $giper_baza_flex_seed;
     export {};
@@ -8666,9 +8668,9 @@ declare namespace $ {
         text(next?: string): string;
         str(next?: string): string;
         write(next: string, str_from?: number, str_to?: number): this;
-        point_by_offset(offset: number): readonly [$giper_baza_link, number];
-        offset_by_point([self, offset]: readonly [$giper_baza_link, number]): readonly [$giper_baza_link, number];
-        selection(lord: $giper_baza_link, next?: readonly [begin: number, end: number]): number[] | readonly [begin: number, end: number];
+        point_by_offset(offset: number): readonly [head: string, x: number, y: number];
+        offset_by_point([self, offset]: readonly [head: string, x: number, y: number]): readonly [head: string, pos: number];
+        selection(lord: $giper_baza_link, next?: readonly [begin: number, end: number]): readonly [begin: number, end: number];
     }
 }
 
@@ -9042,28 +9044,28 @@ declare namespace $.$$ {
     class $giper_baza_flex_field extends $.$giper_baza_flex_field {
         dict_pawn(): $giper_baza_dict;
         Sub(): $.$mol_select | $.$mol_expander | $.$mol_drop | $.$mol_number | $.$mol_textarea | $.$mol_date | $mol_check_box | $mol_bar;
-        enum(next?: $giper_baza_vary_type): string | number | bigint | boolean | Element | $giper_baza_link | Uint8Array<ArrayBuffer> | Uint16Array<ArrayBuffer> | Uint32Array<ArrayBuffer> | BigUint64Array<ArrayBuffer> | Int8Array<ArrayBuffer> | Int16Array<ArrayBuffer> | Int32Array<ArrayBuffer> | BigInt64Array<ArrayBuffer> | Float64Array<ArrayBuffer> | Float32Array<ArrayBuffer> | $mol_time_moment | $mol_time_duration | $mol_time_interval | $mol_tree2 | readonly $giper_baza_vary_type[] | {
+        enum(next?: $giper_baza_vary_type): string | number | bigint | boolean | Element | $giper_baza_link | Uint8Array<ArrayBuffer> | Uint16Array<ArrayBuffer> | Uint32Array<ArrayBuffer> | BigUint64Array<ArrayBuffer> | Int8Array<ArrayBuffer> | Int16Array<ArrayBuffer> | Int32Array<ArrayBuffer> | BigInt64Array<ArrayBuffer> | Float64Array<ArrayBuffer> | Float32Array<ArrayBuffer> | $mol_time_moment | $mol_time_duration | $mol_time_interval | $mol_tree2 | readonly $giper_baza_vary_type[] | Readonly<{
             [x: string]: $giper_baza_vary_type;
-        } | null;
+        }> | null;
         enum_options(): readonly $giper_baza_vary_type[];
         enum_label(option: $giper_baza_vary_type): string;
         bool(next?: boolean): boolean;
         int(next?: number): number;
         real(next?: number): number;
         str(next?: string): string;
-        str_selection(next?: readonly [begin: number, end: number]): readonly [begin: number, end: number];
+        str_selection(next?: readonly [begin: number, end: number]): number[] | readonly [begin: number, end: number];
         time(next?: $mol_time_moment): $mol_time_moment;
         link(next?: $giper_baza_link): null;
         link_content(): ($.$mol_select | $.$giper_baza_unit_sand_dump)[];
-        link_value(): string | number | bigint | boolean | Element | $giper_baza_link | Uint8Array<ArrayBuffer> | Uint16Array<ArrayBuffer> | Uint32Array<ArrayBuffer> | BigUint64Array<ArrayBuffer> | Int8Array<ArrayBuffer> | Int16Array<ArrayBuffer> | Int32Array<ArrayBuffer> | BigInt64Array<ArrayBuffer> | Float64Array<ArrayBuffer> | Float32Array<ArrayBuffer> | $mol_time_moment | $mol_time_duration | $mol_time_interval | $mol_tree2 | readonly $giper_baza_vary_type[] | {
+        link_value(): string | number | bigint | boolean | Element | $giper_baza_link | Uint8Array<ArrayBuffer> | Uint16Array<ArrayBuffer> | Uint32Array<ArrayBuffer> | BigUint64Array<ArrayBuffer> | Int8Array<ArrayBuffer> | Int16Array<ArrayBuffer> | Int32Array<ArrayBuffer> | BigInt64Array<ArrayBuffer> | Float64Array<ArrayBuffer> | Float32Array<ArrayBuffer> | $mol_time_moment | $mol_time_duration | $mol_time_interval | $mol_tree2 | readonly $giper_baza_vary_type[] | Readonly<{
             [x: string]: $giper_baza_vary_type;
-        } | null;
+        }> | null;
         link_options(): readonly $giper_baza_vary_type[];
         link_label(link: $giper_baza_vary_type): string;
         link_remote(): $giper_baza_dict;
         link_new(rights?: string): null;
         text(next?: string): string;
-        text_selection(next?: readonly [begin: number, end: number]): number[] | readonly [begin: number, end: number];
+        text_selection(next?: readonly [begin: number, end: number]): readonly [begin: number, end: number];
         dict_title(): string;
         list_items(): ($mol_button_minor | $.$mol_select | $.$mol_drop)[];
         list_pick(next?: $giper_baza_link): null;

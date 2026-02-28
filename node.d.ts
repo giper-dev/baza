@@ -1761,9 +1761,9 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    type $giper_baza_vary_type = null | boolean | number | bigint | string | Uint8Array<ArrayBuffer> | Uint16Array<ArrayBuffer> | Uint32Array<ArrayBuffer> | BigUint64Array<ArrayBuffer> | Int8Array<ArrayBuffer> | Int16Array<ArrayBuffer> | Int32Array<ArrayBuffer> | BigInt64Array<ArrayBuffer> | Float64Array<ArrayBuffer> | Float32Array<ArrayBuffer> | Float64Array<ArrayBuffer> | $mol_time_moment | $mol_time_duration | $mol_time_interval | $mol_tree2 | $giper_baza_link | Element | readonly $giper_baza_vary_type[] | {
+    type $giper_baza_vary_type = null | boolean | number | bigint | string | Uint8Array<ArrayBuffer> | Uint16Array<ArrayBuffer> | Uint32Array<ArrayBuffer> | BigUint64Array<ArrayBuffer> | Int8Array<ArrayBuffer> | Int16Array<ArrayBuffer> | Int32Array<ArrayBuffer> | BigInt64Array<ArrayBuffer> | Float64Array<ArrayBuffer> | Float32Array<ArrayBuffer> | Float64Array<ArrayBuffer> | $mol_time_moment | $mol_time_duration | $mol_time_interval | $mol_tree2 | $giper_baza_link | Element | readonly $giper_baza_vary_type[] | Readonly<{
         [key in string]: $giper_baza_vary_type;
-    };
+    }>;
     let $giper_baza_vary: $mol_vary_class;
     function $giper_baza_vary_switch<Ways extends {
         none: (vary: null) => any;
@@ -3462,7 +3462,7 @@ declare namespace $ {
         [$mol_key_handle](): any;
     };
     export class $giper_baza_atom_text extends $giper_baza_atom_text_base {
-        selection(lord: $giper_baza_link, next?: readonly [begin: number, end: number]): readonly [begin: number, end: number];
+        selection(lord: $giper_baza_link, next?: readonly [begin: number, end: number]): number[] | readonly [begin: number, end: number];
     }
     const $giper_baza_atom_time_base: (abstract new () => {
         val(next?: $mol_time_moment | null | undefined): $mol_time_moment | null;
@@ -4416,9 +4416,9 @@ declare namespace $ {
         static meta: $giper_baza_link;
         path(next?: string): string;
         type(next?: string): string;
-        base(next?: $giper_baza_vary_type): string | number | bigint | boolean | Element | Uint8Array<ArrayBuffer> | $mol_tree2 | Uint16Array<ArrayBuffer> | Uint32Array<ArrayBuffer> | Int32Array<ArrayBuffer> | $giper_baza_link | BigUint64Array<ArrayBuffer> | $mol_time_duration | $mol_time_moment | $mol_time_interval | Int8Array<ArrayBuffer> | Int16Array<ArrayBuffer> | BigInt64Array<ArrayBuffer> | Float64Array<ArrayBuffer> | Float32Array<ArrayBuffer> | readonly $giper_baza_vary_type[] | {
+        base(next?: $giper_baza_vary_type): string | number | bigint | boolean | Element | Uint8Array<ArrayBuffer> | $mol_tree2 | Uint16Array<ArrayBuffer> | Uint32Array<ArrayBuffer> | Int32Array<ArrayBuffer> | $giper_baza_link | BigUint64Array<ArrayBuffer> | $mol_time_duration | $mol_time_moment | $mol_time_interval | Int8Array<ArrayBuffer> | Int16Array<ArrayBuffer> | BigInt64Array<ArrayBuffer> | Float64Array<ArrayBuffer> | Float32Array<ArrayBuffer> | readonly $giper_baza_vary_type[] | Readonly<{
             [x: string]: $giper_baza_vary_type;
-        } | null;
+        }> | null;
         kind(next?: $giper_baza_flex_meta): $giper_baza_flex_meta | null;
         enum(next?: $giper_baza_list_vary): $giper_baza_list_vary | null;
     }
@@ -4839,21 +4839,23 @@ declare namespace $ {
         stat(auto?: any): $giper_baza_app_stat | null;
         urls(next?: string[]): string[];
     }
+    type Point = readonly [head: string, x: number, y: number];
+    type Selection = readonly [from: Point, to: Point];
     const $giper_baza_flex_user_base: Omit<typeof $giper_baza_flex_subj, "prototype"> & {
         new (...args: any[]): $mol_type_override<$giper_baza_flex_subj, {
-            readonly Caret: (auto?: any) => $giper_baza_atom_text | null;
+            readonly Caret: (auto?: any) => $giper_baza_list_vary | null;
         }>;
         path: string;
     } & {
         schema: {
             [x: string]: typeof $giper_baza_pawn;
         } & {
-            readonly Caret: typeof $giper_baza_atom_text;
+            readonly Caret: typeof $giper_baza_list_vary;
         };
     };
     export class $giper_baza_flex_user extends $giper_baza_flex_user_base {
         static meta: $giper_baza_link;
-        caret(next?: string): string | null;
+        caret(next?: Selection): Selection | null;
     }
     export function $giper_baza_flex_init(this: $): $giper_baza_flex_seed;
     export {};

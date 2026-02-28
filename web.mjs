@@ -15925,14 +15925,22 @@ var $;
     $.$giper_baza_atom_link = $giper_baza_atom_link;
     class $giper_baza_atom_text extends $giper_baza_atom($giper_baza_vary_cast_text) {
         selection(lord, next) {
+            const link = this.link().head().str;
             const user = this.$.$giper_baza_glob.Land(lord).Data($giper_baza_flex_user);
             if (next) {
-                user.caret(next.join('|'));
+                user.caret([[link, next[0], 0], [link, next[1], 0]]);
                 return next;
             }
             else {
                 this.val();
-                return (user.caret()?.split('|').map(chunk => Number(chunk)) ?? [0, 0]);
+                const selection = user.caret();
+                if (!selection)
+                    return [0, 0];
+                if (selection[0][0] !== link)
+                    return [0, 0];
+                if (selection[1][0] !== link)
+                    return [0, 0];
+                return [selection[0][1], selection[0][1]];
             }
         }
     }
@@ -16457,11 +16465,11 @@ var $;
     ], $giper_baza_flex_peer.prototype, "urls", null);
     $.$giper_baza_flex_peer = $giper_baza_flex_peer;
     class $giper_baza_flex_user extends $giper_baza_flex_subj.with({
-        Caret: $giper_baza_atom_text,
+        Caret: $giper_baza_list_vary,
     }, 'User') {
         static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_link.str}_csm0VtAK`);
         caret(next) {
-            return this.Caret(next)?.val(next) ?? null;
+            return this.Caret(next)?.items_vary(next) ?? null;
         }
     }
     __decorate([
@@ -16507,7 +16515,7 @@ var $;
         Deck.prop_new('Types', 'list');
         Peer.prop_new('Urls', 'list');
         Peer.prop_new('Stat', 'link');
-        User.prop_new('Caret', 'vary');
+        User.prop_new('Caret', 'list');
         return seed;
     }
     $.$giper_baza_flex_init = $giper_baza_flex_init;
@@ -20181,7 +20189,7 @@ var $;
                 if (unit.tag() === 'term') {
                     const len = $giper_baza_vary_cast_text(land.sand_decode(unit))?.length ?? 0;
                     if (off <= len)
-                        return [unit.self(), off];
+                        return [unit.self().str, off, 0];
                     else
                         off -= len;
                 }
@@ -20192,37 +20200,34 @@ var $;
                     off = found[1];
                 }
             }
-            return [$giper_baza_link.hole, off];
+            return ['', off, 0];
         }
         offset_by_point([self, offset]) {
             const land = this.land();
             for (const unit of this.units()) {
-                if (unit.self().str === self.str)
+                if (unit.self().str === self)
                     return [self, offset];
                 if (unit.tag() === 'term') {
                     offset += $giper_baza_vary_cast_text(land.sand_decode(unit))?.length ?? 0;
                 }
                 else {
-                    const found = land.Pawn($giper_baza_text).Head(unit.self()).offset_by_point([self, offset]);
+                    const found = land.Pawn($giper_baza_text).Head(unit.self()).offset_by_point([self, offset, 0]);
                     if (found[0])
                         return [self, found[1]];
                     offset = found[1];
                 }
             }
-            return [$giper_baza_link.hole, offset];
+            return ['', offset];
         }
         selection(lord, next) {
             const user = this.$.$giper_baza_glob.Land(lord).Data($giper_baza_flex_user);
             if (next) {
-                user.caret(next.map(offset => this.point_by_offset(offset).join(':')).join('|'));
+                user.caret(next.map(offset => this.point_by_offset(offset)));
                 return next;
             }
             else {
                 this.text();
-                return user.caret()?.split('|').map(point => {
-                    const chunks = point.split(':');
-                    return this.offset_by_point([new $giper_baza_link(chunks[0]), Number(chunks[1]) || 0])[1];
-                }) ?? [0, 0];
+                return user.caret()?.map(point => this.offset_by_point(point)[1]) ?? [0, 0];
             }
         }
     }
