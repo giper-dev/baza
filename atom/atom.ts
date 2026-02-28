@@ -150,19 +150,25 @@ namespace $ {
 		@ $mol_mem_key
 		selection( lord: $giper_baza_link, next?: readonly[ begin: number, end: number ] ) {
 			
+			const link = this.link().head().str
 			const user = this.$.$giper_baza_glob.Land( lord ).Data( $giper_baza_flex_user )
 			
 			if( next ) {
 				
-				user.caret( next.join( '|' ) )
+				user.caret([ [ link, next[0], 0 ], [ link, next[1], 0 ] ])
 				return next
 				
 			} else {
 				
 				this.val() // track text to recalc selection on its change
 				
-				return ( user.caret()?.split( '|' ).map( chunk => Number( chunk ) ) ?? [ 0, 0 ] ) as [ begin: number, end: number ]
+				const selection = user.caret()
+				if( !selection ) return [ 0, 0 ]
 				
+				if( selection[0][0] !== link ) return [ 0, 0 ]
+				if( selection[1][0] !== link ) return [ 0, 0 ]
+				
+				return [ selection[0][1], selection[0][1] ]
 			}
 
 		}

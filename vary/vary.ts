@@ -8,7 +8,7 @@ namespace $ {
 	| Float64Array< ArrayBuffer > | Float32Array< ArrayBuffer > | Float64Array< ArrayBuffer >
 	| $mol_time_moment | $mol_time_duration | $mol_time_interval
 	| $mol_tree2 | $giper_baza_link | Element
-	| readonly $giper_baza_vary_type[] | { [ key in string ]: $giper_baza_vary_type }
+	| readonly $giper_baza_vary_type[] | Readonly<{ [ key in string ]: $giper_baza_vary_type }>
 	
 	export let $giper_baza_vary = $mol_vary.zone()
 	

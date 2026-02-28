@@ -186,16 +186,19 @@ namespace $ {
 		
 	}
 	
+	type Point = readonly[ head: string, x: number, y: number ]
+	type Selection = readonly [ from: Point, to: Point ]
+	
 	/** User - human profile */
 	export class $giper_baza_flex_user extends $giper_baza_flex_subj.with( {
-		Caret: $giper_baza_atom_text,
+		Caret: $giper_baza_list_vary,
 	}, 'User' ) {
 		
 		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_link.str}_csm0VtAK` )
 		
 		@ $mol_mem
-		caret( next?: string ) {
-			return this.Caret( next )?.val( next ) ?? null
+		caret( next?: Selection ): Selection | null {
+			return this.Caret( next )?.items_vary( next ) as Selection ?? null
 		}
 		
 	}
@@ -253,7 +256,7 @@ namespace $ {
 		Peer.prop_new( 'Urls', 'list' )
 		Peer.prop_new( 'Stat', 'link' )
 		
-		User.prop_new( 'Caret', 'vary' )
+		User.prop_new( 'Caret', 'list' )
 		
 		return seed
 		
