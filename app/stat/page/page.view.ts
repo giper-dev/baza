@@ -5,7 +5,7 @@ namespace $.$$ {
 		home() {
 			
 			const url = this.$.$giper_baza_glob.yard().master_current()
-			if( !url ) return null
+			if( !url ) return null!
 			
 			const link = new $giper_baza_link( this.$.$mol_fetch.text( url + 'link' ) )
 			return this.$.$giper_baza_glob.Pawn( link, $giper_baza_app_home )
@@ -15,11 +15,6 @@ namespace $.$$ {
 		@ $mol_mem
 		stat() {
 			return this.home()?.stat() ?? null
-		}
-		
-		@ $mol_mem
-		domain() {
-			return this.home()?.name() ?? super.domain()
 		}
 		
 		@ $mol_mem

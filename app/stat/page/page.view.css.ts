@@ -7,6 +7,12 @@ namespace $.$$ {
 			grow: 1,
 		},
 		
+		Main: {
+			flex: {
+				grow: 1,
+			},
+		},
+		
 		Charts: {
 			align: {
 				self: 'stretch',
