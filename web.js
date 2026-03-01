@@ -25023,7 +25023,7 @@ var $;
 		Land(){
 			const obj = new this.$.$giper_baza_link_chip();
 			(obj.link) = () => ((this.home_link()));
-			(obj.arg) = () => ({...(this.$.$giper_baza_link_chip.prototype.arg.call(obj)), "section": "glob"});
+			(obj.arg) = () => ({"section": "glob", ...(this.$.$giper_baza_link_chip.prototype.arg.call(obj))});
 			return obj;
 		}
 		uptime(){

@@ -1719,8 +1719,8 @@ $giper_baza_app_stat_page $mol_page
 			<= Land $giper_baza_link_chip
 				link <= home_link
 				arg *
-					^
 					section \glob
+					^
 			<= Uptime $mol_chip title <= uptime \🔴 00:00
 		<= Tools
 	body_content /
