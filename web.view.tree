@@ -1711,10 +1711,17 @@ $mol_chart $mol_view
 			hue_shift <= hue_shift 163
 
 $giper_baza_app_stat_page $mol_page
+	home $giper_baza_app_home
+		link => home_link
 	title \📊 Stat
 	head /
-		<= Domain $mol_chip title <= domain \Undefined Domain
-		<= Uptime $mol_chip title <= uptime \🔴 00:00
+		<= Main $mol_view sub / 
+			<= Land $giper_baza_link_chip
+				link <= home_link
+				arg *
+					^
+					section \glob
+			<= Uptime $mol_chip title <= uptime \🔴 00:00
 		<= Tools
 	body_content /
 		<= Charts $mol_gallery items /

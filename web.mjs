@@ -24997,13 +24997,33 @@ var $;
 "use strict";
 
 ;
+"use strict";
+var $;
+(function ($) {
+    class $giper_baza_app_home extends $giper_baza_flex_peer {
+        init() {
+            this.meta($giper_baza_flex_peer.meta);
+        }
+        tick() {
+            this.init();
+            this.stat(null).tick();
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $giper_baza_app_home.prototype, "init", null);
+    $.$giper_baza_app_home = $giper_baza_app_home;
+})($ || ($ = {}));
+
+;
 	($.$giper_baza_app_stat_page) = class $giper_baza_app_stat_page extends ($.$mol_page) {
-		domain(){
-			return "Undefined Domain";
+		home_link(){
+			return (this.home().link());
 		}
-		Domain(){
-			const obj = new this.$.$mol_chip();
-			(obj.title) = () => ((this.domain()));
+		Land(){
+			const obj = new this.$.$giper_baza_link_chip();
+			(obj.link) = () => ((this.home_link()));
+			(obj.arg) = () => ({...(this.$.$giper_baza_link_chip.prototype.arg.call(obj)), "section": "glob"});
 			return obj;
 		}
 		uptime(){
@@ -25012,6 +25032,11 @@ var $;
 		Uptime(){
 			const obj = new this.$.$mol_chip();
 			(obj.title) = () => ((this.uptime()));
+			return obj;
+		}
+		Main(){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this.Land()), (this.Uptime())]);
 			return obj;
 		}
 		cpu_user(){
@@ -25266,22 +25291,23 @@ var $;
 			]);
 			return obj;
 		}
+		home(){
+			const obj = new this.$.$giper_baza_app_home();
+			return obj;
+		}
 		title(){
 			return "📊 Stat";
 		}
 		head(){
-			return [
-				(this.Domain()), 
-				(this.Uptime()), 
-				(this.Tools())
-			];
+			return [(this.Main()), (this.Tools())];
 		}
 		body_content(){
 			return [(this.Charts())];
 		}
 	};
-	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Domain"));
+	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Land"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Uptime"));
+	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Main"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Cpu_user"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Cpu_system"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Cpu_ruler_sec"));
@@ -25315,26 +25341,8 @@ var $;
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Error_count_mark"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Error_count"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Charts"));
+	($mol_mem(($.$giper_baza_app_stat_page.prototype), "home"));
 
-
-;
-"use strict";
-var $;
-(function ($) {
-    class $giper_baza_app_home extends $giper_baza_flex_peer {
-        init() {
-            this.meta($giper_baza_flex_peer.meta);
-        }
-        tick() {
-            this.init();
-            this.stat(null).tick();
-        }
-    }
-    __decorate([
-        $mol_mem
-    ], $giper_baza_app_home.prototype, "init", null);
-    $.$giper_baza_app_home = $giper_baza_app_home;
-})($ || ($ = {}));
 
 ;
 "use strict";
@@ -25355,9 +25363,6 @@ var $;
             }
             stat() {
                 return this.home()?.stat() ?? null;
-            }
-            domain() {
-                return this.home()?.name() ?? super.domain();
             }
             uptime() {
                 const status = (this.stat()?.freshness() ?? Number.POSITIVE_INFINITY) < 5 ? '🟢' : '🔴';
@@ -25420,9 +25425,6 @@ var $;
         ], $giper_baza_app_stat_page.prototype, "stat", null);
         __decorate([
             $mol_mem
-        ], $giper_baza_app_stat_page.prototype, "domain", null);
-        __decorate([
-            $mol_mem
         ], $giper_baza_app_stat_page.prototype, "uptime", null);
         __decorate([
             $mol_mem
@@ -25474,6 +25476,11 @@ var $;
             flex: {
                 basis: `40rem`,
                 grow: 1,
+            },
+            Main: {
+                flex: {
+                    grow: 1,
+                },
             },
             Charts: {
                 align: {
