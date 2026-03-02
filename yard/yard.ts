@@ -278,6 +278,7 @@ namespace $ {
 				for( let unit of part.units ) {
 					if( unit instanceof $giper_baza_auth_pass ) continue
 					port_faces.peer_time( unit.lord().peer().str, unit.time(), unit.tick() )
+					port_faces.peer_summ_shift( unit.lord().peer().str, +1 )
 				}
 				
 			}
