@@ -21,7 +21,7 @@ namespace $.$$ {
 			const link = this.link()
 			if( !link.str ) return '💢'
 			
-			return this.meta()?.icon() ?? this.subj().icon()
+			return this.subj().icon() || '💠'
 		}
 		
 		@ $mol_mem
