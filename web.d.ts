@@ -9632,95 +9632,100 @@ declare namespace $ {
 declare namespace $ {
 
 	type $giper_baza_link_chip__link_giper_baza_land_page_1 = $mol_type_enforce<
-		ReturnType< $giper_baza_land_page['meta_link'] >
-		,
-		ReturnType< $giper_baza_link_chip['link'] >
-	>
-	type $giper_baza_link_chip__link_giper_baza_land_page_2 = $mol_type_enforce<
 		ReturnType< $giper_baza_land_page['pawn_link'] >
 		,
 		ReturnType< $giper_baza_link_chip['link'] >
 	>
-	type $giper_baza_flex_form__pawn_giper_baza_land_page_3 = $mol_type_enforce<
+	type $giper_baza_link_chip__link_giper_baza_land_page_2 = $mol_type_enforce<
+		ReturnType< $giper_baza_land_page['meta_link'] >
+		,
+		ReturnType< $giper_baza_link_chip['link'] >
+	>
+	type $giper_baza_link_chip__sub_giper_baza_land_page_3 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $giper_baza_link_chip['sub'] >
+	>
+	type $giper_baza_flex_form__pawn_giper_baza_land_page_4 = $mol_type_enforce<
 		ReturnType< $giper_baza_land_page['pawn'] >
 		,
 		ReturnType< $giper_baza_flex_form['pawn'] >
 	>
-	type $giper_baza_pawn_dump__title_giper_baza_land_page_4 = $mol_type_enforce<
+	type $giper_baza_pawn_dump__title_giper_baza_land_page_5 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $giper_baza_pawn_dump['title'] >
 	>
-	type $giper_baza_pawn_dump__pawn_giper_baza_land_page_5 = $mol_type_enforce<
+	type $giper_baza_pawn_dump__pawn_giper_baza_land_page_6 = $mol_type_enforce<
 		ReturnType< $giper_baza_land_page['pawn'] >
 		,
 		ReturnType< $giper_baza_pawn_dump['pawn'] >
 	>
-	type $giper_baza_pawn_dump__title_giper_baza_land_page_6 = $mol_type_enforce<
+	type $giper_baza_pawn_dump__title_giper_baza_land_page_7 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $giper_baza_pawn_dump['title'] >
 	>
-	type $giper_baza_pawn_dump__pawn_giper_baza_land_page_7 = $mol_type_enforce<
+	type $giper_baza_pawn_dump__pawn_giper_baza_land_page_8 = $mol_type_enforce<
 		ReturnType< $giper_baza_land_page['tine'] >
 		,
 		ReturnType< $giper_baza_pawn_dump['pawn'] >
 	>
-	type $mol_list__rows_giper_baza_land_page_8 = $mol_type_enforce<
+	type $mol_list__rows_giper_baza_land_page_9 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_list['rows'] >
 	>
-	type $mol_labeler__Content_giper_baza_land_page_9 = $mol_type_enforce<
+	type $mol_labeler__Content_giper_baza_land_page_10 = $mol_type_enforce<
 		ReturnType< $giper_baza_land_page['Raw_content'] >
 		,
 		ReturnType< $mol_labeler['Content'] >
 	>
-	type $mol_button_minor__hint_giper_baza_land_page_10 = $mol_type_enforce<
+	type $mol_button_minor__hint_giper_baza_land_page_11 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['hint'] >
 	>
-	type $mol_button_minor__sub_giper_baza_land_page_11 = $mol_type_enforce<
+	type $mol_button_minor__sub_giper_baza_land_page_12 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_button_minor['sub'] >
 	>
-	type $mol_button_minor__click_giper_baza_land_page_12 = $mol_type_enforce<
+	type $mol_button_minor__click_giper_baza_land_page_13 = $mol_type_enforce<
 		ReturnType< $giper_baza_land_page['fork'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_view__sub_giper_baza_land_page_13 = $mol_type_enforce<
+	type $mol_view__sub_giper_baza_land_page_14 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_button_download__hint_giper_baza_land_page_14 = $mol_type_enforce<
+	type $mol_button_download__hint_giper_baza_land_page_15 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_download['hint'] >
 	>
-	type $mol_button_download__blob_giper_baza_land_page_15 = $mol_type_enforce<
+	type $mol_button_download__blob_giper_baza_land_page_16 = $mol_type_enforce<
 		ReturnType< $giper_baza_land_page['dump'] >
 		,
 		ReturnType< $mol_button_download['blob'] >
 	>
-	type $mol_button_download__file_name_giper_baza_land_page_16 = $mol_type_enforce<
+	type $mol_button_download__file_name_giper_baza_land_page_17 = $mol_type_enforce<
 		ReturnType< $giper_baza_land_page['dump_name'] >
 		,
 		ReturnType< $mol_button_download['file_name'] >
 	>
-	type $mol_view__sub_giper_baza_land_page_17 = $mol_type_enforce<
+	type $mol_view__sub_giper_baza_land_page_18 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
 	>
 	export class $giper_baza_land_page extends $mol_page {
 		pawn_link( ): ReturnType< ReturnType< $giper_baza_land_page['pawn'] >['link'] >
+		Pawn_link( ): $giper_baza_link_chip
 		meta_link( ): $giper_baza_link
 		Meta_link( ): $giper_baza_link_chip
-		Pawn_link( ): $giper_baza_link_chip
 		Flex( ): $giper_baza_flex_form
 		Raw_data( ): $giper_baza_pawn_dump
 		tine( ): $giper_baza_pawn

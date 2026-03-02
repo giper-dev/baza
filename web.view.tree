@@ -1120,10 +1120,11 @@ $giper_baza_land_page $mol_page
 	pawn $giper_baza_dict
 		link => pawn_link
 	head /
-		<= Meta_link $giper_baza_link_chip
-			link <= meta_link $giper_baza_link
 		<= Pawn_link $giper_baza_link_chip
 			link <= pawn_link
+		<= Meta_link $giper_baza_link_chip
+			link <= meta_link $giper_baza_link
+			sub / \✨
 		<= Tools
 	body /
 		<= Flex $giper_baza_flex_form

@@ -16747,7 +16747,7 @@ var $;
                 const link = this.link();
                 if (!link.str)
                     return '💢';
-                return this.meta()?.icon() ?? this.subj().icon();
+                return this.subj().icon() || '💠';
             }
             title() {
                 const link = this.link();
@@ -21437,6 +21437,11 @@ var $;
 		pawn_link(){
 			return (this.pawn().link());
 		}
+		Pawn_link(){
+			const obj = new this.$.$giper_baza_link_chip();
+			(obj.link) = () => ((this.pawn_link()));
+			return obj;
+		}
 		meta_link(){
 			const obj = new this.$.$giper_baza_link();
 			return obj;
@@ -21444,11 +21449,7 @@ var $;
 		Meta_link(){
 			const obj = new this.$.$giper_baza_link_chip();
 			(obj.link) = () => ((this.meta_link()));
-			return obj;
-		}
-		Pawn_link(){
-			const obj = new this.$.$giper_baza_link_chip();
-			(obj.link) = () => ((this.pawn_link()));
+			(obj.sub) = () => (["✨"]);
 			return obj;
 		}
 		Flex(){
@@ -21534,8 +21535,8 @@ var $;
 		}
 		head(){
 			return [
-				(this.Meta_link()), 
 				(this.Pawn_link()), 
+				(this.Meta_link()), 
 				(this.Tools())
 			];
 		}
@@ -21546,9 +21547,9 @@ var $;
 			return [(this.Fork()), (this.Dumping())];
 		}
 	};
+	($mol_mem(($.$giper_baza_land_page.prototype), "Pawn_link"));
 	($mol_mem(($.$giper_baza_land_page.prototype), "meta_link"));
 	($mol_mem(($.$giper_baza_land_page.prototype), "Meta_link"));
-	($mol_mem(($.$giper_baza_land_page.prototype), "Pawn_link"));
 	($mol_mem(($.$giper_baza_land_page.prototype), "Flex"));
 	($mol_mem(($.$giper_baza_land_page.prototype), "Raw_data"));
 	($mol_mem(($.$giper_baza_land_page.prototype), "tine"));
