@@ -487,11 +487,25 @@ namespace $ {
 			
 		}
 		
-		/** Picks units between Face and current state and make Pack. */
+		/** Picks units between Face and current state and make Part. */
+		// @ $mol_action
+		diff_part( skip_faces = new $giper_baza_face_map ): $giper_baza_pack_part {
+			const units = this.diff_units( skip_faces )
+			
+			const faces = new $giper_baza_face_map
+			for( const unit of units ) {
+				const peer = unit.lord().peer()
+				if( faces.has( peer.str ) ) continue
+				faces.set( peer.str, this.faces.get( peer.str )!.clone() ) 
+			}
+			
+			return new $giper_baza_pack_part( units, faces )
+		}
+		
+		/** Picks units between Face and current state and make Parts. */
 		// @ $mol_action
 		diff_parts( skip_faces = new $giper_baza_face_map ): $giper_baza_pack_parts {
-			const units = this.diff_units( skip_faces )
-			return [[ this.link().str, new $giper_baza_pack_part( units ) ]]
+			return [[ this.link().str, this.diff_part( skip_faces ) ]]
 		}
 		
 		@ $mol_action
@@ -987,7 +1001,9 @@ namespace $ {
 		}
 		
 		destructor() {
-			this.$.$giper_baza_glob.yard().forget_land( this )
+			Promise.resolve().then( ()=> {
+				this.$.$giper_baza_glob.yard().forget_land( this )
+			} )
 		}
 		
 		@ $mol_mem

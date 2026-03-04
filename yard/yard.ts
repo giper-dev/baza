@@ -270,15 +270,14 @@ namespace $ {
 				
 				if( !port_faces ) this.face_port_land(
 					[ port, land_link ],
-					port_faces = $mol_mem_cached( ()=> this.face_port_land([ port, land_link ]) )
-						|| new $giper_baza_face_map,
+					port_faces = new $giper_baza_face_map,
 				)
 				port_faces.sync( faces )
 			
-				for( let unit of part.units ) {
-					if( unit instanceof $giper_baza_auth_pass ) continue
-					port_faces.peer_time( unit.lord().peer().str, unit.time(), unit.tick() )
-				}
+				// for( let unit of part.units ) {
+				// 	if( unit instanceof $giper_baza_auth_pass ) continue
+				// 	port_faces.peer_time( unit.lord().peer().str, unit.time(), unit.tick() )
+				// }
 				
 			}
 			
@@ -335,24 +334,21 @@ namespace $ {
 				const Land = this.$.$giper_baza_glob.Land( land )
 				Land.units_saving()
 				
-				const units = Land.diff_units( faces )
-				if( !units.length ) return
+				const part = Land.diff_part( faces )
+				if( !part.units.length ) return
 				
 				if( this.$.$giper_baza_log() ) this.$.$mol_log3_rise({
 					place: this,
 					message: 'Send Unit',
 					port: $mol_key( port ),
 					land: Land,
-					units,
+					part,
 				})
 				
-				const pack = $giper_baza_pack.make([[
-					Land.link().str,
-					new $giper_baza_pack_part( units )
-				]])
+				const pack = $giper_baza_pack.make([[ Land.link().str, part ]])
 				
 				port.send_bin( pack.asArray() )
-				faces.sync( Land.faces )
+				faces.sync( part.faces )
 			
 			} catch( error ) {
 				$mol_fail_log( error )
