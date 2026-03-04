@@ -1918,6 +1918,7 @@ declare namespace $ {
             $giper_baza_rank: number;
         };
         diff_units(skip_faces?: $giper_baza_face_map): $giper_baza_unit[];
+        diff_part(skip_faces?: $giper_baza_face_map): $giper_baza_pack_part;
         diff_parts(skip_faces?: $giper_baza_face_map): $giper_baza_pack_parts;
         face_pack(): $giper_baza_pack;
         diff_apply(units: readonly $giper_baza_unit[], skip_load?: 'skip_load'): readonly $giper_baza_unit[] | undefined;

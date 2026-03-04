@@ -8785,9 +8785,19 @@ var $;
             }
             return [...passes, ...delta];
         }
-        diff_parts(skip_faces = new $giper_baza_face_map) {
+        diff_part(skip_faces = new $giper_baza_face_map) {
             const units = this.diff_units(skip_faces);
-            return [[this.link().str, new $giper_baza_pack_part(units)]];
+            const faces = new $giper_baza_face_map;
+            for (const unit of units) {
+                const peer = unit.lord().peer();
+                if (faces.has(peer.str))
+                    continue;
+                faces.set(peer.str, this.faces.get(peer.str).clone());
+            }
+            return new $giper_baza_pack_part(units, faces);
+        }
+        diff_parts(skip_faces = new $giper_baza_face_map) {
+            return [[this.link().str, this.diff_part(skip_faces)]];
         }
         face_pack() {
             return $giper_baza_pack.make([[
@@ -9106,7 +9116,9 @@ var $;
             return this;
         }
         destructor() {
-            this.$.$giper_baza_glob.yard().forget_land(this);
+            Promise.resolve().then(() => {
+                this.$.$giper_baza_glob.yard().forget_land(this);
+            });
         }
         mine() {
             $mol_wire_solid();
@@ -11149,14 +11161,8 @@ var $;
                 const faces = part.faces;
                 let port_faces = this.face_port_land([port, land_link]);
                 if (!port_faces)
-                    this.face_port_land([port, land_link], port_faces = $mol_mem_cached(() => this.face_port_land([port, land_link]))
-                        || new $giper_baza_face_map);
+                    this.face_port_land([port, land_link], port_faces = new $giper_baza_face_map);
                 port_faces.sync(faces);
-                for (let unit of part.units) {
-                    if (unit instanceof $giper_baza_auth_pass)
-                        continue;
-                    port_faces.peer_time(unit.lord().peer().str, unit.time(), unit.tick());
-                }
             }
         }
         sync_land(land) {
@@ -11195,8 +11201,8 @@ var $;
                     return;
                 const Land = this.$.$giper_baza_glob.Land(land);
                 Land.units_saving();
-                const units = Land.diff_units(faces);
-                if (!units.length)
+                const part = Land.diff_part(faces);
+                if (!part.units.length)
                     return;
                 if (this.$.$giper_baza_log())
                     this.$.$mol_log3_rise({
@@ -11204,14 +11210,11 @@ var $;
                         message: 'Send Unit',
                         port: $mol_key(port),
                         land: Land,
-                        units,
+                        part,
                     });
-                const pack = $giper_baza_pack.make([[
-                        Land.link().str,
-                        new $giper_baza_pack_part(units)
-                    ]]);
+                const pack = $giper_baza_pack.make([[Land.link().str, part]]);
                 port.send_bin(pack.asArray());
-                faces.sync(Land.faces);
+                faces.sync(part.faces);
             }
             catch (error) {
                 $mol_fail_log(error);
