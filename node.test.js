@@ -2775,6 +2775,9 @@ var $;
         type() {
             return 'application/octet-stream';
         }
+        origin() {
+            return 'unknown';
+        }
         data() {
             return null;
         }
@@ -2819,6 +2822,7 @@ var $;
                 port: this.port,
                 method: $mol_const(method),
                 uri: () => this.uri(),
+                origin: () => this.origin(),
                 data: $mol_const(data),
             });
         }
@@ -2828,16 +2832,7 @@ var $;
     }
     __decorate([
         $mol_mem
-    ], $mol_rest_message.prototype, "method", null);
-    __decorate([
-        $mol_mem
     ], $mol_rest_message.prototype, "uri", null);
-    __decorate([
-        $mol_mem
-    ], $mol_rest_message.prototype, "type", null);
-    __decorate([
-        $mol_mem
-    ], $mol_rest_message.prototype, "data", null);
     __decorate([
         $mol_mem
     ], $mol_rest_message.prototype, "bin", null);
@@ -4161,6 +4156,9 @@ var $;
         type() {
             return (this.input.headers['content-type'] ?? 'application/octet-stream');
         }
+        origin() {
+            return this.input.headers['origin'] ?? super.origin();
+        }
         data() {
             const consume = $mol_wire_sync($node['stream/consumers']);
             if (this.type().startsWith('text/')) {
@@ -4197,6 +4195,9 @@ var $;
     __decorate([
         $mol_mem
     ], $mol_rest_message_http.prototype, "type", null);
+    __decorate([
+        $mol_mem
+    ], $mol_rest_message_http.prototype, "origin", null);
     __decorate([
         $mol_mem
     ], $mol_rest_message_http.prototype, "data", null);
@@ -4702,6 +4703,7 @@ var $;
                     place: this,
                     message: msg.method(),
                     url: msg.uri(),
+                    origin: msg.origin(),
                     remote: req.socket.remoteAddress + ':' + req.socket.remotePort
                 });
             $mol_wire_sync(res).setHeader('Access-Control-Allow-Origin', '*');
@@ -4716,6 +4718,7 @@ var $;
                 $mol_wire_sync($$).$mol_log3_fail({
                     place: this,
                     message: error.message ?? '',
+                    origin: msg.origin(),
                     stack: error.stack,
                 });
                 $mol_wire_sync(res).writeHead(500, error.name || 'Server Error');
@@ -4734,6 +4737,7 @@ var $;
                 $mol_wire_sync($$).$mol_log3_fail({
                     place: this,
                     message: error.message ?? '',
+                    origin: upgrade.origin(),
                     stack: error.stack,
                 });
                 socket.end();
@@ -4745,6 +4749,7 @@ var $;
                         place: this,
                         message: 'CLOSE',
                         url: upgrade.uri(),
+                        origin: upgrade.origin(),
                         port: $mol_key(port),
                     });
                 try {
@@ -4756,6 +4761,7 @@ var $;
                     $mol_wire_sync($$).$mol_log3_fail({
                         place: this,
                         message: error.message ?? '',
+                        origin: upgrade.origin(),
                         stack: error.stack,
                     });
                     return;
@@ -4777,6 +4783,7 @@ var $;
                     place: this,
                     message: 'OPEN',
                     url: upgrade.uri(),
+                    origin: upgrade.origin(),
                     port: $mol_key(port),
                 });
         }
@@ -4853,6 +4860,7 @@ var $;
                             message: message.method(),
                             port: $mol_key(message.port),
                             url: message.uri(),
+                            origin: message.origin(),
                             frame: frame.toString(),
                         });
                     await $mol_wire_async(this.root()).REQUEST(message);
@@ -4865,6 +4873,7 @@ var $;
                 $$.$mol_log3_fail({
                     place: this,
                     message: error.message ?? '',
+                    origin: upgrade.origin(),
                     stack: error.stack,
                 });
                 sock.end();
