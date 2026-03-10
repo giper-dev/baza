@@ -11047,15 +11047,7 @@ var $;
                         offset += gift.byteLength;
                         continue;
                     }
-                    default:
-                        $$.$mol_log3_warn({
-                            place: '$giper_baza_pack..parts',
-                            message: 'Unknown Kind',
-                            kind,
-                            offset,
-                            hint: 'Try to update application',
-                        });
-                        return [...parts];
+                    default: return $mol_fail(new Error('Unknown Kind', { cause: { kind, offset } }));
                 }
             }
             return [...parts];
