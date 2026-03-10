@@ -12372,6 +12372,8 @@ var $;
         _protocols = ['$giper_baza_yard'];
         OPEN(msg) {
             const protocol = super.OPEN(msg);
+            if (!protocol)
+                return '';
             this.$.$giper_baza_glob.yard().slaves.add(msg.port);
             return protocol;
         }
