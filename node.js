@@ -4172,7 +4172,7 @@ var $;
             return this.input.headers['origin'] ?? super.origin();
         }
         address() {
-            return this.input.socket?.remoteAddress ?? super.address();
+            return String(this.input.headers['x-forwarded-for'] ?? '') || this.input.socket?.remoteAddress || super.address();
         }
         data() {
             const consume = $mol_wire_sync($node['stream/consumers']);
