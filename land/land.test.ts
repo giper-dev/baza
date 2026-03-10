@@ -11,14 +11,15 @@ namespace $ {
 		$.$giper_baza_land = $giper_baza_land_mock
 	} )
 	
-	const auth1 = $giper_baza_auth.from( '_4eLnQsSr5wj6XOzgS5bZa254pkEOf_hg1nReCSR4Zkd-E07aLSwj-II-rZt4ZubInw_f1rZiA0Qa92qR0Gq3I6xYWCkW9Aagc7-97L2P-gI84NaLwdabp_DrZEX3RJTY' )
-	const auth2 = $giper_baza_auth.from( '_5THYp_Njx6-cAU53dRwdv3z8RBAVK7Z2L3OeZmTp8sCsMNXmdssFljy2fxIMDX_oxTFRrRCvAH7s92kUOVn5YYTPGuZ5fQFOAEeRNGGQ47JVCK3Cy_XDSUDvklZ-3Ix4' )
-	
 	$mol_test({
 		
 		async 'Give rights'( $ ) {
 			
-			const land0 = $giper_baza_land.make({ $ })
+			const auth0 = await $.$giper_baza_auth.generate()
+			const auth1 = await $.$giper_baza_auth.generate()
+			const auth2 = await $.$giper_baza_auth.generate()
+			
+			const land0 = $giper_baza_land.make({ $, auth: ()=> auth0 })
 			const land1 = $giper_baza_land.make({ $, link: ()=> land0.link(), auth: ()=> auth1 })
 			
 			$mol_assert_equal( land0.lord_rank( land0.link() ), $giper_baza_rank_rule )
@@ -53,7 +54,10 @@ namespace $ {
 		
 		async 'Post Data and pick Delta'( $ ) {
 			
-			const land1 = $giper_baza_land.make({ $ })
+			const auth1 = await $.$giper_baza_auth.generate()
+			const auth2 = await $.$giper_baza_auth.generate()
+			
+			const land1 = $giper_baza_land.make({ $, auth: ()=> auth1 })
 			const land2 = $giper_baza_land.make({ $, link: ()=> land1.link(), auth: ()=> auth2 })
 			
 			$mol_assert_equal( await $mol_wire_async( land1 ).diff_units(), [] )

@@ -38,7 +38,7 @@ namespace $.$$ {
 				const lord = auth.pass().lord()
 				
 				if( lord.str.startsWith( prefix ) ) {
-					this.found( prefix, [ ... this.found( prefix ), auth.toString() ] )
+					this.found( prefix, [ ... this.found( prefix ), auth.toString() + auth.toStringPrivate() ] )
 				}
 				
 				$mol_wire_watch()

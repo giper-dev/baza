@@ -459,15 +459,15 @@ namespace $ {
 				
 				const skipped_units = skipped.get( peer )
 				
-				const mass = skipped_units?.size ?? 0
-				if( mass <= face.summ ) continue
+				const skip_mass = skipped_units?.size ?? 0
+				if( skip_mass <= face.summ ) continue
 				
 				$mol_wire_sync( this.$ ).$mol_log3_warn({
 					place: this,
 					message: 'Fail Summ',
 					hint: 'Relax and wait for full peer resync',
 					peer,
-					mass,
+					skip_mass,
 					peer_face: face,
 					self_face: this.faces.get( peer ),
 				})
@@ -548,7 +548,7 @@ namespace $ {
 						const mixin = unit.wide() ? mixin_lord : mixin_area
 						const sens = unit.shot().mix( mixin )
 						
-						const checked = $mol_wire_sync( lord_pass ).verify( sens, unit.sign() )
+						const checked = $mol_wire_sync( lord_pass.auditor() ).verify( sens, unit.sign() )
 						if( !checked ) return $mol_fail( new Error( `Wrong Sign` ) )
 						
 					}
@@ -1237,7 +1237,7 @@ namespace $ {
 					
 					const shot = seal.shot().mix( this.link() )
 					do {
-						seal.sign( await auth.sign( shot ) )
+						seal.sign( await auth.signer().sign( shot ) )
 					} while( seal.rate_min() > rate )
 					
 					return seal
@@ -1356,7 +1356,7 @@ namespace $ {
 			
 			if( next ) {
 				const secret = $mol_wire_sync( $mol_crypto_sacred ).make()
-				const secret_mutual = auth.secret_mutual( auth.public() )
+				const secret_mutual = auth.secret_mutual( auth.pass() )
 				const secret_closed = $mol_wire_sync( secret_mutual ).close( secret, unit.salt() )
 				unit.code().set( secret_closed )
 			}

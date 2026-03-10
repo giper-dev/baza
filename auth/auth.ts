@@ -1,7 +1,7 @@
 namespace $ {
 	
 	/** Public key generated with Proof of Work */
-	export class $giper_baza_auth_pass extends $mol_crypto_key_public {
+	export class $giper_baza_auth_pass extends $mol_crypto2_public {
 		
 		static like( bin: Uint8Array< ArrayBuffer > ) {
 			const pass = this.from( bin )
@@ -12,7 +12,7 @@ namespace $ {
 		
 		@ $mol_memo.method
 		hash() {
-			return $giper_baza_link.hash_bin( this )
+			return $giper_baza_link.hash_bin( this.asArray() )
 		}
 		
 		@ $mol_memo.method
@@ -48,7 +48,7 @@ namespace $ {
 	}
 
 	/** Private key generated with Proof of Work */
-	export class $giper_baza_auth extends $mol_crypto_key_private {
+	export class $giper_baza_auth extends $mol_crypto2_private {
 		
 		/** Current Private key generated with Proof of Work  */
 		@ $mol_mem
@@ -58,12 +58,23 @@ namespace $ {
 			
 			if( next === undefined ) {
 				const key = String( $mol_state_local.value( '$giper_baza_auth' ) ?? '' )
-				if( key ) return $giper_baza_auth.from( key )
+				if( key ) {
+					
+					const auth = $giper_baza_auth.from( key )
+					if( auth.byteLength === 128 ) return auth
+					
+					$$.$mol_log3_warn({
+						message: 'Wrong Auth size',
+						hint: 'Relax. Right Auth is created.',
+						place: `${this}.current()`,
+					})
+					
+				}
 			}
 			
 			if( !next ) next = this.grab()
 			
-			$mol_state_local.value( '$giper_baza_auth', next.toString() )
+			$mol_state_local.value( '$giper_baza_auth', next.toString() + next.toStringPrivate() )
 			
 			return next
 		}
@@ -88,12 +99,12 @@ namespace $ {
 		
 		@ $mol_memo.method
 		pass() {
-			return new $giper_baza_auth_pass( this.public().buffer )
+			return $giper_baza_auth_pass.from( this.public() )
 		}
 		
 		@ $mol_mem_key
-		secret_mutual( pub: $mol_crypto_key_public ) {
-			return $mol_wire_sync( $mol_crypto_sacred_shared )( this, pub )
+		secret_mutual( pass: $giper_baza_auth_pass ) {
+			return $mol_wire_sync( this.cipher() ).secret( pass.socket() )
 		}
 		
 		[ $mol_dev_format_head ]() {

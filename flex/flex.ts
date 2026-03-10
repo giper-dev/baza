@@ -1,6 +1,6 @@
 namespace $ {
 	
-	export const $giper_baza_flex_deck_link = new $giper_baza_link( 'huDNKdza_pspL6e2W_6byvrjHs' )
+	export const $giper_baza_flex_deck_link = new $giper_baza_link( 'AyiXyvOr_k8TaNSel_TkJWFugO' )
 	
 	/** Subj - named entity */
 	export class $giper_baza_flex_subj extends $giper_baza_dict.with( {
