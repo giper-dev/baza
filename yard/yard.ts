@@ -52,7 +52,7 @@ namespace $ {
 			const link = this.master_current()
 			if( !link ) return null
 			
-			const socket = new $mol_dom_context.WebSocket( link.replace( /^http/, 'ws' ) )
+			const socket = new $mol_dom_context.WebSocket( link.replace( /^http/, 'ws' ), [ '$giper_baza_yard' ] )
 			socket.binaryType = 'arraybuffer'
 			const port = $mol_rest_port_ws_std.make({ socket })
 			

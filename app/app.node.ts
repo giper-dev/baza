@@ -7,7 +7,10 @@ namespace $ {
 			return new $giper_baza_app_node_link
 		}
 		
+		_protocols = [ '$giper_baza_yard' ]
+		
 		OPEN( msg: $mol_rest_message ) {
+			super.OPEN( msg )
 			this.$.$giper_baza_glob.yard().slaves.add( msg.port )
 		}
 		
@@ -17,6 +20,7 @@ namespace $ {
 		
 		CLOSE( msg: $mol_rest_message ) {
 			this.$.$giper_baza_glob.yard().slaves.delete( msg.port )
+			super.CLOSE( msg )
 		}
 		
 		_auto() {
