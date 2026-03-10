@@ -12953,9 +12953,8 @@ var $;
             this.name = name;
             this.handle = handle;
             try {
-                const channel = new BroadcastChannel(name);
-                channel.onmessage = (event) => this.handle(event.data);
-                this.channel = channel;
+                this.channel = new BroadcastChannel(name);
+                this.channel.onmessage = (event) => this.handle(event.data);
             }
             catch (error) {
                 console.warn(error);

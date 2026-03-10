@@ -705,6 +705,7 @@ declare namespace $ {
         uri(): URL;
         type(): $mol_rest_port_mime;
         origin(): string;
+        address(): string;
         data(): null | string | Uint8Array<ArrayBuffer> | Element | object;
         bin(): Uint8Array<ArrayBuffer>;
         text(): string;
@@ -1020,6 +1021,7 @@ declare namespace $ {
         uri(): URL;
         type(): $mol_rest_port_mime;
         origin(): string;
+        address(): string;
         data(): null | string | Uint8Array<ArrayBuffer> | Element | object;
         route(uri: URL): $mol_rest_message_http;
     }

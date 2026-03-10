@@ -2787,6 +2787,9 @@ var $;
         origin() {
             return 'unknown';
         }
+        address() {
+            return 'unknown';
+        }
         data() {
             return null;
         }
@@ -4168,6 +4171,9 @@ var $;
         origin() {
             return this.input.headers['origin'] ?? super.origin();
         }
+        address() {
+            return this.input.socket?.remoteAddress ?? super.address();
+        }
         data() {
             const consume = $mol_wire_sync($node['stream/consumers']);
             if (this.type().startsWith('text/')) {
@@ -4207,6 +4213,9 @@ var $;
     __decorate([
         $mol_mem
     ], $mol_rest_message_http.prototype, "origin", null);
+    __decorate([
+        $mol_mem
+    ], $mol_rest_message_http.prototype, "address", null);
     __decorate([
         $mol_mem
     ], $mol_rest_message_http.prototype, "data", null);
@@ -4728,6 +4737,7 @@ var $;
                     place: this,
                     message: error.message ?? '',
                     origin: msg.origin(),
+                    address: msg.address(),
                     stack: error.stack,
                 });
                 $mol_wire_sync(res).writeHead(500, error.name || 'Server Error');
@@ -4747,6 +4757,7 @@ var $;
                     place: this,
                     message: error.message ?? '',
                     origin: upgrade.origin(),
+                    address: upgrade.address(),
                     stack: error.stack,
                 });
                 socket.end();
@@ -4771,6 +4782,7 @@ var $;
                         place: this,
                         message: error.message ?? '',
                         origin: upgrade.origin(),
+                        address: upgrade.address(),
                         stack: error.stack,
                     });
                     return;
@@ -4883,6 +4895,7 @@ var $;
                     place: this,
                     message: error.message ?? '',
                     origin: upgrade.origin(),
+                    address: upgrade.address(),
                     stack: error.stack,
                 });
                 sock.end();
@@ -8555,9 +8568,8 @@ var $;
             this.name = name;
             this.handle = handle;
             try {
-                const channel = new BroadcastChannel(name);
-                channel.onmessage = (event) => this.handle(event.data);
-                this.channel = channel;
+                this.channel = new BroadcastChannel(name);
+                this.channel.onmessage = (event) => this.handle(event.data);
             }
             catch (error) {
                 console.warn(error);
