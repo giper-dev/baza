@@ -10,9 +10,13 @@ namespace $ {
 		_protocols = [ '$giper_baza_yard' ]
 		
 		OPEN( msg: $mol_rest_message ) {
+			
 			const protocol = super.OPEN( msg )
+			if( !protocol ) return ''
+			
 			this.$.$giper_baza_glob.yard().slaves.add( msg.port )
 			return protocol
+			
 		}
 		
 		POST( msg: $mol_rest_message ) {
