@@ -2981,12 +2981,9 @@ var $;
             const protocols = msg.protocols();
             for (const protocol of protocols) {
                 if (this._protocols.includes(protocol))
-                    return;
+                    return protocol;
             }
-            $mol_fail(new Error('No supported protocol', { cause: {
-                    requested: protocols,
-                    supported: this._protocols,
-                } }));
+            return '';
         }
         CLOSE(msg) { }
         HEAD(msg) { }
@@ -4763,8 +4760,16 @@ var $;
         ws_upgrade(req, socket, head) {
             const port = $mol_rest_port_ws_node.make({ socket });
             const upgrade = $mol_rest_message_http.make({ port, input: req });
+            let protocol = '';
             try {
-                $mol_wire_sync(this.root()).REQUEST(upgrade.derive('OPEN', null));
+                protocol = $mol_wire_sync(this.root()).REQUEST(upgrade.derive('OPEN', null));
+                if (!protocol) {
+                    socket.write('HTTP/1.1 400 Bad Request\r\n' +
+                        '\r\n' +
+                        `Unsupported Protocols: ${upgrade.protocols()}`);
+                    socket.end();
+                    return;
+                }
             }
             catch (error) {
                 if ($mol_promise_like(error))
@@ -4816,6 +4821,7 @@ var $;
                 'Upgrade: WebSocket\r\n' +
                 'Connection: Upgrade\r\n' +
                 `Sec-WebSocket-Accept: ${key_out}\r\n` +
+                `Sec-WebSocket-Protocol: ${protocol}\r\n` +
                 '\r\n');
             if (this.log())
                 $mol_wire_sync(this.$).$mol_log3_come({
@@ -12365,8 +12371,9 @@ var $;
         }
         _protocols = ['$giper_baza_yard'];
         OPEN(msg) {
-            super.OPEN(msg);
+            const protocol = super.OPEN(msg);
             this.$.$giper_baza_glob.yard().slaves.add(msg.port);
+            return protocol;
         }
         POST(msg) {
             this.$.$giper_baza_glob.yard().port_income(msg.port, msg.bin());

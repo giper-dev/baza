@@ -750,7 +750,7 @@ declare namespace $ {
     class $mol_rest_resource extends $mol_object {
         REQUEST(msg: $mol_rest_message): any;
         _protocols: readonly string[];
-        OPEN(msg: $mol_rest_message): void;
+        OPEN(msg: $mol_rest_message): string;
         CLOSE(msg: $mol_rest_message): void;
         HEAD(msg: $mol_rest_message): void;
         GET(msg: $mol_rest_message): void;
@@ -4947,7 +4947,7 @@ declare namespace $ {
     class $giper_baza_app_node extends $mol_rest_resource_fs {
         link(): $giper_baza_app_node_link;
         _protocols: string[];
-        OPEN(msg: $mol_rest_message): void;
+        OPEN(msg: $mol_rest_message): string;
         POST(msg: $mol_rest_message): void;
         CLOSE(msg: $mol_rest_message): void;
         _auto(): void;
