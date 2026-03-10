@@ -4568,18 +4568,18 @@ var $;
 var $;
 (function ($) {
     let sponge = new Uint32Array(80);
-    function $mol_crypto_hash(input) {
+    function $mol_crypto2_hash(input) {
         const data = input instanceof Uint8Array
             ? input
             : new Uint8Array(input.buffer, input.byteOffset, input.byteLength);
         const bits = data.byteLength << 3;
         const kbits = bits >> 5;
         const kword = 0x80 << (24 - bits & 0b11111);
-        const bytes = 16 + (bits + 64 >>> 9 << 4);
+        const bytes = 16 + ((bits + 64) >>> 9 << 4);
         const klens = bytes - 1;
-        const words = new DataView(data.buffer, data.byteOffset, data.byteLength >> 2 << 2);
+        const wlen = data.byteLength >> 2 << 2;
         let tail = 0;
-        for (let i = words.byteLength; i < data.length; ++i) {
+        for (let i = wlen; i < data.length; ++i) {
             tail |= data[i] << ((3 - i & 0b11) << 3);
         }
         const hash = new Int32Array([1732584193, -271733879, -1732584194, 271733878, -1009589776]);
@@ -4596,9 +4596,9 @@ var $;
                 }
                 else {
                     const pos = k << 2;
-                    let word = pos === words.byteLength ? tail :
-                        pos > words.byteLength ? 0 :
-                            words.getInt32(pos, false);
+                    let word = pos === wlen ? tail :
+                        pos > wlen ? 0 :
+                            (data[pos] << 24 | data[pos + 1] << 16 | data[pos + 2] << 8 | data[pos + 3]);
                     if (k === kbits)
                         word |= kword;
                     sponge[j] = word;
@@ -4662,7 +4662,14 @@ var $;
         }
         return new Uint8Array(hash.buffer);
     }
-    $.$mol_crypto_hash = $mol_crypto_hash;
+    $.$mol_crypto2_hash = $mol_crypto2_hash;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_crypto_hash = $mol_crypto2_hash;
 })($ || ($ = {}));
 
 ;
@@ -5069,6 +5076,33 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $mol_crypto2_key extends $mol_buffer {
+        static size_str = 43;
+        static size_bin = 32;
+        static from(serial) {
+            if (typeof serial === 'string') {
+                serial = new Uint8Array(serial.match(/.{43}/g)
+                    .flatMap(chunk => [...$mol_base64_url_decode(chunk)]));
+            }
+            return super.from(serial);
+        }
+        asArray() {
+            return new Uint8Array(this.buffer, this.byteOffset, this.constructor.size_bin);
+        }
+        toString() {
+            return $mol_base64_url_encode(this.asArray());
+        }
+    }
+    __decorate([
+        $mol_memo.method
+    ], $mol_crypto2_key.prototype, "toString", null);
+    $.$mol_crypto2_key = $mol_crypto2_key;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     $.$mol_crypto_native = $node.crypto.webcrypto;
 })($ || ($ = {}));
 
@@ -5087,129 +5121,74 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    const ecdsa = {
-        name: 'ECDSA',
-        hash: 'SHA-1',
-        namedCurve: "P-256",
-    };
-    const ecdh = { name: "ECDH", namedCurve: "P-256" };
-    const jwk = { crv: 'P-256', ext: true, kty: 'EC' };
-    class $mol_crypto_key extends $mol_buffer {
-        static from(serial) {
-            if (typeof serial === 'string') {
-                serial = new Uint8Array([
-                    ...$mol_base64_url_decode(serial.slice(0, 43)),
-                    ...$mol_base64_url_decode(serial.slice(43, 86)),
-                    ...$mol_base64_url_decode(serial.slice(86, 129)),
-                ]);
-            }
-            return super.from(serial);
-        }
-        toString() {
-            const arr = this.asArray();
-            return $mol_base64_url_encode(arr.subarray(0, 32))
-                + $mol_base64_url_encode(arr.subarray(32, 64))
-                + $mol_base64_url_encode(arr.subarray(64));
-        }
-    }
-    __decorate([
-        $mol_memo.method
-    ], $mol_crypto_key.prototype, "toString", null);
-    $.$mol_crypto_key = $mol_crypto_key;
-    class $mol_crypto_key_public extends $mol_crypto_key {
-        static size_str = 86;
-        static size_bin = 64;
+    class $mol_crypto2_auditor extends $mol_crypto2_key {
         async native() {
-            const str = this.toString();
             return $mol_crypto_native.subtle.importKey('jwk', {
-                crv: "P-256",
+                crv: "Ed25519",
                 ext: true,
                 key_ops: ['verify'],
-                kty: "EC",
-                x: str.slice(0, 43),
-                y: str.slice(43, 86),
-            }, ecdsa, Boolean('extractable'), ['verify']).catch($mol_crypto_restack);
-        }
-        async native_derive() {
-            const serial = this.toString();
-            return await $mol_crypto_native.subtle.importKey('jwk', {
-                ...jwk,
-                key_ops: [],
-                x: serial.slice(0, 43),
-                y: serial.slice(43, 86),
-            }, ecdh, true, []).catch($mol_crypto_restack);
+                kty: "OKP",
+                x: this.toString(),
+            }, "Ed25519", Boolean('extractable'), ['verify']).catch($mol_crypto_restack);
         }
         async verify(data, sign) {
-            return await $mol_crypto_native.subtle.verify(ecdsa, await this.native(), sign, data).catch($mol_crypto_restack);
-        }
-        [Symbol.for('nodejs.util.inspect.custom')]() {
-            return this.toJSON();
-        }
-        toJSON() {
-            return this.toString();
+            return await $mol_crypto_native.subtle.verify("Ed25519", await this.native(), sign, data).catch($mol_crypto_restack);
         }
     }
     __decorate([
         $mol_memo.method
-    ], $mol_crypto_key_public.prototype, "native", null);
-    __decorate([
-        $mol_memo.method
-    ], $mol_crypto_key_public.prototype, "native_derive", null);
-    $.$mol_crypto_key_public = $mol_crypto_key_public;
-    class $mol_crypto_key_private extends $mol_crypto_key {
-        static size_str = 129;
-        static size_bin = 96;
-        static size_sign = 64;
-        static async generate() {
-            const pair = await $mol_crypto_native.subtle.generateKey(ecdsa, Boolean('extractable'), ['sign', 'verify']).catch($mol_crypto_restack);
-            const { x, y, d } = await $mol_crypto_native.subtle.exportKey('jwk', pair.privateKey).catch($mol_crypto_restack);
-            return this.from(x + y + d);
-        }
+    ], $mol_crypto2_auditor.prototype, "native", null);
+    $.$mol_crypto2_auditor = $mol_crypto2_auditor;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_crypto2_socket extends $mol_crypto2_key {
         async native() {
-            const str = this.toString();
             return await $mol_crypto_native.subtle.importKey('jwk', {
-                crv: "P-256",
+                crv: 'X25519',
                 ext: true,
-                key_ops: ['sign'],
-                kty: "EC",
-                x: str.slice(0, 43),
-                y: str.slice(43, 86),
-                d: str.slice(86, 129),
-            }, ecdsa, Boolean('extractable'), ['sign']).catch($mol_crypto_restack);
-        }
-        async native_derive() {
-            const serial = this.toString();
-            return $mol_crypto_native.subtle.importKey('jwk', {
-                ...jwk,
-                key_ops: ['deriveKey', 'deriveBits'],
-                x: serial.slice(0, 43),
-                y: serial.slice(43, 86),
-                d: serial.slice(86, 129),
-            }, ecdh, Boolean('extractable'), ['deriveKey', 'deriveBits']).catch($mol_crypto_restack);
-        }
-        public() {
-            return new $mol_crypto_key_public(this.asArray().slice(0, 64).buffer);
-        }
-        async sign(data) {
-            return new Uint8Array(await $mol_crypto_native.subtle.sign(ecdsa, await this.native(), data).catch($mol_crypto_restack));
-        }
-        [Symbol.for('nodejs.util.inspect.custom')]() {
-            return this.toJSON();
-        }
-        toJSON() {
-            return '$mol_crypto_key_private:' + this.public().toJSON();
+                kty: 'OKP',
+                key_ops: [],
+                x: this.toString(),
+            }, "X25519", true, []).catch($mol_crypto_restack);
         }
     }
     __decorate([
         $mol_memo.method
-    ], $mol_crypto_key_private.prototype, "native", null);
+    ], $mol_crypto2_socket.prototype, "native", null);
+    $.$mol_crypto2_socket = $mol_crypto2_socket;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_crypto2_public extends $mol_crypto2_key {
+        static size_str = 86;
+        static size_bin = 64;
+        auditor() {
+            return $mol_crypto2_auditor.from(this.asArray().subarray(0, 32));
+        }
+        socket() {
+            return $mol_crypto2_socket.from(this.asArray().subarray(32, 64));
+        }
+        toString() {
+            return this.auditor().toString() + this.socket().toString();
+        }
+    }
     __decorate([
         $mol_memo.method
-    ], $mol_crypto_key_private.prototype, "native_derive", null);
+    ], $mol_crypto2_public.prototype, "auditor", null);
     __decorate([
         $mol_memo.method
-    ], $mol_crypto_key_private.prototype, "public", null);
-    $.$mol_crypto_key_private = $mol_crypto_key_private;
+    ], $mol_crypto2_public.prototype, "socket", null);
+    __decorate([
+        $mol_memo.method
+    ], $mol_crypto2_public.prototype, "toString", null);
+    $.$mol_crypto2_public = $mol_crypto2_public;
 })($ || ($ = {}));
 
 ;
@@ -5343,6 +5322,254 @@ var $;
         }
     }
     $.$giper_baza_link_base = $giper_baza_link_base;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_crypto2_signer extends $mol_crypto2_auditor {
+        static size_sign = 64;
+        static async generate() {
+            const pair = await $mol_crypto_native.subtle.generateKey("Ed25519", Boolean('extractable'), ['sign', 'verify']).catch($mol_crypto_restack);
+            const { x, d } = await $mol_crypto_native.subtle.exportKey('jwk', pair.privateKey).catch($mol_crypto_restack);
+            return this.from(x + d);
+        }
+        async nativePrivate() {
+            return await $mol_crypto_native.subtle.importKey('jwk', {
+                crv: "Ed25519",
+                ext: true,
+                key_ops: ['sign'],
+                kty: "OKP",
+                x: this.toString(),
+                d: this.toStringPrivate(),
+            }, "Ed25519", Boolean('extractable'), ['sign']).catch($mol_crypto_restack);
+        }
+        asArrayPrivate() {
+            return new Uint8Array(this.buffer, this.byteOffset + 32, 32);
+        }
+        toStringPrivate() {
+            return $mol_base64_url_encode(this.asArrayPrivate());
+        }
+        auditor() {
+            return $mol_crypto2_auditor.from(this.asArray());
+        }
+        async sign(data) {
+            return new Uint8Array(await $mol_crypto_native.subtle.sign("Ed25519", await this.nativePrivate(), data).catch($mol_crypto_restack));
+        }
+    }
+    __decorate([
+        $mol_memo.method
+    ], $mol_crypto2_signer.prototype, "nativePrivate", null);
+    __decorate([
+        $mol_memo.method
+    ], $mol_crypto2_signer.prototype, "toStringPrivate", null);
+    __decorate([
+        $mol_memo.method
+    ], $mol_crypto2_signer.prototype, "auditor", null);
+    $.$mol_crypto2_signer = $mol_crypto2_signer;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_crypto2_nonce() {
+        return $mol_crypto_native.getRandomValues(new Uint8Array(16));
+    }
+    $.$mol_crypto2_nonce = $mol_crypto2_nonce;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_crypto_salt = $mol_crypto2_nonce;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_crypto_sacred extends $mol_buffer {
+        static size = 16;
+        static make() {
+            return this.from($mol_crypto_salt());
+        }
+        static from(serial) {
+            if (typeof serial === 'string') {
+                serial = new Uint8Array([
+                    ...$mol_base64_url_decode(serial),
+                ]);
+            }
+            if (!(serial instanceof Uint8Array)) {
+                serial = new Uint8Array(serial.buffer, serial.byteOffset, serial.byteLength);
+            }
+            ;
+            serial[0] = 0xFF;
+            const sacred = super.from(serial);
+            return sacred;
+        }
+        static async from_native(native) {
+            const buf = await $mol_crypto_native.subtle.exportKey('raw', native).catch($mol_crypto_restack);
+            const sacred = this.from(new Uint8Array(buf));
+            sacred._native = native;
+            return sacred;
+        }
+        constructor(buffer, byteOffset, byteLength) {
+            super(buffer, byteOffset, byteLength);
+            if (this.getUint8(0) !== 0xFF)
+                $mol_fail(new Error('Buffer should starts with 0xFF byte'));
+        }
+        toString() {
+            return $mol_base64_url_encode(this.asArray());
+        }
+        _native;
+        async native() {
+            return this._native ?? (this._native = await $mol_crypto_native.subtle.importKey('raw', this, {
+                name: 'AES-CBC',
+                length: 128,
+            }, true, ['encrypt', 'decrypt']).catch($mol_crypto_restack));
+        }
+        async encrypt(open, salt) {
+            return new Uint8Array(await $mol_crypto_native.subtle.encrypt({
+                name: 'AES-CBC',
+                length: 128,
+                tagLength: 32,
+                iv: salt,
+            }, await this.native(), open).catch($mol_crypto_restack));
+        }
+        async decrypt(closed, salt) {
+            return new Uint8Array(await $mol_crypto_native.subtle.decrypt({
+                name: 'AES-CBC',
+                length: 128,
+                tagLength: 32,
+                iv: salt,
+            }, await this.native(), closed).catch($mol_crypto_restack));
+        }
+        async close(opened, salt) {
+            if (opened.getUint8(0) !== 0xFF)
+                throw new Error('Closable buffer should starts with 0xFF');
+            const trimed = new Uint8Array(opened.buffer, opened.byteOffset + 1, opened.byteLength - 1);
+            return this.encrypt(trimed, salt);
+        }
+        async open(closed, salt) {
+            const trimed = await this.decrypt(closed, salt);
+            if (trimed.byteLength !== closed.byteLength - 1)
+                throw new Error('Length of opened buffer should be ' + (closed.byteLength - 1));
+            const opened = new Uint8Array(closed.byteLength);
+            opened[0] = 0xFF;
+            opened.set(trimed, 1);
+            return opened;
+        }
+    }
+    __decorate([
+        $mol_memo.method
+    ], $mol_crypto_sacred.prototype, "toString", null);
+    $.$mol_crypto_sacred = $mol_crypto_sacred;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_crypto2_cipher extends $mol_crypto2_socket {
+        static size_secret = 16;
+        static async generate() {
+            const pair = await $mol_crypto_native.subtle.generateKey("X25519", Boolean('extractable'), ['deriveKey']).catch($mol_crypto_restack);
+            const { x, d } = await $mol_crypto_native.subtle.exportKey('jwk', pair.privateKey).catch($mol_crypto_restack);
+            return this.from(x + d);
+        }
+        async nativePrivate() {
+            return $mol_crypto_native.subtle.importKey('jwk', {
+                crv: 'X25519',
+                ext: true,
+                kty: 'OKP',
+                key_ops: ['deriveKey', 'deriveBits'],
+                x: this.toString(),
+                d: this.toStringPrivate(),
+            }, "X25519", Boolean('extractable'), ['deriveKey', 'deriveBits']).catch($mol_crypto_restack);
+        }
+        asArrayPrivate() {
+            return new Uint8Array(this.buffer, this.byteOffset + 32, 32);
+        }
+        toStringPrivate() {
+            return $mol_base64_url_encode(this.asArrayPrivate());
+        }
+        socket() {
+            return $mol_crypto2_socket.from(this.asArray());
+        }
+        async secret(pub) {
+            return $mol_crypto_sacred.from(new Uint8Array(await $mol_crypto_native.subtle.deriveBits({
+                name: "X25519",
+                public: await pub.native(),
+            }, await this.nativePrivate(), $mol_crypto_sacred.size * 8).catch($mol_crypto_restack)));
+        }
+    }
+    __decorate([
+        $mol_memo.method
+    ], $mol_crypto2_cipher.prototype, "nativePrivate", null);
+    __decorate([
+        $mol_memo.method
+    ], $mol_crypto2_cipher.prototype, "toStringPrivate", null);
+    __decorate([
+        $mol_memo.method
+    ], $mol_crypto2_cipher.prototype, "socket", null);
+    $.$mol_crypto2_cipher = $mol_crypto2_cipher;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_crypto2_private extends $mol_crypto2_public {
+        static async generate() {
+            const [signer, cipher] = await Promise.all([
+                $mol_crypto2_signer.generate(),
+                $mol_crypto2_cipher.generate(),
+            ]);
+            const key = $mol_crypto2_private.from($mol_crypto2_public.size_bin + $mol_crypto2_private.size_bin);
+            key.asArray().set(signer.asArray(), 0);
+            key.asArray().set(cipher.asArray(), 32);
+            key.asArrayPrivate().set(signer.asArrayPrivate(), 0);
+            key.asArrayPrivate().set(cipher.asArrayPrivate(), 32);
+            return key;
+        }
+        signer() {
+            const signer = $mol_crypto2_signer.from($mol_crypto2_auditor.size_bin + $mol_crypto2_signer.size_bin);
+            signer.asArray().set(this.asArray().subarray(0, 32));
+            signer.asArrayPrivate().set(this.asArrayPrivate().subarray(0, 32));
+            return signer;
+        }
+        cipher() {
+            const cipher = $mol_crypto2_cipher.from($mol_crypto2_socket.size_bin + $mol_crypto2_cipher.size_bin);
+            cipher.asArray().set(this.asArray().subarray(32, 64));
+            cipher.asArrayPrivate().set(this.asArrayPrivate().subarray(32, 64));
+            return cipher;
+        }
+        public() {
+            return $mol_crypto2_public.from(this.asArray());
+        }
+        asArrayPrivate() {
+            return new Uint8Array(this.buffer, this.byteOffset + 64, 64);
+        }
+        toStringPrivate() {
+            return this.signer().toStringPrivate() + this.cipher().toStringPrivate();
+        }
+    }
+    __decorate([
+        $mol_memo.method
+    ], $mol_crypto2_private.prototype, "signer", null);
+    __decorate([
+        $mol_memo.method
+    ], $mol_crypto2_private.prototype, "cipher", null);
+    __decorate([
+        $mol_memo.method
+    ], $mol_crypto2_private.prototype, "public", null);
+    __decorate([
+        $mol_memo.method
+    ], $mol_crypto2_private.prototype, "toStringPrivate", null);
+    $.$mol_crypto2_private = $mol_crypto2_private;
 })($ || ($ = {}));
 
 ;
@@ -5509,113 +5736,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    function $mol_crypto_salt() {
-        return $mol_crypto_native.getRandomValues(new Uint8Array(16));
-    }
-    $.$mol_crypto_salt = $mol_crypto_salt;
-    $.$mol_crypto_salt_once = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6]);
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_crypto_sacred extends $mol_buffer {
-        static size = 16;
-        static make() {
-            return this.from($mol_crypto_salt());
-        }
-        static from(serial) {
-            if (typeof serial === 'string') {
-                serial = new Uint8Array([
-                    ...$mol_base64_url_decode(serial),
-                ]);
-            }
-            if (!(serial instanceof Uint8Array)) {
-                serial = new Uint8Array(serial.buffer, serial.byteOffset, serial.byteLength);
-            }
-            ;
-            serial[0] = 0xFF;
-            const sacred = super.from(serial);
-            return sacred;
-        }
-        static async from_native(native) {
-            const buf = await $mol_crypto_native.subtle.exportKey('raw', native).catch($mol_crypto_restack);
-            const sacred = this.from(new Uint8Array(buf));
-            sacred._native = native;
-            return sacred;
-        }
-        constructor(buffer, byteOffset, byteLength) {
-            super(buffer, byteOffset, byteLength);
-            if (this.getUint8(0) !== 0xFF)
-                $mol_fail(new Error('Buffer should starts with 0xFF byte'));
-        }
-        toString() {
-            return $mol_base64_url_encode(this.asArray());
-        }
-        _native;
-        async native() {
-            return this._native ?? (this._native = await $mol_crypto_native.subtle.importKey('raw', this, {
-                name: 'AES-CBC',
-                length: 128,
-            }, true, ['encrypt', 'decrypt']).catch($mol_crypto_restack));
-        }
-        async encrypt(open, salt) {
-            return new Uint8Array(await $mol_crypto_native.subtle.encrypt({
-                name: 'AES-CBC',
-                length: 128,
-                tagLength: 32,
-                iv: salt,
-            }, await this.native(), open).catch($mol_crypto_restack));
-        }
-        async decrypt(closed, salt) {
-            return new Uint8Array(await $mol_crypto_native.subtle.decrypt({
-                name: 'AES-CBC',
-                length: 128,
-                tagLength: 32,
-                iv: salt,
-            }, await this.native(), closed).catch($mol_crypto_restack));
-        }
-        async close(opened, salt) {
-            if (opened.getUint8(0) !== 0xFF)
-                throw new Error('Closable buffer should starts with 0xFF');
-            const trimed = new Uint8Array(opened.buffer, opened.byteOffset + 1, opened.byteLength - 1);
-            return this.encrypt(trimed, salt);
-        }
-        async open(closed, salt) {
-            const trimed = await this.decrypt(closed, salt);
-            if (trimed.byteLength !== closed.byteLength - 1)
-                throw new Error('Length of opened buffer should be ' + (closed.byteLength - 1));
-            const opened = new Uint8Array(closed.byteLength);
-            opened[0] = 0xFF;
-            opened.set(trimed, 1);
-            return opened;
-        }
-    }
-    __decorate([
-        $mol_memo.method
-    ], $mol_crypto_sacred.prototype, "toString", null);
-    $.$mol_crypto_sacred = $mol_crypto_sacred;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    async function $mol_crypto_sacred_shared(priv, pub) {
-        return $mol_crypto_sacred.from(new Uint8Array(await $mol_crypto_native.subtle.deriveBits({
-            name: "ECDH",
-            public: await pub.native_derive(),
-        }, await priv.native_derive(), $mol_crypto_sacred.size * 8).catch($mol_crypto_restack)));
-    }
-    $.$mol_crypto_sacred_shared = $mol_crypto_sacred_shared;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    class $giper_baza_auth_pass extends $mol_crypto_key_public {
+    class $giper_baza_auth_pass extends $mol_crypto2_public {
         static like(bin) {
             const pass = this.from(bin);
             if (pass.byteLength !== $giper_baza_auth_pass.size_bin)
@@ -5625,7 +5746,7 @@ var $;
             return pass;
         }
         hash() {
-            return $giper_baza_link.hash_bin(this);
+            return $giper_baza_link.hash_bin(this.asArray());
         }
         path() {
             return `pass:${this.hash().str}`;
@@ -5656,17 +5777,25 @@ var $;
         $mol_memo.method
     ], $giper_baza_auth_pass.prototype, "peer", null);
     $.$giper_baza_auth_pass = $giper_baza_auth_pass;
-    class $giper_baza_auth extends $mol_crypto_key_private {
+    class $giper_baza_auth extends $mol_crypto2_private {
         static current(next) {
             $mol_wire_solid();
             if (next === undefined) {
                 const key = String($mol_state_local.value('$giper_baza_auth') ?? '');
-                if (key)
-                    return $giper_baza_auth.from(key);
+                if (key) {
+                    const auth = $giper_baza_auth.from(key);
+                    if (auth.byteLength === 128)
+                        return auth;
+                    $$.$mol_log3_warn({
+                        message: 'Wrong Auth size',
+                        hint: 'Relax. Right Auth is created.',
+                        place: `${this}.current()`,
+                    });
+                }
             }
             if (!next)
                 next = this.grab();
-            $mol_state_local.value('$giper_baza_auth', next.toString());
+            $mol_state_local.value('$giper_baza_auth', next.toString() + next.toStringPrivate());
             return next;
         }
         static embryos = [];
@@ -5687,10 +5816,10 @@ var $;
             $mol_fail(new Error(`Too long key generation`));
         }
         pass() {
-            return new $giper_baza_auth_pass(this.public().buffer);
+            return $giper_baza_auth_pass.from(this.public());
         }
-        secret_mutual(pub) {
-            return $mol_wire_sync($mol_crypto_sacred_shared)(this, pub);
+        secret_mutual(pass) {
+            return $mol_wire_sync(this.cipher()).secret(pass.socket());
         }
         [$mol_dev_format_head]() {
             return $mol_dev_format_span({}, $mol_dev_format_native(this), ' ', $mol_dev_format_auto(this.pass().lord()), ' 🔑');
@@ -8773,15 +8902,15 @@ var $;
             }
             for (const [peer, face] of skip_faces) {
                 const skipped_units = skipped.get(peer);
-                const mass = skipped_units?.size ?? 0;
-                if (mass <= face.summ)
+                const skip_mass = skipped_units?.size ?? 0;
+                if (skip_mass <= face.summ)
                     continue;
                 $mol_wire_sync(this.$).$mol_log3_warn({
                     place: this,
                     message: 'Fail Summ',
                     hint: 'Relax and wait for full peer resync',
                     peer,
-                    mass,
+                    skip_mass,
                     peer_face: face,
                     self_face: this.faces.get(peer),
                 });
@@ -8841,7 +8970,7 @@ var $;
                     if (!this.$.$giper_baza_unit_trusted_check(unit)) {
                         const mixin = unit.wide() ? mixin_lord : mixin_area;
                         const sens = unit.shot().mix(mixin);
-                        const checked = $mol_wire_sync(lord_pass).verify(sens, unit.sign());
+                        const checked = $mol_wire_sync(lord_pass.auditor()).verify(sens, unit.sign());
                         if (!checked)
                             return $mol_fail(new Error(`Wrong Sign`));
                     }
@@ -9300,7 +9429,7 @@ var $;
                     seal._land = this;
                     const shot = seal.shot().mix(this.link());
                     do {
-                        seal.sign(await auth.sign(shot));
+                        seal.sign(await auth.signer().sign(shot));
                     } while (seal.rate_min() > rate);
                     return seal;
                 });
@@ -9396,7 +9525,7 @@ var $;
             unit._land = this;
             if (next) {
                 const secret = $mol_wire_sync($mol_crypto_sacred).make();
-                const secret_mutual = auth.secret_mutual(auth.public());
+                const secret_mutual = auth.secret_mutual(auth.pass());
                 const secret_closed = $mol_wire_sync(secret_mutual).close(secret, unit.salt());
                 unit.code().set(secret_closed);
             }
@@ -11845,7 +11974,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$giper_baza_flex_deck_link = new $giper_baza_link('huDNKdza_pspL6e2W_6byvrjHs');
+    $.$giper_baza_flex_deck_link = new $giper_baza_link('AyiXyvOr_k8TaNSel_TkJWFugO');
     class $giper_baza_flex_subj extends $giper_baza_dict.with({
         Name: $giper_baza_atom_text,
         Icon: $giper_baza_atom_text,

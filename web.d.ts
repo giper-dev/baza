@@ -3145,6 +3145,16 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_crypto2_key extends $mol_buffer {
+        static size_str: number;
+        static size_bin: number;
+        static from<This extends typeof $mol_buffer>(this: This, serial: number | string | ArrayBufferView<ArrayBuffer> | ArrayBuffer): InstanceType<This>;
+        asArray(): Uint8Array<ArrayBuffer>;
+        toString(): string;
+    }
+}
+
+declare namespace $ {
     var $mol_crypto_native: Crypto;
 }
 
@@ -3153,33 +3163,34 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_crypto_key extends $mol_buffer {
-        static from<This extends typeof $mol_crypto_key>(this: This, serial: number | string | ArrayBufferView<ArrayBuffer>): InstanceType<This>;
-        toString(): string;
-    }
-    class $mol_crypto_key_public extends $mol_crypto_key {
-        static size_str: number;
-        static size_bin: number;
+    class $mol_crypto2_auditor extends $mol_crypto2_key {
         native(): Promise<CryptoKey>;
-        native_derive(): Promise<CryptoKey>;
         verify(data: BufferSource, sign: BufferSource): Promise<boolean>;
-        toJSON(): string;
-    }
-    class $mol_crypto_key_private extends $mol_crypto_key {
-        static size_str: number;
-        static size_bin: number;
-        static size_sign: number;
-        static generate(): Promise<$mol_crypto_key_private>;
-        native(): Promise<CryptoKey>;
-        native_derive(): Promise<CryptoKey>;
-        public(): $mol_crypto_key_public;
-        sign(data: BufferSource): Promise<Uint8Array<ArrayBuffer>>;
-        toJSON(): string;
     }
 }
 
 declare namespace $ {
-    function $mol_crypto_hash(input: ArrayBufferView): Uint8Array<ArrayBuffer>;
+    class $mol_crypto2_socket extends $mol_crypto2_key {
+        native(): Promise<CryptoKey>;
+    }
+}
+
+declare namespace $ {
+    class $mol_crypto2_public extends $mol_crypto2_key {
+        static size_str: number;
+        static size_bin: number;
+        auditor(): $mol_crypto2_auditor;
+        socket(): $mol_crypto2_socket;
+        toString(): string;
+    }
+}
+
+declare namespace $ {
+    function $mol_crypto2_hash(input: ArrayBufferView): Uint8Array<ArrayBuffer>;
+}
+
+declare namespace $ {
+    let $mol_crypto_hash: typeof $mol_crypto2_hash;
 }
 
 declare namespace $ {
@@ -3213,8 +3224,23 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    function $mol_crypto_salt(): Uint8Array<ArrayBuffer>;
-    const $mol_crypto_salt_once: Uint8Array<ArrayBuffer>;
+    class $mol_crypto2_signer extends $mol_crypto2_auditor {
+        static size_sign: number;
+        static generate(): Promise<$mol_crypto2_signer>;
+        nativePrivate(): Promise<CryptoKey>;
+        asArrayPrivate(): Uint8Array<ArrayBuffer>;
+        toStringPrivate(): string;
+        auditor(): $mol_crypto2_auditor;
+        sign(data: BufferSource): Promise<Uint8Array<ArrayBuffer>>;
+    }
+}
+
+declare namespace $ {
+    function $mol_crypto2_nonce(): Uint8Array<ArrayBuffer>;
+}
+
+declare namespace $ {
+    let $mol_crypto_salt: typeof $mol_crypto2_nonce;
 }
 
 declare namespace $ {
@@ -3241,11 +3267,30 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    function $mol_crypto_sacred_shared(priv: $mol_crypto_key_private, pub: $mol_crypto_key_public): Promise<$mol_crypto_sacred>;
+    class $mol_crypto2_cipher extends $mol_crypto2_socket {
+        static size_secret: number;
+        static generate(): Promise<$mol_crypto2_cipher>;
+        nativePrivate(): Promise<CryptoKey>;
+        asArrayPrivate(): Uint8Array<ArrayBuffer>;
+        toStringPrivate(): string;
+        socket(): $mol_crypto2_socket;
+        secret(pub: $mol_crypto2_socket): Promise<$mol_crypto_sacred>;
+    }
 }
 
 declare namespace $ {
-    class $giper_baza_auth_pass extends $mol_crypto_key_public {
+    class $mol_crypto2_private extends $mol_crypto2_public {
+        static generate(): Promise<$mol_crypto2_private>;
+        signer(): $mol_crypto2_signer;
+        cipher(): $mol_crypto2_cipher;
+        public(): $mol_crypto2_public;
+        asArrayPrivate(): Uint8Array<ArrayBuffer>;
+        toStringPrivate(): string;
+    }
+}
+
+declare namespace $ {
+    class $giper_baza_auth_pass extends $mol_crypto2_public {
         static like(bin: Uint8Array<ArrayBuffer>): $giper_baza_auth_pass | null;
         hash(): $giper_baza_link;
         path(): string;
@@ -3254,13 +3299,13 @@ declare namespace $ {
         toJSON(): string;
         [$mol_dev_format_head](): any[];
     }
-    class $giper_baza_auth extends $mol_crypto_key_private {
+    class $giper_baza_auth extends $mol_crypto2_private {
         static current(next?: $giper_baza_auth | null): $giper_baza_auth;
         static embryos: string[];
         static grab(): $giper_baza_auth;
         static generate(): Promise<$giper_baza_auth>;
         pass(): $giper_baza_auth_pass;
-        secret_mutual(pub: $mol_crypto_key_public): $mol_crypto_sacred;
+        secret_mutual(pass: $giper_baza_auth_pass): $mol_crypto_sacred;
         [$mol_dev_format_head](): any[];
     }
 }
