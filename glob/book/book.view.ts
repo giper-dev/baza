@@ -103,12 +103,12 @@ namespace $.$$ {
 			location.reload()
 		}
 		
-		override seed_make() {
-			const seed = this.$.$giper_baza_flex_init() 
-			this.$.$mol_state_arg.go({
-				[ this.param() ]: seed.link().str
-			})
-		}
+		// override seed_make() {
+		// 	const seed = this.$.$giper_baza_flex_init() 
+		// 	this.$.$mol_state_arg.go({
+		// 		[ this.param() ]: seed.link().str
+		// 	})
+		// }
 		
 		@ $mol_mem
 		lands_checked() {
