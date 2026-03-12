@@ -9836,24 +9836,6 @@ declare namespace $ {
 //# sourceMappingURL=forever.view.tree.d.ts.map
 declare namespace $ {
 
-	export class $mol_icon_sprout extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=sprout.view.tree.d.ts.map
-declare namespace $ {
-
-	export class $mol_icon_sprout_outline extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=outline.view.tree.d.ts.map
-declare namespace $ {
-
 	export class $giper_baza_land_grab extends $mol_select {
 		Trigger_icon( ): $mol_icon_plus
 		Filter( ): any
@@ -10218,94 +10200,79 @@ declare namespace $ {
 		,
 		ReturnType< $mol_pick['bubble_content'] >
 	>
-	type $mol_button_minor__hint_giper_baza_glob_book_15 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_button_minor['hint'] >
-	>
-	type $mol_button_minor__click_giper_baza_glob_book_16 = $mol_type_enforce<
-		ReturnType< $giper_baza_glob_book['seed_make'] >
-		,
-		ReturnType< $mol_button_minor['click'] >
-	>
-	type $mol_button_minor__sub_giper_baza_glob_book_17 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_button_minor['sub'] >
-	>
-	type $giper_baza_land_grab__hint_giper_baza_glob_book_18 = $mol_type_enforce<
+	type $giper_baza_land_grab__hint_giper_baza_glob_book_15 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $giper_baza_land_grab['hint'] >
 	>
-	type $giper_baza_land_grab__align_hor_giper_baza_glob_book_19 = $mol_type_enforce<
+	type $giper_baza_land_grab__align_hor_giper_baza_glob_book_16 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $giper_baza_land_grab['align_hor'] >
 	>
-	type $giper_baza_land_grab__grab_giper_baza_glob_book_20 = $mol_type_enforce<
+	type $giper_baza_land_grab__grab_giper_baza_glob_book_17 = $mol_type_enforce<
 		ReturnType< $giper_baza_glob_book['land_add'] >
 		,
 		ReturnType< $giper_baza_land_grab['grab'] >
 	>
-	type $mol_button_open__hint_giper_baza_glob_book_21 = $mol_type_enforce<
+	type $mol_button_open__hint_giper_baza_glob_book_18 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_open['hint'] >
 	>
-	type $mol_button_open__files_giper_baza_glob_book_22 = $mol_type_enforce<
+	type $mol_button_open__files_giper_baza_glob_book_19 = $mol_type_enforce<
 		ReturnType< $giper_baza_glob_book['update'] >
 		,
 		ReturnType< $mol_button_open['files'] >
 	>
-	type $mol_button_download__hint_giper_baza_glob_book_23 = $mol_type_enforce<
+	type $mol_button_download__hint_giper_baza_glob_book_20 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_download['hint'] >
 	>
-	type $mol_button_download__enabled_giper_baza_glob_book_24 = $mol_type_enforce<
+	type $mol_button_download__enabled_giper_baza_glob_book_21 = $mol_type_enforce<
 		ReturnType< $giper_baza_glob_book['dump_enabled'] >
 		,
 		ReturnType< $mol_button_download['enabled'] >
 	>
-	type $mol_button_download__blob_giper_baza_glob_book_25 = $mol_type_enforce<
+	type $mol_button_download__blob_giper_baza_glob_book_22 = $mol_type_enforce<
 		ReturnType< $giper_baza_glob_book['dump'] >
 		,
 		ReturnType< $mol_button_download['blob'] >
 	>
-	type $mol_button_download__file_name_giper_baza_glob_book_26 = $mol_type_enforce<
+	type $mol_button_download__file_name_giper_baza_glob_book_23 = $mol_type_enforce<
 		ReturnType< $giper_baza_glob_book['dump_name'] >
 		,
 		ReturnType< $mol_button_download['file_name'] >
 	>
-	type $mol_link__arg_giper_baza_glob_book_27 = $mol_type_enforce<
+	type $mol_link__arg_giper_baza_glob_book_24 = $mol_type_enforce<
 		({ 
 			'side': any,
 		}) 
 		,
 		ReturnType< $mol_link['arg'] >
 	>
-	type $mol_link__sub_giper_baza_glob_book_28 = $mol_type_enforce<
+	type $mol_link__sub_giper_baza_glob_book_25 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_link['sub'] >
 	>
-	type $giper_baza_land_rights__land_giper_baza_glob_book_29 = $mol_type_enforce<
+	type $giper_baza_land_rights__land_giper_baza_glob_book_26 = $mol_type_enforce<
 		ReturnType< $giper_baza_glob_book['land_current'] >
 		,
 		ReturnType< $giper_baza_land_rights['land'] >
 	>
-	type $mol_page__title_giper_baza_glob_book_30 = $mol_type_enforce<
+	type $mol_page__title_giper_baza_glob_book_27 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_page['title'] >
 	>
-	type $mol_page__tools_giper_baza_glob_book_31 = $mol_type_enforce<
+	type $mol_page__tools_giper_baza_glob_book_28 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['tools'] >
 	>
-	type $mol_page__body_giper_baza_glob_book_32 = $mol_type_enforce<
+	type $mol_page__body_giper_baza_glob_book_29 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['body'] >
@@ -10324,9 +10291,6 @@ declare namespace $ {
 		wipe( next?: any ): any
 		Wipe_icon( ): $mol_icon_delete_forever
 		Wipe_pick( ): $mol_pick
-		seed_make( next?: any ): any
-		Seed_make_icon( ): $mol_icon_sprout_outline
-		Seed_make( ): $mol_button_minor
 		land_add( next?: $giper_baza_rank_preset | null ): $giper_baza_rank_preset | null
 		Land_add( ): $giper_baza_land_grab
 		update( next?: readonly(any)[] ): readonly(any)[]
@@ -10364,7 +10328,6 @@ declare namespace $.$$ {
         land_add(preset: $giper_baza_rank_preset): null;
         update(files: File[]): never[];
         wipe(): Promise<void>;
-        seed_make(): void;
         lands_checked(): string[];
         dump_enabled(): boolean;
         dump_pack(): $giper_baza_pack | null;

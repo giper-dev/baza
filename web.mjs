@@ -21902,28 +21902,6 @@ var $;
 "use strict";
 
 ;
-	($.$mol_icon_sprout) = class $mol_icon_sprout extends ($.$mol_icon) {
-		path(){
-			return "M2,22V20C2,20 7,18 12,18C17,18 22,20 22,20V22H2M11.3,9.1C10.1,5.2 4,6.1 4,6.1C4,6.1 4.2,13.9 9.9,12.7C9.5,9.8 8,9 8,9C10.8,9 11,12.4 11,12.4V17C11.3,17 11.7,17 12,17C12.3,17 12.7,17 13,17V12.8C13,12.8 13,8.9 16,7.9C16,7.9 14,10.9 14,12.9C21,13.6 21,4 21,4C21,4 12.1,3 11.3,9.1Z";
-		}
-	};
-
-
-;
-"use strict";
-
-;
-	($.$mol_icon_sprout_outline) = class $mol_icon_sprout_outline extends ($.$mol_icon) {
-		path(){
-			return "M23,4.1V2.3L21.2,2.1C21.1,2.1 20.5,2 19.5,2C15.4,2 12.4,3.2 10.7,5.3C9.4,4.5 7.6,4 5.5,4C4.5,4 3.8,4.1 3.8,4.1L1.9,4.4L2,6.1C2.1,9.1 3.6,14.8 8.8,14.8C8.9,14.8 8.9,14.8 9,14.8V18.2C5.2,18.7 2,20 2,20V22H22V20C22,20 18.8,18.7 15,18.2V15C21.3,14.9 23,7.8 23,4.1M12,18C11.7,18 11.3,18 11,18V12.4C11,12.4 10.8,9 8,9C8,9 9.5,9.8 9.9,12.7C9.5,12.8 9.1,12.8 8.8,12.8C4.2,12.8 4,6.1 4,6.1C4,6.1 4.6,6 5.5,6C7.4,6 10.5,6.4 11.4,9.1C11.9,4.6 17,4 19.5,4C20.4,4 21,4.1 21,4.1C21,4.1 21,13.1 14.7,13.1C14.5,13.1 14.2,13.1 14,13.1C14,11.1 16,8.1 16,8.1C13,9.1 13,13 13,13V18C12.7,18 12.3,18 12,18Z";
-		}
-	};
-
-
-;
-"use strict";
-
-;
 	($.$giper_baza_land_grab) = class $giper_baza_land_grab extends ($.$mol_select) {
 		Trigger_icon(){
 			const obj = new this.$.$mol_icon_plus();
@@ -22420,21 +22398,6 @@ var $;
 			(obj.bubble_content) = () => (["Double to wipe database"]);
 			return obj;
 		}
-		seed_make(next){
-			if(next !== undefined) return next;
-			return null;
-		}
-		Seed_make_icon(){
-			const obj = new this.$.$mol_icon_sprout_outline();
-			return obj;
-		}
-		Seed_make(){
-			const obj = new this.$.$mol_button_minor();
-			(obj.hint) = () => ("Make Seed");
-			(obj.click) = (next) => ((this.seed_make(next)));
-			(obj.sub) = () => ([(this.Seed_make_icon())]);
-			return obj;
-		}
 		land_add(next){
 			if(next !== undefined) return next;
 			return null;
@@ -22511,7 +22474,6 @@ var $;
 		menu_foot(){
 			return [
 				(this.Wipe_pick()), 
-				(this.Seed_make()), 
 				(this.Land_add()), 
 				(this.Update()), 
 				(this.Dump())
@@ -22537,9 +22499,6 @@ var $;
 	($mol_mem(($.$giper_baza_glob_book.prototype), "wipe"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Wipe_icon"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Wipe_pick"));
-	($mol_mem(($.$giper_baza_glob_book.prototype), "seed_make"));
-	($mol_mem(($.$giper_baza_glob_book.prototype), "Seed_make_icon"));
-	($mol_mem(($.$giper_baza_glob_book.prototype), "Seed_make"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "land_add"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "Land_add"));
 	($mol_mem(($.$giper_baza_glob_book.prototype), "update"));
@@ -22686,12 +22645,6 @@ var $;
                 yard.kill();
                 mine.kill();
                 location.reload();
-            }
-            seed_make() {
-                const seed = this.$.$giper_baza_flex_init();
-                this.$.$mol_state_arg.go({
-                    [this.param()]: seed.link().str
-                });
             }
             lands_checked() {
                 const lands_touched = [...this.$.$giper_baza_glob.lands_touched.values()];
