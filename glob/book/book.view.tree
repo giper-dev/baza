@@ -30,7 +30,7 @@ $giper_baza_glob_book $mol_book2_catalog
 				<= Wipe_icon $mol_icon_delete_forever
 			bubble_content /
 				\Double to wipe database
-		<= Seed_make $mol_button_minor
+		- <= Seed_make $mol_button_minor
 			hint \Make Seed
 			click? <=> seed_make? null
 			sub / <= Seed_make_icon $mol_icon_sprout_outline
