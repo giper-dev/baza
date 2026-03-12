@@ -457,6 +457,35 @@ $giper_baza_status $mol_select
 				<= Fail $mol_icon_sync_off
 			hint <= message <= hint \Sync status
 
+$mol_embed_native $mol_scroll
+	dom_name \iframe
+	window null
+	attr *
+		^
+		src <= uri? \about:config
+	sub /
+		<= Fallback $mol_link
+			uri <= uri
+			sub /
+				<= title \
+	message *
+		hashchange? <=> uri_change? null
+
+$mol_frame $mol_embed_native
+	attr *
+		tabindex <= tabindex
+		allow <= allow \
+		src <= uri
+		srcdoc <= html null
+	fullscreen true
+	accelerometer true
+	autoplay true
+	encription true
+	gyroscope true
+	pip true
+	clipboard_read true
+	clipboard_write true
+
 $mol_icon_account $mol_icon path \M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z
 
 $mol_icon_security $mol_icon path \M12,12H19C18.47,16.11 15.72,19.78 12,20.92V12H5V6.3L12,3.19M12,1L3,5V11C3,16.55 6.84,21.73 12,23C17.16,21.73 21,16.55 21,11V5L12,1Z
@@ -1247,7 +1276,7 @@ $giper_baza_land_rights $mol_list
 						^
 
 $giper_baza_glob_book $mol_book2_catalog
-	menu_title \🌐 Glob
+	menu_title \🌐 Global Explorer
 	menu_tools /
 		<= Home_link $mol_link
 			hint \Your Home
@@ -1710,7 +1739,7 @@ $mol_chart $mol_view
 $giper_baza_app_stat_page $mol_page
 	home $giper_baza_app_home
 		link => home_link
-	title \📊 Stat
+	title \📊 Server Statistics
 	head /
 		<= Main $mol_view sub / 
 			<= Land $giper_baza_link_chip
@@ -1814,7 +1843,7 @@ $mol_icon_play $mol_icon path \M8,5.14V19.14L19,12.14L8,5.14Z
 $mol_check_icon $mol_check
 
 $giper_baza_auth_slot $mol_page
-	title \🎰 Grab
+	title \🎰 Beautiful Keys Mining
 	glob $giper_baza_glob
 	prefix? \
 	found*? /string
@@ -1844,6 +1873,9 @@ $giper_baza_app $mol_book2_catalog
 			uri \https://github.com/giper-dev/baza
 		<= Status $giper_baza_status
 	spreads *
+		info <= Info $mol_frame
+			title \💨 Giper Encyclopedy
+			uri \https://page.hyoo.ru/#!=sy2u0y_9rb8zj
 		glob <= Glob $giper_baza_glob_book
 			addon_tools /
 				<= Spread_close
