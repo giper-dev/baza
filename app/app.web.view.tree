@@ -6,6 +6,9 @@ $giper_baza_app $mol_book2_catalog
 			uri \https://github.com/giper-dev/baza
 		<= Status $giper_baza_status
 	spreads *
+		info <= Info $mol_frame
+			title \💨 Giper Encyclopedy
+			uri \https://page.hyoo.ru/#!=sy2u0y_9rb8zj
 		glob <= Glob $giper_baza_glob_book
 			addon_tools /
 				<= Spread_close

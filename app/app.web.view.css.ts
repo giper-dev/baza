@@ -12,7 +12,14 @@ namespace $.$$ {
 		
 		Menu: {
 			flex: {
-				basis: `10rem`,
+				basis: `15rem`,
+			},
+		},
+		
+		Info: {
+			flex: {
+				basis: `50rem`,
+				shrink: 0,
 			},
 		},
 		

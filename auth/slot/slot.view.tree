@@ -1,5 +1,5 @@
 $giper_baza_auth_slot $mol_page
-	title \🎰 Grab
+	title \🎰 Beautiful Keys Mining
 	glob $giper_baza_glob
 	prefix? \
 	found*? /string

@@ -1,7 +1,7 @@
 $giper_baza_app_stat_page $mol_page
 	home $giper_baza_app_home
 		link => home_link
-	title \📊 Stat
+	title \📊 Server Statistics
 	head /
 		<= Main $mol_view sub / 
 			<= Land $giper_baza_link_chip

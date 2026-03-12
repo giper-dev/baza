@@ -1,5 +1,5 @@
 $giper_baza_glob_book $mol_book2_catalog
-	menu_title \🌐 Glob
+	menu_title \🌐 Global Explorer
 	menu_tools /
 		<= Home_link $mol_link
 			hint \Your Home
