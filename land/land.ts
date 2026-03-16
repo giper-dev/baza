@@ -501,7 +501,7 @@ namespace $ {
 				const face = this.faces.get( peer.str )
 				if( !face ) continue
 				
-				faces.set( peer.str, face!.clone() )
+				faces.set( peer.str, face.clone() )
 				
 			}
 			
