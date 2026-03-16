@@ -25,7 +25,7 @@ namespace $ {
 			$mol_assert_equal( land0.lord_rank( land0.link() ), $giper_baza_rank_rule )
 			$mol_assert_equal( land0.lord_rank( auth1.pass().lord() ), $giper_baza_rank_read )
 			
-			$mol_assert_fail( ()=> land1.give( auth2.pass(), $giper_baza_rank_post( 'just' ) ), 'Too low Tier' )
+			land1.give( auth2.pass(), $giper_baza_rank_post( 'just' ) )
 			$mol_assert_equal( land0.pass_rank( auth1.pass() ), $giper_baza_rank_read )
 			
 			land0.give( auth1.pass(), $giper_baza_rank_read )
@@ -48,7 +48,7 @@ namespace $ {
 			
 			await $mol_wire_async( land1 ).units_steal( land0 )
 			$mol_assert_equal( land1.pass_rank( auth1.pass() ), $giper_baza_rank_post( 'just' ) )
-			$mol_assert_fail( ()=> land1.give( auth2.pass(), $giper_baza_rank_post( 'just' ) ), 'Too low Tier' )
+			land1.give( auth2.pass(), $giper_baza_rank_post( 'just' ) )
 			
 		},
 		
@@ -73,7 +73,7 @@ namespace $ {
 			
 			await $mol_wire_async( land2 ).units_steal( land1 )
 			
-			$mol_assert_fail( ()=> land2.post( new $giper_baza_link( 'AA222222' ), $giper_baza_link.hole, new $giper_baza_link( 'AA333333' ), new Uint8Array([ 3 ]) ), 'Too low Tier' )
+			land2.post( new $giper_baza_link( 'AA222222' ), $giper_baza_link.hole, new $giper_baza_link( 'AA333333' ), new Uint8Array([ 3 ]) )
 			$mol_assert_equal( ( await $mol_wire_async( land2 ).diff_units() ).length, 5 )
 			$mol_assert_equal( ( await $mol_wire_async( land2 ).diff_units( face ) ).length, 2 )
 			

@@ -573,7 +573,14 @@ namespace $ {
 				if( unit instanceof $giper_baza_auth_pass ) continue
 				
 				if( this.lord_tier( unit.lord() ) < unit.tier_min() ) {
-					return this.$.$mol_fail( new Error( 'Too low Tier' ) )
+					this.$.$mol_log3_warn({
+						message: 'Too low Tier',
+						tier_min: unit.tier_min().toString(2),
+						tier_actual: this.lord_tier( unit.lord() ).toString(2),
+						hint: 'Relax. Unit is skipped.',
+						place: `${this}.diff_apply()`,
+					})
+					continue
 				}
 				
 				const lord_pass = this.lord_pass( unit.lord() ) ?? passes.get( unit.lord().str )

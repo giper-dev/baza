@@ -9,7 +9,10 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		override gifts() {
-			return [ ... this.land()._gift.keys() ].reverse()
+			const land = this.land()
+			return [ ... land._gift.keys() ]
+				.filter( link => link !== land.link().lord().str )
+				.reverse()
 				.map( link => this.Gift( new $giper_baza_link( link ) ) )
 		}
 		
@@ -35,9 +38,27 @@ namespace $.$$ {
 		}
 		
 		add_commit() {
-			const auth = $giper_baza_auth_pass.from( this.add_key() )
-			this.land().give( auth, $giper_baza_rank_read )
+			
+			let key = this.add_key()
+			if( /^\w{8}_\w{8}$/.test( key ) ) {
+				
+				const link = new $giper_baza_link( key )
+				const peer_land = this.$.$giper_baza_glob.Land( link )
+				
+				const pass = peer_land.lord_pass( link )
+				if( !pass ) return $mol_fail( new Error( 'No Pass for Lord' ) )
+				
+				this.land().give( pass, $giper_baza_rank_read )
+				
+			} else {
+				
+				const pass = $giper_baza_auth_pass.from( key )
+				this.land().give( pass, $giper_baza_rank_read )
+				
+			}
+			
 			this.add_key( '' )
+			
 		}
 		
 		@ $mol_mem

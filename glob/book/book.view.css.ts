@@ -25,7 +25,7 @@ namespace $.$$ {
 		
 		Rights_page: {
 			flex: {
-				basis: `30rem`,
+				basis: `35rem`,
 			},
 		},
 		
