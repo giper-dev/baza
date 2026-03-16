@@ -87,7 +87,7 @@ namespace $ {
 		// @ $mol_memo.method
 		work() {
 			
-			let int = this.uint32( this.byteLength - 64 )
+			let int = new Uint32Array( this.hash().toBin().buffer )[0]
 			
 			let count = 0
 			while( int & 1 ) {

@@ -4,6 +4,7 @@ namespace $.$$ {
 		@ $mol_mem
 		auto() {
 			this.$.$giper_baza_glob.home()
+			return []
 		}
 		
 	}

@@ -1236,14 +1236,18 @@ namespace $ {
 				
 					const seal = $giper_baza_unit_seal.make( hashes.length, wide )
 					
-					seal.time_tick( this.faces.tick().time_tick )
 					seal.lord( auth.pass().lord() )
 					seal.hash_list( hashes )
 					seal._land = this
 					
-					const shot = seal.shot().mix( this.link() )
 					do {
-						seal.sign( await auth.signer().sign( shot ) )
+						
+						seal.time_tick( this.faces.tick().time_tick )
+						const shot = seal.shot().mix( this.link() )
+						
+						const sign = await auth.signer().sign( shot )
+						seal.sign( sign )
+						
 					} while( seal.rate_min() > rate )
 					
 					return seal
