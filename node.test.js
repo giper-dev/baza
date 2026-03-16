@@ -9124,7 +9124,10 @@ var $;
                 const peer = unit.lord().peer();
                 if (faces.has(peer.str))
                     continue;
-                faces.set(peer.str, this.faces.get(peer.str).clone());
+                const face = this.faces.get(peer.str);
+                if (!face)
+                    continue;
+                faces.set(peer.str, face.clone());
             }
             return new $giper_baza_pack_part(units, faces);
         }
