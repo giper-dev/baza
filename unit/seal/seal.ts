@@ -72,9 +72,8 @@ namespace $ {
 		}
 		
 		/** Hash for signing. */
-		_shot!: $giper_baza_link
 		shot() {
-			return this._shot ?? ( this._shot = $giper_baza_link.hash_bin( new Uint8Array( this.buffer, this.byteOffset, this.byteLength - 64 ) ) )
+			return $giper_baza_link.hash_bin( new Uint8Array( this.buffer, this.byteOffset, this.byteLength - 64 ) )
 		}
 		
 		@ $mol_mem

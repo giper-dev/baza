@@ -1243,9 +1243,9 @@ namespace $ {
 					do {
 						
 						seal.time_tick( this.faces.tick().time_tick )
-						const shot = seal.shot().mix( this.link() )
+						const sens = seal.shot().mix( this.link() )
 						
-						const sign = await auth.signer().sign( shot )
+						const sign = await auth.signer().sign( sens )
 						seal.sign( sign )
 						
 					} while( seal.rate_min() > rate )
