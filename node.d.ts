@@ -2121,7 +2121,6 @@ declare namespace $ {
         hash_item(index: number, next?: $giper_baza_link): $giper_baza_link;
         _hash_list: readonly $giper_baza_link[];
         hash_list(next?: $giper_baza_link[]): $giper_baza_link[];
-        _shot: $giper_baza_link;
         shot(): $giper_baza_link;
         sign(next?: Uint8Array<ArrayBuffer>): Uint8Array<ArrayBuffer>;
         work(): number;

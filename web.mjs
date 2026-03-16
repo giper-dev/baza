@@ -13837,8 +13837,8 @@ var $;
                     seal._land = this;
                     do {
                         seal.time_tick(this.faces.tick().time_tick);
-                        const shot = seal.shot().mix(this.link());
-                        const sign = await auth.signer().sign(shot);
+                        const sens = seal.shot().mix(this.link());
+                        const sign = await auth.signer().sign(sens);
                         seal.sign(sign);
                     } while (seal.rate_min() > rate);
                     return seal;
@@ -14425,9 +14425,8 @@ var $;
                 return this._hash_list = list;
             }
         }
-        _shot;
         shot() {
-            return this._shot ?? (this._shot = $giper_baza_link.hash_bin(new Uint8Array(this.buffer, this.byteOffset, this.byteLength - 64)));
+            return $giper_baza_link.hash_bin(new Uint8Array(this.buffer, this.byteOffset, this.byteLength - 64));
         }
         sign(next) {
             const buf = new Uint8Array(this.buffer, this.byteOffset + this.byteLength - 64, 64);
