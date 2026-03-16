@@ -1271,9 +1271,9 @@ $giper_baza_land_rights $mol_list
 					param <= link_param \link
 					link <= peer_link* $giper_baza_link
 					sub /
+						^
 						<= Gift_avatar* $mol_avatar
 							id <= peer_id* \
-						^
 
 $giper_baza_glob_book $mol_book2_catalog
 	menu_title \🌐 Global Explorer

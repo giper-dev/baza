@@ -4759,7 +4759,7 @@ var $;
                     message: error.message ?? '',
                     origin: msg.origin(),
                     address: msg.address(),
-                    casue: error.cause,
+                    cause: error.cause,
                     stack: error.stack,
                 });
                 $mol_wire_sync(res).writeHead(500, error.name || 'Server Error');
@@ -4788,7 +4788,7 @@ var $;
                     message: error.message ?? '',
                     origin: upgrade.origin(),
                     address: upgrade.address(),
-                    casue: error.cause,
+                    cause: error.cause,
                     stack: error.stack,
                 });
                 socket.end();
@@ -4814,7 +4814,7 @@ var $;
                         message: error.message ?? '',
                         origin: upgrade.origin(),
                         address: upgrade.address(),
-                        casue: error.cause,
+                        cause: error.cause,
                         stack: error.stack,
                     });
                     return;
@@ -4929,7 +4929,7 @@ var $;
                     message: error.message ?? '',
                     origin: upgrade.origin(),
                     address: upgrade.address(),
-                    casue: error.cause,
+                    cause: error.cause,
                     stack: error.stack,
                 });
                 sock.end();
@@ -9186,7 +9186,14 @@ var $;
                 if (unit instanceof $giper_baza_auth_pass)
                     continue;
                 if (this.lord_tier(unit.lord()) < unit.tier_min()) {
-                    return this.$.$mol_fail(new Error('Too low Tier'));
+                    this.$.$mol_log3_warn({
+                        message: 'Too low Tier',
+                        tier_min: unit.tier_min().toString(2),
+                        tier_actual: this.lord_tier(unit.lord()).toString(2),
+                        hint: 'Relax. Unit is skipped.',
+                        place: `${this}.diff_apply()`,
+                    });
+                    continue;
                 }
                 const lord_pass = this.lord_pass(unit.lord()) ?? passes.get(unit.lord().str);
                 if (!lord_pass)
