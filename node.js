@@ -9624,13 +9624,14 @@ var $;
                 const wide = Boolean(land.link().area().str);
                 return $mol_array_chunks(hashes, $giper_baza_unit_seal_limit).map(async (hashes) => {
                     const seal = $giper_baza_unit_seal.make(hashes.length, wide);
-                    seal.time_tick(this.faces.tick().time_tick);
                     seal.lord(auth.pass().lord());
                     seal.hash_list(hashes);
                     seal._land = this;
-                    const shot = seal.shot().mix(this.link());
                     do {
-                        seal.sign(await auth.signer().sign(shot));
+                        seal.time_tick(this.faces.tick().time_tick);
+                        const shot = seal.shot().mix(this.link());
+                        const sign = await auth.signer().sign(shot);
+                        seal.sign(sign);
                     } while (seal.rate_min() > rate);
                     return seal;
                 });
@@ -10234,7 +10235,7 @@ var $;
             return buf;
         }
         work() {
-            let int = this.uint32(this.byteLength - 64);
+            let int = new Uint32Array(this.hash().toBin().buffer)[0];
             let count = 0;
             while (int & 1) {
                 int >>>= 1;

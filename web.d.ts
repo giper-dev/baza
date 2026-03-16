@@ -12113,7 +12113,7 @@ declare namespace $ {
 //# sourceMappingURL=app.web.view.tree.d.ts.map
 declare namespace $.$$ {
     class $giper_baza_app extends $.$giper_baza_app {
-        auto(): void;
+        auto(): never[];
     }
 }
 
