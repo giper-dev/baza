@@ -5277,12 +5277,23 @@ var $;
         static from(serial) {
             if (typeof serial === 'string') {
                 serial = new Uint8Array(serial.match(/.{43}/g)
-                    .flatMap(chunk => [...$mol_base64_url_decode(chunk)]));
+                    ?.flatMap(chunk => [...$mol_base64_url_decode(chunk)])
+                    ?? $mol_fail(new Error('Str key too short', { cause: {
+                            min: 43,
+                            real: serial.length,
+                        } })));
             }
             return super.from(serial);
         }
         asArray() {
-            return new Uint8Array(this.buffer, this.byteOffset, this.constructor.size_bin);
+            const size = this.constructor.size_bin;
+            if (this.byteLength < size) {
+                return $mol_fail(new Error('Bin key too short', { cause: {
+                        min: size,
+                        real: this.byteLength,
+                    } }));
+            }
+            return new Uint8Array(this.buffer, this.byteOffset, size);
         }
         toString() {
             return $mol_base64_url_encode(this.asArray());
