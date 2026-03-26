@@ -248,7 +248,7 @@ namespace $ {
 		})
 	}
 
-	export function $giper_baza_vary_cast_list( vary: $giper_baza_vary_type ): any[] | null {
+	export function $giper_baza_vary_cast_list( vary: $giper_baza_vary_type ): readonly any[] | null {
 		return $giper_baza_vary_switch( vary, {
 			
 			none: vary => null,

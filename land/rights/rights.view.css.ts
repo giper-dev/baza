@@ -24,6 +24,9 @@ namespace $.$$ {
 				grow: 0,
 				basis: `7em`,
 			},
+			font: {
+				family: 'monospace',
+			},
 		},
 		
 		Gift_rate: {

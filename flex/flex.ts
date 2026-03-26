@@ -191,14 +191,14 @@ namespace $ {
 	
 	/** User - human profile */
 	export class $giper_baza_flex_user extends $giper_baza_flex_subj.with( {
-		Caret: $giper_baza_list_vary,
+		Caret: $giper_baza_atom_list,
 	}, 'User' ) {
 		
 		static override meta = new $giper_baza_link( `${$giper_baza_flex_deck_link.str}_csm0VtAK` )
 		
 		@ $mol_mem
 		caret( next?: Selection ): Selection | null {
-			return this.Caret( next )?.items_vary( next ) as Selection ?? null
+			return this.Caret( next )?.val( next ) as any as Selection ?? null
 		}
 		
 	}
