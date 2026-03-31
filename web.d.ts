@@ -3886,7 +3886,7 @@ declare namespace $ {
     function $giper_baza_vary_cast_dura(vary: $giper_baza_vary_type): $mol_time_duration | null;
     function $giper_baza_vary_cast_span(vary: $giper_baza_vary_type): $mol_time_interval | null;
     function $giper_baza_vary_cast_dict(vary: $giper_baza_vary_type): {} | null;
-    function $giper_baza_vary_cast_list(vary: $giper_baza_vary_type): any[] | null;
+    function $giper_baza_vary_cast_list(vary: $giper_baza_vary_type): readonly any[] | null;
     function $giper_baza_vary_cast_elem(vary: $giper_baza_vary_type): Element | null;
     function $giper_baza_vary_cast_tree(vary: $giper_baza_vary_type): $mol_tree2 | null;
     const $giper_baza_vary_cast_funcs: {
@@ -3975,13 +3975,13 @@ declare namespace $ {
         sand_add(sand: $giper_baza_unit_sand): void;
         units_reaping: Set<$giper_baza_unit_base>;
         unit_reap(unit: $giper_baza_unit_base): void;
-        unit_seal_inc(unit: $giper_baza_unit): void;
-        unit_seal_dec(unit: $giper_baza_unit): void;
+        unit_seal_inc(unit: $giper_baza_unit_base): void;
+        unit_seal_dec(unit: $giper_baza_unit_base): void;
         seal_del(seal: $giper_baza_unit_seal): void;
         gift_del(gift: $giper_baza_unit_gift): void;
         sand_del(sand: $giper_baza_unit_sand): void;
         lord_pass(lord: $giper_baza_link): $giper_baza_auth_pass | null;
-        unit_seal(unit: $giper_baza_unit): $giper_baza_unit_seal | null;
+        unit_seal(unit: $giper_baza_unit_base): $giper_baza_unit_seal | null;
         sand_get(head: $giper_baza_link, lord: $giper_baza_link, self: $giper_baza_link): $giper_baza_unit_sand | null;
         _self_all: $mol_wire_dict<string, $giper_baza_unit_sand | null>;
         self_make(idea?: number): $giper_baza_link;
@@ -4080,6 +4080,7 @@ declare namespace $ {
         salt(): Uint8Array<ArrayBuffer>;
         hash(): $giper_baza_link;
         tier_min(): $giper_baza_rank_tier;
+        encoded(): boolean;
         _land: null | $giper_baza_land;
         dump(): {};
         inspect(): string;
@@ -4167,7 +4168,7 @@ declare namespace $ {
         data(next?: Uint8Array<ArrayBuffer>): Uint8Array<ArrayBuffer>;
         _ball: Uint8Array<ArrayBuffer>;
         ball(next?: Uint8Array<ArrayBuffer>): Uint8Array<ArrayBuffer>;
-        signed(): true;
+        encoded(): true;
         hash(): $giper_baza_link;
         idea_seed(): number;
         dump(): {
@@ -4783,7 +4784,7 @@ declare namespace $ {
     export class $giper_baza_list_json extends $giper_baza_list_json_base {
     }
     const $giper_baza_list_jsan_base: (abstract new () => {
-        items(next?: readonly (any[] | null)[] | undefined): readonly (any[] | null)[];
+        items(next?: readonly (readonly any[] | null)[] | undefined): readonly (readonly any[] | null)[];
         items_vary(next?: readonly $giper_baza_vary_type[], tag?: keyof typeof $giper_baza_unit_sand_tag): readonly $giper_baza_vary_type[];
         splice(next: readonly $giper_baza_vary_type[], from?: number, to?: number, tag?: keyof typeof $giper_baza_unit_sand_tag): void;
         find(vary: $giper_baza_vary_type): $giper_baza_unit_sand | null;
@@ -5805,8 +5806,8 @@ declare namespace $ {
     export class $giper_baza_atom_dict extends $giper_baza_atom_dict_base {
     }
     const $giper_baza_atom_list_base: (abstract new () => {
-        val(next?: any[] | null | undefined): any[] | null;
-        val_of(peer: $giper_baza_link | null, next?: any[] | null | undefined): any[] | null;
+        val(next?: readonly any[] | null | undefined): readonly any[] | null;
+        val_of(peer: $giper_baza_link | null, next?: readonly any[] | null | undefined): readonly any[] | null;
         pick_unit(peer: $giper_baza_link | null): $giper_baza_unit_sand | undefined;
         vary(next?: $giper_baza_vary_type): $giper_baza_vary_type;
         vary_of(peer: $giper_baza_link | null, next?: $giper_baza_vary_type): $giper_baza_vary_type;
@@ -7002,14 +7003,14 @@ declare namespace $ {
     type Selection = readonly [from: Point, to: Point];
     const $giper_baza_flex_user_base: Omit<typeof $giper_baza_flex_subj, "prototype"> & {
         new (...args: any[]): $mol_type_override<$giper_baza_flex_subj, {
-            readonly Caret: (auto?: any) => $giper_baza_list_vary | null;
+            readonly Caret: (auto?: any) => $giper_baza_atom_list | null;
         }>;
         path: string;
     } & {
         schema: {
             [x: string]: typeof $giper_baza_pawn;
         } & {
-            readonly Caret: typeof $giper_baza_list_vary;
+            readonly Caret: typeof $giper_baza_atom_list;
         };
     };
     export class $giper_baza_flex_user extends $giper_baza_flex_user_base {
