@@ -134,12 +134,12 @@ namespace $ {
 			}
 		}
 		
-		signed() {
+		encoded() {
 			return !this._open || !!this._ball
 		}
 
 		hash() {
-			if( !this.signed() ) return $mol_fail(
+			if( !this.encoded() ) return $mol_fail(
 				new Error( 'No Hash for incompleted Sand', { cause: { sand: this } } )
 			)
 			return super.hash()

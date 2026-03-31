@@ -123,7 +123,7 @@ namespace $ {
 			
 			this.faces.peer_time( peer.str, sand.time(), sand.tick() )
 			
-			if( sand.signed() ) this.unit_seal_inc( sand )
+			if( sand.encoded() ) this.unit_seal_inc( sand )
 			
 		}
 		
@@ -134,7 +134,7 @@ namespace $ {
 			this.units_reaping.add( unit )
 		}
 		
-		unit_seal_inc( unit: $giper_baza_unit ) {
+		unit_seal_inc( unit: $giper_baza_unit_base ) {
 			
 			const seal = this.unit_seal( unit )
 			if( !seal ) return
@@ -143,7 +143,7 @@ namespace $ {
 			
 		}
 		
-		unit_seal_dec( unit: $giper_baza_unit ) {
+		unit_seal_dec( unit: $giper_baza_unit_base ) {
 			
 			const seal = this.unit_seal( unit )
 			if( !seal ) return
@@ -200,7 +200,7 @@ namespace $ {
 			this.faces.peer_summ_shift( sand.lord().peer().str, -1 )
 			
 			this.unit_reap( sand )
-			if( sand.signed() ) this.unit_seal_dec( sand )
+			if( sand.encoded() ) this.unit_seal_dec( sand )
 			
 		}
 		
@@ -209,7 +209,9 @@ namespace $ {
 			return this._pass.get( lord.str ) ?? null
 		}
 		
-		unit_seal( unit: $giper_baza_unit ) {
+		unit_seal( unit: $giper_baza_unit_base ) {
+			
+			if( !unit.encoded() ) return null
 			
 			const seal = this._seal_item.get( unit.hash().str )
 			if( !seal ) return null
@@ -1108,7 +1110,7 @@ namespace $ {
 			for( const kids of this._sand.values() ) {
 				for( const units of kids.values() ) {
 					for( const sand of units.values() ) {
-						if( sand.signed() ) continue
+						if( this.unit_seal( sand ) ) continue
 						signing.push( sand )
 					}
 				}

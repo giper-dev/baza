@@ -41,7 +41,7 @@ namespace $ {
 			if( unit instanceof $giper_baza_auth_pass ) {
 				nodes.set( unit.lord().str, unit )
 			} else {
-				if( unit instanceof $giper_baza_unit_sand && !unit.signed() ) continue
+				if( unit instanceof $giper_baza_unit_sand && !unit.encoded() ) continue
 				const self = unit.hash().str
 				nodes.set( self, unit )
 			}
@@ -212,6 +212,10 @@ namespace $ {
 		
 		tier_min() {
 			return $giper_baza_rank_tier.rule
+		}
+		
+		encoded() {
+			return true
 		}
 		
 		_land = null as null | $giper_baza_land
