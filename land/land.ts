@@ -1108,7 +1108,7 @@ namespace $ {
 			for( const kids of this._sand.values() ) {
 				for( const units of kids.values() ) {
 					for( const sand of units.values() ) {
-						if( this.unit_seal( sand ) ) continue
+						if( sand.signed() ) continue
 						signing.push( sand )
 					}
 				}
