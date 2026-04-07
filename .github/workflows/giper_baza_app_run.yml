@@ -16,9 +16,10 @@ jobs:
         package: 'giper/baza'
         modules: 'app/run'
     - uses: hyoo-ru/gh-deploy@v4.4.1
-      if: github.ref == 'refs/heads/master'
+      # if: github.ref == 'refs/heads/master'
       with:
         folder: 'giper/baza/app/run/-'
+        target-folder: ${{ case( github.ref_name == 'master', '.', github.ref_name ) }}
     - uses: GlueOps/github-actions-build-push-containers@v0.4.5
       if: github.ref == 'refs/heads/master'
       with:
