@@ -1866,7 +1866,7 @@ $giper_baza_auth_slot $mol_page
 					text <= key* \
 
 $giper_baza_app $mol_book2_catalog
-	menu_title \Giper Baza
+	menu_title \Giper LOL
 	param \section
 	menu_foot /
 		<= Source $mol_link_source

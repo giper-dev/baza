@@ -26112,7 +26112,7 @@ var $;
 			return obj;
 		}
 		menu_title(){
-			return "Giper Baza";
+			return "Giper LOL";
 		}
 		param(){
 			return "section";
