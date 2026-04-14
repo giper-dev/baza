@@ -9410,7 +9410,7 @@ var $;
         post(lead, head, self, vary, tag = 'term') {
             this.join();
             const lord_pass = this.auth().pass();
-            const encrypted = this.encrypted();
+            const encrypted = vary === null ? false : this.encrypted();
             let open = $giper_baza_link_base(this.link(), () => $giper_baza_vary.pack([vary]));
             const length = encrypted ? Math.ceil((open.byteLength + 1) / 16) * 16 : open.byteLength;
             const sand = $giper_baza_unit_sand.make(length, tag);
@@ -16834,11 +16834,13 @@ var $;
             $mol_assert_equal(await land.encrypted(), false);
             await land.encrypted(true);
             $mol_assert_equal(await land.encrypted(), true);
-            const sand = await land.post($giper_baza_link.hole, $giper_baza_link.hole, null, new Uint8Array([1, 2, 3]));
-            $mol_assert_equal((await land.sand_encode(sand)).data().length, 16);
-            $mol_assert_equal(await land.sand_decode(sand), new Uint8Array([1, 2, 3]));
+            const material = await land.post($giper_baza_link.hole, $giper_baza_link.hole, null, new Uint8Array([1, 2, 3]));
+            $mol_assert_equal((await land.sand_encode(material)).data().length, 16);
+            $mol_assert_equal(await land.sand_decode(material), new Uint8Array([1, 2, 3]));
             $mol_assert_equal((await land.sand_ordered({ head: $giper_baza_link.hole, peer: $giper_baza_link.hole })).length, 1);
-            await land.post($giper_baza_link.hole, $giper_baza_link.hole, sand.self(), null);
+            const tombstone = await land.post($giper_baza_link.hole, $giper_baza_link.hole, material.self(), null);
+            $mol_assert_equal((await land.sand_encode(tombstone)).data().length, 1);
+            $mol_assert_equal(await land.sand_decode(tombstone), null);
             $mol_assert_equal((await land.sand_ordered({ head: $giper_baza_link.hole, peer: $giper_baza_link.hole })).length, 1);
         },
         'Land fork & merge': $mol_wire_async(($) => {

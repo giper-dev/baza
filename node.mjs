@@ -9419,7 +9419,7 @@ var $;
         post(lead, head, self, vary, tag = 'term') {
             this.join();
             const lord_pass = this.auth().pass();
-            const encrypted = this.encrypted();
+            const encrypted = vary === null ? false : this.encrypted();
             let open = $giper_baza_link_base(this.link(), () => $giper_baza_vary.pack([vary]));
             const length = encrypted ? Math.ceil((open.byteLength + 1) / 16) * 16 : open.byteLength;
             const sand = $giper_baza_unit_sand.make(length, tag);
