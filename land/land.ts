@@ -904,7 +904,7 @@ namespace $ {
 			this.join()
 			
 			const lord_pass = this.auth().pass()
-			const encrypted = this.encrypted()
+			const encrypted = vary === null ? false : this.encrypted()
 			
 			let open = $giper_baza_link_base( this.link(), ()=> $giper_baza_vary.pack([ vary ]) )
 			
