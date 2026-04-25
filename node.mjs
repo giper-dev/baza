@@ -9520,7 +9520,7 @@ var $;
         }
         sand_encoding() {
             this.loading();
-            const sync = $mol_wire_sync(this);
+            const sands = [];
             for (const kids of this._sand.values()) {
                 for (const units of kids.values()) {
                     for (const sand of units.values()) {
@@ -9529,10 +9529,13 @@ var $;
                             continue;
                         if (sync_sand._ball)
                             continue;
-                        sync.sand_encode(sand);
+                        sands.push(sand);
                     }
                 }
             }
+            if (!sands.length)
+                return;
+            $mol_wire_sync(this).sands_encode(sands);
         }
         units_unsigned() {
             const signing = [];
@@ -9663,6 +9666,9 @@ var $;
                 this.seal_add(seal);
             }
             return seals;
+        }
+        sands_encode(sands) {
+            return Promise.all(sands.map(sand => this.sand_encode(sand)));
         }
         async sand_encode(sand) {
             let bin = sand._open;
@@ -10472,7 +10478,7 @@ var $;
             return `${super.toString()} ${tag} ${lead}\\${head}/${self} ${vary}`;
         }
         [$mol_dev_format_head]() {
-            return $mol_dev_format_span({}, $mol_dev_format_native(this), ' 👾', $mol_dev_format_auto(this.lord()), ' 📦 ', $mol_dev_format_shade($giper_baza_time_dump(this.time(), this.tick())), ' #', $mol_dev_format_auto(this.hash()), ' ', this.lead().str || '__knot__', $mol_dev_format_shade('\\'), $mol_dev_format_accent(this.head().str || '__root__'), $mol_dev_format_shade('/'), this.self().str || '__meta__', ' ', {
+            return $mol_dev_format_span({}, $mol_dev_format_native(this), ' 👾', $mol_dev_format_auto(this.lord()), ' 📦 ', $mol_dev_format_shade($giper_baza_time_dump(this.time(), this.tick())), ' #', this.encoded() ? $mol_dev_format_auto(this.hash()) : undefined, ' ', this.lead().str || '__knot__', $mol_dev_format_shade('\\'), $mol_dev_format_accent(this.head().str || '__root__'), $mol_dev_format_shade('/'), this.self().str || '__meta__', ' ', {
                 term: '💼',
                 solo: '1️⃣',
                 vals: '🎹',
