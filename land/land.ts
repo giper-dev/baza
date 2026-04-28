@@ -1080,7 +1080,8 @@ namespace $ {
 			
 			this.loading()
 			
-			const sync = $mol_wire_sync( this )
+			const sands = [] as $giper_baza_unit_sand[]
+			
 			for( const kids of this._sand.values() ) {
 				for( const units of kids.values() ) {
 					for( const sand of units.values() ) {
@@ -1089,11 +1090,14 @@ namespace $ {
 						if( sync_sand._vary === undefined ) continue
 						if( sync_sand._ball ) continue
 						
-						sync.sand_encode( sand )
+						sands.push( sand )
 						
 					}
 				}
 			}
+			
+			if( !sands.length ) return
+			$mol_wire_sync( this ).sands_encode( sands )
 		
 		}
 		
@@ -1271,6 +1275,10 @@ namespace $ {
 			}
 			
 			return seals
+		}
+		
+		sands_encode( sands: readonly $giper_baza_unit_sand[] ) {
+			return Promise.all( sands.map( sand => this.sand_encode( sand ) ) )
 		}
 		
 		async sand_encode( sand: $giper_baza_unit_sand ) {
