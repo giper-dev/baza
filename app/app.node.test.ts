@@ -34,19 +34,19 @@ namespace $.$$ {
 
 			const app = $giper_baza_app_node.make({ $ })
 
-			const codes = [] as $mol_rest_code[]
+			const res = [] as any[]
 
 			app.GET( $mol_rest_message.make({
 				method: ()=> 'GET',
 				uri: ()=> new URL( `http://baza.giper.dev/?BAZA:file=${ link.str };name=ghost.md` ),
 				port: $mol_rest_port.make({
-					send_code: code => codes.push( code ),
-					send_type: ()=> {},
-					send_bin: ()=> {},
+					send_code: code => res.push( code ),
+					send_type: type => res.push( type ),
+					send_bin: bin => res.push( bin ),
 				}),
 			}) )
 
-			$mol_assert_equal( codes[0], 404 )
+			$mol_assert_equal( res, [ 404, 'application/octet-stream', new Uint8Array ] )
 
 		},
 
