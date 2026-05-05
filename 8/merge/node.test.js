@@ -16782,53 +16782,217 @@ var $;
 ;
 "use strict";
 var $;
-(function ($) {
+(function ($_1) {
     $mol_test({
-        'gift unit type'() {
-            const gift = $giper_baza_unit_gift.make();
-            gift.rank($giper_baza_rank_rule);
-            $mol_assert_equal(gift.kind(), 'gift');
-            $mol_assert_equal(gift.rank(), $giper_baza_rank_rule);
+        'Watch one value'($) {
+            class App extends $mol_object2 {
+                static $ = $;
+                static dict = new $mol_wire_dict();
+                static lucky() {
+                    return this.dict.get(777);
+                }
+            }
+            __decorate([
+                $mol_wire_solo
+            ], App, "lucky", null);
+            $mol_assert_equal(App.lucky(), undefined);
+            App.dict.set(666, 6666);
+            $mol_assert_equal(App.lucky(), undefined);
+            App.dict.set(777, 7777);
+            $mol_assert_equal(App.lucky(), 7777);
+            App.dict.delete(777);
+            $mol_assert_equal(App.lucky(), undefined);
         },
-        'data unit type'() {
-            const unit = $giper_baza_unit_sand.make(2);
-            unit.ball(new Uint8Array([0xFF, 0xFF]));
-            $mol_assert_equal(unit.kind(), 'sand');
-            $mol_assert_equal(unit.size(), 2);
-            $mol_assert_equal(unit.ball(), new Uint8Array([0xFF, 0xFF]));
+        'Watch item channel'($) {
+            class App extends $mol_object2 {
+                static $ = $;
+                static dict = new $mol_wire_dict();
+                static lucky() {
+                    return this.dict.item(777);
+                }
+            }
+            __decorate([
+                $mol_wire_solo
+            ], App, "lucky", null);
+            $mol_assert_equal(App.lucky(), null);
+            App.dict.item(666, 6666);
+            $mol_assert_equal(App.lucky(), null);
+            App.dict.item(777, 7777);
+            $mol_assert_equal(App.lucky(), 7777);
+            App.dict.item(777, null);
+            $mol_assert_equal(App.lucky(), null);
         },
-        'big data unit type'() {
-            const unit = $giper_baza_unit_sand.make(1000);
-            unit.ball(new Uint8Array(1000));
-            $mol_assert_equal(unit.kind(), 'sand');
-            $mol_assert_equal(unit.size(), 1000);
-            $mol_assert_equal(unit.ball(), new Uint8Array(1000));
+        'Watch size'($) {
+            class App extends $mol_object2 {
+                static $ = $;
+                static dict = new $mol_wire_dict();
+                static size() {
+                    return this.dict.size;
+                }
+            }
+            __decorate([
+                $mol_wire_solo
+            ], App, "size", null);
+            $mol_assert_equal(App.size(), 0);
+            App.dict.set(666, 6666);
+            $mol_assert_equal(App.size(), 1);
+            App.dict.set(777, 7777);
+            $mol_assert_equal(App.size(), 2);
+            App.dict.delete(777);
+            $mol_assert_equal(App.size(), 1);
         },
-        'gift unit fields'() {
-            const unit = $giper_baza_unit_gift.make();
-            $mol_assert_equal(unit.time(), 0);
-            $mol_assert_equal(unit.mate(), $giper_baza_link.hole);
-            unit.time_tick(0xd1d2d3d4d5d6);
-            unit.mate(new $giper_baza_link('ÆPv6æfj3_9vX08ÆLx'));
-            $mol_assert_equal(unit.time_tick(), 0xd1d2d3d4d5d6);
-            $mol_assert_equal(unit.mate(), new $giper_baza_link('ÆPv6æfj3_9vX08ÆLx'));
+        'Watch for-of'($) {
+            class App extends $mol_object2 {
+                static $ = $;
+                static dict = new $mol_wire_dict();
+                static sum() {
+                    let keys = 0;
+                    let vals = 0;
+                    for (const [key, val] of this.dict) {
+                        keys += key;
+                        vals += val;
+                    }
+                    return [keys, vals];
+                }
+            }
+            __decorate([
+                $mol_wire_solo
+            ], App, "sum", null);
+            $mol_assert_like(App.sum(), [0, 0]);
+            App.dict.set(111, 1111);
+            $mol_assert_like(App.sum(), [111, 1111]);
+            App.dict.set(222, 2222);
+            $mol_assert_like(App.sum(), [333, 3333]);
+            App.dict.delete(111);
+            $mol_assert_like(App.sum(), [222, 2222]);
         },
-        'data unit fields'() {
-            const unit = $giper_baza_unit_sand.make(0);
-            $mol_assert_equal(unit.time(), 0);
-            $mol_assert_equal(unit.head(), $giper_baza_link.hole);
-            $mol_assert_equal(unit.self(), $giper_baza_link.hole);
-            $mol_assert_equal(unit.lead(), $giper_baza_link.hole);
-            unit.time_tick(0xd1d2d3d4d5d6);
-            unit.head(new $giper_baza_link('ÆPv6æfj3'));
-            unit.self(new $giper_baza_link('Pv6æfj39'));
-            unit.lead(new $giper_baza_link('v6æfj39v'));
-            $mol_assert_equal(unit.time_tick(), 0xd1d2d3d4d5d6);
-            $mol_assert_equal(unit.head(), new $giper_baza_link('ÆPv6æfj3'));
-            $mol_assert_equal(unit.self(), new $giper_baza_link('Pv6æfj39'));
-            $mol_assert_equal(unit.lead(), new $giper_baza_link('v6æfj39v'));
+        'Watch forEach'($) {
+            class App extends $mol_object2 {
+                static $ = $;
+                static dict = new $mol_wire_dict();
+                static sum() {
+                    let keys = 0;
+                    let vals = 0;
+                    this.dict.forEach((val, key) => {
+                        keys += key;
+                        vals += val;
+                    });
+                    return [keys, vals];
+                }
+            }
+            __decorate([
+                $mol_wire_solo
+            ], App, "sum", null);
+            $mol_assert_like(App.sum(), [0, 0]);
+            App.dict.set(111, 1111);
+            $mol_assert_like(App.sum(), [111, 1111]);
+            App.dict.set(222, 2222);
+            $mol_assert_like(App.sum(), [333, 3333]);
+            App.dict.delete(111);
+            $mol_assert_like(App.sum(), [222, 2222]);
         },
     });
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($_1) {
+    var $$;
+    (function ($$) {
+        $mol_test({
+            "Empty release"($) {
+                const pool = new $mol_memory_pool;
+                $mol_assert_equal(pool.empty(), true);
+                pool.release(0, 0);
+                $mol_assert_equal(pool.acquire(8), 0);
+                $mol_assert_equal(pool.empty(), false);
+                pool.release(0, 8);
+                $mol_assert_equal(pool.empty(), true);
+            },
+            "linear allocation"($) {
+                const pool = new $mol_memory_pool;
+                $mol_assert_equal(pool.acquire(8), 0);
+                $mol_assert_equal(pool.acquire(16), 8);
+                $mol_assert_equal(pool.acquire(32), 24);
+            },
+            "allocation in released"($) {
+                const pool = new $mol_memory_pool;
+                $mol_assert_equal(pool.acquire(8), 0);
+                $mol_assert_equal(pool.acquire(16), 8);
+                pool.release(0, 16);
+                $mol_assert_equal(pool.acquire(8), 0);
+                $mol_assert_equal(pool.acquire(16), 24);
+                $mol_assert_equal(pool.acquire(8), 8);
+            },
+            "space limitation"($) {
+                const pool = new $mol_memory_pool(10);
+                pool.acquire(8);
+                pool.release(2, 4);
+                $mol_assert_fail(() => pool.acquire(6), 'No free space\nneed: 6\nhave: 4');
+            },
+            "double release"($) {
+                const pool = new $mol_memory_pool;
+                $mol_assert_fail(() => pool.release(0, 2), 'Double release');
+                $mol_assert_fail(() => pool.release(2, 2), 'Release out of allocated');
+                pool.acquire(16);
+                pool.release(4, 8);
+                $mol_assert_fail(() => pool.release(4, 8), 'Double release');
+                $mol_assert_fail(() => pool.release(10, 4), 'Double release');
+                $mol_assert_fail(() => pool.release(2, 4), 'Double release');
+            },
+        });
+    })($$ = $_1.$$ || ($_1.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($_1) {
+    var $$;
+    (function ($$) {
+        $mol_test({
+            "faces serial and parse"($) {
+                const land1 = new $giper_baza_link('12345678_12345678');
+                const land2 = new $giper_baza_link('87654321_87654321');
+                const land3 = new $giper_baza_link('87654321_00000000');
+                const peer1 = new $giper_baza_link('12345678');
+                const peer2 = new $giper_baza_link('87654321');
+                const faces1 = new $giper_baza_face_map;
+                faces1.peer_time(peer1.str, $giper_baza_time_now(), 0);
+                faces1.peer_summ(peer1.str, 0);
+                faces1.peer_time(peer2.str, $giper_baza_time_now(), 0);
+                faces1.peer_summ(peer2.str, 64_000);
+                const faces2 = new $giper_baza_face_map;
+                faces2.peer_time(peer1.str, $giper_baza_time_now(), 0);
+                faces2.peer_summ(peer1.str, 1);
+                faces2.peer_time(peer2.str, $giper_baza_time_now(), 1);
+                const faces3 = new $giper_baza_face_map;
+                const parts = [
+                    [land1.str, new $giper_baza_pack_part([], faces1)],
+                    [land2.str, new $giper_baza_pack_part([], faces2)],
+                    [land3.str, new $giper_baza_pack_part([], faces3)],
+                ];
+                const pack = $giper_baza_pack.make(parts);
+                $mol_assert_equal(parts, pack.parts());
+            },
+            "units serial and parse"($) {
+                const land = new $giper_baza_link('12345678_12345678');
+                const pass = $.$giper_baza_auth.grab().pass();
+                const gift = $giper_baza_unit_gift.make();
+                const sand_small = $giper_baza_unit_sand.make(5);
+                const ball = new Uint8Array($giper_baza_unit_sand.size_equator + 5);
+                const sand_big = $giper_baza_unit_sand.make(ball.byteLength);
+                sand_big.ball(ball);
+                const seal = $giper_baza_unit_seal.make(15, true);
+                const parts = [
+                    [land.str, new $giper_baza_pack_part([pass, gift, sand_small, sand_big, seal])],
+                ];
+                const pack = $giper_baza_pack.make(parts);
+                $mol_assert_equal(parts, pack.parts());
+            },
+        });
+    })($$ = $_1.$$ || ($_1.$$ = {}));
 })($ || ($ = {}));
 
 ;
@@ -17292,222 +17456,6 @@ var $;
 "use strict";
 var $;
 (function ($_1) {
-    $mol_test({
-        'Watch one value'($) {
-            class App extends $mol_object2 {
-                static $ = $;
-                static dict = new $mol_wire_dict();
-                static lucky() {
-                    return this.dict.get(777);
-                }
-            }
-            __decorate([
-                $mol_wire_solo
-            ], App, "lucky", null);
-            $mol_assert_equal(App.lucky(), undefined);
-            App.dict.set(666, 6666);
-            $mol_assert_equal(App.lucky(), undefined);
-            App.dict.set(777, 7777);
-            $mol_assert_equal(App.lucky(), 7777);
-            App.dict.delete(777);
-            $mol_assert_equal(App.lucky(), undefined);
-        },
-        'Watch item channel'($) {
-            class App extends $mol_object2 {
-                static $ = $;
-                static dict = new $mol_wire_dict();
-                static lucky() {
-                    return this.dict.item(777);
-                }
-            }
-            __decorate([
-                $mol_wire_solo
-            ], App, "lucky", null);
-            $mol_assert_equal(App.lucky(), null);
-            App.dict.item(666, 6666);
-            $mol_assert_equal(App.lucky(), null);
-            App.dict.item(777, 7777);
-            $mol_assert_equal(App.lucky(), 7777);
-            App.dict.item(777, null);
-            $mol_assert_equal(App.lucky(), null);
-        },
-        'Watch size'($) {
-            class App extends $mol_object2 {
-                static $ = $;
-                static dict = new $mol_wire_dict();
-                static size() {
-                    return this.dict.size;
-                }
-            }
-            __decorate([
-                $mol_wire_solo
-            ], App, "size", null);
-            $mol_assert_equal(App.size(), 0);
-            App.dict.set(666, 6666);
-            $mol_assert_equal(App.size(), 1);
-            App.dict.set(777, 7777);
-            $mol_assert_equal(App.size(), 2);
-            App.dict.delete(777);
-            $mol_assert_equal(App.size(), 1);
-        },
-        'Watch for-of'($) {
-            class App extends $mol_object2 {
-                static $ = $;
-                static dict = new $mol_wire_dict();
-                static sum() {
-                    let keys = 0;
-                    let vals = 0;
-                    for (const [key, val] of this.dict) {
-                        keys += key;
-                        vals += val;
-                    }
-                    return [keys, vals];
-                }
-            }
-            __decorate([
-                $mol_wire_solo
-            ], App, "sum", null);
-            $mol_assert_like(App.sum(), [0, 0]);
-            App.dict.set(111, 1111);
-            $mol_assert_like(App.sum(), [111, 1111]);
-            App.dict.set(222, 2222);
-            $mol_assert_like(App.sum(), [333, 3333]);
-            App.dict.delete(111);
-            $mol_assert_like(App.sum(), [222, 2222]);
-        },
-        'Watch forEach'($) {
-            class App extends $mol_object2 {
-                static $ = $;
-                static dict = new $mol_wire_dict();
-                static sum() {
-                    let keys = 0;
-                    let vals = 0;
-                    this.dict.forEach((val, key) => {
-                        keys += key;
-                        vals += val;
-                    });
-                    return [keys, vals];
-                }
-            }
-            __decorate([
-                $mol_wire_solo
-            ], App, "sum", null);
-            $mol_assert_like(App.sum(), [0, 0]);
-            App.dict.set(111, 1111);
-            $mol_assert_like(App.sum(), [111, 1111]);
-            App.dict.set(222, 2222);
-            $mol_assert_like(App.sum(), [333, 3333]);
-            App.dict.delete(111);
-            $mol_assert_like(App.sum(), [222, 2222]);
-        },
-    });
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($_1) {
-    var $$;
-    (function ($$) {
-        $mol_test({
-            "Empty release"($) {
-                const pool = new $mol_memory_pool;
-                $mol_assert_equal(pool.empty(), true);
-                pool.release(0, 0);
-                $mol_assert_equal(pool.acquire(8), 0);
-                $mol_assert_equal(pool.empty(), false);
-                pool.release(0, 8);
-                $mol_assert_equal(pool.empty(), true);
-            },
-            "linear allocation"($) {
-                const pool = new $mol_memory_pool;
-                $mol_assert_equal(pool.acquire(8), 0);
-                $mol_assert_equal(pool.acquire(16), 8);
-                $mol_assert_equal(pool.acquire(32), 24);
-            },
-            "allocation in released"($) {
-                const pool = new $mol_memory_pool;
-                $mol_assert_equal(pool.acquire(8), 0);
-                $mol_assert_equal(pool.acquire(16), 8);
-                pool.release(0, 16);
-                $mol_assert_equal(pool.acquire(8), 0);
-                $mol_assert_equal(pool.acquire(16), 24);
-                $mol_assert_equal(pool.acquire(8), 8);
-            },
-            "space limitation"($) {
-                const pool = new $mol_memory_pool(10);
-                pool.acquire(8);
-                pool.release(2, 4);
-                $mol_assert_fail(() => pool.acquire(6), 'No free space\nneed: 6\nhave: 4');
-            },
-            "double release"($) {
-                const pool = new $mol_memory_pool;
-                $mol_assert_fail(() => pool.release(0, 2), 'Double release');
-                $mol_assert_fail(() => pool.release(2, 2), 'Release out of allocated');
-                pool.acquire(16);
-                pool.release(4, 8);
-                $mol_assert_fail(() => pool.release(4, 8), 'Double release');
-                $mol_assert_fail(() => pool.release(10, 4), 'Double release');
-                $mol_assert_fail(() => pool.release(2, 4), 'Double release');
-            },
-        });
-    })($$ = $_1.$$ || ($_1.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($_1) {
-    var $$;
-    (function ($$) {
-        $mol_test({
-            "faces serial and parse"($) {
-                const land1 = new $giper_baza_link('12345678_12345678');
-                const land2 = new $giper_baza_link('87654321_87654321');
-                const land3 = new $giper_baza_link('87654321_00000000');
-                const peer1 = new $giper_baza_link('12345678');
-                const peer2 = new $giper_baza_link('87654321');
-                const faces1 = new $giper_baza_face_map;
-                faces1.peer_time(peer1.str, $giper_baza_time_now(), 0);
-                faces1.peer_summ(peer1.str, 0);
-                faces1.peer_time(peer2.str, $giper_baza_time_now(), 0);
-                faces1.peer_summ(peer2.str, 64_000);
-                const faces2 = new $giper_baza_face_map;
-                faces2.peer_time(peer1.str, $giper_baza_time_now(), 0);
-                faces2.peer_summ(peer1.str, 1);
-                faces2.peer_time(peer2.str, $giper_baza_time_now(), 1);
-                const faces3 = new $giper_baza_face_map;
-                const parts = [
-                    [land1.str, new $giper_baza_pack_part([], faces1)],
-                    [land2.str, new $giper_baza_pack_part([], faces2)],
-                    [land3.str, new $giper_baza_pack_part([], faces3)],
-                ];
-                const pack = $giper_baza_pack.make(parts);
-                $mol_assert_equal(parts, pack.parts());
-            },
-            "units serial and parse"($) {
-                const land = new $giper_baza_link('12345678_12345678');
-                const pass = $.$giper_baza_auth.grab().pass();
-                const gift = $giper_baza_unit_gift.make();
-                const sand_small = $giper_baza_unit_sand.make(5);
-                const ball = new Uint8Array($giper_baza_unit_sand.size_equator + 5);
-                const sand_big = $giper_baza_unit_sand.make(ball.byteLength);
-                sand_big.ball(ball);
-                const seal = $giper_baza_unit_seal.make(15, true);
-                const parts = [
-                    [land.str, new $giper_baza_pack_part([pass, gift, sand_small, sand_big, seal])],
-                ];
-                const pack = $giper_baza_pack.make(parts);
-                $mol_assert_equal(parts, pack.parts());
-            },
-        });
-    })($$ = $_1.$$ || ($_1.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($_1) {
     var $$;
     (function ($$) {
         $mol_test({
@@ -17728,17 +17676,6 @@ var $;
 var $;
 (function ($_1) {
     $mol_test_mocks.push($ => {
-        class $giper_baza_mine_mock extends $.$giper_baza_mine_temp {
-        }
-        $.$giper_baza_mine = $giper_baza_mine_mock;
-    });
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($_1) {
-    $mol_test_mocks.push($ => {
         class $mol_bus extends $.$mol_bus {
             send() { }
         }
@@ -17758,57 +17695,6 @@ var $;
         }
         $.$giper_baza_land = $giper_baza_land_mock;
     });
-    class $giper_baza_mine_audit extends $giper_baza_mine_temp {
-        units = new Map;
-        units_save(diff) {
-            for (const unit of diff.del) {
-                this.units.delete(unit.path());
-                this.units_persisted.delete(unit);
-            }
-            for (const unit of diff.ins) {
-                this.units.set(unit.path(), unit);
-                this.units_persisted.add(unit);
-            }
-        }
-        units_load() {
-            return [...this.units.values()].map(unit => {
-                let loaded;
-                if (unit instanceof $giper_baza_auth_pass) {
-                    loaded = $giper_baza_auth_pass.from(unit.asArray().slice().buffer);
-                }
-                else {
-                    loaded = $giper_baza_unit_base.narrow(unit.asArray().slice().buffer);
-                }
-                this.units_persisted.add(loaded);
-                return loaded;
-            });
-        }
-    }
-    function $giper_baza_land_saved_orphans(units) {
-        const seals = new Map();
-        const orphans = [];
-        for (const unit of units) {
-            if (!(unit instanceof $giper_baza_unit_seal))
-                continue;
-            for (const hash of unit.hash_list())
-                seals.set(hash.str, unit);
-        }
-        for (const unit of units) {
-            if (!(unit instanceof $giper_baza_unit_sand))
-                continue;
-            const seal = seals.get(unit.hash().str);
-            if (seal?.lord().str === unit.lord().str)
-                continue;
-            orphans.push(unit.path());
-        }
-        return orphans;
-    }
-    function $giper_baza_land_saved_seals_for(units, hash) {
-        return units.filter(unit => {
-            return unit instanceof $giper_baza_unit_seal
-                && unit.hash_list().some(item => item.str === hash.str);
-        });
-    }
     $mol_test({
         async 'Give rights'($) {
             const auth0 = await $.$giper_baza_auth.generate();
@@ -17922,64 +17808,6 @@ var $;
             $mol_assert_equal(area.pass_rank(area.auth().pass()), $giper_baza_rank_rule);
             $mol_assert_equal(area.lord_rank($giper_baza_link.hole), $giper_baza_rank_post('just'));
         },
-        async 'Trusted bus partial Seal keeps durable replacement before reaping'($) {
-            const owner = await $.$giper_baza_auth.generate();
-            const writer = await $.$giper_baza_auth.generate();
-            let current = owner;
-            const store = new Map;
-            const mine_a = new $giper_baza_mine_audit;
-            const mine_b = new $giper_baza_mine_audit;
-            mine_a.units = store;
-            mine_b.units = store;
-            const make_land = (mine) => {
-                const land = $giper_baza_land.make({
-                    $,
-                    auth: () => current,
-                    link: () => owner.pass().lord(),
-                });
-                land.mine = () => mine;
-                return land;
-            };
-            const land_a = make_land(mine_a);
-            land_a.give(writer.pass(), $giper_baza_rank_post('just'));
-            await $mol_wire_async(land_a).units_saving();
-            current = writer;
-            const old_sands = [];
-            for (let index = 0; index < $giper_baza_unit_seal_limit - 1; ++index) {
-                old_sands.push(land_a.post($giper_baza_link.hole, new $giper_baza_link('BUSHEAD0'), new $giper_baza_link(`BUSOLD0${index}`), new Uint8Array([index]), 'term'));
-            }
-            await $mol_wire_async(land_a).units_saving();
-            let saved = mine_a.units_load();
-            $mol_assert_equal($giper_baza_land_saved_orphans(saved), []);
-            $mol_assert_equal($giper_baza_land_saved_seals_for(saved, old_sands[0].hash()).length, 1);
-            const land_b = make_land(mine_b);
-            await $mol_wire_async(land_b).loading();
-            $mol_assert_equal(land_b.unit_seal(land_b.sand_get(old_sands[0].head(), old_sands[0].lord(), old_sands[0].self()))?.alive_items.size, 9);
-            land_a.post($giper_baza_link.hole, new $giper_baza_link('BUSHEAD0'), new $giper_baza_link('BUSFULL0'), new Uint8Array([10]), 'term');
-            await $mol_wire_async(land_a).units_signing();
-            const bus_units = land_a.units_unsaved();
-            const bus_pack = $giper_baza_pack.make([[
-                    land_a.link().str,
-                    new $giper_baza_pack_part(bus_units),
-                ]]);
-            const bus_part = new Map(bus_pack.parts()).get(land_b.link().str);
-            await $mol_wire_async(land_a).units_save(bus_units);
-            for (const unit of bus_part.units) {
-                $giper_baza_unit_trusted_grant(unit);
-                mine_b.units_persisted.add(unit);
-            }
-            await $mol_wire_async(land_b).diff_apply(bus_part.units, 'skip_load');
-            $mol_assert_equal(land_b.unit_seal(land_b.sand_get(old_sands[0].head(), old_sands[0].lord(), old_sands[0].self()))?.alive_items.size, 10);
-            $mol_assert_equal(land_b.units_reaping.size, 1);
-            land_b.post($giper_baza_link.hole, new $giper_baza_link('BUSHEAD0'), new $giper_baza_link('BUSNEXT0'), new Uint8Array([11]), 'term');
-            await $mol_wire_async(land_b).units_saving();
-            saved = mine_a.units_load();
-            $mol_assert_equal($giper_baza_land_saved_seals_for(saved, old_sands[0].hash()).map(seal => seal.size()), [10]);
-            $mol_assert_equal($giper_baza_land_saved_orphans(saved), []);
-            const reloaded = make_land(mine_a);
-            await $mol_wire_async(reloaded).diff_apply(saved, 'skip_load');
-            $mol_assert_equal($giper_baza_land_saved_orphans(saved), []);
-        },
         // async 'Merge text changes'() {
         // 	const base = new $giper_baza_land( 1n, 1 )
         // 	base.chief.as( $hyoo_crowd_text ).str( 'Hello World and fun!' )
@@ -18040,6 +17868,69 @@ var $;
         // 	store.chief.as( $hyoo_crowd_text ).write( 'xxx', 4 )
         // 	$mol_assert_equal( store.chief.as( $hyoo_crowd_list ).list(), [ 'foo', ' xxxbar' ] )
         // },
+    });
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_test({
+        'gift unit type'() {
+            const gift = $giper_baza_unit_gift.make();
+            gift.rank($giper_baza_rank_rule);
+            $mol_assert_equal(gift.kind(), 'gift');
+            $mol_assert_equal(gift.rank(), $giper_baza_rank_rule);
+        },
+        'data unit type'() {
+            const unit = $giper_baza_unit_sand.make(2);
+            unit.ball(new Uint8Array([0xFF, 0xFF]));
+            $mol_assert_equal(unit.kind(), 'sand');
+            $mol_assert_equal(unit.size(), 2);
+            $mol_assert_equal(unit.ball(), new Uint8Array([0xFF, 0xFF]));
+        },
+        'big data unit type'() {
+            const unit = $giper_baza_unit_sand.make(1000);
+            unit.ball(new Uint8Array(1000));
+            $mol_assert_equal(unit.kind(), 'sand');
+            $mol_assert_equal(unit.size(), 1000);
+            $mol_assert_equal(unit.ball(), new Uint8Array(1000));
+        },
+        'gift unit fields'() {
+            const unit = $giper_baza_unit_gift.make();
+            $mol_assert_equal(unit.time(), 0);
+            $mol_assert_equal(unit.mate(), $giper_baza_link.hole);
+            unit.time_tick(0xd1d2d3d4d5d6);
+            unit.mate(new $giper_baza_link('ÆPv6æfj3_9vX08ÆLx'));
+            $mol_assert_equal(unit.time_tick(), 0xd1d2d3d4d5d6);
+            $mol_assert_equal(unit.mate(), new $giper_baza_link('ÆPv6æfj3_9vX08ÆLx'));
+        },
+        'data unit fields'() {
+            const unit = $giper_baza_unit_sand.make(0);
+            $mol_assert_equal(unit.time(), 0);
+            $mol_assert_equal(unit.head(), $giper_baza_link.hole);
+            $mol_assert_equal(unit.self(), $giper_baza_link.hole);
+            $mol_assert_equal(unit.lead(), $giper_baza_link.hole);
+            unit.time_tick(0xd1d2d3d4d5d6);
+            unit.head(new $giper_baza_link('ÆPv6æfj3'));
+            unit.self(new $giper_baza_link('Pv6æfj39'));
+            unit.lead(new $giper_baza_link('v6æfj39v'));
+            $mol_assert_equal(unit.time_tick(), 0xd1d2d3d4d5d6);
+            $mol_assert_equal(unit.head(), new $giper_baza_link('ÆPv6æfj3'));
+            $mol_assert_equal(unit.self(), new $giper_baza_link('Pv6æfj39'));
+            $mol_assert_equal(unit.lead(), new $giper_baza_link('v6æfj39v'));
+        },
+    });
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($_1) {
+    $mol_test_mocks.push($ => {
+        class $giper_baza_mine_mock extends $.$giper_baza_mine_temp {
+        }
+        $.$giper_baza_mine = $giper_baza_mine_mock;
     });
 })($ || ($ = {}));
 
