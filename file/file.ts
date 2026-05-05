@@ -1,4 +1,10 @@
 namespace $ {
+
+	export const $giper_baza_file_query = $hyoo_harp_scheme({
+		BAZA: $hyoo_harp_scheme({}),
+		file: $hyoo_harp_scheme( {}, $mol_data_string ),
+	})
+
 	export class $giper_baza_file extends $giper_baza_dict.with( {
 		/** File name */
 		Name: $giper_baza_atom_text,

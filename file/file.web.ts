@@ -2,17 +2,11 @@ namespace $ {
 	
 	if( typeof window === 'undefined' ) {
 		
-		const Query = $hyoo_harp_scheme({
-			BAZA: $hyoo_harp_scheme({}),
-			file: $hyoo_harp_scheme( {}, $mol_data_string ),
-			// name: $mol_data_optional( $hyoo_harp_scheme( {}, $mol_data_string ) ),
-		})
-		
 		self.addEventListener( 'fetch' , ( event: any )=> {
-			
+
 			const url = new URL( event.request.url )
 			try {
-				var query = Query.parse( url.search )
+				var query = $giper_baza_file_query.parse( url.search )
 			} catch { return }
 			
 			const id = query.file['=']?.[0][0]
