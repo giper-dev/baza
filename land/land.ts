@@ -1190,15 +1190,14 @@ namespace $ {
 		async units_save( units: readonly $giper_baza_unit[] ) {
 			
 			const mine = this.mine()
-			
-			const part = new $giper_baza_pack_part( units )
-			const pack = $giper_baza_pack.make([[ this.link().str, part ]])
-			this.bus().send( pack.buffer )
-			
 			const reaping = [ ... this.units_reaping ]
 			this.units_reaping.clear()
 			
 			await $mol_wire_async( mine ).units_save({ ins: units, del: reaping })
+			
+			const part = new $giper_baza_pack_part( units )
+			const pack = $giper_baza_pack.make([[ this.link().str, part ]])
+			this.bus().send( pack.buffer )
 			
 			if( this.$.$giper_baza_log() ) this.$.$mol_log3_done({
 				place: this,
