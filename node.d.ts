@@ -1463,6 +1463,7 @@ declare namespace $ {
         toJSON(): string;
         [Symbol.toPrimitive](): string;
         [$mol_dev_format_head](): any[];
+        _bin: null | Uint8Array<ArrayBuffer>;
         /** Binary representation (6/12/18/24 bytes). */
         toBin(): Uint8Array<ArrayBuffer>;
         /** Make from integer (6 bytes). */
@@ -2518,7 +2519,8 @@ declare namespace $ {
         sand_encode(sand: $giper_baza_unit_sand): Promise<$giper_baza_unit_sand>;
         sand_load(sand: $giper_baza_unit_sand): void;
         sand_decode(sand: $giper_baza_unit_sand): $giper_baza_vary_type;
-        sand_decrypt(sand: $giper_baza_unit_sand): Uint8Array<ArrayBuffer>;
+        sands_open(sands: readonly $giper_baza_unit_sand[]): Promise<Uint8Array<ArrayBuffer>[]> | undefined;
+        sand_open(sand: $giper_baza_unit_sand): Promise<Uint8Array<ArrayBuffer>>;
         encryptable(): boolean;
         encrypted(next?: boolean): boolean;
         secret(): $mol_crypto_sacred | null;
