@@ -247,7 +247,7 @@ namespace $ {
 				
 				for( const unit of part.units ) {
 					this.units_persisted.add( unit )
-					// $giper_baza_unit_trusted_grant( unit )
+					$giper_baza_unit_trusted_grant( unit )
 				}
 				
 				return part.units

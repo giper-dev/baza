@@ -58,7 +58,9 @@ namespace $ {
 		@ $mol_mem_key
 		units_of( peer: $giper_baza_link | null ) {
 			const head = this.head()
-			return this.land().sand_ordered({ head, peer }).filter( unit => !unit.dead() && unit.self().str !== '' )
+			const units = this.land().sand_ordered({ head, peer }).filter( unit => !unit.dead() && unit.self().str !== '' )
+			this.land().sands_open( units )
+			return units
 		}
 		
 		@ $mol_mem

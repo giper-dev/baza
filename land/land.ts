@@ -545,23 +545,19 @@ namespace $ {
 				}
 			}
 			
-			for( const unit of units ) {
-				if( unit instanceof $giper_baza_unit_seal ) {
-					
-					const lord_pass = this.lord_pass( unit.lord() ) ?? passes.get( unit.lord().str )
-					if( !lord_pass ) return this.$.$mol_fail( new Error( `No Pass for Lord`, { cause: unit.lord() } ) )
-					
-					if( !this.$.$giper_baza_unit_trusted_check( unit ) ) {
-					
-						const mixin = unit.wide() ? mixin_lord : mixin_area
-						const sens = unit.shot().mix( mixin )
-						
-						const checked = $mol_wire_sync( lord_pass.auditor() ).verify( sens, unit.sign() )
-						if( !checked ) return $mol_fail( new Error( `Wrong Sign` ) )
-						
-					}
-					
-				}
+			for( const unit of units ) if( unit instanceof $giper_baza_unit_seal ) {
+				
+				const lord_pass = this.lord_pass( unit.lord() ) ?? passes.get( unit.lord().str )
+				if( !lord_pass ) return this.$.$mol_fail( new Error( `No Pass for Lord`, { cause: unit.lord() } ) )
+				
+				if( this.$.$giper_baza_unit_trusted_check( unit ) ) continue
+				
+				const mixin = unit.wide() ? mixin_lord : mixin_area
+				const sens = unit.shot().mix( mixin )
+				
+				const checked = $mol_wire_sync( lord_pass.auditor() ).verify( sens, unit.sign() )
+				if( !checked ) return $mol_fail( new Error( `Wrong Sign` ) )
+				
 			}
 			
 			for( const unit of units ) {
@@ -1305,7 +1301,8 @@ namespace $ {
 		sand_decode( sand: $giper_baza_unit_sand ): $giper_baza_vary_type {
 			
 			try {
-				const open = this.sand_decrypt( sand )
+				// const open = this.sand_decrypt( sand )
+				const open = sand._open!
 				return $giper_baza_link_base( this.link(), ()=> ( $giper_baza_vary.take( open ) as any )[0] )
 			} catch( error ) {
 				
@@ -1317,12 +1314,51 @@ namespace $ {
 
 		}
 		
-		@ $mol_mem_key
-		sand_decrypt( sand: $giper_baza_unit_sand ): Uint8Array< ArrayBuffer > {
+		// @ $mol_mem_key
+		// sand_decrypt( sand: $giper_baza_unit_sand ): Uint8Array< ArrayBuffer > {
+			
+		// 	if( this.sand_get( sand.head(), sand.lord(), sand.self() ) !== sand ) {
+		// 		for( const id of this.Tine().items_vary() ?? [] ) {
+		// 			const open = this.$.$giper_baza_glob.Land( $giper_baza_vary_cast_link( id! )! ).sand_decrypt( sand )
+		// 			if( open ) return open
+		// 		}
+		// 		return undefined!
+		// 	}
+			
+		// 	const secret = this.secret()
+			
+		// 	if( sand._open ) return sand._open
+			
+		// 	if( !sand._ball ) sand._ball = sand.big() ? $mol_wire_sync( this.mine() ).ball_load( sand ) : sand.data()
+		// 	if( secret && sand._ball && !sand.dead() ) {
+		// 		try {
+		// 			sand._open = $mol_wire_sync( secret ).decrypt( sand._ball, sand.salt() )
+		// 		} catch( error: any ) {
+		// 			if( $mol_fail_catch( error ) ) {
+		// 				if( error.message ) $mol_fail_hidden( error )
+		// 				else $mol_fail_hidden( new Error( `Can't decrypt`, { cause: error } ) )
+		// 			}
+		// 		}
+		// 	} else {
+		// 		sand._open = sand._ball
+		// 	}
+			
+		// 	return sand._open!
+			
+		// }
+		
+		@ $mol_action
+		sands_open( sands: readonly $giper_baza_unit_sand[] ) {
+			const closed = sands.filter( sand => !sand._open )
+			if( !closed.length ) return
+			return Promise.all( closed.map( sand => this.sand_open( sand ) ) )
+		}
+		
+		async sand_open( sand: $giper_baza_unit_sand ): Promise< Uint8Array< ArrayBuffer > > {
 			
 			if( this.sand_get( sand.head(), sand.lord(), sand.self() ) !== sand ) {
 				for( const id of this.Tine().items_vary() ?? [] ) {
-					const open = this.$.$giper_baza_glob.Land( $giper_baza_vary_cast_link( id! )! ).sand_decrypt( sand )
+					const open = await this.$.$giper_baza_glob.Land( $giper_baza_vary_cast_link( id! )! ).sand_open( sand )
 					if( open ) return open
 				}
 				return undefined!
@@ -1332,10 +1368,10 @@ namespace $ {
 			
 			if( sand._open ) return sand._open
 			
-			if( !sand._ball ) sand._ball = sand.big() ? $mol_wire_sync( this.mine() ).ball_load( sand ) : sand.data()
+			if( !sand._ball ) sand._ball = sand.big() ? await $mol_wire_async( this.mine() ).ball_load( sand ) : sand.data()
 			if( secret && sand._ball && !sand.dead() ) {
 				try {
-					sand._open = $mol_wire_sync( secret ).decrypt( sand._ball, sand.salt() )
+					sand._open = await secret.decrypt( sand._ball, sand.salt() )
 				} catch( error: any ) {
 					if( $mol_fail_catch( error ) ) {
 						if( error.message ) $mol_fail_hidden( error )
