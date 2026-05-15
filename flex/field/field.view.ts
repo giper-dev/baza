@@ -25,7 +25,7 @@ namespace $.$$ {
 		}
 		
 		override enum( next?: $giper_baza_vary_type ) {
-			return this.pawn( next as any )?.cast( $giper_baza_atom_vary ).vary( next ) ?? null
+			return this.pawn( next as any )?.cast( $giper_baza_atom ).vary( next ) ?? null
 		}
 		
 		@ $mol_mem
@@ -78,7 +78,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		link_value() {
-			return this.pawn()?.cast( $giper_baza_atom_vary ).vary() ?? null
+			return this.pawn()?.cast( $giper_baza_atom ).vary() ?? null
 		}
 		
 		link_options() {
@@ -91,7 +91,7 @@ namespace $.$$ {
 		}
 		
 		link_remote() {
-			return ( this.pawn().cast( $giper_baza_atom_link_to( ()=> $giper_baza_dict ) ) ).remote()!
+			return ( this.pawn().cast( $giper_baza_atom_link.to( ()=> $giper_baza_dict ) ) ).remote()!
 		}
 		
 		@ $mol_action
@@ -148,13 +148,13 @@ namespace $.$$ {
 		
 		list_pick( next?: $giper_baza_link ) {
 			if( !next ) return null
-			this.pawn( next as any )?.cast( $giper_baza_list_vary ).add( next )
+			this.pawn( next as any )?.cast( $giper_baza_list ).add( next )
 			return null
 		}
 		
 		@ $mol_action
 		list_item_add() {
-			const target = this.pawn( null as any ).cast( $giper_baza_list_link_to( ()=> $giper_baza_flex_subj ) ).make( null )
+			const target = this.pawn( null as any ).cast( $giper_baza_list_link.to( ()=> $giper_baza_flex_subj ) ).make( null )
 			const meta = this.prop().Kind()?.remote()?.link() ?? null
 			if( meta ) target.meta( meta )
 		}
@@ -175,13 +175,13 @@ namespace $.$$ {
 		}
 
 		list_item_receive( sand: $giper_baza_unit_sand, value: string ) {
-			const list = this.pawn()!.cast( $giper_baza_list_vary )
-			this.pawn()?.cast( $giper_baza_list_vary ).splice( [ value ], list.units().indexOf( sand ) )
+			const list = this.pawn()!.cast( $giper_baza_list )
+			this.pawn()?.cast( $giper_baza_list ).splice( [ value ], list.units().indexOf( sand ) )
 		}
 		
 		list_receive( value: string ) {
-			const list = this.pawn()!.cast( $giper_baza_list_vary )
-			this.pawn()?.cast( $giper_baza_list_vary ).splice( [ value ] )
+			const list = this.pawn()!.cast( $giper_baza_list )
+			this.pawn()?.cast( $giper_baza_list ).splice( [ value ] )
 		}
 		
 		list_item_drag_end( sand: $giper_baza_unit_sand, event: DragEvent ) {

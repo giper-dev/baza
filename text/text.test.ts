@@ -5,7 +5,7 @@ namespace $ {
 			
 			const land = $giper_baza_land.make({ $ })
 			const text = land.Data( $giper_baza_text )
-			const list = land.Data( $giper_baza_list_vary )
+			const list = land.Data( $giper_baza_list )
 			$mol_assert_equal( text.str(), '' )
 			$mol_assert_equal( list.items_vary(), [] )
 			

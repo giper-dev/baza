@@ -42,9 +42,9 @@ namespace $ {
 		pawns< Pawn extends typeof $giper_baza_pawn >( Pawn: Pawn | null ): readonly InstanceType< Pawn >[] {
 			const land = this.land()
 			const map = {
-				term: ()=> land.Pawn( Pawn || $giper_baza_atom_vary ),
-				solo: ()=> land.Pawn( Pawn || $giper_baza_atom_vary ),
-				vals: ()=> land.Pawn( Pawn || $giper_baza_list_vary ),
+				term: ()=> land.Pawn( Pawn || $giper_baza_atom ),
+				solo: ()=> land.Pawn( Pawn || $giper_baza_atom ),
+				vals: ()=> land.Pawn( Pawn || $giper_baza_list ),
 				keys: ()=> land.Pawn( Pawn || $giper_baza_dict ),
 			}
 			return this.units().map( unit => map[ unit.tag() ]().Head( unit.self() ) ) as any

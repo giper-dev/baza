@@ -1,6 +1,6 @@
 namespace $ {
 	
-	export class $giper_baza_stat_series extends $giper_baza_atom_list {
+	export class $giper_baza_stat_series extends $giper_baza_atom.of( $mol_schema_list( $mol_schema_float ) ) {
 		
 		@ $mol_action
 		tick( key: number, val: number, count: number ) {
@@ -36,7 +36,7 @@ namespace $ {
 			}
 
 			let last = 0
-			return ( ( this.val( next ) ?? [] ) as number[] ).map( v => last += v )
+			return ( this.val( next ) ?? [] ).map( v => last += v )
 			
 		}
 		

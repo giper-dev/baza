@@ -116,33 +116,33 @@ namespace $ {
 			const home = $.$giper_baza_glob.home().land()
 			const left = home.fork()
 			
-			home.Data( $giper_baza_list_vary ).items_vary([ 'foo', 'xxx' ])
-			$mol_assert_equal( home.Data( $giper_baza_list_vary ).items_vary(), [ 'foo', 'xxx' ] )
-			$mol_assert_equal( left.Data( $giper_baza_list_vary ).items_vary(), [ 'foo', 'xxx' ] )
+			home.Data( $giper_baza_list ).items_vary([ 'foo', 'xxx' ])
+			$mol_assert_equal( home.Data( $giper_baza_list ).items_vary(), [ 'foo', 'xxx' ] )
+			$mol_assert_equal( left.Data( $giper_baza_list ).items_vary(), [ 'foo', 'xxx' ] )
 			
 			left.faces.sync( home.faces )
-			left.Data( $giper_baza_list_vary ).items_vary([ 'foo', 'yyy' ])
-			$mol_assert_equal( left.Data( $giper_baza_list_vary ).items_vary(), [ 'foo', 'yyy' ] )
+			left.Data( $giper_baza_list ).items_vary([ 'foo', 'yyy' ])
+			$mol_assert_equal( left.Data( $giper_baza_list ).items_vary(), [ 'foo', 'yyy' ] )
 			
 			const right = home.fork()
 			right.faces.sync( left.faces )
-			right.Data( $giper_baza_list_vary ).items_vary([ 'foo', 'zzz' ])
-			$mol_assert_equal( right.Data( $giper_baza_list_vary ).items_vary(), [ 'foo', 'zzz' ] )
+			right.Data( $giper_baza_list ).items_vary([ 'foo', 'zzz' ])
+			$mol_assert_equal( right.Data( $giper_baza_list ).items_vary(), [ 'foo', 'zzz' ] )
 			
 			const both = home.fork()
-			$mol_assert_equal( both.Data( $giper_baza_list_vary ).items_vary(), [ 'foo', 'xxx' ] )
+			$mol_assert_equal( both.Data( $giper_baza_list ).items_vary(), [ 'foo', 'xxx' ] )
 			
 			both.Tine().items_vary([ right.link() ])
-			$mol_assert_equal( both.Data( $giper_baza_list_vary ).items_vary(), [ 'foo', 'zzz' ] )
+			$mol_assert_equal( both.Data( $giper_baza_list ).items_vary(), [ 'foo', 'zzz' ] )
 			
 			both.Tine().items_vary([ left.link() ])
-			$mol_assert_equal( both.Data( $giper_baza_list_vary ).items_vary(), [ 'foo', 'yyy' ] )
+			$mol_assert_equal( both.Data( $giper_baza_list ).items_vary(), [ 'foo', 'yyy' ] )
 			
 			both.Tine().items_vary([ right.link(), left.link() ])
-			$mol_assert_equal( both.Data( $giper_baza_list_vary ).items_vary(), [ 'foo', 'yyy' ] )
+			$mol_assert_equal( both.Data( $giper_baza_list ).items_vary(), [ 'foo', 'yyy' ] )
 			
 			both.Tine().items_vary([ left.link(), right.link() ])
-			$mol_assert_equal( both.Data( $giper_baza_list_vary ).items_vary(), [ 'foo', 'zzz' ] )
+			$mol_assert_equal( both.Data( $giper_baza_list ).items_vary(), [ 'foo', 'zzz' ] )
 			
 		} ),
 		

@@ -1,7 +1,7 @@
 namespace $ {
 
 	/** Reactive convergent list. */
-	export class $giper_baza_list_vary extends $giper_baza_pawn {
+	export class $giper_baza_list extends $giper_baza_pawn {
 		
 		static tag = $giper_baza_unit_sand_tag[ $giper_baza_unit_sand_tag.vals ] as keyof typeof $giper_baza_unit_sand_tag
 		
@@ -122,128 +122,130 @@ namespace $ {
 			)
 		}
 		
-	}
-
-	/** Mergeable list of atomic vary type factory */
-	export function $giper_baza_list<
-		Parse extends $mol_data_value
-	>( parse: Parse ) {
-
-		abstract class $giper_baza_list extends $giper_baza_list_vary {
-
-			static parse = parse;
-
-			@ $mol_mem
-			items( next?: readonly ReturnType< Parse >[] ): readonly ReturnType< Parse >[] {
-				return this.items_vary( next?.map( parse ) ).map( parse )
-			}
-
-			static toString() {
-				return this === $giper_baza_list ? '$giper_baza_list<' + this.$.$mol_func_name( parse ) + '>' : super.toString()
+		/** Mergeable list of atomic vary type factory */
+		@ $mol_memo_key.method
+		static of< Init extends new( ... args: any[] )=> any >( init: Init ) {
+	
+			const Item = $mol_schema_instance( init )
+			type Item = typeof Item
+			
+			class $giper_baza_list_of extends $giper_baza_list {
+	
+				static Item = Item
+	
+				@ $mol_mem
+				items( next?: readonly Item['default'][] ): readonly Item['default'][] {
+					if( next ) for( const item of next ) Item.guard( item )
+					return this.items_vary( next ).map( item => Item.cast( item ) )
+				}
+	
+				static toString() {
+					return this === $giper_baza_list_of ? '$giper_baza_list.of<' + Item + '>' : super.toString()
+				}
+				
 			}
 			
+			return $giper_baza_list_of
 		}
 
-		return $giper_baza_list
 	}
 
 	/** Mergeable list of atomic non empty binaries */
-	export class $giper_baza_list_bin extends $giper_baza_list( $giper_baza_vary_cast_blob ) {}
+	export class $giper_baza_list_bin extends $giper_baza_list.of( Uint8Array ) {}
 	/** Mergeable list of atomic booleans */
-	export class $giper_baza_list_bool extends $giper_baza_list( $giper_baza_vary_cast_bool ) {}
+	export class $giper_baza_list_bool extends $giper_baza_list.of( $mol_schema_boolean ) {}
 	/** Mergeable list of atomic int64s */
-	export class $giper_baza_list_int extends $giper_baza_list( $giper_baza_vary_cast_bint ) {}
+	export class $giper_baza_list_int extends $giper_baza_list.of( $mol_schema_bigint ) {}
 	/** Mergeable list of atomic float64s */
-	export class $giper_baza_list_real extends $giper_baza_list( $giper_baza_vary_cast_real ) {}
-	/** Mergeable list of atomic Links */
-	export class $giper_baza_list_link extends $giper_baza_list( $giper_baza_vary_cast_link ) {}
+	export class $giper_baza_list_real extends $giper_baza_list.of( $mol_schema_float ) {}
 	/** Mergeable list of atomic strings */
-	export class $giper_baza_list_str extends $giper_baza_list( $giper_baza_vary_cast_text ) {}
+	export class $giper_baza_list_str extends $giper_baza_list.of( $mol_schema_string ) {}
 	/** Mergeable list of atomic iso8601 time moments */
-	export class $giper_baza_list_time extends $giper_baza_list( $giper_baza_vary_cast_time ) {}
+	export class $giper_baza_list_time extends $giper_baza_list.of( $mol_time_moment ) {}
 	/** Mergeable list of atomic iso8601 time durations */
-	export class $giper_baza_list_dur extends $giper_baza_list( $giper_baza_vary_cast_dura ) {}
+	export class $giper_baza_list_dur extends $giper_baza_list.of( $mol_time_duration ) {}
 	/** Mergeable list of atomic iso8601 time intervals */
-	export class $giper_baza_list_range extends $giper_baza_list( $giper_baza_vary_cast_span ) {}
+	export class $giper_baza_list_range extends $giper_baza_list.of( $mol_time_interval ) {}
 	/** Mergeable list of atomic plain old js objects */
-	export class $giper_baza_list_json extends $giper_baza_list( $giper_baza_vary_cast_dict ) {}
+	export class $giper_baza_list_json extends $giper_baza_list.of( $mol_schema_dict([ $mol_schema_string, $mol_schema_any ]) ) {}
 	/** Mergeable list of atomic plain old js arrays */
-	export class $giper_baza_list_jsan extends $giper_baza_list( $giper_baza_vary_cast_list ) {}
+	export class $giper_baza_list_jsan extends $giper_baza_list.of( $mol_schema_list( $mol_schema_any ) ) {}
 	/** Mergeable list of atomic DOMs */
-	export class $giper_baza_list_dom extends $giper_baza_list( $giper_baza_vary_cast_elem ) {}
+	export class $giper_baza_list_dom extends $giper_baza_list.of( Element ) {}
 	/** Mergeable list of atomic Trees*/
-	export class $giper_baza_list_tree extends $giper_baza_list( $giper_baza_vary_cast_tree ) {}
+	export class $giper_baza_list_tree extends $giper_baza_list.of( $mol_tree2 ) {}
 
-	export class $giper_baza_list_link_base extends $giper_baza_list_link {
-	}
+	export class $giper_baza_list_link extends $giper_baza_list.of( $giper_baza_link ) {
 	
-	/** Mergeable List of atomic Links to some Pawn type */
-	export function $giper_baza_list_link_to<
-		const Value extends any,
-		Vals extends readonly any[] = readonly $mol_type_result< $mol_type_result< Value > >[]
-	>( Value: Value ) {
-		
-		class $giper_baza_list_link_to extends $giper_baza_list_link_base {
+		/** Mergeable List of atomic Links to some Pawn type */
+		static to< const Value extends any >( Value: Value ) {
 			
-			static Value = $mol_memo.func( Value as any ) as Value
-			
-			static toString() {
-				return this === $giper_baza_list_link_to ? '$giper_baza_list_link_to[ []=> ' + ( Value as any )() + ' ]' : super.toString()
-			}
-			
-			/** List of linked Pawns */
-			@ $mol_mem
-			remote_list( next?: Vals ) {
-				const glob = this.$.$giper_baza_glob
-				const Pawn = ( Value as any )()
-				return this.items_vary( next?.map( item => ( item as $giper_baza_pawn ).link() ) )
-					.map( $giper_baza_vary_cast_link )
-					.filter( $mol_guard_defined )
-					.map( link => glob.Pawn( link, Pawn ) ) as readonly any[] as Vals
-			}
-			
-			@ $mol_action
-			remote_add( item: Vals[number] ) {
-				this.add( item.link() )
-			}
-			
-			/** Make new Pawn and place it at end. */
-			@ $mol_action
-			make( config: null | number | $giper_baza_rank_preset | $giper_baza_land ): Vals[number] {
+			class $giper_baza_list_link_to extends $giper_baza_list_link {
 				
-				const Pawn = ( Value as any )() as typeof $giper_baza_pawn
-				let pawn: Vals[number]
+				Value = $mol_memo.func( Value as any ) as Value
 				
-				if( config === null || typeof config === 'number' ) {
-					
-					const self = this.land().self_make( config || undefined )
-					pawn = this.land().Pawn( Pawn ).Head( self )
-					this.splice([ pawn.link() ])
-					
-				} else if( config instanceof $giper_baza_land ) {
-					
-					const land = config.area_make()
-					this.splice([ land.link() ])
-					pawn = land.Pawn( Pawn ).Data()
-					
-				} else if( config ) {
-					
-					const land = this.$.$giper_baza_glob.land_grab( config )
-					this.splice([ land.link() ])
-					pawn = land.Pawn( Pawn ).Data()
-					
-				} else {
-					return $mol_fail( new Error( 'Wrong config' ) )
+				static toString() {
+					return this === $giper_baza_list_link_to ? '$giper_baza_list_link_to[ []=> ' + ( Value as any )() + ' ]' : super.toString()
 				}
 				
-				if( Pawn.meta ) pawn.meta( Pawn.meta )
-				return pawn
-			
+				/** List of linked Pawns */
+				@ $mol_mem
+				remote_list( next?: readonly $mol_type_result< $mol_type_result< this['Value'] > >[] ) {
+					const glob = this.$.$giper_baza_glob
+					const Pawn = ( Value as any )()
+					return this.items( next?.map( item => ( item as $giper_baza_pawn ).link() ) )
+						.map( link => glob.Pawn( link, Pawn ) ) as readonly any[] as readonly $mol_type_result< $mol_type_result< this['Value'] > >[]
+				}
+				
+				@ $mol_action
+				remote_add( item: $mol_type_result< $mol_type_result< this['Value'] > > & $giper_baza_pawn ) {
+					this.add( item.link() )
+				}
+				
+				/** Make new Pawn and place it at end. */
+				@ $mol_action
+				make( config: null | number | $giper_baza_rank_preset | $giper_baza_land ): $mol_type_result< $mol_type_result< this['Value'] > > {
+					
+					const Pawn = ( Value as any )() as typeof $giper_baza_pawn
+					let pawn: $giper_baza_pawn
+					
+					if( config === null || typeof config === 'number' ) {
+						
+						const self = this.land().self_make( config || undefined )
+						pawn = this.land().Pawn( Pawn ).Head( self )
+						this.splice([ pawn.link() ])
+						
+					} else if( config instanceof $giper_baza_land ) {
+						
+						const land = config.area_make()
+						this.splice([ land.link() ])
+						pawn = land.Pawn( Pawn ).Data()
+						
+					} else if( config ) {
+						
+						const land = this.$.$giper_baza_glob.land_grab( config )
+						this.splice([ land.link() ])
+						pawn = land.Pawn( Pawn ).Data()
+						
+					} else {
+						return $mol_fail( new Error( 'Wrong config' ) )
+					}
+					
+					if( Pawn.meta ) pawn.meta( Pawn.meta )
+					return pawn as $mol_type_result< $mol_type_result< this['Value'] > >
+				
+				}
+				
 			}
 			
+			return $giper_baza_list_link_to
 		}
 		
-		return $giper_baza_list_link_to
+	}
+	
+	/** @deprecated Use $giper_baza_list_link.to( Target ) */
+	export function $giper_baza_list_link_to< const Value extends any >( Value: Value ) {
+		return $giper_baza_list_link.to( Value )
 	}
 	
 }
