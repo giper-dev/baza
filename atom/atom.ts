@@ -109,31 +109,45 @@ namespace $ {
 	/** @deprecated Use $giper_baza_atom */
 	export let $giper_baza_atom_vary = $giper_baza_atom
 	
-	/** @deprecated inline this value */
-	export let $giper_baza_atom_blob = $giper_baza_atom.of( Uint8Array )
-	/** @deprecated inline this value */
-	export let $giper_baza_atom_bool = $giper_baza_atom.of( $mol_schema_boolean )
-	/** @deprecated inline this value */
-	export let $giper_baza_atom_bint = $giper_baza_atom.of( $mol_schema_bigint )
-	/** @deprecated inline this value */
-	export let $giper_baza_atom_real = $giper_baza_atom.of( $mol_schema_float )
-	/** @deprecated inline this value */
-	export let $giper_baza_atom_text = $giper_baza_atom.of( $mol_schema_string )
-	/** @deprecated inline this value */
-	export let $giper_baza_atom_time = $giper_baza_atom.of( $mol_time_moment )
-	/** @deprecated inline this value */
-	export let $giper_baza_atom_dura = $giper_baza_atom.of( $mol_time_duration )
-	/** @deprecated inline this value */
-	export let $giper_baza_atom_span = $giper_baza_atom.of( $mol_time_interval )
-	/** @deprecated inline this value */
-	export let $giper_baza_atom_dict = $giper_baza_atom.of( $mol_schema_dict([ $mol_schema_string, $mol_schema_any ]) )
-	/** @deprecated inline this value */
-	export let $giper_baza_atom_list = $giper_baza_atom.of( $mol_schema_list( $mol_schema_any ) )
-	/** @deprecated inline this value */
-	export let $giper_baza_atom_elem = $giper_baza_atom.of( Element )
-	/** @deprecated inline this value */
-	export let $giper_baza_atom_tree = $giper_baza_atom.of( $mol_tree2 )
 	
+	/** Atomic buffer */
+	export class $giper_baza_atom_blob extends $giper_baza_atom.of( Uint8Array ) {}
+	
+	/** Atomic boolean */
+	export class $giper_baza_atom_bool extends $giper_baza_atom.of( $mol_schema_boolean ) {}
+	
+	/** Atomic big integer */
+	export class $giper_baza_atom_bint extends $giper_baza_atom.of( $mol_schema_bigint ) {}
+	
+	/** Atomic float number */
+	export class $giper_baza_atom_real extends $giper_baza_atom.of( $mol_schema_float ) {}
+	
+	/** Atomic string */
+	export class $giper_baza_atom_text extends $giper_baza_atom.of( $mol_schema_string ) {}
+	
+	/** Atomic time moment */
+	export class $giper_baza_atom_time extends $giper_baza_atom.of( $mol_time_moment ) {}
+	
+	/** Atomic time duration */
+	export class $giper_baza_atom_dura extends $giper_baza_atom.of( $mol_time_duration ) {}
+	
+	/** Atomic time interval */
+	export class $giper_baza_atom_span extends $giper_baza_atom.of( $mol_time_interval ) {}
+	
+	/** Atomic dictionary */
+	export class $giper_baza_atom_dict extends $giper_baza_atom.of( $mol_schema_dict([ $mol_schema_string, $mol_schema_any ]) ) {}
+	
+	/** Atomic array */
+	export class $giper_baza_atom_list extends $giper_baza_atom.of( $mol_schema_list( $mol_schema_any ) ) {}
+	
+	/** Atomic DOM element */
+	export class $giper_baza_atom_elem extends $giper_baza_atom.of( Element ) {}
+	
+	/** Atomic Tree */
+	export class $giper_baza_atom_tree extends $giper_baza_atom.of( $mol_tree2 ) {}
+	
+	
+	/** Atomic Link */
 	export class $giper_baza_atom_link extends $giper_baza_atom.of( $giper_baza_link ) {
 		
 		/** Atomic link to some Pawn type register */

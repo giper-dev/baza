@@ -150,31 +150,45 @@ namespace $ {
 
 	}
 
-	/** Mergeable list of atomic non empty binaries */
+	
+	/** Mergeable list of atomic buffers */
 	export class $giper_baza_list_bin extends $giper_baza_list.of( Uint8Array ) {}
+	
 	/** Mergeable list of atomic booleans */
 	export class $giper_baza_list_bool extends $giper_baza_list.of( $mol_schema_boolean ) {}
-	/** Mergeable list of atomic int64s */
+	
+	/** Mergeable list of atomic big integers */
 	export class $giper_baza_list_int extends $giper_baza_list.of( $mol_schema_bigint ) {}
-	/** Mergeable list of atomic float64s */
+	
+	/** Mergeable list of atomic floats */
 	export class $giper_baza_list_real extends $giper_baza_list.of( $mol_schema_float ) {}
+	
 	/** Mergeable list of atomic strings */
 	export class $giper_baza_list_str extends $giper_baza_list.of( $mol_schema_string ) {}
-	/** Mergeable list of atomic iso8601 time moments */
+	
+	/** Mergeable list of atomic time moments */
 	export class $giper_baza_list_time extends $giper_baza_list.of( $mol_time_moment ) {}
-	/** Mergeable list of atomic iso8601 time durations */
+	
+	/** Mergeable list of atomic time durations */
 	export class $giper_baza_list_dur extends $giper_baza_list.of( $mol_time_duration ) {}
-	/** Mergeable list of atomic iso8601 time intervals */
+	
+	/** Mergeable list of atomic time intervals */
 	export class $giper_baza_list_range extends $giper_baza_list.of( $mol_time_interval ) {}
-	/** Mergeable list of atomic plain old js objects */
-	export class $giper_baza_list_json extends $giper_baza_list.of( $mol_schema_dict([ $mol_schema_string, $mol_schema_any ]) ) {}
-	/** Mergeable list of atomic plain old js arrays */
-	export class $giper_baza_list_jsan extends $giper_baza_list.of( $mol_schema_list( $mol_schema_any ) ) {}
-	/** Mergeable list of atomic DOMs */
+	
+	/** Mergeable list of atomic dictionaries */
+	export class $giper_baza_list_dict extends $giper_baza_list.of( $mol_schema_dict([ $mol_schema_string, $mol_schema_any ]) ) {}
+	
+	/** Mergeable list of atomic arrays */
+	export class $giper_baza_list_list extends $giper_baza_list.of( $mol_schema_list( $mol_schema_any ) ) {}
+	
+	/** Mergeable list of atomic DOM elements */
 	export class $giper_baza_list_dom extends $giper_baza_list.of( Element ) {}
-	/** Mergeable list of atomic Trees*/
+	
+	/** Mergeable list of atomic Trees */
 	export class $giper_baza_list_tree extends $giper_baza_list.of( $mol_tree2 ) {}
-
+	
+	
+	/** Mergeable list of atomic Links */
 	export class $giper_baza_list_link extends $giper_baza_list.of( $giper_baza_link ) {
 	
 		/** Mergeable List of atomic Links to some Pawn type */
