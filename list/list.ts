@@ -182,7 +182,7 @@ namespace $ {
 	export class $giper_baza_list_list extends $giper_baza_list.of( $mol_schema_list( $mol_schema_any ) ) {}
 	
 	/** Mergeable list of atomic DOM elements */
-	export class $giper_baza_list_dom extends $giper_baza_list.of( Element ) {}
+	export class $giper_baza_list_dom extends $giper_baza_list.of( $mol_dom.Element ) {}
 	
 	/** Mergeable list of atomic Trees */
 	export class $giper_baza_list_tree extends $giper_baza_list.of( $mol_tree2 ) {}
