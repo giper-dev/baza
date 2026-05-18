@@ -120,7 +120,7 @@ namespace $ {
 			}
 			
 			const words = next.match( $giper_baza_text_tokens ) ?? []
-			this.cast( $giper_baza_list_vary ).splice( words, from, to )
+			this.cast( $giper_baza_list ).splice( words, from, to )
 			
 			return this
 		}

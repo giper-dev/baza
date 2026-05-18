@@ -8,20 +8,20 @@ namespace $.$$ {
 			const dict = land.Pawn( $giper_baza_dict ).Data()
 			$mol_assert_equal( dict.keys(), [] )
 			
-			dict.dive( 123, $giper_baza_atom_vary, null )
-			dict.dive( 'xxx', $giper_baza_atom_vary, null )
+			dict.dive( 123, $giper_baza_atom, null )
+			dict.dive( 'xxx', $giper_baza_atom, null )
 			$mol_assert_equal( dict.keys(), [ 'xxx', 123 ] )
 			$mol_assert_equal( dict.has( 123 ), true )
 			$mol_assert_equal( dict.has( 'xxx' ), true )
 			$mol_assert_equal( dict.has( 'yyy' ), false )
-			$mol_assert_equal( dict.dive( 123, $giper_baza_atom_vary )!.vary(), null )
-			$mol_assert_equal( dict.dive( 'xxx', $giper_baza_atom_vary )!.vary(), null )
+			$mol_assert_equal( dict.dive( 123, $giper_baza_atom )!.vary(), null )
+			$mol_assert_equal( dict.dive( 'xxx', $giper_baza_atom )!.vary(), null )
 			
-			dict.dive( 123, $giper_baza_atom_vary )!.vary( 777 )
-			$mol_assert_equal( dict.dive( 123, $giper_baza_atom_vary )!.vary(), 777 )
+			dict.dive( 123, $giper_baza_atom )!.vary( 777 )
+			$mol_assert_equal( dict.dive( 123, $giper_baza_atom )!.vary(), 777 )
 
-			dict.dive( 'xxx', $giper_baza_list_vary )!.items_vary([ 'foo', 'bar' ])
-			$mol_assert_equal( dict.dive( 'xxx', $giper_baza_list_vary )!.items_vary(), [ 'foo', 'bar' ] )
+			dict.dive( 'xxx', $giper_baza_list )!.items_vary([ 'foo', 'bar' ])
+			$mol_assert_equal( dict.dive( 'xxx', $giper_baza_list )!.items_vary(), [ 'foo', 'bar' ] )
 			
 			dict.has( 123, false )
 			$mol_assert_equal( dict.keys(), [ 'xxx' ] )
@@ -36,17 +36,17 @@ namespace $.$$ {
 			const dict1 = land1.Pawn( $giper_baza_dict ).Data()
 			const dict2 = land2.Pawn( $giper_baza_dict ).Data()
 
-			dict1.dive( 123, $giper_baza_atom_vary, null )!.vary( 666 )
+			dict1.dive( 123, $giper_baza_atom, null )!.vary( 666 )
 			land2.faces.tick()
-			dict2.dive( 123, $giper_baza_atom_vary, null )!.vary( 777 )
+			dict2.dive( 123, $giper_baza_atom, null )!.vary( 777 )
 			await $mol_wire_async( land1 ).units_steal( land2 )
-			$mol_assert_equal( dict1.dive( 123, $giper_baza_atom_vary )!.vary(), 777 )
+			$mol_assert_equal( dict1.dive( 123, $giper_baza_atom )!.vary(), 777 )
 			
-			dict1.dive( 'xxx', $giper_baza_list_vary, null )!.items_vary([ 'foo' ])
+			dict1.dive( 'xxx', $giper_baza_list, null )!.items_vary([ 'foo' ])
 			land2.faces.tick()
-			dict2.dive( 'xxx', $giper_baza_list_vary, null )!.items_vary([ 'bar' ])
+			dict2.dive( 'xxx', $giper_baza_list, null )!.items_vary([ 'bar' ])
 			await $mol_wire_async( land1 ).units_steal( land2 )
-			$mol_assert_equal( dict1.dive( 'xxx', $giper_baza_list_vary )!.items_vary(), [ 'bar', 'foo' ] )
+			$mol_assert_equal( dict1.dive( 'xxx', $giper_baza_list )!.items_vary(), [ 'bar', 'foo' ] )
 
 		},
 		
@@ -54,18 +54,18 @@ namespace $.$$ {
 			
 			class User extends $giper_baza_dict.with({
 				Title: $giper_baza_atom_text,
-				Account: $giper_baza_atom_link_to( ()=> Account ),
-				Articles: $giper_baza_list_link_to( ()=> Article ),
+				Account: $giper_baza_atom_link.to( ()=> Account ),
+				Articles: $giper_baza_list_link.to( ()=> Article ),
 			}) {}
 			
 			class Account extends $giper_baza_dict.with({
 				Title: $giper_baza_atom_text,
-				User: $giper_baza_atom_link_to( ()=> User ),
+				User: $giper_baza_atom_link.to( ()=> User ),
 			}) {}
 			
 			class Article extends $giper_baza_dict.with({
 				Title: $giper_baza_dict_to( $giper_baza_atom_text ),
-				Author: $giper_baza_atom_link_to( ()=> User ),
+				Author: $giper_baza_atom_link.to( ()=> User ),
 			}) {}
 			
 			const land = $.$giper_baza_glob.home().land()

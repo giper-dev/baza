@@ -1,6 +1,6 @@
 namespace $ {
 	/** Mergeable dictionary Pawn with any keys mapped to any embedded Pawn types */
-	export class $giper_baza_dict extends $giper_baza_list_vary {
+	export class $giper_baza_dict extends $giper_baza_list {
 		
 		static tag = $giper_baza_unit_sand_tag[ $giper_baza_unit_sand_tag.keys ] as keyof typeof $giper_baza_unit_sand_tag
 		

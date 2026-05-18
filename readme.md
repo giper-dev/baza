@@ -119,7 +119,7 @@ export class $my_organ extends $giper_baza_entity.with({
 	Weight: $giper_baza_atom_real, // atomic double size float
 	Photo: $giper_baza_atom_blob, // atomic blob
 	Description: $giper_baza_text, // mergeable long text
-	Contains: $giper_baza_list_link_to( ()=> $my_organ ), // reference to same Model type
+	Contains: $giper_baza_list_link.to( ()=> $my_organ ), // reference to same Model type
 }) {}
 
 /** Sex Model */
@@ -131,9 +131,9 @@ export class $my_person extends $giper_baza_entity.with({
 	Birthday: $giper_baza_atom_time, // atomic time moment
 	Sex: $my_sex, // narrowed custom type
 	Heart: $my_organ, // embedded Model
-	Parent: $giper_baza_atom_link_to( ()=> $my_person ), // reference to Model
-	Kids: $giper_baza_list_link_to( ()=> $my_person ), // list of references to Models
-	/** @deprecated Use Parent */ Father: $giper_baza_atom_link_to( ()=> $my_person ),
+	Parent: $giper_baza_atom_link.to( ()=> $my_person ), // reference to Model
+	Kids: $giper_baza_list_link.to( ()=> $my_person ), // list of references to Models
+	/** @deprecated Use Parent */ Father: $giper_baza_atom_link.to( ()=> $my_person ),
 }) {
 	
 	// Alias with custom logic
@@ -225,14 +225,12 @@ export class $my_app extends $mol_object {
 
 ![](diagram/crus-reg.png)
 
-- `$giper_baza_atom` - atomic narrowed register factory
-- `$giper_baza_atom_vary` - atomic dynamic register
+- `$giper_baza_atom` - atomic register
 - `$giper_baza_atom_blob` - atomic non empty binary register
 - `$giper_baza_atom_bool` - atomic boolean register
 - `$giper_baza_atom_blob` - atomic int64 register
 - `$giper_baza_atom_real` - atomic float64 register
-- `$giper_baza_atom_link` - atomic some reference register
-- `$giper_baza_atom_link_to` - atomic reference to some Pawn type register
+- `$giper_baza_atom_link` - atomic link to pawn register
 - `$giper_baza_atom_text` - atomic string register
 - `$giper_baza_atom_time` - atomic iso8601 time moment register
 - `$giper_baza_atom_dura` - atomic iso8601 time duration register
@@ -254,8 +252,7 @@ export class $my_app extends $mol_object {
 - `$giper_baza_list_bool` - mergeable list of atomic booleans
 - `$giper_baza_list_blob` - mergeable list of atomic int64s
 - `$giper_baza_list_real` - mergeable list of atomic float64s
-- `$giper_baza_list_link` - mergeable list of atomic some references
-- `$giper_baza_list_link_to` - mergeable list of atomic references to some Pawn type
+- `$giper_baza_list_link` - mergeable list of atomic links to pawns
 - `$giper_baza_list_text` - mergeable list of atomic strings
 - `$giper_baza_list_time` - mergeable list of atomic iso8601 time moments
 - `$giper_baza_list_dura` - mergeable list of atomic iso8601 time durations

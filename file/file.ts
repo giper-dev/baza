@@ -74,7 +74,7 @@ namespace $ {
 			
 		}
 		
-		chunks( next?: readonly ( Uint8Array< ArrayBuffer > | null )[] ) {
+		chunks( next?: readonly Uint8Array< ArrayBuffer >[] ) {
 			return ( this.Chunks( next )?.items( next )?.filter( $mol_guard_defined ) ?? [] ) as  Uint8Array< ArrayBuffer >[]
 		}
 		

@@ -5,8 +5,8 @@ namespace $ {
 		'Atom <=> List'( $ ) {
 			
 			const land = $giper_baza_land.make({ $ })
-			const reg = land.Pawn( $giper_baza_atom_vary ).Data()
-			const list = land.Pawn( $giper_baza_list_vary ).Data()
+			const reg = land.Pawn( $giper_baza_atom ).Data()
+			const list = land.Pawn( $giper_baza_list ).Data()
 			
 			reg.vary( 1 )
 			$mol_assert_equal( list.items_vary(), [1] )
@@ -28,21 +28,21 @@ namespace $ {
 		'Atom <=> Dict'( $ ) {
 			
 			const land = $giper_baza_land.make({ $ })
-			const reg = land.Pawn( $giper_baza_atom_vary ).Data()
+			const reg = land.Pawn( $giper_baza_atom ).Data()
 			const dict = land.Pawn( $giper_baza_dict ).Data()
 			
 			reg.vary( 1 )
 			$mol_assert_equal( dict.keys(), [1] )
 			
-			dict.dive( 2, $giper_baza_atom_vary, null )!.vary( 'foo' )
+			dict.dive( 2, $giper_baza_atom, null )!.vary( 'foo' )
 			$mol_assert_equal( reg.vary(), 2 )
 			
 			dict.has( 1, false )
 			$mol_assert_equal( reg.vary(), 2 )
 			
 			reg.vary( 3 )
-			$mol_assert_equal( dict.dive( 2, $giper_baza_atom_vary )?.vary() ?? null, null )
-			$mol_assert_equal( dict.dive( 3, $giper_baza_atom_vary )!.vary(), 'foo' )
+			$mol_assert_equal( dict.dive( 2, $giper_baza_atom )?.vary() ?? null, null )
+			$mol_assert_equal( dict.dive( 3, $giper_baza_atom )!.vary(), 'foo' )
 			
 		},
 		

@@ -6,11 +6,11 @@ namespace $.$$ {
 		}
 		
 		value() {
-			return this.pawn().cast( $giper_baza_atom_vary ).vary()
+			return this.pawn().cast( $giper_baza_atom ).vary()
 		}
 		
 		items() {
-			return this.pawn().cast( $giper_baza_list_vary ).items_vary()
+			return this.pawn().cast( $giper_baza_list ).items_vary()
 		}
 		
 		@ $mol_mem
@@ -72,13 +72,13 @@ namespace $.$$ {
 		
 		add_key( event: Event ) {
 			if( !this.expandable() ) this.expanded( true )
-			this.pawn().cast( $giper_baza_list_vary ).has( this.key_new(), true, 'solo' )
+			this.pawn().cast( $giper_baza_list ).has( this.key_new(), true, 'solo' )
 			this.key_new( '' )
 		}
 		
 		add_value( event: Event ) {
 			if( !this.expandable() ) this.expanded( true )
-			this.pawn().cast( $giper_baza_list_vary ).splice([ this.value_new() ])
+			this.pawn().cast( $giper_baza_list ).splice([ this.value_new() ])
 			this.value_new( '' )
 		}
 		

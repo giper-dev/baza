@@ -47,28 +47,34 @@ namespace $ {
 			return $mol_dev_format_span( { 'color': 'darkorange' }, this.str || '_' )
 		}
 		
+		_bin = null as null | Uint8Array< ArrayBuffer >
+		
 		/** Binary representation (6/12/18/24 bytes). */
 		toBin(): Uint8Array< ArrayBuffer > {
+			if( this._bin ) return this._bin
 			const str = this.relate( _base ).str
 			const norm = str && str
 				.replace( /^___/, '' )
 				.split( '_' )
 				.map( numb => numb || 'AAAAAAAA' )
 				.join( '' )
-			return $mol_base64_ae_decode( norm )
+			return this._bin = $mol_base64_ae_decode( norm )
 		}
 		
 		/** Make from integer (6 bytes). */
 		static from_int( int: number ) {
-			return new this(
-				$mol_base64_ae_encode( new Uint8Array( new BigUint64Array([ BigInt( int ) ]).buffer, 0, 6 ) )
-			)
+			const bin = new Uint8Array( new BigUint64Array([ BigInt( int ) ]).buffer, 0, 6 )
+			const link =  new this( $mol_base64_ae_encode( bin ) )
+			link._bin = bin
+			return link
 		}
 		
 		/** Read from binary (6/12/18/24 bytes). */
 		static from_bin( bin: Uint8Array< ArrayBuffer > ) {
 			const str = [ ... $mol_base64_ae_encode( bin ).match( /(.{8})/g ) ?? [] ].join( '_' )
-			return new this( str ).resolve( _base )
+			const link = new this( str ).resolve( _base )
+			link._bin = bin
+			return link
 		}
 		
 		static _hash_cache = new WeakMap< ArrayBufferView, $giper_baza_link >()
@@ -141,7 +147,7 @@ namespace $ {
 		
 		mix( mixin: Uint8Array< ArrayBuffer > | $giper_baza_link ) {
 			if( mixin instanceof $giper_baza_link ) mixin = mixin.toBin()
-			const mix = this.toBin()
+			const mix = this.toBin().slice()
 			for( let i = 0; i < mix.length; ++i ) mix[i] ^= mixin[i]
 			return mix
 		}

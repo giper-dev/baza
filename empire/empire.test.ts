@@ -7,7 +7,7 @@ namespace $.$$ {
 			enum Place { SPb = 'SPb', Msk = 'Msk' }
 			
 			const Target = $giper_baza_dict.with({})
-			const Targets = $giper_baza_empire( $giper_baza_list_link_to( ()=> Target ) )
+			const Targets = $giper_baza_empire( $giper_baza_list_link.to( ()=> Target ) )
 			
 			const land = $.$giper_baza_glob.home().land()
 			const targets = land.Pawn( Targets ).Data()

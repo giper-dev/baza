@@ -2,7 +2,7 @@ namespace $ {
 	
 	export function $giper_baza_empire< Value extends typeof $giper_baza_pawn >( Value: Value ) {
 		
-		return class $giper_baza_empire extends $giper_baza_atom_link_to( $mol_const( $giper_baza_dict_to( Value ) ) ) {
+		return class $giper_baza_empire extends $giper_baza_atom_link.to( $mol_const( $giper_baza_dict_to( Value ) ) ) {
 			
 			path( path: readonly $giper_baza_vary_type[], preset?: $giper_baza_rank_preset | $giper_baza_land ) {
 				let current = this as $giper_baza_empire | null
