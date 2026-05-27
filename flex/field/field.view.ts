@@ -35,7 +35,7 @@ namespace $.$$ {
 		
 		@ $mol_mem_key
 		override enum_label( option: $giper_baza_vary_type ) {
-			return $giper_baza_vary_cast_text( option ) ?? ''
+			return $mol_schema_string.cast( option )
 		}
 		
 		bool( next?: boolean ) {
@@ -87,7 +87,7 @@ namespace $.$$ {
 		
 		link_label( link: $giper_baza_vary_type ) {
 			if( link instanceof $giper_baza_link ) return this.$.$giper_baza_glob.Pawn( link, $giper_baza_flex_subj ).Name()?.val() ?? link.str
-			return $giper_baza_vary_cast_text( link ) ?? ''
+			return $mol_schema_string.cast( link )
 		}
 		
 		link_remote() {
@@ -165,12 +165,12 @@ namespace $.$$ {
 		}
 		
 		list_item_value( sand: $giper_baza_unit_sand ) {
-			return $giper_baza_vary_cast_text( this.land().sand_decode( sand ) ) ?? ''
+			return $mol_schema_string.cast( this.land().sand_decode( sand ) )
 		}
 		
 		list_item_adopt( transfer : DataTransfer ) {
 			let val: $giper_baza_vary_type = transfer.getData( "text/plain" )
-			if( this.prop().Kind()?.val() ) val = $giper_baza_vary_cast_link( val )
+			if( this.prop().Kind()?.val() ) val = $giper_baza_link_schema.cast( val )
 			return val
 		}
 

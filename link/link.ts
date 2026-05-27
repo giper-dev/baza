@@ -168,4 +168,6 @@ namespace $ {
 		
 	}
 	
+	export let $giper_baza_link_schema = $mol_schema_maybe( $mol_schema_instance( $giper_baza_link ) )
+	
 }

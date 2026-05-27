@@ -81,7 +81,7 @@ namespace $ {
 			const head = this.head()
 			const unit = this.land().sand_ordered({ head, peer }).find( unit => !unit.dead() && unit.self().str === '' ) ?? null
 			if( unit ) this.land().sands_open([ unit ])
-			return unit ? $giper_baza_vary_cast_link( this.land().sand_decode( unit ) ) : null
+			return unit ? $giper_baza_link_schema.cast( this.land().sand_decode( unit ) ) : null
 		}
 		
 		filled() {

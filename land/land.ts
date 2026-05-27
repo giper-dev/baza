@@ -720,7 +720,7 @@ namespace $ {
 			merge: if( head.str !== $giper_baza_land_root.tine.str ) {
 				
 				const tines = ( this.Tine()?.items_vary().slice().reverse() ?? [] )
-					.map( $giper_baza_vary_cast_link )
+					.map( val => $giper_baza_link_schema.cast( val ) )
 					.filter( $mol_guard_defined )
 				if( !tines.length ) break merge
 				
@@ -1358,7 +1358,7 @@ namespace $ {
 			
 			if( this.sand_get( sand.head(), sand.lord(), sand.self() ) !== sand ) {
 				for( const id of this.Tine().items_vary() ?? [] ) {
-					const open = await this.$.$giper_baza_glob.Land( $giper_baza_vary_cast_link( id! )! ).sand_open( sand )
+					const open = await this.$.$giper_baza_glob.Land( $giper_baza_link_schema.cast( id! )! ).sand_open( sand )
 					if( open ) return open
 				}
 				return undefined!
