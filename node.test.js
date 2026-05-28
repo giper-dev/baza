@@ -5472,6 +5472,126 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $mol_memo_key extends $mol_wrapper {
+        static wrap(task) {
+            const store = new WeakMap();
+            const fun = function (key, next) {
+                let store2 = store.get(this ?? fun);
+                if (!store2)
+                    store.set(this ?? fun, store2 = new Map);
+                const key_str = $mol_key(key);
+                if (next === undefined && store2.has(key_str))
+                    return store2.get(key_str);
+                const val = task.call(this, key, next) ?? next;
+                store2.set(key_str, val);
+                return val;
+            };
+            Reflect.defineProperty(fun, 'name', { value: task.name + ' ' });
+            return fun;
+        }
+    }
+    $.$mol_memo_key = $mol_memo_key;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_schema_any extends Object {
+        static [Symbol.toStringTag];
+        static [$mol_key_handle]() {
+            return this.toString();
+        }
+        /** Short user-readable identity. */
+        static toString() {
+            return $$.$mol_func_name(this);
+        }
+        /** Type-guard that checks value by schema. */
+        static check(val) {
+            try {
+                this.guard(val);
+                return true;
+            }
+            catch (error) {
+                return false;
+            }
+        }
+        static [Symbol.hasInstance](val) {
+            return this.check(val);
+        }
+        /** Strict parse. Fails of wrong values. */
+        static guard(value) {
+            return value;
+        }
+        /** Relaxed cast. Normalizes wrong values. */
+        static cast(value) {
+            try {
+                return this.guard(value);
+            }
+            catch (error) {
+                return this.default;
+            }
+        }
+        /** Default value which conforms schema. */
+        static default = null;
+    }
+    $.$mol_schema_any = $mol_schema_any;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_schema_maybe = $mol_memo_key.func(function $mol_schema_maybe(Some) {
+        return class $mol_schema_maybe_ extends $mol_schema_any {
+            static Some = Some;
+            static toString() {
+                if (this !== $mol_schema_maybe_)
+                    return super.toString();
+                return '$mol_schema_maybe<' + $mol_key(Some) + '>';
+            }
+            static guard(value) {
+                if (value == null)
+                    return value;
+                return Some.guard(value);
+            }
+            static default = null;
+        };
+    });
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $.$mol_schema_instance = $mol_memo_key.func(function $mol_schema_instance(Class) {
+        class $mol_schema_instance_ extends $mol_schema_any {
+            static Class = Class;
+            static toString() {
+                if (this !== $mol_schema_instance_)
+                    return super.toString();
+                return '$mol_schema_instance<' + $$.$mol_func_name(Class) + '>';
+            }
+            static guard(value) {
+                if (value != null && Object(value) instanceof Class)
+                    return value;
+                return $mol_fail(new TypeError('Wrong class', { cause: { value, schema: this } }));
+            }
+            static cast(value) {
+                return this.guard(value);
+            }
+            static default;
+        }
+        return ((Class[Symbol.hasInstance] === $mol_schema_any[Symbol.hasInstance])
+            ? Class
+            : $mol_schema_instance_);
+    });
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     function $giper_baza_link_compare(left, right) {
         return (right.str > left.str ? 1 : right.str < left.str ? -1 : 0);
     }
@@ -5619,6 +5739,7 @@ var $;
         }
     }
     $.$giper_baza_link_base = $giper_baza_link_base;
+    $.$giper_baza_link_schema = $mol_schema_maybe($mol_schema_instance($giper_baza_link));
 })($ || ($ = {}));
 
 ;
@@ -7997,6 +8118,16 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function $mol_guard_defined(value) {
+        return value !== null && value !== undefined;
+    }
+    $.$mol_guard_defined = $mol_guard_defined;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     /**
      * Small, simple, powerful, and fast TypeScript/JavaScript library for proper date/time/duration/interval arithmetic.
      *
@@ -8852,6 +8983,16 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    // export let $giper_baza_vary_schema = $mol_schema_some([
+    // 	$mol_schema_boolean, $mol_schema_float, $mol_schema_bigint, $mol_schema_string,
+    // 	Uint8Array, Uint16Array, Uint32Array, BigUint64Array,
+    // 	Int8Array, Int16Array, Int32Array, BigInt64Array,
+    // 	Float64Array, Float32Array, Float64Array,
+    // 	$mol_time_moment, $mol_time_duration, $mol_time_interval,
+    // 	$mol_tree2, $giper_baza_link, Element,
+    // 	$mol_schema_list( ()=> $giper_baza_vary_schema ),
+    // 	$mol_schema_dict([ ()=> $giper_baza_vary_schema, ()=> $giper_baza_vary_schema ]),
+    // ])
     $.$giper_baza_vary = $mol_vary.zone();
     $.$giper_baza_vary.type({
         type: $giper_baza_link,
@@ -8883,465 +9024,6 @@ var $;
         lean: obj => [$$.$mol_tree2_to_string(obj)],
         rich: ([str]) => $$.$mol_tree2_from_string(str),
     });
-    function $giper_baza_vary_switch(vary, ways) {
-        if (vary === null)
-            return ways.none(vary);
-        switch (typeof vary) {
-            case "boolean": return ways.bool(vary);
-            case "bigint": return ways.bint(vary);
-            case "number": return ways.real(vary);
-            case "string": return ways.text(vary);
-        }
-        if (ArrayBuffer.isView(vary))
-            return ways.blob(vary);
-        switch (Reflect.getPrototypeOf(vary)) {
-            case Object.prototype: return ways.dict(vary);
-            case Array.prototype: return ways.list(vary);
-            case $giper_baza_link.prototype: return ways.link(vary);
-            case $mol_time_moment.prototype: return ways.time(vary);
-            case $mol_time_duration.prototype: return ways.dura(vary);
-            case $mol_time_interval.prototype: return ways.span(vary);
-            case $mol_tree2.prototype: return ways.tree(vary);
-        }
-        if (vary instanceof $mol_dom_context.Element)
-            return ways.elem(vary);
-        return $mol_fail(new TypeError(`Unsupported vary type`, { cause: { vary } }));
-    }
-    $.$giper_baza_vary_switch = $giper_baza_vary_switch;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    function $mol_tree2_bin_to_bytes(tree) {
-        return Uint8Array.from(tree.kids, kid => parseInt(kid.value, 16));
-    }
-    $.$mol_tree2_bin_to_bytes = $mol_tree2_bin_to_bytes;
-    function $mol_tree2_bin_from_bytes(bytes, span = $mol_span.unknown) {
-        return $mol_tree2.list(Array.from(bytes, code => {
-            return $mol_tree2.data(code.toString(16).padStart(2, '0'), [], span);
-        }), span);
-    }
-    $.$mol_tree2_bin_from_bytes = $mol_tree2_bin_from_bytes;
-    function $mol_tree2_bin_from_string(str, span = $mol_span.unknown) {
-        return $mol_tree2_bin_from_bytes([...new TextEncoder().encode(str)], span);
-    }
-    $.$mol_tree2_bin_from_string = $mol_tree2_bin_from_string;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    function $mol_tree2_xml_from_dom(dom) {
-        switch (dom.nodeType) {
-            case dom.DOCUMENT_NODE: {
-                let kids = [];
-                for (const kid of dom.childNodes) {
-                    kids.push($mol_tree2_xml_from_dom(kid));
-                }
-                return $mol_tree2.list(kids);
-            }
-            case dom.PROCESSING_INSTRUCTION_NODE: {
-                return $mol_tree2.struct('?', [
-                    $mol_tree2.struct(dom.nodeName, dom.nodeValue.split(' ').map(chunk => {
-                        const [, name, value] = /^(.*?)(?:="(.*?)")?$/.exec(chunk);
-                        const kids = value ? [$mol_tree2.data(value)] : [];
-                        return $mol_tree2.struct(name, kids);
-                    }))
-                ]);
-            }
-            case dom.DOCUMENT_TYPE_NODE: {
-                const dom2 = dom;
-                return $mol_tree2.struct('!', [
-                    $mol_tree2.struct('DOCTYPE', [
-                        $mol_tree2.struct(dom2.name)
-                    ])
-                ]);
-            }
-            case dom.ELEMENT_NODE: {
-                let kids = [];
-                for (const attr of dom.attributes) {
-                    kids.push($mol_tree2.struct('@', [
-                        $mol_tree2.struct(attr.nodeName, [
-                            $mol_tree2.data(attr.nodeValue)
-                        ])
-                    ]));
-                }
-                for (const kid of dom.childNodes) {
-                    const k = $mol_tree2_xml_from_dom(kid);
-                    if (k.type || k.value)
-                        kids.push(k);
-                }
-                return $mol_tree2.struct(dom.nodeName, kids);
-            }
-            case dom.COMMENT_NODE: {
-                return $mol_tree2.struct('--', [
-                    $mol_tree2.data(dom.nodeValue)
-                ]);
-            }
-            case dom.TEXT_NODE: {
-                if (!dom.nodeValue.trim())
-                    return $mol_tree2.list([]);
-                return $mol_tree2.data(dom.nodeValue.replace(/\s+/g, ' '));
-            }
-        }
-        return $mol_fail(new Error(`Unsupported node ${dom.nodeName}`));
-    }
-    $.$mol_tree2_xml_from_dom = $mol_tree2_xml_from_dom;
-})($ || ($ = {}));
-
-;
-"use strict";
-/** @jsx $mol_jsx */
-var $;
-(function ($) {
-    function $giper_baza_vary_cast_blob(vary) {
-        return ArrayBuffer.isView(vary) ? vary : null;
-    }
-    $.$giper_baza_vary_cast_blob = $giper_baza_vary_cast_blob;
-    function $giper_baza_vary_cast_bool(vary) {
-        return $giper_baza_vary_switch(vary, {
-            none: vary => null,
-            blob: vary => Boolean(vary.byteLength),
-            bool: vary => vary,
-            bint: vary => Boolean(vary),
-            real: vary => Boolean(vary),
-            link: vary => vary.str !== '',
-            text: vary => Boolean(vary),
-            time: vary => Boolean(vary.valueOf()),
-            dura: vary => Boolean(vary.valueOf()),
-            span: vary => Boolean(vary.duration.valueOf()),
-            dict: vary => Boolean(Reflect.ownKeys(vary).length),
-            list: vary => Boolean(vary.length),
-            elem: vary => Boolean(vary.attributes.length + vary.childNodes.length),
-            tree: vary => Boolean(vary.value || vary.kids.length),
-        });
-    }
-    $.$giper_baza_vary_cast_bool = $giper_baza_vary_cast_bool;
-    function $giper_baza_vary_cast_bint(vary) {
-        return $giper_baza_vary_switch(vary, {
-            none: vary => null,
-            blob: vary => BigInt(vary.length),
-            bool: vary => BigInt(vary),
-            bint: vary => vary,
-            real: vary => Number.isFinite(vary) ? BigInt(Math.trunc(vary)) : null,
-            link: vary => null,
-            text: vary => {
-                try {
-                    return vary ? BigInt(vary) : null;
-                }
-                catch {
-                    return null;
-                }
-            },
-            time: vary => BigInt(vary.valueOf()),
-            dura: vary => BigInt(vary.valueOf()),
-            span: vary => BigInt(vary.duration.valueOf()),
-            dict: vary => BigInt(Reflect.ownKeys(vary).length),
-            list: vary => BigInt(vary.length),
-            elem: vary => BigInt(vary.attributes.length + vary.childNodes.length),
-            tree: vary => {
-                try {
-                    return BigInt(vary.value);
-                }
-                catch {
-                    return BigInt(vary.kids.length);
-                }
-            },
-        });
-    }
-    $.$giper_baza_vary_cast_bint = $giper_baza_vary_cast_bint;
-    function $giper_baza_vary_cast_real(vary) {
-        return $giper_baza_vary_switch(vary, {
-            none: vary => null,
-            blob: vary => vary.length,
-            bool: vary => Number(vary),
-            bint: vary => Number(vary),
-            real: vary => vary,
-            link: vary => null,
-            text: vary => vary ? Number(vary) : null,
-            time: vary => vary.valueOf(),
-            dura: vary => vary.valueOf(),
-            span: vary => vary.duration.valueOf(),
-            dict: vary => Reflect.ownKeys(vary).length,
-            list: vary => vary.length,
-            elem: vary => Number(vary.attributes.length + vary.childNodes.length),
-            tree: vary => Number(vary.value || vary.kids.length),
-        });
-    }
-    $.$giper_baza_vary_cast_real = $giper_baza_vary_cast_real;
-    function $giper_baza_vary_cast_link(vary) {
-        return vary instanceof $giper_baza_link ? vary : null;
-    }
-    $.$giper_baza_vary_cast_link = $giper_baza_vary_cast_link;
-    function $giper_baza_vary_cast_text(vary) {
-        return $giper_baza_vary_switch(vary, {
-            none: vary => null,
-            blob: vary => $mol_base64_ae_encode(new Uint8Array(vary.buffer, vary.byteOffset, vary.byteLength)),
-            bool: vary => String(vary),
-            bint: vary => String(vary),
-            real: vary => String(vary),
-            link: vary => vary.str,
-            text: vary => vary,
-            time: vary => String(vary),
-            dura: vary => String(vary),
-            span: vary => String(vary),
-            dict: vary => JSON.stringify(vary),
-            list: vary => JSON.stringify(vary),
-            elem: vary => $mol_dom_serialize(vary),
-            tree: vary => String(vary),
-        });
-    }
-    $.$giper_baza_vary_cast_text = $giper_baza_vary_cast_text;
-    function $giper_baza_vary_cast_time(vary) {
-        return $giper_baza_vary_switch(vary, {
-            none: vary => null,
-            blob: vary => null,
-            bool: vary => null,
-            bint: vary => new $mol_time_moment(Number(vary & 0xffffffffffffn)),
-            real: vary => {
-                try {
-                    return new $mol_time_moment(vary);
-                }
-                catch {
-                    return null;
-                }
-            },
-            link: vary => null,
-            text: vary => {
-                try {
-                    return vary ? new $mol_time_moment(vary) : null;
-                }
-                catch {
-                    return null;
-                }
-            },
-            time: vary => vary,
-            dura: vary => null,
-            span: vary => null,
-            dict: vary => {
-                try {
-                    return new $mol_time_moment(vary);
-                }
-                catch {
-                    return null;
-                }
-            },
-            list: vary => null,
-            elem: vary => null,
-            tree: vary => null,
-        });
-    }
-    $.$giper_baza_vary_cast_time = $giper_baza_vary_cast_time;
-    function $giper_baza_vary_cast_dura(vary) {
-        return $giper_baza_vary_switch(vary, {
-            none: vary => null,
-            blob: vary => null,
-            bool: vary => null,
-            bint: vary => new $mol_time_duration(Number(vary & 0xffffffffffffn)),
-            real: vary => {
-                try {
-                    return new $mol_time_duration(vary);
-                }
-                catch {
-                    return null;
-                }
-            },
-            link: vary => null,
-            text: vary => {
-                try {
-                    return new $mol_time_duration(vary);
-                }
-                catch {
-                    return null;
-                }
-            },
-            time: vary => null,
-            dura: vary => vary,
-            span: vary => null,
-            dict: vary => new $mol_time_duration(vary),
-            list: vary => null,
-            elem: vary => null,
-            tree: vary => null,
-        });
-    }
-    $.$giper_baza_vary_cast_dura = $giper_baza_vary_cast_dura;
-    function $giper_baza_vary_cast_span(vary) {
-        return $giper_baza_vary_switch(vary, {
-            none: vary => null,
-            blob: vary => null,
-            bool: vary => null,
-            bint: vary => null,
-            real: vary => null,
-            link: vary => null,
-            text: vary => {
-                try {
-                    return vary ? new $mol_time_interval(vary) : null;
-                }
-                catch {
-                    return null;
-                }
-            },
-            time: vary => new $mol_time_interval({ start: vary, duration: 0 }),
-            dura: vary => null,
-            span: vary => vary,
-            dict: vary => {
-                try {
-                    return new $mol_time_interval(vary);
-                }
-                catch {
-                    return null;
-                }
-            },
-            list: vary => null,
-            elem: vary => null,
-            tree: vary => null,
-        });
-    }
-    $.$giper_baza_vary_cast_span = $giper_baza_vary_cast_span;
-    function $giper_baza_vary_cast_dict(vary) {
-        return $giper_baza_vary_switch(vary, {
-            none: vary => null,
-            blob: vary => null,
-            bool: vary => null,
-            bint: vary => null,
-            real: vary => null,
-            link: vary => null,
-            text: vary => {
-                if (!vary)
-                    return null;
-                try {
-                    const res = JSON.parse(vary);
-                    if (typeof res === 'object')
-                        return res;
-                    return null;
-                }
-                catch {
-                    return null;
-                }
-            },
-            time: vary => ({ ...vary }),
-            dura: vary => ({ ...vary }),
-            span: vary => ({ ...vary }),
-            dict: vary => vary,
-            list: vary => Object(vary[0]),
-            elem: vary => null,
-            tree: vary => null,
-        });
-    }
-    $.$giper_baza_vary_cast_dict = $giper_baza_vary_cast_dict;
-    function $giper_baza_vary_cast_list(vary) {
-        return $giper_baza_vary_switch(vary, {
-            none: vary => null,
-            blob: vary => [...vary],
-            bool: vary => [vary],
-            bint: vary => [vary.toString()],
-            real: vary => Number.isFinite(vary) ? [vary] : null,
-            link: vary => [vary.str],
-            text: vary => {
-                if (!vary)
-                    return null;
-                try {
-                    return [].concat(JSON.parse(vary));
-                }
-                catch {
-                    return [vary];
-                }
-            },
-            time: vary => [vary.toJSON()],
-            dura: vary => [vary.toJSON()],
-            span: vary => [vary.toJSON()],
-            dict: vary => [vary],
-            list: vary => vary,
-            elem: vary => [$mol_dom_serialize(vary)],
-            tree: vary => [vary.toString()],
-        });
-    }
-    $.$giper_baza_vary_cast_list = $giper_baza_vary_cast_list;
-    function $giper_baza_vary_cast_elem(vary) {
-        return $giper_baza_vary_switch(vary, {
-            none: vary => null,
-            blob: vary => $mol_jsx("body", null, $giper_baza_vary_cast_text(vary)),
-            bool: vary => $mol_jsx("body", null, vary),
-            bint: vary => $mol_jsx("body", null, vary),
-            real: vary => $mol_jsx("body", null, vary),
-            link: vary => $mol_jsx("body", null, vary.str),
-            text: vary => {
-                if (!vary)
-                    return null;
-                try {
-                    return vary ? $mol_dom_parse(vary, 'application/xhtml+xml').documentElement : null;
-                }
-                catch {
-                    return $mol_jsx("body", null, vary);
-                }
-            },
-            time: vary => $mol_jsx("body", null, vary),
-            dura: vary => $mol_jsx("body", null, vary),
-            span: vary => $mol_jsx("body", null, vary),
-            dict: vary => $mol_jsx("body", null, JSON.stringify(vary)),
-            list: vary => $mol_jsx("body", null, JSON.stringify(vary)),
-            elem: vary => vary,
-            tree: vary => $mol_jsx("body", null, vary),
-        });
-    }
-    $.$giper_baza_vary_cast_elem = $giper_baza_vary_cast_elem;
-    function $giper_baza_vary_cast_tree(vary) {
-        return $giper_baza_vary_switch(vary, {
-            none: vary => null,
-            blob: vary => vary instanceof Uint8Array ? $mol_tree2_bin_from_bytes(vary) : null,
-            bool: vary => $mol_tree2.struct(vary.toString()),
-            bint: vary => $mol_tree2.struct(vary.toString()),
-            real: vary => $mol_tree2.struct(vary.toString()),
-            link: vary => $mol_tree2.struct(vary.str),
-            text: vary => {
-                if (!vary)
-                    return null;
-                try {
-                    return $$.$mol_tree2_from_string(vary);
-                }
-                catch {
-                    return $$.$mol_tree2.data(vary);
-                }
-            },
-            time: vary => $mol_tree2.struct(vary.toString()),
-            dura: vary => $mol_tree2.struct(vary.toString()),
-            span: vary => $mol_tree2.struct(vary.toString()),
-            dict: vary => $$.$mol_tree2_from_json(vary),
-            list: vary => $$.$mol_tree2_from_json(vary),
-            elem: vary => $$.$mol_tree2_xml_from_dom(vary),
-            tree: vary => vary,
-        });
-    }
-    $.$giper_baza_vary_cast_tree = $giper_baza_vary_cast_tree;
-    $.$giper_baza_vary_cast_funcs = {
-        none: () => null,
-        blob: $giper_baza_vary_cast_blob,
-        bool: $giper_baza_vary_cast_bool,
-        bint: $giper_baza_vary_cast_bint,
-        real: $giper_baza_vary_cast_real,
-        link: $giper_baza_vary_cast_link,
-        text: $giper_baza_vary_cast_text,
-        time: $giper_baza_vary_cast_time,
-        dura: $giper_baza_vary_cast_dura,
-        span: $giper_baza_vary_cast_span,
-        dict: $giper_baza_vary_cast_dict,
-        list: $giper_baza_vary_cast_list,
-        elem: $giper_baza_vary_cast_elem,
-        tree: $giper_baza_vary_cast_tree,
-    };
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    function $mol_guard_defined(value) {
-        return value !== null && value !== undefined;
-    }
-    $.$mol_guard_defined = $mol_guard_defined;
 })($ || ($ = {}));
 
 ;
@@ -9923,7 +9605,7 @@ var $;
                 slices.set(sand, 0);
             merge: if (head.str !== $.$giper_baza_land_root.tine.str) {
                 const tines = (this.Tine()?.items_vary().slice().reverse() ?? [])
-                    .map($giper_baza_vary_cast_link)
+                    .map(val => $giper_baza_link_schema.cast(val))
                     .filter($mol_guard_defined);
                 if (!tines.length)
                     break merge;
@@ -10362,7 +10044,7 @@ var $;
         async sand_open(sand) {
             if (this.sand_get(sand.head(), sand.lord(), sand.self()) !== sand) {
                 for (const id of this.Tine().items_vary() ?? []) {
-                    const open = await this.$.$giper_baza_glob.Land($giper_baza_vary_cast_link(id)).sand_open(sand);
+                    const open = await this.$.$giper_baza_glob.Land($giper_baza_link_schema.cast(id)).sand_open(sand);
                     if (open)
                         return open;
                 }
@@ -11523,7 +11205,9 @@ var $;
         meta_of(peer) {
             const head = this.head();
             const unit = this.land().sand_ordered({ head, peer }).find(unit => !unit.dead() && unit.self().str === '') ?? null;
-            return unit ? $giper_baza_vary_cast_link(this.land().sand_decode(unit)) : null;
+            if (unit)
+                this.land().sands_open([unit]);
+            return unit ? $giper_baza_link_schema.cast(this.land().sand_decode(unit)) : null;
         }
         filled() {
             return this.units().length > 0;
@@ -11629,104 +11313,6 @@ var $;
         }
     }
     $.$mol_reconcile = $mol_reconcile;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_memo_key extends $mol_wrapper {
-        static wrap(task) {
-            const store = new WeakMap();
-            const fun = function (key, next) {
-                let store2 = store.get(this ?? fun);
-                if (!store2)
-                    store.set(this ?? fun, store2 = new Map);
-                const key_str = $mol_key(key);
-                if (next === undefined && store2.has(key_str))
-                    return store2.get(key_str);
-                const val = task.call(this, key, next) ?? next;
-                store2.set(key_str, val);
-                return val;
-            };
-            Reflect.defineProperty(fun, 'name', { value: task.name + ' ' });
-            return fun;
-        }
-    }
-    $.$mol_memo_key = $mol_memo_key;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    class $mol_schema_any extends Object {
-        static [Symbol.toStringTag];
-        static [$mol_key_handle]() {
-            return this.toString();
-        }
-        /** Short user-readable identity. */
-        static toString() {
-            return $$.$mol_func_name(this);
-        }
-        /** Type-guard that checks value by schema. */
-        static check(val) {
-            try {
-                this.guard(val);
-                return true;
-            }
-            catch (error) {
-                return false;
-            }
-        }
-        static [Symbol.hasInstance](val) {
-            return this.check(val);
-        }
-        /** Strict parse. Fails of wrong values. */
-        static guard(value) {
-            return value;
-        }
-        /** Relaxed cast. Normalizes wrong values. */
-        static cast(value) {
-            try {
-                return this.guard(value);
-            }
-            catch (error) {
-                return this.default;
-            }
-        }
-        /** Default value which conforms schema. */
-        static default = undefined;
-    }
-    $.$mol_schema_any = $mol_schema_any;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    $.$mol_schema_instance = $mol_memo_key.func(function $mol_schema_instance(Class) {
-        class $mol_schema_instance_ extends $mol_schema_any {
-            static Class = Class;
-            static toString() {
-                if (this !== $mol_schema_instance_)
-                    return super.toString();
-                return '$mol_schema_instance<' + $$.$mol_func_name(Class) + '>';
-            }
-            static guard(value) {
-                if (value != null && Object(value) instanceof Class)
-                    return value;
-                return $mol_fail(new TypeError('Wrong class', { cause: { value, schema: this } }));
-            }
-            static cast(value) {
-                return this.guard(value);
-            }
-            static default;
-        }
-        return ((Class[Symbol.hasInstance] === $mol_schema_any[Symbol.hasInstance])
-            ? Class
-            : $mol_schema_instance_);
-    });
 })($ || ($ = {}));
 
 ;
@@ -12223,28 +11809,6 @@ var $;
         return $mol_hash_numbers(nums);
     }
     $.$mol_hash_string = $mol_hash_string;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    $.$mol_schema_maybe = $mol_memo_key.func(function $mol_schema_maybe(Some) {
-        return class $mol_schema_maybe_ extends $mol_schema_any {
-            static Some = Some;
-            static toString() {
-                if (this !== $mol_schema_maybe_)
-                    return super.toString();
-                return '$mol_schema_maybe<' + $mol_key(Some) + '>';
-            }
-            static guard(value) {
-                if (value == null)
-                    return value;
-                return Some.guard(value);
-            }
-            static default = null;
-        };
-    });
 })($ || ($ = {}));
 
 ;
@@ -16493,6 +16057,117 @@ var $;
     var $$;
     (function ($$) {
         $mol_test({
+            "Float schema"($) {
+                $mol_assert_equal('$mol_schema_float', $mol_schema_float + '', $mol_key($mol_schema_float));
+                $mol_assert_equal(true, $mol_schema_float.check(0));
+                $mol_assert_equal(true, $mol_schema_float.check(Number.NaN));
+                $mol_assert_equal(true, $mol_schema_float.check(Number.POSITIVE_INFINITY));
+                $mol_assert_equal(false, $mol_schema_float.check(null));
+                $mol_assert_equal(1.5, $mol_schema_float.cast(1.5));
+                $mol_assert_equal(Number.NaN, $mol_schema_float.cast('0'));
+                $mol_assert_equal(Number.EPSILON, $mol_schema_float.guard(Number.EPSILON));
+                $mol_assert_fail(() => $mol_schema_float.guard('0'), 'Wrong type');
+            },
+        });
+    })($$ = $_1.$$ || ($_1.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($_1) {
+    var $$;
+    (function ($$) {
+        $mol_test({
+            "String schema"($) {
+                $mol_assert_equal('$mol_schema_string', $mol_schema_string + '', $mol_key($mol_schema_string));
+                $mol_assert_equal(true, $mol_schema_string.check('foo'));
+                $mol_assert_equal(false, $mol_schema_string.check(123));
+                $mol_assert_equal('foo', $mol_schema_string.cast('foo'));
+                $mol_assert_equal('', $mol_schema_string.cast(123));
+                $mol_assert_equal('foo', $mol_schema_string.guard('foo'));
+                $mol_assert_fail(() => $mol_schema_string.guard(123), 'Wrong type');
+            },
+        });
+    })($$ = $_1.$$ || ($_1.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($_1) {
+    var $$;
+    (function ($$) {
+        $mol_test({
+            "Cache of maybe schema"($) {
+                $mol_assert_equal($mol_schema_maybe($mol_schema_float), $mol_schema_maybe($mol_schema_float));
+                $mol_assert_unique($mol_schema_maybe($mol_schema_float), $mol_schema_maybe($mol_schema_string));
+            },
+            "Optional value"($) {
+                const Config = $mol_schema_maybe($mol_schema_string);
+                $mol_assert_equal('$mol_schema_maybe<$mol_schema_string>', Config + '');
+                $mol_assert_equal(true, Config.check('foo'));
+                $mol_assert_equal(true, Config.check(undefined));
+                $mol_assert_equal(true, Config.check(null));
+                $mol_assert_equal(false, Config.check(0));
+                $mol_assert_equal('foo', Config.cast('foo'));
+                $mol_assert_equal(undefined, Config.cast(undefined));
+                $mol_assert_equal(null, Config.cast(null));
+                $mol_assert_equal(null, Config.cast(0));
+                $mol_assert_equal('foo', Config.guard('foo'));
+                $mol_assert_fail(() => Config.guard(123), 'Wrong type');
+            },
+        });
+    })($$ = $_1.$$ || ($_1.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($_1) {
+    var $$;
+    (function ($$) {
+        $mol_test({
+            "Cache of instance schema"($) {
+                $mol_assert_equal($mol_schema_instance(Uint8Array), $mol_schema_instance(Uint8Array));
+                $mol_assert_unique($mol_schema_instance(Uint8Array), $mol_schema_instance(Int8Array));
+            },
+            "Class instance schema"($) {
+                const Blob = $mol_schema_instance(Uint8Array);
+                $mol_assert_equal('$mol_schema_instance<Uint8Array>', Blob + '', $mol_key(Blob));
+                $mol_assert_equal(true, Blob.check(new Uint8Array));
+                $mol_assert_equal(false, Blob.check(new Int8Array));
+                $mol_assert_equal(false, Blob.check(null));
+                $mol_assert_equal(new Uint8Array([0, 1]), Blob.cast(new Uint8Array([0, 1])));
+                $mol_assert_fail(() => Blob.cast(new Int8Array), 'Wrong class');
+                $mol_assert_equal(new Uint8Array, Blob.guard(new Uint8Array));
+                $mol_assert_fail(() => Blob.guard(new Int8Array), 'Wrong class');
+            },
+            "Boxed instance schema"($) {
+                const Str = $mol_schema_instance(String);
+                $mol_assert_equal('$mol_schema_instance<String>', Str + '', $mol_key(Str));
+                $mol_assert_equal(true, Str.check(Object('')));
+                $mol_assert_equal(true, Str.check(''));
+                $mol_assert_equal(true, Object('') instanceof Str);
+            },
+            "Schema instance schema"($) {
+                const Str = $mol_schema_instance($mol_schema_instance(String));
+                $mol_assert_equal('$mol_schema_instance<String>', Str + '', $mol_key(Str));
+                $mol_assert_equal(true, Str.check(Object('')));
+                $mol_assert_equal(true, Str.check(''));
+                $mol_assert_equal(true, Object('') instanceof Str);
+            },
+        });
+    })($$ = $_1.$$ || ($_1.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($_1) {
+    var $$;
+    (function ($$) {
+        $mol_test({
             "Validation"($) {
                 $mol_assert_fail(() => new $giper_baza_link('qwertyui_asdfghjk123'), 'Wrong Link (qwertyui_asdfghjk123)');
             },
@@ -17766,225 +17441,6 @@ var $;
 "use strict";
 var $;
 (function ($_1) {
-    var $$;
-    (function ($$) {
-        $mol_test({
-            "Cast from blob"($) {
-                const vary = new Uint8Array([1, 2, 3]);
-                $mol_assert_equal($giper_baza_vary_cast_blob(vary), vary);
-                $mol_assert_equal($giper_baza_vary_cast_bool(vary), true);
-                $mol_assert_equal($giper_baza_vary_cast_bint(vary), 3n);
-                $mol_assert_equal($giper_baza_vary_cast_real(vary), 3);
-                $mol_assert_equal($giper_baza_vary_cast_link(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_text(vary), 'AQID');
-                $mol_assert_equal($giper_baza_vary_cast_time(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dura(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_span(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dict(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_list(vary), [1, 2, 3]);
-                $mol_assert_equal($giper_baza_vary_cast_elem(vary)?.outerHTML, '<body>AQID</body>');
-                $mol_assert_equal($giper_baza_vary_cast_tree(vary)?.toString(), '\\01\n\\02\n\\03\n');
-            },
-            "Cast from false"($) {
-                const vary = false;
-                $mol_assert_equal($giper_baza_vary_cast_blob(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_bool(vary), false);
-                $mol_assert_equal($giper_baza_vary_cast_bint(vary), 0n);
-                $mol_assert_equal($giper_baza_vary_cast_real(vary), 0);
-                $mol_assert_equal($giper_baza_vary_cast_link(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_text(vary), 'false');
-                $mol_assert_equal($giper_baza_vary_cast_time(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dura(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_span(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dict(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_list(vary), [false]);
-                $mol_assert_equal($giper_baza_vary_cast_elem(vary)?.outerHTML, '<body>false</body>');
-                $mol_assert_equal($giper_baza_vary_cast_tree(vary)?.toString(), 'false\n');
-            },
-            "Cast from true"($) {
-                const vary = true;
-                $mol_assert_equal($giper_baza_vary_cast_blob(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_bool(vary), true);
-                $mol_assert_equal($giper_baza_vary_cast_bint(vary), 1n);
-                $mol_assert_equal($giper_baza_vary_cast_real(vary), 1);
-                $mol_assert_equal($giper_baza_vary_cast_link(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_text(vary), 'true');
-                $mol_assert_equal($giper_baza_vary_cast_time(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dura(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_span(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dict(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_list(vary), [true]);
-                $mol_assert_equal($giper_baza_vary_cast_elem(vary)?.outerHTML, '<body>true</body>');
-                $mol_assert_equal($giper_baza_vary_cast_tree(vary)?.toString(), 'true\n');
-            },
-            "Cast from 0n"($) {
-                const vary = 0n;
-                $mol_assert_equal($giper_baza_vary_cast_blob(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_bool(vary), false);
-                $mol_assert_equal($giper_baza_vary_cast_bint(vary), 0n);
-                $mol_assert_equal($giper_baza_vary_cast_real(vary), 0);
-                $mol_assert_equal($giper_baza_vary_cast_link(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_text(vary), '0');
-                $mol_assert_equal($giper_baza_vary_cast_time(vary)?.toOffset(0).toString(), '1970-01-01T00:00:00+00:00');
-                $mol_assert_equal($giper_baza_vary_cast_dura(vary)?.toString(), 'PT');
-                $mol_assert_equal($giper_baza_vary_cast_span(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dict(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_list(vary), ['0']);
-                $mol_assert_equal($giper_baza_vary_cast_elem(vary)?.outerHTML, '<body>0</body>');
-                $mol_assert_equal($giper_baza_vary_cast_tree(vary)?.toString(), '0\n');
-            },
-            "Cast from big int"($) {
-                const vary = 4611686018427387903n;
-                $mol_assert_equal($giper_baza_vary_cast_blob(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_bool(vary), true);
-                $mol_assert_equal($giper_baza_vary_cast_bint(vary), 4611686018427387903n);
-                $mol_assert_equal($giper_baza_vary_cast_real(vary), 4611686018427388000);
-                $mol_assert_equal($giper_baza_vary_cast_link(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_text(vary), '4611686018427387903');
-                $mol_assert_equal($giper_baza_vary_cast_time(vary)?.toOffset(0).toString(), '10889-08-02T05:31:50.655+00:00');
-                $mol_assert_equal($giper_baza_vary_cast_dura(vary)?.toString(), 'PT281474976710.655S');
-                $mol_assert_equal($giper_baza_vary_cast_span(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dict(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_list(vary), ['4611686018427387903']);
-                $mol_assert_equal($giper_baza_vary_cast_elem(vary)?.outerHTML, '<body>4611686018427387903</body>');
-                $mol_assert_equal($giper_baza_vary_cast_tree(vary)?.toString(), '4611686018427387903\n');
-            },
-            "Cast from 0"($) {
-                const vary = 0;
-                $mol_assert_equal($giper_baza_vary_cast_blob(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_bool(vary), false);
-                $mol_assert_equal($giper_baza_vary_cast_bint(vary), 0n);
-                $mol_assert_equal($giper_baza_vary_cast_real(vary), 0);
-                $mol_assert_equal($giper_baza_vary_cast_link(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_text(vary), '0');
-                $mol_assert_equal($giper_baza_vary_cast_time(vary)?.toOffset(0).toString(), '1970-01-01T00:00:00+00:00');
-                $mol_assert_equal($giper_baza_vary_cast_dura(vary)?.toString(), 'PT');
-                $mol_assert_equal($giper_baza_vary_cast_span(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dict(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_list(vary), [0]);
-                $mol_assert_equal($giper_baza_vary_cast_elem(vary)?.outerHTML, '<body>0</body>');
-                $mol_assert_equal($giper_baza_vary_cast_tree(vary)?.toString(), '0\n');
-            },
-            "Cast from PI"($) {
-                const vary = Math.PI;
-                $mol_assert_equal($giper_baza_vary_cast_blob(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_bool(vary), true);
-                $mol_assert_equal($giper_baza_vary_cast_bint(vary), 3n);
-                $mol_assert_equal($giper_baza_vary_cast_real(vary), Math.PI);
-                $mol_assert_equal($giper_baza_vary_cast_link(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_text(vary), '3.141592653589793');
-                $mol_assert_equal($giper_baza_vary_cast_time(vary)?.toOffset(0).toString(), '1970-01-01T00:00:00.003+00:00');
-                $mol_assert_equal($giper_baza_vary_cast_dura(vary)?.toString(), "PT0.0031415926535897933S");
-                $mol_assert_equal($giper_baza_vary_cast_span(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dict(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_list(vary), [Math.PI]);
-                $mol_assert_equal($giper_baza_vary_cast_elem(vary)?.outerHTML, '<body>3.141592653589793</body>');
-                $mol_assert_equal($giper_baza_vary_cast_tree(vary)?.toString(), '3.141592653589793\n');
-            },
-            "Cast from NaN"($) {
-                const vary = Number.NaN;
-                $mol_assert_equal($giper_baza_vary_cast_blob(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_bool(vary), false);
-                $mol_assert_equal($giper_baza_vary_cast_bint(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_real(vary), Number.NaN);
-                $mol_assert_equal($giper_baza_vary_cast_link(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_text(vary), 'NaN');
-                $mol_assert_equal($giper_baza_vary_cast_time(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dura(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_span(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dict(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_list(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_elem(vary)?.outerHTML, '<body>NaN</body>');
-                $mol_assert_equal($giper_baza_vary_cast_tree(vary)?.toString(), 'NaN\n');
-            },
-            "Cast from Infinity"($) {
-                const vary = Number.POSITIVE_INFINITY;
-                $mol_assert_equal($giper_baza_vary_cast_blob(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_bool(vary), true);
-                $mol_assert_equal($giper_baza_vary_cast_bint(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_real(vary), Number.POSITIVE_INFINITY);
-                $mol_assert_equal($giper_baza_vary_cast_link(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_text(vary), 'Infinity');
-                $mol_assert_equal($giper_baza_vary_cast_time(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dura(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_span(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dict(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_list(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_elem(vary)?.outerHTML, '<body>Infinity</body>');
-                $mol_assert_equal($giper_baza_vary_cast_tree(vary)?.toString(), 'Infinity\n');
-            },
-            "Cast from empty string"($) {
-                const vary = '';
-                $mol_assert_equal($giper_baza_vary_cast_blob(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_bool(vary), false);
-                $mol_assert_equal($giper_baza_vary_cast_bint(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_real(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_link(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_text(vary), '');
-                $mol_assert_equal($giper_baza_vary_cast_time(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dura(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_span(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dict(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_list(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_elem(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_tree(vary), null);
-            },
-            "Cast from number string"($) {
-                const vary = '123456789012345678901234567890123456789';
-                $mol_assert_equal($giper_baza_vary_cast_blob(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_bool(vary), true);
-                $mol_assert_equal($giper_baza_vary_cast_bint(vary), 123456789012345678901234567890123456789n);
-                $mol_assert_equal($giper_baza_vary_cast_real(vary), 1.2345678901234568e+38);
-                $mol_assert_equal($giper_baza_vary_cast_link(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_text(vary), '123456789012345678901234567890123456789');
-                $mol_assert_equal($giper_baza_vary_cast_time(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dura(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_span(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dict(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_list(vary), [1.2345678901234568e+38]);
-                $mol_assert_equal($giper_baza_vary_cast_elem(vary)?.outerHTML, '<body>123456789012345678901234567890123456789</body>');
-                $mol_assert_equal($giper_baza_vary_cast_tree(vary)?.toString(), '\\123456789012345678901234567890123456789\n');
-            },
-            "Cast from wild string"($) {
-                const vary = 'foo';
-                $mol_assert_equal($giper_baza_vary_cast_blob(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_bool(vary), true);
-                $mol_assert_equal($giper_baza_vary_cast_bint(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_real(vary), Number.NaN);
-                $mol_assert_equal($giper_baza_vary_cast_link(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_text(vary), 'foo');
-                $mol_assert_equal($giper_baza_vary_cast_time(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dura(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_span(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dict(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_list(vary), ['foo']);
-                $mol_assert_equal($giper_baza_vary_cast_elem(vary)?.outerHTML, '<body>foo</body>');
-                $mol_assert_equal($giper_baza_vary_cast_tree(vary)?.toString(), '\\foo\n');
-            },
-            "Cast from Link"($) {
-                const vary = new $giper_baza_link('qwertyui_asdfghjk_zxcvbnm0');
-                $mol_assert_equal($giper_baza_vary_cast_blob(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_bool(vary), true);
-                $mol_assert_equal($giper_baza_vary_cast_bint(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_real(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_link(vary), vary);
-                $mol_assert_equal($giper_baza_vary_cast_text(vary), vary.str);
-                $mol_assert_equal($giper_baza_vary_cast_time(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dura(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_span(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_dict(vary), null);
-                $mol_assert_equal($giper_baza_vary_cast_list(vary), ['qwertyui_asdfghjk_zxcvbnm0']);
-                $mol_assert_equal($giper_baza_vary_cast_elem(vary)?.outerHTML, '<body>qwertyui_asdfghjk_zxcvbnm0</body>');
-                $mol_assert_equal($giper_baza_vary_cast_tree(vary)?.toString(), 'qwertyui_asdfghjk_zxcvbnm0\n');
-            },
-        });
-    })($$ = $_1.$$ || ($_1.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($_1) {
     $mol_test_mocks.push($ => {
         class $mol_bus extends $.$mol_bus {
             send() { }
@@ -18414,46 +17870,6 @@ var $;
     var $$;
     (function ($$) {
         $mol_test({
-            "Cache of instance schema"($) {
-                $mol_assert_equal($mol_schema_instance(Uint8Array), $mol_schema_instance(Uint8Array));
-                $mol_assert_unique($mol_schema_instance(Uint8Array), $mol_schema_instance(Int8Array));
-            },
-            "Class instance schema"($) {
-                const Blob = $mol_schema_instance(Uint8Array);
-                $mol_assert_equal('$mol_schema_instance<Uint8Array>', Blob + '', $mol_key(Blob));
-                $mol_assert_equal(true, Blob.check(new Uint8Array));
-                $mol_assert_equal(false, Blob.check(new Int8Array));
-                $mol_assert_equal(false, Blob.check(null));
-                $mol_assert_equal(new Uint8Array([0, 1]), Blob.cast(new Uint8Array([0, 1])));
-                $mol_assert_fail(() => Blob.cast(new Int8Array), 'Wrong class');
-                $mol_assert_equal(new Uint8Array, Blob.guard(new Uint8Array));
-                $mol_assert_fail(() => Blob.guard(new Int8Array), 'Wrong class');
-            },
-            "Boxed instance schema"($) {
-                const Str = $mol_schema_instance(String);
-                $mol_assert_equal('$mol_schema_instance<String>', Str + '', $mol_key(Str));
-                $mol_assert_equal(true, Str.check(Object('')));
-                $mol_assert_equal(true, Str.check(''));
-                $mol_assert_equal(true, Object('') instanceof Str);
-            },
-            "Schema instance schema"($) {
-                const Str = $mol_schema_instance($mol_schema_instance(String));
-                $mol_assert_equal('$mol_schema_instance<String>', Str + '', $mol_key(Str));
-                $mol_assert_equal(true, Str.check(Object('')));
-                $mol_assert_equal(true, Str.check(''));
-                $mol_assert_equal(true, Object('') instanceof Str);
-            },
-        });
-    })($$ = $_1.$$ || ($_1.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($_1) {
-    var $$;
-    (function ($$) {
-        $mol_test({
             "Boolean schema"($) {
                 $mol_assert_equal('$mol_schema_boolean', $mol_schema_boolean + '', $mol_key($mol_schema_boolean));
                 $mol_assert_equal(true, $mol_schema_boolean.check(false));
@@ -18464,28 +17880,6 @@ var $;
                 $mol_assert_equal(false, $mol_schema_boolean.cast('true'));
                 $mol_assert_equal(false, $mol_schema_boolean.guard(false));
                 $mol_assert_fail(() => $mol_schema_boolean.guard(null), 'Wrong type');
-            },
-        });
-    })($$ = $_1.$$ || ($_1.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($_1) {
-    var $$;
-    (function ($$) {
-        $mol_test({
-            "Float schema"($) {
-                $mol_assert_equal('$mol_schema_float', $mol_schema_float + '', $mol_key($mol_schema_float));
-                $mol_assert_equal(true, $mol_schema_float.check(0));
-                $mol_assert_equal(true, $mol_schema_float.check(Number.NaN));
-                $mol_assert_equal(true, $mol_schema_float.check(Number.POSITIVE_INFINITY));
-                $mol_assert_equal(false, $mol_schema_float.check(null));
-                $mol_assert_equal(1.5, $mol_schema_float.cast(1.5));
-                $mol_assert_equal(Number.NaN, $mol_schema_float.cast('0'));
-                $mol_assert_equal(Number.EPSILON, $mol_schema_float.guard(Number.EPSILON));
-                $mol_assert_fail(() => $mol_schema_float.guard('0'), 'Wrong type');
             },
         });
     })($$ = $_1.$$ || ($_1.$$ = {}));
@@ -18533,26 +17927,6 @@ var $;
                 $mol_assert_equal(1n, $mol_schema_bigint.cast(1));
                 $mol_assert_equal(0n, $mol_schema_bigint.guard(0n));
                 $mol_assert_fail(() => $mol_schema_bigint.guard(1), 'Wrong type');
-            },
-        });
-    })($$ = $_1.$$ || ($_1.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($_1) {
-    var $$;
-    (function ($$) {
-        $mol_test({
-            "String schema"($) {
-                $mol_assert_equal('$mol_schema_string', $mol_schema_string + '', $mol_key($mol_schema_string));
-                $mol_assert_equal(true, $mol_schema_string.check('foo'));
-                $mol_assert_equal(false, $mol_schema_string.check(123));
-                $mol_assert_equal('foo', $mol_schema_string.cast('foo'));
-                $mol_assert_equal('', $mol_schema_string.cast(123));
-                $mol_assert_equal('foo', $mol_schema_string.guard('foo'));
-                $mol_assert_fail(() => $mol_schema_string.guard(123), 'Wrong type');
             },
         });
     })($$ = $_1.$$ || ($_1.$$ = {}));
@@ -18659,35 +18033,6 @@ var $;
                 $mol_assert_equal([123], Vector.guard([123]));
                 $mol_assert_fail(() => Vector.guard(0), 'Non array');
                 $mol_assert_fail(() => Vector.guard([false]), 'Wrong item');
-            },
-        });
-    })($$ = $_1.$$ || ($_1.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($_1) {
-    var $$;
-    (function ($$) {
-        $mol_test({
-            "Cache of maybe schema"($) {
-                $mol_assert_equal($mol_schema_maybe($mol_schema_float), $mol_schema_maybe($mol_schema_float));
-                $mol_assert_unique($mol_schema_maybe($mol_schema_float), $mol_schema_maybe($mol_schema_string));
-            },
-            "Optional value"($) {
-                const Config = $mol_schema_maybe($mol_schema_string);
-                $mol_assert_equal('$mol_schema_maybe<$mol_schema_string>', Config + '');
-                $mol_assert_equal(true, Config.check('foo'));
-                $mol_assert_equal(true, Config.check(undefined));
-                $mol_assert_equal(true, Config.check(null));
-                $mol_assert_equal(false, Config.check(0));
-                $mol_assert_equal('foo', Config.cast('foo'));
-                $mol_assert_equal(undefined, Config.cast(undefined));
-                $mol_assert_equal(null, Config.cast(null));
-                $mol_assert_equal(null, Config.cast(0));
-                $mol_assert_equal('foo', Config.guard('foo'));
-                $mol_assert_fail(() => Config.guard(123), 'Wrong type');
             },
         });
     })($$ = $_1.$$ || ($_1.$$ = {}));
