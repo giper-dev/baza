@@ -16735,7 +16735,7 @@ var $;
                     if (next !== undefined)
                         Schema.guard(next);
                     const res = this.vary_of(peer, next);
-                    return Schema.cast(res);
+                    return next === undefined ? Schema.cast(res) : this.val_of(peer);
                 }
                 static toString() {
                     return this === $giper_baza_atom_of ? '$giper_baza_atom.of<' + Schema + '>' : super.toString();
