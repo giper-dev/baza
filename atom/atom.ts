@@ -91,7 +91,7 @@ namespace $ {
 					if( next !== undefined ) Schema.guard( next )
 					
 					const res = this.vary_of( peer, next as any )
-					return Schema.cast( res )
+					return next === undefined ? Schema.cast( res ) : this.val_of( peer )
 					
 				}
 
