@@ -5506,27 +5506,29 @@ var $;
         static toString() {
             return $$.$mol_func_name(this);
         }
-        /** Type-guard that checks value by schema. */
-        static check(val) {
+        /** Type-predicate that checks value by schema. */
+        static check(value) {
             try {
-                this.guard(val);
+                this.guard(value);
                 return true;
             }
             catch (error) {
                 return false;
             }
         }
-        static [Symbol.hasInstance](val) {
-            return this.check(val);
+        /** `instanceof` support */
+        static [Symbol.hasInstance](value) {
+            return this.check(value);
         }
-        /** Strict parse. Fails of wrong values. */
+        /** Type-parser that fails of wrong values. */
         static guard(value) {
             return value;
         }
-        /** Relaxed cast. Normalizes wrong values. */
+        /** Type-caster that normalizes wrong values. */
         static cast(value) {
             try {
-                return this.guard(value);
+                this.guard(value);
+                return value;
             }
             catch (error) {
                 return this.default;
@@ -18055,9 +18057,9 @@ var $;
                     return value;
                 return $mol_fail(new TypeError('Wrong option', { cause: { value, schema: this } }));
             }
-            static cast(val) {
-                if (this.check(val))
-                    return val;
+            static cast(value) {
+                if (this.check(value))
+                    return value;
                 return Options[0];
             }
             static default = Options[0];

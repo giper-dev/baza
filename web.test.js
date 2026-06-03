@@ -5796,9 +5796,9 @@ var $;
                     return value;
                 return $mol_fail(new TypeError('Wrong option', { cause: { value, schema: this } }));
             }
-            static cast(val) {
-                if (this.check(val))
-                    return val;
+            static cast(value) {
+                if (this.check(value))
+                    return value;
                 return Options[0];
             }
             static default = Options[0];
