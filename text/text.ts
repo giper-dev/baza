@@ -54,7 +54,7 @@ namespace $ {
 				const land = this.land()
 				
 				for( const unit of this.units() ) {
-					if( unit.tag() === 'term' ) str += $giper_baza_vary_cast_text( land.sand_decode( unit ) ) ?? ''
+					if( unit.tag() === 'term' ) str += $mol_schema_string.cast( land.sand_decode( unit ) )
 					else str += land.Pawn( $giper_baza_text ).Head( unit.self() ).str()
 				}
 				
@@ -84,7 +84,7 @@ namespace $ {
 			
 			while( from < list.length ) {
 				
-				word = $giper_baza_vary_cast_text( land.sand_decode( list[ from ] ) ) ?? ''
+				word = $mol_schema_string.cast( land.sand_decode( list[ from ] ) )
 				
 				if( str_from <= word.length ) {
 					next = word.slice( 0, str_from ) + next
@@ -102,7 +102,7 @@ namespace $ {
 			
 			while( to < list.length ) {
 				
-				word = $giper_baza_vary_cast_text( land.sand_decode( list[ to ] ) ) ?? ''
+				word = $mol_schema_string.cast( land.sand_decode( list[ to ] ) )
 				to ++
 				
 				if( str_to < word.length ) {
@@ -116,7 +116,7 @@ namespace $ {
 			
 			if( from && from === list.length ) {
 				-- from
-				next = ( $giper_baza_vary_cast_text( land.sand_decode( list[ from ] ) ) ?? '' ) + next
+				next = $mol_schema_string.cast( land.sand_decode( list[ from ] ) ) + next
 			}
 			
 			const words = next.match( $giper_baza_text_tokens ) ?? []
@@ -135,7 +135,7 @@ namespace $ {
 				
 				if( unit.tag() === 'term' ) {
 					
-					const len = $giper_baza_vary_cast_text( land.sand_decode( unit ) )?.length ?? 0
+					const len = $mol_schema_string.cast( land.sand_decode( unit ) ).length
 					
 					if( off <= len ) return [ unit.self().str, off, 0 ]
 					else off -= len
@@ -165,7 +165,7 @@ namespace $ {
 				
 				if( unit.tag() === 'term' ) {
 					
-					offset += $giper_baza_vary_cast_text( land.sand_decode( unit ) )?.length ?? 0
+					offset += $mol_schema_string.cast( land.sand_decode( unit ) ).length
 					
 				} else {
 					

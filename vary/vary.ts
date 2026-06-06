@@ -10,6 +10,17 @@ namespace $ {
 	| $mol_tree2 | $giper_baza_link | Element
 	| readonly $giper_baza_vary_type[] | Readonly<{ [ key in string ]: $giper_baza_vary_type }>
 	
+	// export let $giper_baza_vary_schema = $mol_schema_some([
+	// 	$mol_schema_boolean, $mol_schema_float, $mol_schema_bigint, $mol_schema_string,
+	// 	Uint8Array, Uint16Array, Uint32Array, BigUint64Array,
+	// 	Int8Array, Int16Array, Int32Array, BigInt64Array,
+	// 	Float64Array, Float32Array, Float64Array,
+	// 	$mol_time_moment, $mol_time_duration, $mol_time_interval,
+	// 	$mol_tree2, $giper_baza_link, Element,
+	// 	$mol_schema_list( ()=> $giper_baza_vary_schema ),
+	// 	$mol_schema_dict([ ()=> $giper_baza_vary_schema, ()=> $giper_baza_vary_schema ]),
+	// ])
+	
 	export let $giper_baza_vary = $mol_vary.zone()
 	
 	$giper_baza_vary.type({
@@ -46,53 +57,5 @@ namespace $ {
 		lean: obj => [ $$.$mol_tree2_to_string( obj ) ],
 		rich: ([ str ])=> $$.$mol_tree2_from_string( str ),
 	})
-	
-	export function $giper_baza_vary_switch< Ways extends {
-		
-		none: ( vary: null )=> any,
-		blob: ( vary: ArrayBufferView< ArrayBuffer > )=> any,
-		bool: ( vary: boolean )=> any,
-		bint: ( vary: bigint )=> any,
-		real: ( vary: number )=> any,
-		link: ( vary: $giper_baza_link )=> any,
-		text: ( vary: string )=> any,
-		time: ( vary: $mol_time_moment )=> any,
-		dura: ( vary: $mol_time_duration )=> any,
-		span: ( vary: $mol_time_interval )=> any,
-		dict: ( vary: {} )=> any,
-		list: ( vary: any[] )=> any,
-		elem: ( vary: Element )=> any,
-		tree: ( vary: $mol_tree2 )=> any,
-		
-	} >(
-		vary: $giper_baza_vary_type,
-		ways: Ways,
-	): $mol_type_result< Ways[ keyof Ways ] > {
-		
-		if( vary === null ) return ways.none( vary )
-			
-		switch( typeof vary ) {
-			case "boolean": return ways.bool( vary )
-			case "bigint": return ways.bint( vary )
-			case "number": return ways.real( vary )
-			case "string": return ways.text( vary )
-		}
-		
-		if( ArrayBuffer.isView( vary ) ) return ways.blob( vary as ArrayBufferView< ArrayBuffer > )
-		
-		switch( Reflect.getPrototypeOf( vary ) ) {
-			case Object.prototype: return ways.dict( vary )
-			case Array.prototype: return ways.list( vary as any[] )
-			case $giper_baza_link.prototype: return ways.link( vary as $giper_baza_link )
-			case $mol_time_moment.prototype: return ways.time( vary as $mol_time_moment )
-			case $mol_time_duration.prototype: return ways.dura( vary as $mol_time_duration )
-			case $mol_time_interval.prototype: return ways.span( vary as $mol_time_interval )
-			case $mol_tree2.prototype: return ways.tree( vary as $mol_tree2 )
-		}
-		
-		if( vary instanceof $mol_dom_context.Element ) return ways.elem( vary )
-		
-		return $mol_fail( new TypeError( `Unsupported vary type`, { cause: { vary }} ) )
-	}
 	
 }

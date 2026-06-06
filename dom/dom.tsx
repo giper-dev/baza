@@ -100,7 +100,7 @@ namespace $ {
 					next: sample,
 					equal: ( next, prev )=> {
 						if( typeof next === 'string' ) {
-							const p = $giper_baza_vary_cast_text( land.sand_decode( prev ) )
+							const p = $mol_schema_string.cast( land.sand_decode( prev ) )
 							if( !p ) return false
 							return p.startsWith( next ) || next.startsWith( p )
 						} else if( next.nodeType === next.ATTRIBUTE_NODE ) {
@@ -181,7 +181,7 @@ namespace $ {
 						: {}
 					
 					const content = unit.tag() === 'term'
-						? $giper_baza_vary_cast_text( land.sand_decode( unit ) )
+						? $mol_schema_string.cast( land.sand_decode( unit ) )
 						: doms.Head( unit.self() ).dom()
 					
 					return <Tag { ... attrs } id={ unit.self().str } >{ content }</Tag>

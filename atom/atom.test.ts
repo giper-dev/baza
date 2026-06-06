@@ -75,7 +75,7 @@ namespace $.$$ {
 			
 			type Infered = $mol_type_assert<
 				ReturnType< FileType['val'] >,
-				'file' | 'dir' | 'link' | null | undefined
+				'file' | 'dir' | 'link' | null
 			>
 			
 			const land = $.$giper_baza_glob.home().land()
