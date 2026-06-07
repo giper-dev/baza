@@ -9003,7 +9003,7 @@ var $;
     // 	$mol_tree2, $giper_baza_link, Element,
     // 	$mol_schema_list( ()=> $giper_baza_vary_schema ),
     // 	$mol_schema_dict([ ()=> $giper_baza_vary_schema, ()=> $giper_baza_vary_schema ]),
-    // ])
+    // ].map( klass => $mol_schema_instance( klass ) )
     $.$giper_baza_vary = $mol_vary.zone();
     $.$giper_baza_vary.type({
         type: $giper_baza_link,
@@ -11649,7 +11649,7 @@ var $;
     }
     $.$giper_baza_list_list = $giper_baza_list_list;
     /** Mergeable list of atomic DOM elements */
-    class $giper_baza_list_dom extends $giper_baza_list.of($mol_dom.Element) {
+    class $giper_baza_list_dom extends $giper_baza_list.of($mol_dom.Element ?? Object) {
     }
     $.$giper_baza_list_dom = $giper_baza_list_dom;
     /** Mergeable list of atomic Trees */
@@ -11946,7 +11946,7 @@ var $;
     }
     $.$giper_baza_atom_list = $giper_baza_atom_list;
     /** Atomic DOM element */
-    class $giper_baza_atom_elem extends $giper_baza_atom.of($mol_dom.Element) {
+    class $giper_baza_atom_elem extends $giper_baza_atom.of($mol_dom.Element ?? Object) {
     }
     $.$giper_baza_atom_elem = $giper_baza_atom_elem;
     /** Atomic Tree */
