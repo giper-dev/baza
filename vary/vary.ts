@@ -19,7 +19,7 @@ namespace $ {
 	// 	$mol_tree2, $giper_baza_link, Element,
 	// 	$mol_schema_list( ()=> $giper_baza_vary_schema ),
 	// 	$mol_schema_dict([ ()=> $giper_baza_vary_schema, ()=> $giper_baza_vary_schema ]),
-	// ])
+	// ].map( klass => $mol_schema_instance( klass ) )
 	
 	export let $giper_baza_vary = $mol_vary.zone()
 	

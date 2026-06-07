@@ -141,7 +141,7 @@ namespace $ {
 	export class $giper_baza_atom_list extends $giper_baza_atom.of( $mol_schema_list( $mol_schema_any ) ) {}
 	
 	/** Atomic DOM element */
-	export class $giper_baza_atom_elem extends $giper_baza_atom.of( $mol_dom.Element ) {}
+	export class $giper_baza_atom_elem extends $giper_baza_atom.of( $mol_dom.Element ?? Object ) {}
 	
 	/** Atomic Tree */
 	export class $giper_baza_atom_tree extends $giper_baza_atom.of( $mol_tree2 ) {}
