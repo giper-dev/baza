@@ -1,14 +1,32 @@
 namespace $ {
-	
+
 	export class $giper_baza_app_node extends $mol_rest_resource_fs {
-		
+
 		@ $mol_memo.method
 		link() {
 			return new $giper_baza_app_node_link
 		}
-		
+
 		_protocols = [ '$giper_baza_yard' ]
-		
+
+		GET( msg: $mol_rest_message ) {
+
+			let id: string | undefined
+			try {
+				id = $giper_baza_file_query.parse( msg.uri().search ).file[ '=' ]?.[0][0]
+			} catch {}
+
+			if( !id ) return super.GET( msg )
+
+			const link = new $giper_baza_link( id )
+			const file = this.$.$giper_baza_glob.Pawn( link, $giper_baza_file )
+
+			msg.port.send_code( file.filled() ? 200 : 404 )
+			msg.port.send_type( file.type() as $mol_rest_port_mime )
+			msg.port.send_bin( file.buffer() )
+
+		}
+
 		OPEN( msg: $mol_rest_message ) {
 			
 			const protocol = super.OPEN( msg )
