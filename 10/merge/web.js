@@ -16501,7 +16501,6 @@ var $;
                             units: part.units,
                         });
                     Land.diff_apply(part.units);
-                    port.send_bin(Land.face_pack().asArray());
                 }
                 else {
                     if (this.$.$giper_baza_log())
@@ -16582,6 +16581,7 @@ var $;
                     });
                 const pack = $giper_baza_pack.make([[Land.link().str, part]]);
                 port.send_bin(pack.asArray());
+                faces.sync(part.faces);
             }
             catch (error) {
                 if ($mol_promise_like(error))
