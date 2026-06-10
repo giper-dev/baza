@@ -144,6 +144,7 @@ namespace $ {
 				for( const land of lands ) land.units_saving()
 				this.lands_news.clear()
 			} catch( error ) {
+				if( $mol_promise_like( error ) ) $mol_fail_hidden( error )
 				$mol_fail_log( error )
 			}
 			
@@ -177,6 +178,7 @@ namespace $ {
 			try {
 				return [ this.master() ].filter( $mol_guard_defined )
 			} catch( error ) {
+				if( $mol_promise_like( error ) ) $mol_fail_hidden( error )
 				$mol_fail_log( error )
 				return []
 			}
@@ -234,6 +236,7 @@ namespace $ {
 					})
 					
 					Land.diff_apply( part.units )
+					port.send_bin( Land.face_pack().asArray() )
 					
 				} else {
 					
@@ -348,9 +351,9 @@ namespace $ {
 				const pack = $giper_baza_pack.make([[ Land.link().str, part ]])
 				
 				port.send_bin( pack.asArray() )
-				faces.sync( part.faces )
 			
 			} catch( error ) {
+				if( $mol_promise_like( error ) ) $mol_fail_hidden( error )
 				$mol_fail_log( error )
 			}
 			
