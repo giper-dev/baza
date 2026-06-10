@@ -131,23 +131,20 @@ namespace $ {
 		
 		@ $mol_mem
 		sync_news() {
+			const ports = this.masters()
+			if( !ports.length ) return
 			
-			const glob = this.$.$giper_baza_glob
-			const lands = [ ... this.lands_news ].map( link => glob.Land( new $giper_baza_link( link ) ) )
-			
-			try {
-				for( const port of this.masters() ) {
-					for( const land of lands ) {
-						this.sync_port_land([ port, land.link() ])
-					}
-				}
-				for( const land of lands ) land.units_saving()
-				this.lands_news.clear()
-			} catch( error ) {
-				if( $mol_promise_like( error ) ) $mol_fail_hidden( error )
-				$mol_fail_log( error )
+			const lands_news = [ ... this.lands_news ]
+			for( const land of lands_news ) {
+				
+				const land_link = new $giper_baza_link( land )
+				const synced = ports.map( port => this.sync_port_land([ port, land_link ]) ).every( Boolean )
+				
+				this.$.$giper_baza_glob.Land( land_link ).units_saving()
+				
+				if( synced ) this.lands_news.delete( land )
+				
 			}
-			
 		}
 		
 		@ $mol_mem
@@ -331,13 +328,13 @@ namespace $ {
 				this.init_port_land([ port, land ])
 				
 				const faces = this.face_port_land([ port, land ])
-				if( !faces ) return
+				if( !faces ) return true
 				
 				const Land = this.$.$giper_baza_glob.Land( land )
 				Land.units_saving()
 				
 				const part = Land.diff_part( faces )
-				if( !part.units.length ) return
+				if( !part.units.length ) return true
 				
 				if( this.$.$giper_baza_log() ) this.$.$mol_log3_rise({
 					place: this,
@@ -351,10 +348,12 @@ namespace $ {
 				
 				port.send_bin( pack.asArray() )
 				faces.sync( part.faces )
-			
+				return true
+				
 			} catch( error ) {
 				if( $mol_promise_like( error ) ) $mol_fail_hidden( error )
 				$mol_fail_log( error )
+				return false
 			}
 			
 		}
