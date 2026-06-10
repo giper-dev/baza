@@ -1,0 +1,31 @@
+<!doctype html>
+<html mol_view_root>
+	<head>
+		<meta charset="utf-8" />
+		<title>Giper Baza</title>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+		<link href="giper/baza/logo/logo.svg" rel="icon" />
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta property="og:title" content="Giper Baza" />
+		<meta property="og:description" content="Decentralized high-available database with conflict-free real-time synchronization"/>
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Giper Baza"/>
+		<meta property="og:url" content="https://baza.giper.dev/" />
+		<meta property="og:image" content="giper/baza/logo/logo-512.png" />
+	</head>
+	<body mol_view_root>
+		<div mol_view_root="$giper_baza_app"></div>
+		<script src="web.js" charset="utf-8"></script>
+	
+				<script src="/mol/build/client/client.js" charset="utf-8"></script>
+				<script src="web.test.js" charset="utf-8"></script>
+				<script>
+					addEventListener( 'load', ()=> setTimeout( ()=> {
+						const audit =  document.createElement( 'script' )
+						audit.src = 'web.audit.js'
+						document.head.appendChild( audit )
+					}, 500 ) )
+				</script>
+				</body>
+</html>
