@@ -15,7 +15,9 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		units() {
-			return this.pawn().land().sand_ordered({ head: this.pawn().head(), peer: null })
+			const units = this.pawn().land().sand_ordered({ head: this.pawn().head(), peer: null })
+			$mol_wire_sync( this.pawn().land() ).sands_open( units )
+			return units
 		}
 		
 		@ $mol_mem
