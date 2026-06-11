@@ -22464,7 +22464,9 @@ var $;
                 return this.pawn().cast($giper_baza_list).items_vary();
             }
             units() {
-                return this.pawn().land().sand_ordered({ head: this.pawn().head(), peer: null });
+                const units = this.pawn().land().sand_ordered({ head: this.pawn().head(), peer: null });
+                this.pawn().land().sands_open(units);
+                return units;
             }
             pawns() {
                 return this.units().map((_, i) => this.Inner(i));
