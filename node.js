@@ -3279,6 +3279,8 @@ var $;
                     server.root()._auto();
                 }
                 catch (error) {
+                    if ($mol_promise_like(error))
+                        $mol_fail_hidden(error);
                     $mol_fail_log(error);
                 }
             }).fresh();
@@ -11583,10 +11585,12 @@ var $;
             class $giper_baza_list_of extends $giper_baza_list {
                 static Item = Item;
                 items(next) {
-                    if (next)
-                        for (const item of next)
-                            Item.guard(item);
-                    return this.items_vary(next).map(item => Item.cast(item));
+                    if (next === undefined)
+                        return this.items_vary().map(item => Item.cast(item));
+                    for (const item of next)
+                        Item.guard(item);
+                    this.items_vary(next);
+                    return this.items();
                 }
                 static toString() {
                     return this === $giper_baza_list_of ? '$giper_baza_list.of<' + Item + '>' : super.toString();
@@ -12211,13 +12215,14 @@ var $;
         }
     }
     const handler_promise = (event) => handler('Unhandled Rejection', '', 0, 0, event.reason);
+    const handler_promise_node = (reason) => handler('Unhandled Rejection', '', 0, 0, reason);
     if ('addEventListener' in globalThis) {
         globalThis.addEventListener('error', handler);
         globalThis.addEventListener('unhandledrejection', handler_promise);
     }
     if ('process' in globalThis) {
         process.on('uncaughtExceptionMonitor', handler);
-        process.on('unhandledrejection', handler_promise);
+        process.on('unhandledRejection', handler_promise_node);
     }
     const console_error = console.error;
     console.error = function console_error_custom(...args) {
