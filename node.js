@@ -4837,6 +4837,7 @@ var $;
      * Payload >= 2^32 isn't supported
      */
     class $mol_websocket_frame extends $mol_buffer {
+        /** Kind of socket frame. */
         kind(next) {
             if (next) {
                 this.setUint8(0, Number(next.fin) << 7 | $mol_websocket_frame_op[next.op]);
@@ -4851,6 +4852,7 @@ var $;
                 return { op, fin };
             }
         }
+        /** Payload info. */
         data(next) {
             if (next === undefined) {
                 const state = this.getUint8(1);
@@ -4877,11 +4879,15 @@ var $;
                 return next;
             }
         }
+        /** Header size (2..14). */
         size() {
+            if (this.byteLength < 2)
+                return 2;
             const short = this.getUint8(1) & 0b0111_1111;
             const mask = this.getUint8(1) >> 7;
             return (short === 127 ? 10 : short === 126 ? 4 : 2) + (mask ? 4 : 0);
         }
+        /** 4 byte mask. */
         mask() {
             return new Uint8Array(this.buffer, this.byteOffset + this.size() - 4, 4);
         }
@@ -5234,13 +5240,22 @@ var $;
                 if (!chunks)
                     this._ws_income_chunks.set(sock, chunks = []);
                 chunks.push(chunk);
-                const patial_size = chunks.reduce((sum, buf) => sum + buf.byteLength, 0);
                 let frame = $mol_websocket_frame.from(chunks[0]);
-                const msg_size = frame.size() + frame.data().size;
-                if (msg_size > patial_size) {
-                    setTimeout(() => sock.resume());
-                    return;
+                let header_size = frame.size();
+                if (chunks[0].byteLength < header_size) {
+                    if (chunks.length < 2)
+                        return setTimeout(() => sock.resume()), undefined;
+                    chunk = Buffer.from([...chunks[0], ...chunks[1]]);
+                    chunks.splice(0, 2, chunk);
+                    frame = $mol_websocket_frame.from(chunk);
+                    header_size = frame.size();
+                    if (chunk.byteLength < header_size)
+                        return setTimeout(() => sock.resume()), undefined;
                 }
+                const msg_size = header_size + frame.data().size;
+                const patial_size = chunks.reduce((sum, buf) => sum + buf.byteLength, 0);
+                if (msg_size > patial_size)
+                    return setTimeout(() => sock.resume()), undefined;
                 chunk = Buffer.alloc(patial_size);
                 let offset = 0;
                 for (const buf of chunks.splice(0)) {

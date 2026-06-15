@@ -1355,6 +1355,7 @@ declare namespace $ {
      * Payload >= 2^32 isn't supported
      */
     class $mol_websocket_frame extends $mol_buffer {
+        /** Kind of socket frame. */
         kind(next?: {
             op: keyof typeof $mol_websocket_frame_op;
             fin: boolean;
@@ -1365,6 +1366,7 @@ declare namespace $ {
             op: "stop" | "bin" | "txt" | "con" | "ping" | "pong";
             fin: number;
         };
+        /** Payload info. */
         data(next?: {
             size: number;
             mask: boolean;
@@ -1375,7 +1377,9 @@ declare namespace $ {
             size: number;
             mask: number;
         };
+        /** Header size (2..14). */
         size(): number;
+        /** 4 byte mask. */
         mask(): Uint8Array<ArrayBuffer>;
         toString(): string;
         static make(op: keyof typeof $mol_websocket_frame_op, size?: number, mask?: boolean, fin?: boolean): $mol_websocket_frame;
@@ -1420,7 +1424,7 @@ declare namespace $ {
         ws_upgrade(req: InstanceType<$node['http']['IncomingMessage']>, socket: InstanceType<$node['stream']['Duplex']>, head: Buffer<ArrayBuffer>): void;
         _ws_income_chunks: WeakMap<import("node:stream").Duplex, Uint8Array<ArrayBuffer>[]>;
         _ws_income_frames: WeakMap<import("node:stream").Duplex, (string | Uint8Array<ArrayBuffer>)[]>;
-        ws_income(chunk: Buffer<ArrayBuffer>, upgrade: $mol_rest_message, sock: InstanceType<typeof $node.stream.Duplex>): Promise<void>;
+        ws_income(chunk: Buffer<ArrayBuffer>, upgrade: $mol_rest_message, sock: InstanceType<typeof $node.stream.Duplex>): Promise<undefined>;
         root(resource?: $mol_rest_resource): $mol_rest_resource;
     }
 }
