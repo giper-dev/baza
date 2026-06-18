@@ -135,8 +135,10 @@ namespace $ {
 	
 				@ $mol_mem
 				items( next?: readonly Item['default'][] ): readonly Item['default'][] {
-					if( next ) for( const item of next ) Item.guard( item )
-					return this.items_vary( next ).map( item => Item.cast( item ) )
+					if( next === undefined ) return this.items_vary().map( item => Item.cast( item ) )
+					for( const item of next ) Item.guard( item )
+					this.items_vary( next )
+					return this.items()
 				}
 	
 				static toString() {
