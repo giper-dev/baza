@@ -343,10 +343,23 @@ room.mates() // лорды других онлайн-пиров комнаты
 room.ports // установленные прямые порты по лордам
 
 // TURN при необходимости
-$giper_baza_room.ice = [ { urls: 'turn:turn.example.com', username: '...', credential: '...' } ]
+$giper_baza_port_webrtc.ice = [ { urls: 'turn:turn.example.com', username: '...', credential: '...' } ]
 ```
 
 Демо: `giper/baza/room/demo`.
+
+Когда мастер недоступен вовсе (локалка без интернета, hotspot), рукопожатие можно провести вручную через `$giper_baza_hand`: offer и answer - обычные строки, передайте их как угодно (QR, мессенджер, буфер обмена).
+
+```ts
+// Сторона A
+const offer = await hand.proposal() // строку - мейту
+
+// Сторона B
+const answer = await hand2.answer( offer ) // строку - обратно
+
+// Снова сторона A
+await hand.finish( answer ) // канал открыт, общие ленды синкаются напрямую
+```
 
 # Common Scenarios
 

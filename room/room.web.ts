@@ -9,9 +9,6 @@ namespace $ {
 	 */
 	export class $giper_baza_room extends $mol_object {
 
-		/** ICE servers used to establish connections */
-		static ice = [ { urls: 'stun:stun.l.google.com:19302' } ] as RTCIceServer[]
-
 		/** Room by Land id */
 		@ $mol_mem_key
 		static join( link: string ) {
@@ -134,22 +131,15 @@ namespace $ {
 			const self = this.lord()
 			const stamp = Date.now()
 
-			const rtc = new RTCPeerConnection({ iceServers: $giper_baza_room.ice })
-			const channel = rtc.createDataChannel( '$giper_baza_yard' )
+			const { rtc, channel, sdp } = $giper_baza_port_webrtc_propose()
 			this.channel_bind( mate, rtc, channel )
 
-			rtc.onicegatheringstatechange = ()=> {
-				if( rtc.iceGatheringState !== 'complete' ) return
-				if( !rtc.localDescription ) return
+			sdp.then( sdp => {
 				$mol_wire_async( this ).signal_send(
 					$giper_baza_room_key_offer( self, mate ),
-					{ sdp: rtc.localDescription.sdp, t: stamp },
+					{ sdp, t: stamp },
 				)
-			}
-
-			rtc.createOffer()
-				.then( offer => rtc.setLocalDescription( offer ) )
-				.catch( ( error: Error )=> this.$.$mol_fail_log( error ) )
+			} ).catch( ( error: Error )=> this.$.$mol_fail_log( error ) )
 
 			return Object.assign( rtc, {
 				stamp,
@@ -168,7 +158,7 @@ namespace $ {
 			if( Number( answer.t ) !== rtc.stamp ) return false
 			if( rtc.signalingState !== 'have-local-offer' ) return false
 
-			rtc.setRemoteDescription({ type: 'answer', sdp: String( answer.sdp ) })
+			$giper_baza_port_webrtc_finish( rtc, String( answer.sdp ) )
 				.catch( ( error: Error )=> this.$.$mol_fail_log( error ) )
 
 			return true
@@ -185,22 +175,16 @@ namespace $ {
 
 			const stamp = Number( offer.t )
 
-			const rtc = new RTCPeerConnection({ iceServers: $giper_baza_room.ice })
-			rtc.ondatachannel = event => this.channel_bind( mate, rtc, event.channel )
+			const { rtc, channel, sdp } = $giper_baza_port_webrtc_accept( String( offer.sdp ) )
 
-			rtc.onicegatheringstatechange = ()=> {
-				if( rtc.iceGatheringState !== 'complete' ) return
-				if( !rtc.localDescription ) return
+			channel.then( channel => this.channel_bind( mate, rtc, channel ) )
+
+			sdp.then( sdp => {
 				$mol_wire_async( this ).signal_send(
 					$giper_baza_room_key_answer( self, mate ),
-					{ sdp: rtc.localDescription.sdp, t: stamp },
+					{ sdp, t: stamp },
 				)
-			}
-
-			rtc.setRemoteDescription({ type: 'offer', sdp: String( offer.sdp ) })
-				.then( ()=> rtc.createAnswer() )
-				.then( answer => rtc.setLocalDescription( answer ) )
-				.catch( ( error: Error )=> this.$.$mol_fail_log( error ) )
+			} ).catch( ( error: Error )=> this.$.$mol_fail_log( error ) )
 
 			return Object.assign( rtc, {
 				stamp,
@@ -210,23 +194,12 @@ namespace $ {
 
 		channel_bind( mate: string, rtc: RTCPeerConnection, channel: RTCDataChannel ) {
 
-			channel.binaryType = 'arraybuffer'
-
-			const port = $giper_baza_port_webrtc.make({ channel })
-
-			channel.onopen = ()=> {
-				$mol_wire_async( this ).port_add( mate, port )
-			}
-
-			channel.onmessage = event => {
-				if( !( event.data instanceof ArrayBuffer ) ) return
-				if( !event.data.byteLength ) return
-				$mol_wire_async( this ).income( port, new Uint8Array( event.data ) )
-			}
-
-			channel.onclose = ()=> {
-				$mol_wire_async( this ).port_drop( mate, port )
-			}
+			const port = $giper_baza_port_webrtc_bind(
+				channel,
+				( port, data )=> $mol_wire_async( this ).income( port, data ),
+				port => $mol_wire_async( this ).port_add( mate, port ),
+				port => $mol_wire_async( this ).port_drop( mate, port ),
+			)
 
 			rtc.onconnectionstatechange = ()=> {
 				if( rtc.connectionState !== 'failed' ) return

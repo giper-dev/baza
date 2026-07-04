@@ -29,7 +29,7 @@ namespace $.$$ {
 
 			room.run()
 
-			return room.mates().map( mate => this.Mate_row( mate ) )
+			return room.mates().map( ( mate: string )=> this.Mate_row( mate ) )
 		}
 
 		mate_label( mate: string ) {
