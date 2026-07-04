@@ -12,12 +12,6 @@ namespace $ {
 		/** ICE servers used to establish connections */
 		static ice = [ { urls: 'stun:stun.l.google.com:19302' } ] as RTCIceServer[]
 
-		/** Presence heartbeat period, ms */
-		static beat_every = 20_000
-
-		/** Peer with elder heartbeat considered offline, ms */
-		static online_for = 60_000
-
 		/** Room by Land id */
 		@ $mol_mem_key
 		static join( link: string ) {
@@ -53,7 +47,7 @@ namespace $ {
 		/** Current time, refreshes every beat period */
 		@ $mol_mem
 		now( next?: number ): number {
-			setTimeout( ()=> this.now( Date.now() ), $giper_baza_room.beat_every )
+			setTimeout( ()=> this.now( Date.now() ), $giper_baza_room_beat_every )
 			return next ?? Date.now()
 		}
 
@@ -70,7 +64,7 @@ namespace $ {
 		@ $mol_mem
 		beat() {
 			const now = this.now()
-			this.signal_send( 'beat_' + this.lord(), { t: now } )
+			this.signal_send( $giper_baza_room_key_beat( this.lord() ), { t: now } )
 			return now
 		}
 
@@ -85,14 +79,13 @@ namespace $ {
 			for( const key of this.data().keys() ) {
 
 				if( typeof key !== 'string' ) continue
-				if( !key.startsWith( 'beat_' ) ) continue
 
-				const lord = key.slice( 'beat_'.length )
-				if( lord === self ) continue
+				const lord = $giper_baza_room_beat_lord( key )
+				if( !lord || lord === self ) continue
 
 				const beat = this.signal( key )
 				if( !beat ) continue
-				if( now - Number( beat.t ?? 0 ) > $giper_baza_room.online_for ) continue
+				if( !$giper_baza_room_fresh( Number( beat.t ?? 0 ), now ) ) continue
 
 				mates.push( lord )
 			}
@@ -114,7 +107,7 @@ namespace $ {
 		/** Connection with mate. Peer with lesser lord id makes offer. */
 		@ $mol_mem_key
 		pair( mate: string ) {
-			if( this.lord() < mate ) {
+			if( $giper_baza_room_offerer( this.lord(), mate ) ) {
 				this.answer_apply( mate )
 				return this.propose( mate )
 			}
@@ -149,7 +142,7 @@ namespace $ {
 				if( rtc.iceGatheringState !== 'complete' ) return
 				if( !rtc.localDescription ) return
 				$mol_wire_async( this ).signal_send(
-					`offer_${ self }>${ mate }`,
+					$giper_baza_room_key_offer( self, mate ),
 					{ sdp: rtc.localDescription.sdp, t: stamp },
 				)
 			}
@@ -169,7 +162,7 @@ namespace $ {
 		answer_apply( mate: string ) {
 
 			const rtc = this.propose( mate )
-			const answer = this.signal( `answer_${ mate }>${ this.lord() }` )
+			const answer = this.signal( $giper_baza_room_key_answer( mate, this.lord() ) )
 
 			if( !answer ) return false
 			if( Number( answer.t ) !== rtc.stamp ) return false
@@ -187,7 +180,7 @@ namespace $ {
 
 			const self = this.lord()
 
-			const offer = this.signal( `offer_${ mate }>${ self }` )
+			const offer = this.signal( $giper_baza_room_key_offer( mate, self ) )
 			if( !offer ) return null
 
 			const stamp = Number( offer.t )
@@ -199,7 +192,7 @@ namespace $ {
 				if( rtc.iceGatheringState !== 'complete' ) return
 				if( !rtc.localDescription ) return
 				$mol_wire_async( this ).signal_send(
-					`answer_${ self }>${ mate }`,
+					$giper_baza_room_key_answer( self, mate ),
 					{ sdp: rtc.localDescription.sdp, t: stamp },
 				)
 			}
@@ -275,7 +268,7 @@ namespace $ {
 				mate,
 			})
 
-			if( this.lord() < mate ) this.restart( mate )
+			if( $giper_baza_room_offerer( this.lord(), mate ) ) this.restart( mate )
 
 		}
 
