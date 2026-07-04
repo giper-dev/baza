@@ -1,0 +1,28 @@
+$giper_baza_room_demo $mol_page
+	title \Giper Baza P2P Room
+	body /
+		<= Intro $mol_paragraph
+			title \Open this page with the same ?room= arg from another account to see direct P2P sync.
+		<= Lord_row $mol_labeler
+			title \My Lord
+			content /
+				<= lord \
+		<= Room_row $mol_labeler
+			title \Room Land
+			content /
+				<= Room_new $mol_button_major
+					title \New Room
+					click? <=> room_new? null
+				<= room_id \
+		<= Mates_row $mol_labeler
+			title \Mates
+			content /
+				<= Mates $mol_list
+					rows <= mate_rows /
+		<= Text_row $mol_labeler
+			title \Shared Text
+			content /
+				<= Text $mol_textarea
+					value? <=> text? \
+	Mate_row* $mol_paragraph
+		title <= mate_label* \

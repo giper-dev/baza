@@ -122,6 +122,9 @@ namespace $ {
 		}
 		
 		slaves = new $mol_wire_set< $mol_rest_port >()
+
+		/** Direct P2P ports which sync all touched lands like masters */
+		peers = new $mol_wire_set< $mol_rest_port >()
 		
 		@ $mol_mem
 		sync() {
@@ -136,7 +139,7 @@ namespace $ {
 			const lands = [ ... this.lands_news ].map( link => glob.Land( new $giper_baza_link( link ) ) )
 			
 			try {
-				for( const port of this.masters() ) {
+				for( const port of [ ... this.masters(), ... this.peers ] ) {
 					for( const land of lands ) {
 						this.sync_port_land([ port, land.link() ])
 					}
@@ -169,7 +172,7 @@ namespace $ {
 		
 		@ $mol_mem
 		ports() {
-			return [ ... this.masters(), ... this.slaves ]
+			return [ ... this.masters(), ... this.peers, ... this.slaves ]
 		}
 		
 		@ $mol_mem
@@ -285,7 +288,7 @@ namespace $ {
 		
 		@ $mol_mem_key
 		sync_land( land: $giper_baza_link ) {
-			for( const port of this.masters() ) {
+			for( const port of [ ... this.masters(), ... this.peers ] ) {
 				this.port_lands_passive( port ).add( land.str )
 				this.sync_port_land([ port, land ])
 			}

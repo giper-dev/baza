@@ -3,10 +3,10 @@
 > 💡 Decentralized high-available database with conflict-free real-time synchronization.
 
 - **Convergent**: CvRDT, Total-Ordered, Interleaving-Free, Weak-Typed
-- **Realtime**: Delta-Replication, WebSocket/🔜WebRTC, Instant-Start
+- **Realtime**: Delta-Replication, WebSocket/WebRTC, Instant-Start
 - **Unbreakable**: High-Availability, Partition-Tolerance, Auto-Recovery
 - **Secure**: Digital-Signature, End-to-End Encryption, Encrypted-Merge, Zero-Trust
-- **Decentralized**: Local-First, Simple-Smart-Contract, 🔜Peer-to-Peer
+- **Decentralized**: Local-First, Simple-Smart-Contract, Peer-to-Peer
 - **Brilliant**: Reactive-Architecture, Clustered-Graph-Model, First Class ISO8601/JSON/DOM/Tree
 
 ## Guarantees
@@ -319,6 +319,34 @@ export class $my_app extends $mol_object {
 Пакет состоит из произвольного числа частей разных типов. Пакет может передаваться как сообщение другому пиру, может сохраняться в файл. И даже СУБД может хранить данные в том же самом формате.
 
 ![](diagram/crus-pack.png)
+
+## Peer to Peer
+
+Пиры, встретившиеся в одном ленде-комнате (Room), устанавливают прямые WebRTC-соединения и синкают все общие ленды напрямую, минуя мастеров.
+
+- Сигналинг идёт через саму комнату: offer/answer сохраняются как обычные юниты и доезжают до второго пира через штатную синхронизацию, так что отдельный сигналинг-сервер не нужен.
+- Роль оффера детерминирована: его делает пир с меньшим идентификатором лорда.
+- ICE-кандидаты собираются целиком (non-trickle), поэтому на установку соединения достаточно одной записи с каждой стороны.
+- После открытия канала порт добавляется в Yard и работает наравне с мастерами: обмен фейсами, доливка недостающих юнитов.
+- Прямому каналу не требуется доверие: юниты подписаны, приватное зашифровано, каждый узел всё проверяет сам.
+- Если прямое соединение не установилось (например, symmetric NAT без TURN), синхронизация продолжает работать через мастеров.
+
+```ts
+// Создание комнаты (ленд с правом post для всех)
+const room_land = this.$.$giper_baza_room_grab()
+
+// Подключение к комнате (реактивный цикл, держите run() востребованным)
+const room = this.$.$giper_baza_room.join( room_land.link().str )
+room.run()
+
+room.mates() // лорды других онлайн-пиров комнаты
+room.ports // установленные прямые порты по лордам
+
+// TURN при необходимости
+$giper_baza_room.ice = [ { urls: 'turn:turn.example.com', username: '...', credential: '...' } ]
+```
+
+Демо: `giper/baza/room/demo`.
 
 # Common Scenarios
 
