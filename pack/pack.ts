@@ -42,8 +42,13 @@ namespace $ {
 			return new Blob( [ this ], { type: 'application/vnd.giper_baza_pack.v1' } )
 		}
 		
+		/**
+		 * Parses Pack to Parts.
+		 * `lazy_balls` keeps big Sand Balls in storage instead of memory.
+		 * Such Balls are paged in on demand by `$giper_baza_mine.ball_load`.
+		 */
 		@ $mol_action
-		parts( offsets?: WeakMap< ArrayBuffer, number >, pool?: $mol_memory_pool ) {
+		parts( offsets?: WeakMap< ArrayBuffer, number >, pool?: $mol_memory_pool, lazy_balls = false ) {
 			
 			const parts = new Map< string, $giper_baza_pack_part >
 			let part = null as null | $giper_baza_pack_part
@@ -143,7 +148,7 @@ namespace $ {
 						offset += sand.byteLength
 						
 						if( length_ball ) {
-							sand._ball = buf.slice( offset, offset + size )
+							if( !lazy_balls ) sand._ball = buf.slice( offset, offset + size )
 							offset += length_ball
 						}
 						

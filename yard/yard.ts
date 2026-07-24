@@ -1,6 +1,9 @@
 namespace $ {
 	
 	const Passives = new WeakMap< $mol_rest_port, Set< string > >()
+
+	/** Max Ball bytes packed into one sync batch. Caps peak memory during resync. */
+	export let $giper_baza_yard_diff_budget = 4 * 2**20
 	
 	/** Glob synchronizer */
 	export class $giper_baza_yard extends $mol_object {
@@ -323,20 +326,23 @@ namespace $ {
 		
 		@ $mol_mem_key
 		sync_port_land( [ port, land ]: [ $mol_rest_port, $giper_baza_link ] ) {
-			
+
+			const Land = this.$.$giper_baza_glob.Land( land )
+
 			try {
-			
+
 				this.init_port_land([ port, land ])
-				
+
 				const faces = this.face_port_land([ port, land ])
 				if( !faces ) return
-				
-				const Land = this.$.$giper_baza_glob.Land( land )
+
 				Land.units_saving()
-				
-				const part = Land.diff_part( faces )
+
+				// Header-only diff: big Balls are streamed below in bounded batches,
+				// so a full resync never materializes a whole Land in one pack.
+				const part = Land.diff_part( faces, false )
 				if( !part.units.length ) return
-				
+
 				if( this.$.$giper_baza_log() ) this.$.$mol_log3_rise({
 					place: this,
 					message: 'Send Unit',
@@ -344,16 +350,57 @@ namespace $ {
 					land: Land,
 					part,
 				})
-				
-				const pack = $giper_baza_pack.make([[ Land.link().str, part ]])
-				
-				port.send_bin( pack.asArray() )
+
+				// Light units (passes, seals, gifts, small sands) go first so every
+				// seal precedes the big sands it covers. Big sands follow, grouped
+				// under a byte budget with Balls paged in per batch and freed after.
+				const light = [] as $giper_baza_unit[]
+				const heavy = [] as $giper_baza_unit_sand[]
+				for( const unit of part.units ) {
+					if( unit instanceof $giper_baza_unit_sand && unit.big() ) heavy.push( unit )
+					else light.push( unit )
+				}
+
+				const batches = [] as $giper_baza_unit[][]
+				if( light.length ) batches.push( light )
+
+				let batch = [] as $giper_baza_unit[]
+				let batch_size = 0
+				for( const sand of heavy ) {
+					const size = sand.size()
+					if( batch.length && batch_size + size > $giper_baza_yard_diff_budget ) {
+						batches.push( batch )
+						batch = []
+						batch_size = 0
+					}
+					batch.push( sand )
+					batch_size += size
+				}
+				if( batch.length ) batches.push( batch )
+
+				for( let i = 0; i < batches.length; ++i ) {
+					try {
+						for( const unit of batches[i] ) {
+							if( unit instanceof $giper_baza_unit_sand && unit.big() ) Land.ball_borrow( unit )
+						}
+						// Faces ride the last batch: client is caught-up only after the whole diff arrives.
+						const faces_part = i === batches.length - 1 ? part.faces : new $giper_baza_face_map
+						const pack = $giper_baza_pack.make([[ Land.link().str, new $giper_baza_pack_part( batches[i], faces_part ) ]])
+						port.send_bin( pack.asArray() )
+					} finally {
+						Land.balls_release()
+					}
+				}
+
 				faces.sync( part.faces )
-			
+
 			} catch( error ) {
 				$mol_fail_log( error )
+			} finally {
+				// Balls were paged in only to be packed - don't pin them in memory.
+				Land.balls_release()
 			}
-			
+
 		}
 		
 		@ $mol_mem_key

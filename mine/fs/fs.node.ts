@@ -110,21 +110,54 @@ namespace $ {
 			if( version( this.sides[0] ) < version( this.sides[1] ) ) this.sides.reverse()
 		}
 		
-		/** Load whole data. */
-		load() {
+		/** Mirror the last successful load() read from. Balls are paged from the same one. */
+		loaded_file = null as null | $mol_file
+
+		/** Load whole data. `side` 0 is the fresher mirror, 1 is the backup. */
+		load( side = 0 ) {
 			this.load_init()
+			const file = this.sides[ side ]
 			try {
-				const tx = this.sides[0].open( 'read_only' )
+				const tx = file.open( 'read_only' )
 				const data = tx.read()
 				tx.destructor()
 				this.pool().acquire( data.byteLength )
+				this.loaded_file = file
 				return data
 			} catch( error: any ) {
-				if( error.code === 'ENOENT' ) return new Uint8Array()
+				if( error.code === 'ENOENT' ) { this.loaded_file = file; return new Uint8Array() }
 				return $mol_fail_hidden( error )
 			}
 		}
-		
+
+		/** Reads slice of mirror without loading it whole. */
+		ball_read( position: number, size: number ) {
+
+			const file = this.loaded_file ?? ( this.load_init(), this.sides[0] )
+
+			const descr = $node.fs.openSync( file.path(), 'r' )
+
+			try {
+
+				const ball = new Uint8Array( size )
+
+				for( let done = 0; done < size; ) {
+
+					const read = $node.fs.readSync( descr, ball, done, size - done, position + done )
+					if( !read ) $mol_fail( new Error( `Ball is truncated (${ done }/${ size })` ) )
+
+					done += read
+
+				}
+
+				return ball
+
+			} finally {
+				$node.fs.closeSync( descr )
+			}
+
+		}
+
 		/** Safe writes to both mirrors. */
 		atomic( task: ( act: $giper_baza_mine_fs_yym_act )=> void ) {
 			
@@ -226,33 +259,84 @@ namespace $ {
 			for( const unit of diff.ins ) {
 				this.units_persisted.add( unit )
 			}
-			
+
 		}
-		
+
+		/** Loads Ball from mirror by Sand offset. */
+		@ $mol_action
+		override ball_load( sand: $giper_baza_unit_sand ) {
+
+			const offset = this.store().offsets().get( sand.buffer )
+			if( offset === undefined ) return $mol_fail(
+				new Error( 'No stored offset for Sand', { cause: { sand } } )
+			)
+
+			const ball = this.store().ball_read( offset + sand.byteLength, sand.size() )
+
+			// Ball is addressed by Shot inside signed Sand header, so storage can't tamper it silently.
+			if( $giper_baza_link.hash_bin( ball ).str !== sand.shot().str ) $mol_fail(
+				new Error( 'Wrong Ball hash', { cause: { sand } } )
+			)
+
+			return ball
+		}
+
 		@ $mol_action
 		override units_load() {
-			
-			this.store().pool( null )
-			
-			const buf = this.store().load()
-			if( !buf.length ) return []
-			
-			const pack = $giper_baza_pack.from( buf )
-			
-			const parts = new Map( pack.parts( this.store().offsets(), this.store().pool() ) )
-			if( parts.size > 1 ) return $mol_fail( new Error( 'Wrong lands count', { cause: { count: parts.size } } ) )
-			
-			for( const [ land, part ] of parts ) {
-				if( land !== this.land().str ) return $mol_fail( new Error( 'Unexpected land', { cause: { expected: this.land().str, existen: land } } ) )
-				
-				for( const unit of part.units ) {
-					this.units_persisted.add( unit )
-					$giper_baza_unit_trusted_grant( unit )
+
+			// A single corrupt Land file must never crash the master: parse errors
+			// loop forever in the reactive fibers that read it and exhaust the heap.
+			// So try the fresher mirror, fall back to the backup, and if both are
+			// unreadable log it and skip the Land instead of throwing.
+			for( let side = 0; side < 2; ++side ) {
+
+				this.store().pool( null )
+				this.store().offsets( null )
+
+				try {
+
+					const buf = this.store().load( side )
+					if( !buf.length ) return []
+
+					const pack = $giper_baza_pack.from( buf )
+
+					// Balls stay in storage and are paged in by `ball_load` on demand,
+					// so whole Land content never sits in memory at once.
+					const parts = new Map( pack.parts( this.store().offsets(), this.store().pool(), true ) )
+					if( parts.size > 1 ) $mol_fail( new Error( 'Wrong lands count', { cause: { count: parts.size } } ) )
+
+					for( const [ land, part ] of parts ) {
+						if( land !== this.land().str ) $mol_fail( new Error( 'Unexpected land', { cause: { expected: this.land().str, existen: land } } ) )
+
+						for( const unit of part.units ) {
+							this.units_persisted.add( unit )
+							$giper_baza_unit_trusted_grant( unit )
+						}
+
+						return part.units
+					}
+
+					return []
+
+				} catch( error ) {
+
+					if( error instanceof Promise ) $mol_fail_hidden( error )
+
+					$mol_wire_sync( this.$ ).$mol_log3_warn({
+						place: this,
+						message: 'Corrupt Land mirror',
+						hint: side ? 'Both mirrors unreadable. Land skipped to keep master alive.' : 'Trying backup mirror.',
+						land: this.land().str,
+						mirror: side ? 'yan' : 'yin',
+						error: ( error as Error )?.message ?? String( error ),
+					})
+
 				}
-				
-				return part.units
+
 			}
-			
+
+			this.store().pool( null )
+			this.store().offsets( null )
 			return []
 		}
 		

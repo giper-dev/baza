@@ -409,8 +409,12 @@ namespace $ {
 			
 		}
 		
-		/** Picks units between Face and current state. */
-		diff_units( skip_faces = new $giper_baza_face_map ): $giper_baza_unit[] {
+		/**
+		 * Picks units between Face and current state.
+		 * `borrow_balls` pages big Balls into memory. The sync path passes `false`
+		 * and streams Balls itself in bounded batches to cap peak memory.
+		 */
+		diff_units( skip_faces = new $giper_baza_face_map, borrow_balls = true ): $giper_baza_unit[] {
 			
 			this.units_signing()
 			
@@ -450,7 +454,7 @@ namespace $ {
 			for( const kids of this._sand.values() ) {
 				for( const peers of kids.values() ) {
 					for( const sand of peers.values() ) {
-						this.sand_load( sand )
+						if( borrow_balls ) this.ball_borrow( sand )
 						collect( sand )
 					}
 				}
@@ -491,8 +495,8 @@ namespace $ {
 		
 		/** Picks units between Face and current state and make Part. */
 		// @ $mol_action
-		diff_part( skip_faces = new $giper_baza_face_map ): $giper_baza_pack_part {
-			const units = this.diff_units( skip_faces )
+		diff_part( skip_faces = new $giper_baza_face_map, borrow_balls = true ): $giper_baza_pack_part {
+			const units = this.diff_units( skip_faces, borrow_balls )
 			
 			const faces = new $giper_baza_face_map
 			for( const unit of units ) {
@@ -1202,7 +1206,13 @@ namespace $ {
 				ins: units,
 				del: reaping,
 			})
-			
+
+			// Stored Balls are paged in again on demand, so incoming data
+			// doesn't pin whole Land content in memory after persisting.
+			for( const unit of units ) {
+				if( unit instanceof $giper_baza_unit_sand && unit.big() ) unit._ball = undefined!
+			}
+
 		}
 		
 		async units_sign( units: readonly $giper_baza_unit_base[] ) {
@@ -1291,10 +1301,32 @@ namespace $ {
 			return sand
 		}
 		
-		@ $mol_mem_key
-		sand_load( sand: $giper_baza_unit_sand ) {
+		/** Sands whose Balls were paged in from storage just to be synced. */
+		balls_borrowed = new Set< $giper_baza_unit_sand >()
+
+		/**
+		 * Ensures Ball is in memory.
+		 * Big Balls paged in from storage are remembered to be released after sync,
+		 * so syncing a Land doesn't pin its whole content in memory.
+		 */
+		ball_borrow( sand: $giper_baza_unit_sand ) {
+
 			if( sand._ball ) return
-			sand._ball = sand.big() ? $mol_wire_sync( this.mine() ).ball_load( sand ) : sand.data()
+
+			if( !sand.big() ) {
+				sand._ball = sand.data()
+				return
+			}
+
+			sand._ball = $mol_wire_sync( this.mine() ).ball_load( sand )
+			this.balls_borrowed.add( sand )
+
+		}
+
+		/** Drops borrowed Balls. They are paged in again on demand. */
+		balls_release() {
+			for( const sand of this.balls_borrowed ) sand._ball = undefined!
+			this.balls_borrowed.clear()
 		}
 		
 		@ $mol_mem_key
