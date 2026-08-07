@@ -1,5 +1,69 @@
 namespace $ {
 	
+	/**
+	 * Две реплики одного Ленда с РАЗНЫМИ Lord'ами.
+	 *
+	 * Ключи зашиты: исход зависит от лексикографики Lord'ов, а `self` выводится из
+	 * содержимого, так что с фиксированной парой прогон повторяется побайтово.
+	 * Проигрывает пир с меньшим Lord'ом, поэтому `left` заведомо потерпевший.
+	 * Те же ключи — в `list/list.test.ts`.
+	 *
+	 * Обмен идёт по одному вызову через `$mol_wire_async`, а не обёрткой всего
+	 * теста в фибру: подпись юнитов усыпляет фибру, а та при пробуждении
+	 * перезапускает тело целиком и пересоздаёт Ленды на каждом круге.
+	 */
+	async function lords( $: $ ) {
+
+		// Lord G2IBJX4e_7iznlR7f
+		const auth_left = $giper_baza_auth.from( '_z1XyT3ZoNoimeKbXzraUFb8DUjG4iKC1EuL5eyMwc00Bx-n2qFTI1NpbA4_iUr--dGF1ql0-Iwl3zyfWCnN0scnj9Gw5d9VB-a-9mi7acMhKGbd529dua9SS_uDObHOMYETyfv5M11fUYj_Pc2Ls_xAjKwZWTtflIVMgC8P9q1c' )
+		// Lord zolPwLxu_ydwhHtDG
+		const auth_right = $giper_baza_auth.from( '_yvlCpXsSIWQxvz4N1dsBJiX-FC69pKhsoP7NIF0bpkuJjFu30T9haHqwy_eCuwekQ6YcmvnsqAOrBxjQd4-UEw1uQ8--gHby2as_5AR25ou1UOLqqrBS3cYgUOHYEck4IO9SHZlrawprbHvbMNiHkF_3G-mKYZAPpdyRLbAbdEE' )
+
+		const left = $.$giper_baza_land.make({ $, auth: ()=> auth_left })
+		left.join()
+		left.give( auth_right.pass(), $giper_baza_rank_post( 'just' ) )
+
+		const right = $.$giper_baza_land.make({ $, auth: ()=> auth_right, link: ()=> left.link() })
+
+		const sync = async ()=> {
+			await $mol_wire_async( right ).units_steal( left )
+			await $mol_wire_async( left ).units_steal( right )
+			await $mol_wire_async( right ).units_steal( left )
+		}
+
+		await sync()
+		return { left, right, sync }
+	}
+
+	/**
+	 * Ограничитель для чтения сломанной пешки.
+	 *
+	 * Обход `while( entry.next !== null )` в конце `sand_ordered` не считает шаги,
+	 * поэтому считаем обращения к `Map`: проход по пешке из шести Sand'ов
+	 * укладывается в сотни, а кольцо в цепочке `next` не укладывается ни во что.
+	 * Без этого тест не падает, а молча висит — и уносит с собой весь прогон.
+	 */
+	function bounded< Result >( task: ()=> Result, budget = 1_000_000 ): Result {
+
+		const origin = Map.prototype.get
+		let calls = 0
+
+		Map.prototype.get = function( this: Map< unknown, unknown >, key: unknown ) {
+			if( ++ calls > budget ) {
+				Map.prototype.get = origin
+				$mol_fail( new Error( 'sand_ordered не закончил обход: цепочка next замкнулась в кольцо' ) )
+			}
+			return origin.call( this, key )
+		} as typeof origin
+
+		try {
+			return task()
+		} finally {
+			Map.prototype.get = origin
+		}
+
+	}
+
 	$mol_test_mocks.push( $=> {
 		class $giper_baza_land_mock extends $.$giper_baza_land {
 			
@@ -167,6 +231,96 @@ namespace $ {
 			
 		} ),
 		
+		/**
+		 * `sand_ordered` собирает очередь по всем Пирам, когда `peer` пустой —
+		 * именно так её читает `$giper_baza_pawn.units()` через
+		 * `$giper_baza_link.hole`. Но связный список при этом ключуется по одному
+		 * `self`, поэтому два Sand'а с общим `self` от разных Lord'ов занимают одну
+		 * ячейку `by_key`: проигравший вытесняет победителя, и тот выпадает из
+		 * выдачи вместе со всем, что на него ссылалось.
+		 *
+		 * Ветка `peer === null` берёт ту же самую очередь, но ключует по `path()`
+		 * (Peer + Self) — там коллизии нет и оба Sand'а на месте. Разница между
+		 * двумя выдачами ниже и есть баг.
+		 *
+		 * Переписать чужой `self` — штатное дело для списка: `cut` кладёт tombstone
+		 * с тем же `self`, `move` зовёт `sand_move`, `splice` делает это в ветке
+		 * `replace`. Симптомы на уровне списка — в `list/list.test.ts`.
+		 */
+		async 'sand_ordered drops a Sand when two Lords share one Self'( $ ) {
+
+			const { left, right, sync } = await lords( $ )
+
+			left.Data( $giper_baza_list ).items_vary([ 'a', 'b', 'c', 'd' ])
+			await sync()
+
+			// правый переписывает третий элемент, левый следом переписывает его же:
+			// оба Sand'а получают один и тот же `self` и разных Lord'ов
+			right.Data( $giper_baza_list ).items_vary([ 'a', 'b', 'X', 'd' ])
+			await sync()
+
+			left.Data( $giper_baza_list ).items_vary([ 'a', 'b', 'Y', 'd' ])
+			await sync()
+
+			const head = left.Data( $giper_baza_list ).head()
+			const by_self = left.sand_ordered({ head, peer: $giper_baza_link.hole })
+			const by_path = left.sand_ordered({ head, peer: null })
+
+			const alive = ( units: readonly $giper_baza_unit_sand[] )=> units
+				.filter( unit => !unit.dead() && unit.self().str !== '' )
+				.map( unit => left.sand_decode( unit ) )
+
+			// в пешке пять Sand'ов на четыре Self: один Self записан обоими Lord'ами
+			$mol_assert_equal( by_path.length, 5 )
+			$mol_assert_equal( new Set( by_path.map( unit => unit.self().str ) ).size, 4 )
+
+			// ключ по Peer + Self ничего не теряет
+			$mol_assert_equal( alive( by_path ), [ 'a', 'b', 'X', 'Y', 'd' ] )
+
+			// а ключ по одному Self — теряет, и левый перестаёт видеть собственную запись
+			$mol_assert_equal(
+				alive( by_self ),
+				[ 'a', 'b', 'Y', 'd' ], // сейчас: [ 'a', 'b', 'X', 'd' ] — Y пропала
+			)
+
+		},
+
+		/**
+		 * Тот же дефект во второй, тяжёлой форме: цепочка `next` замыкается в
+		 * кольцо, и финальный обход `while( entry.next !== null )` перестаёт
+		 * заканчиваться. Пешка становится нечитаемой на обеих репликах навсегда —
+		 * юниты уже в Ленде и разъедутся по синку.
+		 *
+		 * Само чтение отсюда не возвращается никогда, поэтому оно идёт под
+		 * `bounded`: иначе тест не падает, а виснет, и прогон встаёт целиком.
+		 * Тем же скриптом вне пачки тестов то же место успевает раздуть массив до
+		 * предела длины и падает `RangeError` из `Array.push` на 2.8 ГБ.
+		 */
+		async 'sand_ordered loops forever over a cycled next chain'( $ ) {
+
+			const { left, right, sync } = await lords( $ )
+
+			left.Data( $giper_baza_list ).items_vary([ 'a', 'b', 'c', 'd', 'e', 'f' ])
+			await sync()
+
+			left.Data( $giper_baza_list ).cut( 'a' )
+			await sync()
+			$mol_assert_equal( left.Data( $giper_baza_list ).items_vary(), [ 'b', 'c', 'd', 'e', 'f' ] )
+
+			right.Data( $giper_baza_list ).move( 3, 2 )
+			await sync()
+			$mol_assert_equal( left.Data( $giper_baza_list ).items_vary(), [ 'b', 'c', 'e', 'd', 'f' ] )
+
+			// после этой перестановки список уже не прочитать
+			const items = bounded( ()=> {
+				left.Data( $giper_baza_list ).items_vary([ 'b', 'c', 'e', 'f', 'd' ])
+				return left.Data( $giper_baza_list ).items_vary()
+			} )
+
+			$mol_assert_equal( items, [ 'b', 'c', 'e', 'f', 'd' ] )
+
+		},
+
 		async 'Land Area inherits rights'( $ ) {
 			
 			const area = await $mol_wire_async( ()=> {
