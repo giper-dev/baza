@@ -494,8 +494,8 @@ namespace $ {
 		 * обхода по `lead` — пересборка деградирует до квадрата.
 		 *
 		 * Работа меряется числом вызовов `compare` — детерминированнее
-		 * секундомера. Линейный алгоритм дал бы ~×4 на вчетверо большей
-		 * истории, здесь выходит ~×20.
+		 * секундомера; время печатается в консоль для наглядности. Линейный
+		 * алгоритм дал бы ~×4 на вчетверо большей истории, здесь выходит ~×20.
 		 */
 		'Edit cost grows with pawn history': $mol_wire_async( ( $: $ )=> {
 
@@ -521,21 +521,27 @@ namespace $ {
 			let compares = 0
 			$giper_baza_unit_base.compare = ( left, right )=> { ++ compares; return origin( left, right ) }
 
-			const cost = ( i: number )=> {
+			const cost = ( i: number, history: number )=> {
 				const before = compares
+				const started = Date.now()
 				edit( i )
 				void list.items_vary()
-				return compares - before
+				const spent = compares - before
+				console.log( `история ${ history }: правка ${ Date.now() - started } мс, ${ spent } сравнений` )
+				return spent
 			}
 
 			try {
 
 				let i = 0
 				while( i < 125 ) edit( i++ )
-				const cost_125 = cost( i++ )
+				const cost_125 = cost( i++, 125 )
+
+				while( i < 250 ) edit( i++ )
+				cost( i++, 250 )
 
 				while( i < 500 ) edit( i++ )
-				const cost_500 = cost( i++ )
+				const cost_500 = cost( i++, 500 )
 
 				$mol_assert_equal(
 					{ cost_125, cost_500, linear: cost_500 < cost_125 * 8 },
