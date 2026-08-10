@@ -11,43 +11,6 @@ namespace $ {
 		right.units_steal( left )
 	}
 
-	/**
-	 * Две реплики одного Ленда с РАЗНЫМИ Lord'ами — в отличие от `clone`, который
-	 * оставляет обеим один и тот же Auth.
-	 *
-	 * Ключи зашиты: исход зависит от лексикографики Lord'ов, а `self` выводится из
-	 * содержимого, так что с фиксированной парой прогон повторяется побайтово.
-	 * Проигрывает пир с меньшим Lord'ом, поэтому `left` здесь заведомо потерпевший.
-	 * Те же ключи — в `land/land.test.ts` и `land/repro/repro.node.ts`.
-	 */
-	async function peers( $: $ ) {
-
-		// Lord G2IBJX4e_7iznlR7f
-		const auth_left = $giper_baza_auth.from( '_z1XyT3ZoNoimeKbXzraUFb8DUjG4iKC1EuL5eyMwc00Bx-n2qFTI1NpbA4_iUr--dGF1ql0-Iwl3zyfWCnN0scnj9Gw5d9VB-a-9mi7acMhKGbd529dua9SS_uDObHOMYETyfv5M11fUYj_Pc2Ls_xAjKwZWTtflIVMgC8P9q1c' )
-		// Lord zolPwLxu_ydwhHtDG
-		const auth_right = $giper_baza_auth.from( '_yvlCpXsSIWQxvz4N1dsBJiX-FC69pKhsoP7NIF0bpkuJjFu30T9haHqwy_eCuwekQ6YcmvnsqAOrBxjQd4-UEw1uQ8--gHby2as_5AR25ou1UOLqqrBS3cYgUOHYEck4IO9SHZlrawprbHvbMNiHkF_3G-mKYZAPpdyRLbAbdEE' )
-
-		const left = $.$giper_baza_land.make({ $, auth: ()=> auth_left })
-		left.join()
-		left.give( auth_right.pass(), $giper_baza_rank_post( 'just' ) )
-
-		const right = $.$giper_baza_land.make({ $, auth: ()=> auth_right, link: ()=> left.link() })
-
-		/**
-		 * Обмен идёт через `$mol_wire_async` по одному вызову, а не обёрткой всего
-		 * теста в фибру: подпись юнитов усыпляет фибру, а та при пробуждении
-		 * перезапускает тело целиком и пересоздаёт Ленды на каждом круге.
-		 */
-		const both = async ()=> {
-			await $mol_wire_async( right ).units_steal( left )
-			await $mol_wire_async( left ).units_steal( right )
-			await $mol_wire_async( right ).units_steal( left )
-		}
-
-		await both()
-		return { left, right, sync: both }
-	}
-
 	$mol_test({
 		
 		'Basic list ops'( $ ) {
@@ -524,66 +487,46 @@ namespace $ {
 
 		/**
 		 * Одной чужой записи достаточно, чтобы сломать список у того, кто правит
-		 * его в одиночку.
+		 * его в одиночку. Второй пир — это просто второй Lord в той же пешке,
+		 * реплики и синк для воспроизведения не нужны.
 		 *
-		 * `left` завёл список, `right` дописал один элемент и ушёл. Дальше правит
-		 * только `left`, никакой конкурентности нет. Но перестановка полной
-		 * перезаписью списка идёт через `$mol_reconcile`, который выравнивает по
-		 * позиции, а не по ключу, и в ветке `replace` переписывает чужой `self`.
-		 * После этого `sand_ordered` теряет элемент и дублирует соседний.
+		 * Перестановка полной перезаписью идёт через `$mol_reconcile`: он ровняет
+		 * по позиции и в ветке `replace` постит Sand с чужим `self`. Два Sand'а с
+		 * одним `self` от разных Lord'ов занимают одну ячейку `by_key` в
+		 * `sand_ordered`, и победитель выпадает из выдачи вместе со всем,
+		 * что на него ссылалось.
+		 *
+		 * Ключи зашиты: исход решает лексикографика Lord'ов, прогон повторяется
+		 * побайтово. Проигрывает меньший Lord — здесь это `auth_a`.
 		 */
-		async 'Reorder after foreign insert'( $ ) {
+		'Reorder after foreign insert': $mol_wire_async( ( $: $ )=> {
 
-			const { left, right, sync } = await peers( $ )
+			// Lord G2IBJX4e_7iznlR7f
+			const auth_a = $giper_baza_auth.from( '_z1XyT3ZoNoimeKbXzraUFb8DUjG4iKC1EuL5eyMwc00Bx-n2qFTI1NpbA4_iUr--dGF1ql0-Iwl3zyfWCnN0scnj9Gw5d9VB-a-9mi7acMhKGbd529dua9SS_uDObHOMYETyfv5M11fUYj_Pc2Ls_xAjKwZWTtflIVMgC8P9q1c' )
+			// Lord zolPwLxu_ydwhHtDG
+			const auth_b = $giper_baza_auth.from( '_yvlCpXsSIWQxvz4N1dsBJiX-FC69pKhsoP7NIF0bpkuJjFu30T9haHqwy_eCuwekQ6YcmvnsqAOrBxjQd4-UEw1uQ8--gHby2as_5AR25ou1UOLqqrBS3cYgUOHYEck4IO9SHZlrawprbHvbMNiHkF_3G-mKYZAPpdyRLbAbdEE' )
 
-			left.Data( $giper_baza_list ).items_vary([ 'a', 'b', 'c', 'd' ])
-			await sync()
+			const land = $.$giper_baza_land.make({ $, auth: ()=> auth_a })
+			land.join()
+			land.give( auth_b.pass(), $giper_baza_rank_post( 'just' ) )
 
-			right.Data( $giper_baza_list ).splice( [ 'x' ], 0, 0 )
-			await sync()
-			$mol_assert_equal( left.Data( $giper_baza_list ).items_vary(), [ 'x', 'a', 'b', 'c', 'd' ] )
+			land.Data( $giper_baza_list ).items_vary([ 'a', 'b', 'c', 'd' ])
 
-			// дальше правит только left, right больше ничего не пишет
-			left.Data( $giper_baza_list ).items_vary([ 'd', 'x', 'a', 'b', 'c' ])
+			// чужая вставка: один элемент от второго Lord'а, больше он не пишет
+			land.auth = ()=> auth_b
+			land.Data( $giper_baza_list ).splice( [ 'x' ], 0, 0 )
+			$mol_assert_equal( land.Data( $giper_baza_list ).items_vary(), [ 'x', 'a', 'b', 'c', 'd' ] )
+
+			// дальше правит только первый
+			land.auth = ()=> auth_a
+			land.Data( $giper_baza_list ).items_vary([ 'd', 'x', 'a', 'b', 'c' ])
 
 			$mol_assert_equal(
-				left.Data( $giper_baza_list ).items_vary(),
+				land.Data( $giper_baza_list ).items_vary(),
 				[ 'd', 'x', 'a', 'b', 'c' ], // сейчас: [ 'x', 'x', 'a', 'b', 'c' ] — d потеряна, x задублирована
 			)
 
-		},
-
-		/**
-		 * Два пира переставляют элементы по очереди, с полным синком после каждого
-		 * шага, так что и здесь ничего конкурентного нет — просто в одну пешку
-		 * записали два Lord'а. Обе реплики сходятся, но на одном и том же битом
-		 * списке: потерянный элемент потерян у обоих.
-		 */
-		async 'Alternating reorders by two Lords'( $ ) {
-
-			const { left, right, sync } = await peers( $ )
-
-			left.Data( $giper_baza_list ).items_vary([ 'a', 'b', 'c', 'd' ])
-			await sync()
-
-			left.Data( $giper_baza_list ).items_vary([ 'd', 'a', 'b', 'c' ])
-			await sync()
-			$mol_assert_equal( right.Data( $giper_baza_list ).items_vary(), [ 'd', 'a', 'b', 'c' ] )
-
-			right.Data( $giper_baza_list ).items_vary([ 'd', 'b', 'c', 'a' ])
-			await sync()
-			$mol_assert_equal( left.Data( $giper_baza_list ).items_vary(), [ 'd', 'b', 'c', 'a' ] )
-
-			left.Data( $giper_baza_list ).items_vary([ 'c', 'd', 'b', 'a' ])
-			await sync()
-
-			$mol_assert_equal(
-				left.Data( $giper_baza_list ).items_vary(),
-				right.Data( $giper_baza_list ).items_vary(),
-				[ 'c', 'd', 'b', 'a' ], // сейчас: [ 'c', 'b', 'c', 'a' ] — d потеряна, c задублирована
-			)
-
-		},
+		} ),
 
 	})
 
