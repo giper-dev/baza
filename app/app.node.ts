@@ -22,7 +22,7 @@ namespace $ {
 			const file = this.$.$giper_baza_glob.Pawn( link, $giper_baza_file )
 
 			msg.port.send_code( file.filled() ? 200 : 404 )
-			msg.port.send_type( file.type() as $mol_rest_port_mime )
+			// msg.port.send_type( file.type() as $mol_rest_port_mime ) // XSS if it's text/html
 			msg.port.send_bin( file.buffer() )
 
 		}
