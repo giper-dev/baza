@@ -487,8 +487,8 @@ namespace $ {
 
 		/**
 		 * Одной чужой записи достаточно, чтобы сломать список у того, кто правит
-		 * его в одиночку. Второй пир — это просто второй Lord в той же пешке,
-		 * реплики и синк для воспроизведения не нужны.
+		 * его в одиночку: правый дописал элемент и ушёл, дальше никакой
+		 * конкурентности нет.
 		 *
 		 * Перестановка полной перезаписью идёт через `$mol_reconcile`: он ровняет
 		 * по позиции и в ветке `replace` постит Sand с чужим `self`. Два Sand'а с
@@ -497,36 +497,42 @@ namespace $ {
 		 * что на него ссылалось.
 		 *
 		 * Ключи зашиты: исход решает лексикографика Lord'ов, прогон повторяется
-		 * побайтово. Проигрывает меньший Lord — здесь это `auth_a`.
+		 * побайтово. Проигрывает меньший Lord — здесь это `auth_left`.
+		 *
+		 * Обмен идёт по одному вызову через `$mol_wire_async`, а не обёрткой всего
+		 * теста в фибру: подпись юнитов усыпляет фибру, а та при пробуждении
+		 * перезапускает тело целиком и пересоздаёт Ленды.
 		 */
-		'Reorder after foreign insert': $mol_wire_async( ( $: $ )=> {
+		async 'Reorder after foreign insert'( $ ) {
 
 			// Lord G2IBJX4e_7iznlR7f
-			const auth_a = $giper_baza_auth.from( '_z1XyT3ZoNoimeKbXzraUFb8DUjG4iKC1EuL5eyMwc00Bx-n2qFTI1NpbA4_iUr--dGF1ql0-Iwl3zyfWCnN0scnj9Gw5d9VB-a-9mi7acMhKGbd529dua9SS_uDObHOMYETyfv5M11fUYj_Pc2Ls_xAjKwZWTtflIVMgC8P9q1c' )
+			const auth_left = $giper_baza_auth.from( '_z1XyT3ZoNoimeKbXzraUFb8DUjG4iKC1EuL5eyMwc00Bx-n2qFTI1NpbA4_iUr--dGF1ql0-Iwl3zyfWCnN0scnj9Gw5d9VB-a-9mi7acMhKGbd529dua9SS_uDObHOMYETyfv5M11fUYj_Pc2Ls_xAjKwZWTtflIVMgC8P9q1c' )
 			// Lord zolPwLxu_ydwhHtDG
-			const auth_b = $giper_baza_auth.from( '_yvlCpXsSIWQxvz4N1dsBJiX-FC69pKhsoP7NIF0bpkuJjFu30T9haHqwy_eCuwekQ6YcmvnsqAOrBxjQd4-UEw1uQ8--gHby2as_5AR25ou1UOLqqrBS3cYgUOHYEck4IO9SHZlrawprbHvbMNiHkF_3G-mKYZAPpdyRLbAbdEE' )
+			const auth_right = $giper_baza_auth.from( '_yvlCpXsSIWQxvz4N1dsBJiX-FC69pKhsoP7NIF0bpkuJjFu30T9haHqwy_eCuwekQ6YcmvnsqAOrBxjQd4-UEw1uQ8--gHby2as_5AR25ou1UOLqqrBS3cYgUOHYEck4IO9SHZlrawprbHvbMNiHkF_3G-mKYZAPpdyRLbAbdEE' )
 
-			const land = $.$giper_baza_land.make({ $, auth: ()=> auth_a })
-			land.join()
-			land.give( auth_b.pass(), $giper_baza_rank_post( 'just' ) )
+			const left = $.$giper_baza_land.make({ $, auth: ()=> auth_left })
+			left.join()
+			left.give( auth_right.pass(), $giper_baza_rank_post( 'just' ) )
 
-			land.Data( $giper_baza_list ).items_vary([ 'a', 'b', 'c', 'd' ])
+			const right = $.$giper_baza_land.make({ $, auth: ()=> auth_right, link: ()=> left.link() })
 
-			// чужая вставка: один элемент от второго Lord'а, больше он не пишет
-			land.auth = ()=> auth_b
-			land.Data( $giper_baza_list ).splice( [ 'x' ], 0, 0 )
-			$mol_assert_equal( land.Data( $giper_baza_list ).items_vary(), [ 'x', 'a', 'b', 'c', 'd' ] )
+			left.Data( $giper_baza_list ).items_vary([ 'a', 'b', 'c', 'd' ])
+			await $mol_wire_async( right ).units_steal( left )
 
-			// дальше правит только первый
-			land.auth = ()=> auth_a
-			land.Data( $giper_baza_list ).items_vary([ 'd', 'x', 'a', 'b', 'c' ])
+			// чужая вставка: один элемент, больше правый не пишет
+			right.Data( $giper_baza_list ).splice( [ 'x' ], 0, 0 )
+			await $mol_wire_async( left ).units_steal( right )
+			$mol_assert_equal( left.Data( $giper_baza_list ).items_vary(), [ 'x', 'a', 'b', 'c', 'd' ] )
+
+			// перестановка у левого: replace переиспользует чужой self
+			left.Data( $giper_baza_list ).items_vary([ 'd', 'x', 'a', 'b', 'c' ])
 
 			$mol_assert_equal(
-				land.Data( $giper_baza_list ).items_vary(),
+				left.Data( $giper_baza_list ).items_vary(),
 				[ 'd', 'x', 'a', 'b', 'c' ], // сейчас: [ 'x', 'x', 'a', 'b', 'c' ] — d потеряна, x задублирована
 			)
 
-		} ),
+		},
 
 	})
 
