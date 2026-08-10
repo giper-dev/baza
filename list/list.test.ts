@@ -482,9 +482,72 @@ namespace $ {
 				right.Data( $giper_baza_list ).items_vary(),
 				[ 1, 4, 5, 2, 3, 7, 6 ],
 			)
-			
+
 		} ),
-		
+
+		/**
+		 * Цена одной правки растёт квадратом от ИСТОРИИ пешки, а не от размера
+		 * списка: живых элементов всё время ~100, растёт только число правок.
+		 *
+		 * `sand_ordered` пересобирает порядок всей пешки на каждую запись, а
+		 * tombstone'ы от удалений остаются в ней навсегда и ломают порядок
+		 * обхода по `lead` — пересборка деградирует до квадрата.
+		 *
+		 * Работа меряется числом вызовов `compare` — детерминированнее
+		 * секундомера. Линейный алгоритм дал бы ~×4 на вчетверо большей
+		 * истории, здесь выходит ~×20.
+		 */
+		'Edit cost grows with pawn history': $mol_wire_async( ( $: $ )=> {
+
+			const land = $.$giper_baza_land.make({ $ })
+			const list = land.Data( $giper_baza_list )
+			list.items_vary( Array.from( { length: 100 }, ( _, k )=> 'init' + k ) )
+
+			// детерминированные позиции правок, разбросанные по списку
+			let rnd = 7
+			const pos = ( max: number )=> ( rnd = rnd * 48271 % 2147483647 ) % max
+
+			const edit = ( i: number )=> {
+				const items = list.items_vary()
+				if( i % 2 ) {
+					list.splice( [ 'w' + i, 'v' + i ], pos( items.length + 1 ), 0 )
+				} else {
+					list.cut( items[ pos( items.length ) ] )
+					if( items.length > 101 ) list.cut( items[ pos( items.length ) ] )
+				}
+			}
+
+			const origin = $giper_baza_unit_base.compare
+			let compares = 0
+			$giper_baza_unit_base.compare = ( left, right )=> { ++ compares; return origin( left, right ) }
+
+			const cost = ( i: number )=> {
+				const before = compares
+				edit( i )
+				void list.items_vary()
+				return compares - before
+			}
+
+			try {
+
+				let i = 0
+				while( i < 125 ) edit( i++ )
+				const cost_125 = cost( i++ )
+
+				while( i < 500 ) edit( i++ )
+				const cost_500 = cost( i++ )
+
+				$mol_assert_equal(
+					{ cost_125, cost_500, linear: cost_500 < cost_125 * 8 },
+					{ cost_125, cost_500, linear: true },
+				)
+
+			} finally {
+				$giper_baza_unit_base.compare = origin
+			}
+
+		} ),
+
 	})
-	
+
 }
