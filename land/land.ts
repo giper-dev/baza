@@ -767,12 +767,69 @@ namespace $ {
 			const by_key = new Map([ [ entry.prev, entry  ] ])
 			const by_self = new Map([ [ entry.prev, entry ] ])
 			
-			while( queue.length ) {
+			// дети по self их lead — вставляемы, как только lead прилинкован
+			const kids = new Map< string, $giper_baza_unit_sand[] >()
+			for( const sand of queue ) {
+				let list = kids.get( sand.lead().str )
+				if( !list ) kids.set( sand.lead().str, list = [] )
+				list.push( sand )
+			}
+
+			// куча вставляемых, наверху старейший
+			const heap = [] as $giper_baza_unit_sand[]
+			
+			const heap_add = ( sand: $giper_baza_unit_sand )=> {
+				let at = heap.push( sand ) - 1
+				while( at > 0 ) {
+					const up = ( at - 1 ) >> 1
+					if( compare( heap[ up ], sand ) >= 0 ) break
+					heap[ at ] = heap[ up ]
+					at = up
+				}
+				heap[ at ] = sand
+			}
+			
+			const heap_take = ()=> {
+				const top = heap[ 0 ]
+				const last = heap.pop()!
+				if( heap.length ) {
+					let at = 0
+					for( ;; ) {
+						const left = at * 2 + 1
+						if( left >= heap.length ) break
+						const right = left + 1
+						const kid = ( right < heap.length ) && ( compare( heap[ right ], heap[ left ] ) > 0 ) ? right : left
+						if( compare( last, heap[ kid ] ) >= 0 ) break
+						heap[ at ] = heap[ kid ]
+						at = kid
+					}
+					heap[ at ] = last
+				}
+				return top
+			}
+			
+			const linked = new Set< $giper_baza_unit_sand >()
+
+			const open = ( sand: $giper_baza_unit_sand )=> {
+				const list = kids.get( sand.self().str )
+				if( !list ) return
+				kids.delete( sand.self().str )
+				for( const kid of list ) heap_add( kid )
+			}
+
+			for( const kid of kids.get( '' ) ?? [] ) heap_add( kid )
+
+			let tail = queue.length - 1
+
+			while( linked.size < queue.length ) {
+
+				// старейший неприлинкованный встаёт в хвост — сироты и корни
+				while( linked.has( queue[ tail ] ) ) --tail
+				const last = queue[ tail ]
 				
-				const last = queue.pop()!
 				by_key.get( entry.prev )!.next = key( last )
 				
-				const item = { sand: last, next: null, prev: entry.prev }
+				const item = { sand: last, next: null as null | string, prev: entry.prev }
 				by_key.set( key( last ), item )
 				
 				const exists = by_self.get( last.self().str )
@@ -781,10 +838,13 @@ namespace $ {
 				}
 				
 				entry.prev = key( last )
+				linked.add( last )
+				open( last )
 				
-				for( let cursor = queue.length - 1; cursor >= 0; --cursor ) {
+				while( heap.length ) {
 					
-					const kid = queue[cursor]
+					const kid = heap_take()
+					if( linked.has( kid ) ) continue
 					
 					let lead = by_self.get( kid.lead().str || null )
 					if( !lead ) continue
@@ -796,13 +856,14 @@ namespace $ {
 						
 						if( ( lead.sand ? key( lead.sand ) : null ) === exists1.prev ) {
 							exists1.sand = kid
-							if( cursor === queue.length - 1 ) queue.pop()
+							linked.add( kid )
+							open( kid )
 							continue
 						}
 						
 						by_key.get( exists1.prev )!.next = exists1.next
 						by_key.get( exists1.next )!.prev = exists1.prev
-						
+					
 					}
 					
 					const follower = by_key.get( lead.next )!
@@ -818,11 +879,11 @@ namespace $ {
 					
 					lead.next = key( kid )
 					
-					if( cursor === queue.length - 1 ) queue.pop()
-					cursor = queue.length
-					
-				}
+					linked.add( kid )
+					open( kid )
 				
+				}
+			
 			}
 			
 			const res = [] as $giper_baza_unit_sand[]
