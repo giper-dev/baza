@@ -1,5 +1,11 @@
 namespace $ {
 
+	export function $giper_baza_file_mime_safe( type: string ) {
+		return [ 'audio', 'video', 'image', 'font' ].includes( type.replace( /\/.*$/, '' ) )
+			? type
+			: 'application/octet-stream'
+	}
+	
 	export const $giper_baza_file_query = $hyoo_harp_scheme({
 		BAZA: $hyoo_harp_scheme({}),
 		file: $hyoo_harp_scheme( {}, $mol_data_string ),

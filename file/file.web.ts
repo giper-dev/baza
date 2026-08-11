@@ -21,7 +21,8 @@ namespace $ {
 					status: file.filled() ? 200 : 404,
 					statusText: file.filled() ? 'OK' : 'Not Filled',
 					headers: {
-						// 'Content-Type': file.type(), // XSS if text/html
+						'Content-Type': $giper_baza_file_mime_safe( file.type() ),
+						'X-Content-Type-Options': 'nosniff',
 						'X-Powered-By': '$giper_baza_file',
 					},
 				} )
