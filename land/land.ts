@@ -28,6 +28,12 @@ namespace $ {
 		tine: new $giper_baza_link( 'AQAAAAAA' ), // 1
 	}
 	
+	export type $giper_baza_land_order_node = {
+		sand: $giper_baza_unit_sand | null
+		prev: $giper_baza_land_order_node | null
+		next: $giper_baza_land_order_node | null
+	}
+
 	/** Standalone part of Glob which syncs separately, have own rights, and contains Units */
 	export class $giper_baza_land extends $mol_object {
 		
@@ -708,26 +714,98 @@ namespace $ {
 			return land
 		}
 		
+		// порядок пешки между записями; связи ссылками:
+		// строковый ключ после переезда узла достался бы новому узлу
+		_orders = new Map< string, {
+			root: $giper_baza_land_order_node
+			by_key: Map< string, $giper_baza_land_order_node >
+			by_self: Map< string, $giper_baza_land_order_node >
+			sands: Set< $giper_baza_unit_sand >
+		} >()
+
+		/** Досыпает свежие Sand в готовый порядок. null — нужен полный пересбор. */
+		sand_ordered_add( order_key: string, queue: $giper_baza_unit_sand[], peer: $giper_baza_link | null ) {
+
+			const state = this._orders.get( order_key )
+			if( !state ) return null
+
+			const { root, by_key, by_self, sands } = state
+			const key = peer === null ? ( sand: $giper_baza_unit_sand )=> sand.path() : ( sand: $giper_baza_unit_sand )=> sand.self().str
+			const compare = $giper_baza_unit_sand.compare
+
+			const fresh = queue.filter( sand => !sands.has( sand ) )
+			fresh.sort( compare )
+
+			for( let at = fresh.length - 1; at >= 0; --at ) {
+
+				const kid = fresh[ at ]
+
+				const lead_self = kid.lead().str
+				let lead = lead_self ? by_self.get( lead_self ) : root
+				if( !lead ) return null
+
+				while( lead.next && ( compare( lead.next.sand!, kid ) < 0 ) ) lead = lead.next
+
+				const exists = by_key.get( key( kid ) )
+				if( exists ) {
+
+					// быстрая только замена свежим на том же месте,
+					// переезды и опоздавшие юниты — полным пересбором
+					if( exists.prev !== lead ) return null
+					if( compare( exists.sand!, kid ) <= 0 ) return null
+
+					sands.delete( exists.sand! )
+					exists.sand = kid
+					sands.add( kid )
+					continue
+
+				}
+
+				const item: $giper_baza_land_order_node = { sand: kid, prev: lead, next: lead.next }
+				if( lead.next ) lead.next.prev = item
+				lead.next = item
+
+				by_key.set( key( kid ), item )
+
+				const winner = by_self.get( kid.self().str )
+				if( !winner || compare( winner.sand!, kid ) < 0 ) by_self.set( kid.self().str, item )
+
+				sands.add( kid )
+
+			}
+
+			if( sands.size !== queue.length ) return null
+
+			const res = [] as $giper_baza_unit_sand[]
+			for( let cursor = root.next; cursor; cursor = cursor.next ) res.push( cursor.sand! )
+
+			return res
+		}
+
 		@ $mol_mem_key
 		sand_ordered( { head, peer }: { head: $giper_baza_link, peer: $giper_baza_link | null } ) {
-			
+
 			this.sync()
 			// this.secret() // early async to prevent async on put
-			
+
 			const queue = ( peer?.str )
 				? [ ... this._sand.get( head.str )?.get( peer!.str )?.values() ?? [] ]
 				: [ ... this._sand.get( head.str )?.values() ?? [] ].flatMap( units => [ ... units.values() ] )
-			
+
 			const slices = new Map
 			for( const sand of queue ) slices.set( sand, 0 )
-			
+
+			let merged = false
+
 			merge: if( head.str !== $giper_baza_land_root.tine.str ) {
-				
+
 				const tines = ( this.Tine()?.items_vary().slice().reverse() ?? [] )
 					.map( val => $giper_baza_link_schema.cast( val ) )
 					.filter( $mol_guard_defined )
 				if( !tines.length ) break merge
-				
+
+				merged = true
+
 				const exists = new Set( queue.map( sand => sand.self().str ) )
 				
 				const glob = this.$.$giper_baza_glob
@@ -749,11 +827,21 @@ namespace $ {
 			}
 			
 			if( queue.length < 2 ) return queue
-			
+
+			const order_key = ( peer === null ? '=' : peer.str || '*' ) + head.str
+
+			if( merged ) {
+				// с примесью чужих лендов порядок между записями не храним
+				this._orders.delete( order_key )
+			} else {
+				const fast = this.sand_ordered_add( order_key, queue, peer )
+				if( fast ) return fast
+			}
+
 			const compare = ( left: $giper_baza_unit_sand, right: $giper_baza_unit_sand )=> {
 				return ( slices.get( left ) - slices.get( right ) ) || $giper_baza_unit_sand.compare( left, right )
 			}
-			
+
 			queue.sort( compare )
 			
 			let entry = {
@@ -886,13 +974,41 @@ namespace $ {
 			
 			}
 			
+			store: if( !merged ) {
+
+				// пересаживаем порядок на ссылочные узлы — базу досыпаний
+				const root: $giper_baza_land_order_node = { sand: null, prev: null, next: null }
+				const o_key = new Map< string, $giper_baza_land_order_node >()
+				const o_self = new Map< string, $giper_baza_land_order_node >()
+
+				let tail = root
+				let cursor = by_key.get( null )!
+				while( cursor.next !== null ) {
+					cursor = by_key.get( cursor.next )!
+					const node: $giper_baza_land_order_node = { sand: cursor.sand, prev: tail, next: null }
+					tail.next = node
+					tail = node
+					o_key.set( key( cursor.sand! ), node )
+				}
+
+				for( const [ self, kn ] of by_self ) {
+					if( self === null ) continue
+					const node = o_key.get( key( kn.sand! ) )
+					if( !node || node.sand !== kn.sand ) break store // победитель вне списка
+					o_self.set( self, node )
+				}
+
+				this._orders.set( order_key, { root, by_key: o_key, by_self: o_self, sands: new Set( queue ) } )
+
+			}
+
 			const res = [] as $giper_baza_unit_sand[]
-			
+
 			while( entry.next !== null ) {
 				entry = by_key.get( entry.next )!
 				res.push( entry.sand! )
 			}
-			
+
 			return res
 		}
 		
