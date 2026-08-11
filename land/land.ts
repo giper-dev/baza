@@ -42,6 +42,10 @@ namespace $ {
 		}
 		
 		faces = new $giper_baza_face_map
+		
+		tick() {
+			return this.faces.tick( this.auth().pass().peer() )
+		}
 
 		_pass = new $mol_wire_dict< string /*Lord*/, $giper_baza_auth_pass >()
 		_seal_item = new $mol_wire_dict< string /*Item*/, $giper_baza_unit_seal >()
@@ -856,7 +860,7 @@ namespace $ {
 			
 			gift.lord( lord_pass.lord() )
 			gift.rank( rank )
-			gift.time_tick( this.faces.tick().time_tick )
+			gift.time_tick( this.tick().time_tick )
 			
 			if( mate_pass ) gift.mate( mate_pass.lord() )
 			
@@ -912,7 +916,7 @@ namespace $ {
 			
 			$giper_baza_unit_trusted_grant( sand )
 			
-			sand.time_tick( this.faces.tick().time_tick )
+			sand.time_tick( this.tick().time_tick )
 			sand.lord( lord_pass.lord() )
 			sand.lead( lead )
 			sand.head( head )
@@ -1251,7 +1255,7 @@ namespace $ {
 					
 					do {
 						
-						seal.time_tick( this.faces.tick().time_tick )
+						seal.time_tick( this.tick().time_tick )
 						const sens = seal.shot().mix( this.link() )
 						
 						const sign = await auth.signer().sign( sens )
@@ -1412,7 +1416,7 @@ namespace $ {
 			$giper_baza_unit_trusted_grant( unit )
 			
 			unit.rank( $giper_baza_rank_rule )
-			unit.time_tick( this.faces.tick().time_tick )
+			unit.time_tick( this.tick().time_tick )
 			unit.lord( auth.pass().lord() )
 			unit.mate( auth.pass().lord() )
 			unit._land = this

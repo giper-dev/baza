@@ -208,7 +208,7 @@ namespace $ {
 				' 📦 ',
 				$mol_dev_format_shade( $giper_baza_time_dump( this.time(), this.tick() ) ),
 				' #',
-				this.encoded() ? $mol_dev_format_auto( this.hash() ) : undefined,
+				this.encoded() ? $mol_dev_format_auto( this.hash() ) : $mol_dev_format_shade( '___incompleted___' ),
 				' ',
 				this.lead().str || '__knot__',
 				$mol_dev_format_shade( '\\' ),

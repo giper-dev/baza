@@ -37,13 +37,13 @@ namespace $.$$ {
 			const dict2 = land2.Pawn( $giper_baza_dict ).Data()
 
 			dict1.dive( 123, $giper_baza_atom, null )!.vary( 666 )
-			land2.faces.tick()
+			land2.tick()
 			dict2.dive( 123, $giper_baza_atom, null )!.vary( 777 )
 			await $mol_wire_async( land1 ).units_steal( land2 )
 			$mol_assert_equal( dict1.dive( 123, $giper_baza_atom )!.vary(), 777 )
 			
 			dict1.dive( 'xxx', $giper_baza_list, null )!.items_vary([ 'foo' ])
-			land2.faces.tick()
+			land2.tick()
 			dict2.dive( 'xxx', $giper_baza_list, null )!.items_vary([ 'bar' ])
 			await $mol_wire_async( land1 ).units_steal( land2 )
 			$mol_assert_equal( dict1.dive( 'xxx', $giper_baza_list )!.items_vary(), [ 'bar', 'foo' ] )

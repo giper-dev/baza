@@ -32,8 +32,12 @@ namespace $ {
 			if( this.time < time ) {
 				this.time = time
 				this.tick = tick
+				return true
 			} else if( this.time === time && this.tick < tick ) {
 				this.tick = tick
+				return true
+			} else {
+				return false
 			}
 		}
 		
@@ -75,6 +79,8 @@ namespace $ {
 		/** Cumulative face for all peers. */
 		stat = new $giper_baza_face
 		
+		_peer_last = ''
+		
 		constructor(
 			entries?: $giper_baza_face_data
 		) {
@@ -103,7 +109,9 @@ namespace $ {
 			tick: number,
 		) {
 			
-			this.stat.sync_time( time, tick )
+			if( this.stat.sync_time( time, tick ) ) {
+				this._peer_last = peer
+			}
 			
 			let prev = this.get( peer )
 			if( prev ) prev.sync_time( time, tick )
@@ -134,16 +142,28 @@ namespace $ {
 		
 		/** Generates new time for peer that greater then other seen. */
 		@ $mol_action
-		tick() {
+		tick( peer: $giper_baza_link ) {
+			
 			const now = $giper_baza_time_now()
+			
 			if( this.stat.time < now ) {
+				
 				this.stat.time = now
 				this.stat.tick = 0
+				
+			} else if( this._peer_last !== peer.str ) {
+				
+				this.stat.time += 1
+				this.stat.tick = 0
+				this._peer_last = peer.str
+				
 			} else {
-				this.stat.tick += 1
-				this.stat.tick %= 2**16
+				
+				this.stat.tick = ( this.stat.tick + 1 ) % 2**16
 				if( !this.stat.tick ) ++ this.stat.time
+				
 			}
+			
 			return this.stat
 		}
 		

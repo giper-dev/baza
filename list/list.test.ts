@@ -105,7 +105,7 @@ namespace $ {
 			const list2 = land2.Pawn( $giper_baza_list ).Data()
 
 			list1.items_vary([ 'foo', 'xxx' ])
-			land2.faces.tick()
+			land2.tick()
 			list2.items_vary([ 'foo', 'yyy' ])
 			await $mol_wire_async( land1 ).units_steal( land2 )
 			$mol_assert_equal( list1.items_vary(), [ 'foo', 'yyy', 'foo', 'xxx' ] )
@@ -484,6 +484,36 @@ namespace $ {
 			)
 			
 		} ),
+		
+		async '3 transactions in same second must keep ordering'( $ ) {
+
+			const auth_left = await $.$giper_baza_auth.generate()
+			const auth_right = await $.$giper_baza_auth.generate()
+
+			const land_left = $.$giper_baza_land.make({ $, auth: ()=> auth_left })
+			land_left.give( auth_right.pass(), $giper_baza_rank_post( 'just' ) )
+
+			const land_right = $.$giper_baza_land.make({ $, auth: ()=> auth_right, link: ()=> land_left.link() })
+
+			const list_left = land_left.Data( $giper_baza_list )
+			const list_right = land_right.Data( $giper_baza_list )
+			
+			list_left.items_vary([ 'a', 'b', 'c', 'd' ])
+			$mol_assert_equal( list_left.items_vary(), [ 'a', 'b', 'c', 'd' ] )
+			
+			await $mol_wire_async( land_right ).units_steal( land_left )
+			$mol_assert_equal( list_right.items_vary(), [ 'a', 'b', 'c', 'd' ] )
+
+			list_right.splice( [ 'x' ], 0, 0 )
+			$mol_assert_equal( list_right.items_vary(), [ 'x', 'a', 'b', 'c', 'd' ] )
+			
+			await $mol_wire_async( land_left ).units_steal( land_right )
+			$mol_assert_equal( list_left.items_vary(), [ 'x', 'a', 'b', 'c', 'd' ] )
+
+			list_left.items_vary([ 'd', 'x', 'a', 'b', 'c' ])
+			$mol_assert_equal( list_left.items_vary(), [ 'd', 'x', 'a', 'b', 'c' ] )
+
+		},
 		
 	})
 	

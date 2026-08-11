@@ -85,7 +85,7 @@ namespace $ {
 			let link = this._hash_cache.get( bin )
 			if( link ) return link
 			
-			const hash = $mol_crypto_hash( bin )
+			const hash = $mol_crypto2_hash( bin )
 			link = this.from_bin( new Uint8Array( hash.buffer, 0, 12 ) )
 			this._hash_cache.set( bin, link )
 			
