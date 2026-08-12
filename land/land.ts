@@ -135,9 +135,13 @@ namespace $ {
 			sands.set( sand.self().str, sand )
 			
 			this.faces.peer_time( peer.str, sand.time(), sand.tick() )
-			
+
 			if( sand.encoded() ) this.unit_seal_inc( sand )
-			
+
+			let log = this._head_log.get( sand.head().str )
+			if( !log ) this._head_log.set( sand.head().str, log = [] )
+			log.push( sand )
+
 		}
 		
 		/** Журнал прихода Sand по Головам и счётчик чисток без замены. */
