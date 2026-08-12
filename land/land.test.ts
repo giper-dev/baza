@@ -15,9 +15,9 @@ namespace $ {
 		
 		async 'Give rights'( $ ) {
 			
-			const auth0 = await $.$giper_baza_auth.generate()
-			const auth1 = await $.$giper_baza_auth.generate()
-			const auth2 = await $.$giper_baza_auth.generate()
+			const auth0 = await $.$giper_baza_auth.grab()
+			const auth1 = await $.$giper_baza_auth.grab()
+			const auth2 = await $.$giper_baza_auth.grab()
 			
 			const land0 = $giper_baza_land.make({ $, auth: ()=> auth0 })
 			const land1 = $giper_baza_land.make({ $, link: ()=> land0.link(), auth: ()=> auth1 })
@@ -54,8 +54,8 @@ namespace $ {
 		
 		async 'Post Data and pick Delta'( $ ) {
 			
-			const auth1 = await $.$giper_baza_auth.generate()
-			const auth2 = await $.$giper_baza_auth.generate()
+			const auth1 = $.$giper_baza_auth.grab()
+			const auth2 = $.$giper_baza_auth.grab()
 			
 			const land1 = $giper_baza_land.make({ $, auth: ()=> auth1 })
 			const land2 = $giper_baza_land.make({ $, link: ()=> land1.link(), auth: ()=> auth2 })
