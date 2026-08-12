@@ -487,8 +487,8 @@ namespace $ {
 		
 		async '3 transactions in same second must keep ordering'( $ ) {
 
-			const auth_left = await $.$giper_baza_auth.generate()
-			const auth_right = await $.$giper_baza_auth.generate()
+			const auth_left = $.$giper_baza_auth.grab()
+			const auth_right = $.$giper_baza_auth.grab()
 
 			const land_left = $.$giper_baza_land.make({ $, auth: ()=> auth_left })
 			land_left.give( auth_right.pass(), $giper_baza_rank_post( 'just' ) )
