@@ -2018,7 +2018,7 @@ declare namespace $ {
         static current(next?: $giper_baza_auth | null): $giper_baza_auth;
         static embryos: string[];
         static grab(): $giper_baza_auth;
-        static generate(): Promise<$giper_baza_auth>;
+        static _generate(): Promise<$giper_baza_auth>;
         pass(): $giper_baza_auth_pass;
         secret_mutual(pass: $giper_baza_auth_pass): $mol_crypto_sacred;
         [$mol_dev_format_head](): any[];
