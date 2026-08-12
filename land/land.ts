@@ -23,6 +23,15 @@ namespace $ {
 		
 	}
 
+	// нетрекающее чтение: мутатор не должен подписывать вызвавшую его задачу на словарь
+	function peek< Key, Value >( map: Map< Key, Value >, key: Key ) {
+		return Map.prototype.get.call( map, key ) as undefined | Value
+	}
+
+	function peek_has< Key >( map: Map< Key, unknown >, key: Key ) {
+		return Map.prototype.has.call( map, key )
+	}
+
 	export const $giper_baza_land_root = {
 		data: new $giper_baza_link( '' ), // 0
 		tine: new $giper_baza_link( 'AQAAAAAA' ), // 1
@@ -54,18 +63,18 @@ namespace $ {
 		_sand = new $mol_wire_dict< string /*Head*/, $mol_wire_dict< string /*Lord*/, $mol_wire_dict< string /*Self*/, $giper_baza_unit_sand > > >()
 		
 		pass_add( pass: $giper_baza_auth_pass ) {
-			if( this._pass.has( pass.lord().str ) ) return
+			if( peek_has( this._pass, pass.lord().str ) ) return
 			this._pass.set( pass.lord().str, pass )
 		}
 		
 		seal_add( seal: $giper_baza_unit_seal ) {
 			
-			const prev = this._seal_shot.get( seal.shot().str )
+			const prev = peek( this._seal_shot, seal.shot().str )
 			if( prev ) return
 			
 			for( const hash of seal.hash_list() ) {
 				
-				const prev = this._seal_item.get( hash.str )
+				const prev = peek( this._seal_item, hash.str )
 				
 				if( $giper_baza_unit_seal.compare( prev, seal ) <= 0 ) continue
 				
@@ -90,7 +99,7 @@ namespace $ {
 			
 			const mate = gift.mate()
 			
-			const prev = this._gift.get( mate.str )
+			const prev = peek( this._gift, mate.str )
 			if( $giper_baza_unit_gift.compare( prev, gift ) <= 0 ) return
 			
 			const peer = gift.lord().peer()
@@ -109,13 +118,13 @@ namespace $ {
 		
 		sand_add( sand: $giper_baza_unit_sand ) {
 			
-			let peers = this._sand.get( sand.head().str )
+			let peers = peek( this._sand, sand.head().str )
 			if( !peers ) this._sand.set( sand.head().str, peers = new $mol_wire_dict )
 			
-			let sands = peers.get( sand.lord().str )
+			let sands = peek( peers, sand.lord().str )
 			if( !sands ) peers.set( sand.lord().str, sands = new $mol_wire_dict )
 			
-			const prev = sands.get( sand.self().str )
+			const prev = peek( sands, sand.self().str )
 			if( $giper_baza_unit_sand.compare( prev, sand ) <= 0 ) return
 			
 			const peer = sand.lord().peer()
@@ -140,8 +149,11 @@ namespace $ {
 		
 		unit_seal_inc( unit: $giper_baza_unit_base ) {
 			
-			const seal = this.unit_seal( unit )
+			if( !unit.encoded() ) return
+			
+			const seal = peek( this._seal_item, unit.hash().str )
 			if( !seal ) return
+			if( seal.lord().str != unit.lord().str ) return
 			
 			seal.alive_items.add( unit.hash().str )
 			
@@ -149,8 +161,11 @@ namespace $ {
 		
 		unit_seal_dec( unit: $giper_baza_unit_base ) {
 			
-			const seal = this.unit_seal( unit )
+			if( !unit.encoded() ) return
+			
+			const seal = peek( this._seal_item, unit.hash().str )
 			if( !seal ) return
+			if( seal.lord().str != unit.lord().str ) return
 			
 			seal.alive_items.delete( unit.hash().str )
 			
@@ -161,13 +176,13 @@ namespace $ {
 		seal_del( seal: $giper_baza_unit_seal ) {
 			
 			const shot = seal.shot()
-			if( !this._seal_shot.has( shot.str ) ) return
+			if( !peek_has( this._seal_shot, shot.str ) ) return
 			
 			this._seal_shot.delete( shot.str )
 			this.faces.peer_summ_shift( seal.lord().peer().str, -1 )
 			
 			for( const hash of seal.hash_list() ) {
-				if( this._seal_item.get( hash.str ) === seal ) {
+				if( peek( this._seal_item, hash.str ) === seal ) {
 					this._seal_item.delete( hash.str )
 				}
 			}
@@ -178,7 +193,7 @@ namespace $ {
 		
 		gift_del( gift: $giper_baza_unit_gift ) {
 			
-			const prev = this._gift.get( gift.mate().str )
+			const prev = peek( this._gift, gift.mate().str )
 			if( prev !== gift ) return
 			
 			this._gift.delete( gift.mate().str  )
@@ -191,13 +206,13 @@ namespace $ {
 		
 		sand_del( sand: $giper_baza_unit_sand ) {
 			
-			const peers = this._sand.get( sand.head().str )
+			const peers = peek( this._sand, sand.head().str )
 			if( !peers ) return
 			
-			const sands = peers.get( sand.lord().str )
+			const sands = peek( peers, sand.lord().str )
 			if( !sands ) return
 			
-			const prev = sands.get( sand.self().str )
+			const prev = peek( sands, sand.self().str )
 			if( prev !== sand ) return
 			
 			sands.delete( sand.self().str )
@@ -247,7 +262,7 @@ namespace $ {
 				
 				const idea_link = $giper_baza_link.from_int( idea )
 				if( /[æÆ]/.test( idea_link.str ) ) continue
-				if( this._self_all.has( idea_link.str ) ) continue
+				if( peek_has( this._self_all, idea_link.str ) ) continue
 				
 				this._self_all.set( idea_link.str, null )
 				return idea_link
