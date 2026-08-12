@@ -24,8 +24,7 @@ namespace $.$$ {
 				}),
 			}) )
 
-			// send_type не зовётся: Content-Type отключён как XSS-вектор, тип не отдаём
-			$mol_assert_equal( res, [ 200, content ] )
+			$mol_assert_equal( res, [ 200, 'application/octet-stream', content ] )
 
 		},
 
@@ -47,7 +46,7 @@ namespace $.$$ {
 				}),
 			}) )
 
-			$mol_assert_equal( res, [ 404, new Uint8Array ] )
+			$mol_assert_equal( res, [ 404, 'application/octet-stream', new Uint8Array ] )
 
 		},
 
