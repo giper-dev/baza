@@ -129,7 +129,7 @@ namespace $ {
 			
 			const peer = sand.lord().peer()
 			
-			if( prev ) this.sand_del( prev )
+			if( prev ) this.sand_del( prev, true )
 			this.faces.peer_summ_shift( peer.str, +1 )
 		
 			sands.set( sand.self().str, sand )
@@ -140,6 +140,17 @@ namespace $ {
 			
 		}
 		
+		/** Журнал прихода Sand по Головам и счётчик чисток без замены. */
+		_head_log = new Map< string /*Head*/, $giper_baza_unit_sand[] >()
+		_head_purge = new Map< string /*Head*/, number >()
+
+		/** Версия Головы — узкая замена чтению всех её юнитов. */
+		@ $mol_mem_key
+		sand_version( head: string ) {
+			this._sand.get( head )?.forEach( sands => sands.size )
+			return ( this._head_log.get( head )?.length ?? 0 ) + '|' + ( this._head_purge.get( head ) ?? 0 )
+		}
+
 		units_reaping = new Set< $giper_baza_unit_base >()
 		
 		unit_reap( unit: $giper_baza_unit_base ) {
@@ -204,7 +215,7 @@ namespace $ {
 			
 		}
 		
-		sand_del( sand: $giper_baza_unit_sand ) {
+		sand_del( sand: $giper_baza_unit_sand, replaced = false ) {
 			
 			const peers = peek( this._sand, sand.head().str )
 			if( !peers ) return
@@ -220,6 +231,8 @@ namespace $ {
 			
 			this.unit_reap( sand )
 			if( sand.encoded() ) this.unit_seal_dec( sand )
+			
+			if( !replaced ) this._head_purge.set( sand.head().str, ( this._head_purge.get( sand.head().str ) ?? 0 ) + 1 )
 			
 		}
 		
