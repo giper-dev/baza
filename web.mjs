@@ -8358,6 +8358,7 @@ var $;
                 const spread = this.spread_current();
                 if (spread instanceof $mol_book2)
                     spread.auto();
+                return [];
             }
             spread_ids() {
                 return Object.keys(this.spreads());

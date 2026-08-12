@@ -3376,7 +3376,7 @@ declare namespace $.$$ {
     class $mol_book2_catalog extends $.$mol_book2_catalog {
         spread_current(): any;
         pages(): any[];
-        auto(): void;
+        auto(): never[];
         spread_ids(): readonly string[];
         menu_body(): ($.$mol_list | $.$mol_search)[];
         menu_filter_enabled(): boolean;
