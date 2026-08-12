@@ -33523,6 +33523,7 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    export function $giper_baza_file_mime_safe(type: string): string;
     export const $giper_baza_file_query: ((val: {
         '='?: readonly (readonly number[])[] | undefined;
         '+'?: boolean | undefined;

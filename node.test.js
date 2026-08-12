@@ -4475,6 +4475,7 @@ var $;
             if (this.output.statusCode !== 400)
                 return;
             this.output.statusCode = code;
+            this.output.setHeader('x-content-type-options', 'nosniff');
         }
         send_type(mime) {
             if (this.output.writableEnded)
@@ -12249,7 +12250,7 @@ var $;
     }
     if ('process' in globalThis) {
         process.on('uncaughtExceptionMonitor', handler);
-        process.on('unhandledRejection', handler_promise_node);
+        // process.on('unhandledRejection', handler_promise_node) // revents process halt
     }
     const console_error = console.error;
     console.error = function console_error_custom(...args) {
@@ -13456,6 +13457,12 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function $giper_baza_file_mime_safe(type) {
+        return ['audio', 'video', 'image', 'font'].includes(type.replace(/\/.*$/, ''))
+            ? type
+            : 'application/octet-stream';
+    }
+    $.$giper_baza_file_mime_safe = $giper_baza_file_mime_safe;
     $.$giper_baza_file_query = $hyoo_harp_scheme({
         BAZA: $hyoo_harp_scheme({}),
         file: $hyoo_harp_scheme({}, $mol_data_string),
@@ -13599,7 +13606,7 @@ var $;
             const link = new $giper_baza_link(id);
             const file = this.$.$giper_baza_glob.Pawn(link, $giper_baza_file);
             msg.port.send_code(file.filled() ? 200 : 404);
-            // msg.port.send_type( file.type() as $mol_rest_port_mime ) // XSS if it's text/html
+            msg.port.send_type($giper_baza_file_mime_safe(file.type()));
             msg.port.send_bin(file.buffer());
         }
         OPEN(msg) {
@@ -19660,8 +19667,7 @@ var $;
                         send_bin: bin => res.push(bin),
                     }),
                 }));
-                // send_type не зовётся: Content-Type отключён как XSS-вектор, тип не отдаём
-                $mol_assert_equal(res, [200, content]);
+                $mol_assert_equal(res, [200, 'application/octet-stream', content]);
             },
             'GET ?BAZA:file=<unknown> returns 404'($) {
                 const link = new $giper_baza_link('99999999_99999999');
@@ -19676,7 +19682,7 @@ var $;
                         send_bin: bin => res.push(bin),
                     }),
                 }));
-                $mol_assert_equal(res, [404, new Uint8Array]);
+                $mol_assert_equal(res, [404, 'application/octet-stream', new Uint8Array]);
             },
         });
     })($$ = $_1.$$ || ($_1.$$ = {}));
