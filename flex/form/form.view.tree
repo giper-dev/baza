@@ -2,9 +2,10 @@ $giper_baza_flex_form $mol_list
 	pawn $giper_baza_dict
 	meta $giper_baza_flex_meta
 	rows <= fields /
-		<= Field*0 $mol_form_field
-			name <= field_name* \
-			Content <= Field_content* $mol_view sub / <= Field_control* $giper_baza_flex_field
+		<= Field*0 $mol_expander
+			title <= field_name* \
+			expanded? <=> field_expanded*? true
+			content / <= Field_content* $mol_view sub / <= Field_control* $giper_baza_flex_field
 				pawn? <=> field_pawn*? $giper_baza_pawn
 				prop <= field_prop* $giper_baza_flex_prop
 				enabled <= enabled true

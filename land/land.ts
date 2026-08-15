@@ -1243,7 +1243,7 @@ namespace $ {
 				
 				const auth = land.auth()
 				const rate = $giper_baza_rank_rate_of( land.pass_rank( auth.pass() ) )
-				const wide = Boolean( land.link().area().str )
+				const wide = ! land.link().area().str
 				
 				return $mol_array_chunks( hashes, $giper_baza_unit_seal_limit ).map( async( hashes )=> {
 				
