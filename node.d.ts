@@ -1333,6 +1333,7 @@ declare namespace $ {
         float32(offset: number, next?: number): number;
         /** 8-byte float little-endian channel for offset. */
         float64(offset: number, next?: number): number;
+        mix(mixin: Uint8Array<ArrayBuffer>): this;
         /** A Uint8Array view for the same buffer. */
         asArray(): Uint8Array<ArrayBuffer>;
         /** base64ae string from buffer. */

@@ -675,6 +675,8 @@ $mol_drop $mol_ghost
 		\move
 		\link
 
+$mol_bar $mol_view
+
 $mol_icon_tick $mol_icon path \M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z
 
 $mol_check_box $mol_check
@@ -717,8 +719,6 @@ $mol_number $mol_view
 			event_click? <=> event_inc? null
 			enabled <= inc_enabled <= enabled
 			sub / <= inc_icon $mol_icon_chevron_right
-
-$mol_bar $mol_view
 
 $mol_textarea $mol_stack
 	attr *
@@ -976,29 +976,38 @@ $giper_baza_flex_field $mol_view
 		enabled <= enabled true
 		value? <=> text? \
 		selection? <=> text_selection? /
-	List <= List_drop $mol_drop
-		adopt? <=> list_item_adopt? null
-		receive? <=> list_receive? null
-		allow /
-			\move
-			\copy
-		Sub <= List_items $mol_view
-			sub <= list_items /
-				<= List_item*0 <= List_item_drop* $mol_drop
-					adopt? <=> list_item_adopt? null
-					receive? <=> list_item_receive*? null
-					allow /
-						\move
-						\copy
-					Sub <= List_item_drag* $mol_drag
-						end? <=> list_item_drag_end*? null
-						transfer *
-							text/plain <= list_item_value* \
-							text/html <= list_item_html* \
-							text/uri-list <= list_item_uri* \
-						Sub <= List_item_dump* $giper_baza_unit_sand_dump
-							land <= land
-							sand <= list_sand* $giper_baza_unit_sand
+	List $mol_list
+		rows /
+			- <= List_drop $mol_drop
+				adopt? <=> list_item_adopt? null
+				receive? <=> list_receive? null
+				allow /
+					\move
+					\copy
+				Sub
+			<= List_items $mol_list
+				rows <= list_items /
+					<= List_item*0 <= List_item_drop* $mol_drop
+						adopt? <=> list_item_adopt? null
+						receive? <=> list_item_receive*? null
+						allow /
+							\move
+							\copy
+						Sub <= List_item_drag* $mol_drag
+							end? <=> list_item_drag_end*? null
+							transfer *
+								text/plain <= list_item_value* \
+								text/html <= list_item_html* \
+								text/uri-list <= list_item_uri* \
+							Sub <= List_item_content* $mol_view sub /
+								<= List_item_kill* $mol_button_minor
+									clicks? <=> list_item_kill*? null
+									sub /
+										<= List_item_kill_icon* $mol_icon_close
+								<= List_item_dump* $giper_baza_unit_sand_dump
+									land <= land
+									sand <= list_sand* $giper_baza_unit_sand
+			<= List_tools $mol_bar sub <= list_tools /
 				<= List_pick $mol_select
 					enabled <= enabled true
 					value? <=> list_pick? null
@@ -1008,71 +1017,20 @@ $giper_baza_flex_field $mol_view
 					enabled <= enabled true
 					click? <=> list_item_add? null
 					title \+
-
-$mol_labeler $mol_list
-	rows /
-		<= Label $mol_view
-			minimal_height 32
-			sub <= label /$mol_view_content
-				<= title
-		<= Content $mol_view
-			minimal_height 24
-			sub <= content /
-
-$mol_form_field $mol_labeler
-	attr *
-		^
-		mol_form_field_state <= state null string
-	bids /string
-	label /
-		<= name \
-		<= Bid $mol_view
-			sub / <= bid \
-	content / <= control null
-
-$mol_button_major $mol_button_minor
-	theme \$mol_theme_base
-
-$mol_status $mol_view
-	status <= title
-	minimal_height 24
-	minimal_width 0
-	sub /
-		<= message \
-
-$mol_row $mol_view
-
-$mol_form $mol_list
-	submit_allowed true
-	submit_blocked false
-	event *
-		^
-		keydown? <=> keydown? null
-	save? null
-	message_done @ \Saved
-	errors *string
-		\Form invalid
-			<= form_invalid @ \Form is not valid
-	rows /
-		<= Body $mol_list
-			sub <= body <= form_fields /$mol_form_field
-		<= Foot $mol_row
-			sub <= foot <= buttons /$mol_view
-				<= Submit $mol_button_major
-					title <= submit_title @ \Save
-					hint <= submit_hint \
-					activate? => submit_activate?
-					click? <=> submit? null
-				<= Result $mol_status
-					message <= result? null
+				<= List_item_link $mol_string
+					enabled <= enabled true
+					value? <=> list_item_link_value? \
+					submit? <=> list_item_link? null
+					hint \Link
 
 $giper_baza_flex_form $mol_list
 	pawn $giper_baza_dict
 	meta $giper_baza_flex_meta
 	rows <= fields /
-		<= Field*0 $mol_form_field
-			name <= field_name* \
-			Content <= Field_content* $mol_view sub / <= Field_control* $giper_baza_flex_field
+		<= Field*0 $mol_expander
+			title <= field_name* \
+			expanded? <=> field_expanded*? true
+			content / <= Field_content* $mol_view sub / <= Field_control* $giper_baza_flex_field
 				pawn? <=> field_pawn*? $giper_baza_pawn
 				prop <= field_prop* $giper_baza_flex_prop
 				enabled <= enabled true
@@ -1146,6 +1104,16 @@ $giper_baza_pawn_dump $mol_expander
 						land <= land
 						sand <= unit_value* null
 				pawn <= pawn_inner* $giper_baza_pawn
+
+$mol_labeler $mol_list
+	rows /
+		<= Label $mol_view
+			minimal_height 32
+			sub <= label /$mol_view_content
+				<= title
+		<= Content $mol_view
+			minimal_height 24
+			sub <= content /
 
 $mol_icon_source $mol_icon path \M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z
 
