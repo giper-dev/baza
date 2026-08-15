@@ -7,7 +7,7 @@ namespace $ {
 			return new $giper_baza_app_node_link
 		}
 
-		_protocols = [ '$giper_baza_yard' ]
+		_protocols = [ '$giper_baza_yard_2' ]
 
 		GET( msg: $mol_rest_message ) {
 
