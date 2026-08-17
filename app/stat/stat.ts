@@ -78,6 +78,11 @@ namespace $ {
 			
 			this.$.$mol_state_time.now( 1000 )
 			
+			const yard = $mol_wire_sync( this.$.$giper_baza_glob.yard() )
+			const masters = yard.masters().length
+			const ports = yard.ports()
+			const lands = ports.reduce( ( sum, port )=> sum + yard.port_lands_active( port ).size, 0 )
+			
 			this.uptime( new $mol_time_duration({ second: Math.floor( process.uptime() ) }).normal )
 			
 			const res = process.resourceUsage()
@@ -93,14 +98,8 @@ namespace $ {
 			const fs = $node.fs.statfsSync( '.' )
 			this.Fs_free( null )!.tick_instant( Math.floor( Number( fs.bfree ) / Number( fs.blocks ) * 100 ) ) // %
 			
-			const yard = $mol_wire_sync( this.$.$giper_baza_glob.yard() )
-			const masters = yard.masters().length
 			this.Port_masters( null )!.tick_instant( masters ) // pct
-			
-			const ports = yard.ports()
 			this.Port_slaves( null )!.tick_instant( ports.length - masters ) // pct
-			
-			const lands = ports.reduce( ( sum, port )=> sum + yard.port_lands_active( port ).size, 0 )
 			this.Land_active( null )!.tick_instant( lands ) // pct
 			
 			this.Errors( null )!.tick_instant( 0 ) // pct
