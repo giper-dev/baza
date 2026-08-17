@@ -1076,9 +1076,7 @@ namespace $ {
 		}
 		
 		@ $mol_mem
-		sand_encoding() {
-			
-			this.loading()
+		sands_unencoded() {
 			
 			const sands = [] as $giper_baza_unit_sand[]
 			
@@ -1086,9 +1084,8 @@ namespace $ {
 				for( const units of kids.values() ) {
 					for( const sand of units.values() ) {
 						
-						const sync_sand = $mol_wire_sync( sand )
-						if( sync_sand._vary === undefined ) continue
-						if( sync_sand._ball ) continue
+						if( sand._vary === undefined ) continue
+						if( sand._ball ) continue
 						
 						sands.push( sand )
 						
@@ -1096,9 +1093,13 @@ namespace $ {
 				}
 			}
 			
-			if( !sands.length ) return
-			$mol_wire_sync( this ).sands_encode( sands )
+			return sands
+		}
 		
+		@ $mol_mem
+		sand_encoding() {
+			this.loading()
+			batch( this, this.sands_unencoded, this.sands_encode )
 		}
 		
 		@ $mol_mem
@@ -1353,7 +1354,16 @@ namespace $ {
 		
 		@ $mol_action
 		sands_open( sands: readonly $giper_baza_unit_sand[] ) {
-			const closed = sands.filter( sand => !sand._open )
+			const encrypted = this.encrypted()
+			const closed = sands.filter( sand => {
+				if( sand._open ) return false
+				if( !sand._ball ) {
+					if( sand.big() ) return true
+					sand._ball = sand.data()
+				}
+				if( encrypted && !sand.dead() ) return true
+				sand._open = sand._ball
+			} )
 			if( !closed.length ) return
 			return Promise.all( closed.map( sand => this.sand_open( sand ) ) )
 		}

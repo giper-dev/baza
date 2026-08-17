@@ -26,23 +26,28 @@ namespace $ {
 			msg.port.send_bin( file.buffer() )
 
 		}
+		
+		_yard() {
+			return this.$.$giper_baza_glob.yard()
+		}
 
 		OPEN( msg: $mol_rest_message ) {
 			
 			const protocol = super.OPEN( msg )
 			if( !protocol ) return ''
 			
-			this.$.$giper_baza_glob.yard().slaves.add( msg.port )
+			this._yard().slaves.add( msg.port )
+			
 			return protocol
 			
 		}
 		
 		POST( msg: $mol_rest_message ) {
-			this.$.$giper_baza_glob.yard().port_income( msg.port, msg.bin() )
+			this._yard().port_income( msg.port, msg.bin() )
 		}
 		
 		CLOSE( msg: $mol_rest_message ) {
-			this.$.$giper_baza_glob.yard().slaves.delete( msg.port )
+			this._yard().slaves.delete( msg.port )
 			super.CLOSE( msg )
 		}
 		
