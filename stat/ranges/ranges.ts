@@ -14,15 +14,27 @@ namespace $ {
 			this.tick_integral( this._last_instant += val )
 		}
 		
+		@ $mol_mem
+		Series_all() {
+			return [
+				this.Seconds( null )!,
+				this.Minutes( null )!,
+				this.Hours( null )!,
+				this.Days( null )!,
+				this.Months( null )!,
+			]
+		}
+		
 		tick_integral( val: number ) {
 			
 			let now = new $mol_time_moment
+			const [ seconds, minutes, hours, days, months ] = this.Series_all()
 			
-			this.Seconds( null )!.tick( Math.floor( now.second! ), val, 60 )
-			this.Minutes( null )!.tick( now.minute!, val, 60 )
-			this.Hours( null )!.tick( now.hour!, val, 24 )
-			this.Days( null )!.tick( now.day!, val, 31 )
-			this.Months( null )!.tick( now.month!, val, 12 )
+			seconds.tick( Math.floor( now.second! ), val, 60 )
+			minutes.tick( now.minute!, val, 60 )
+			hours.tick( now.hour!, val, 24 )
+			days.tick( now.day!, val, 31 )
+			months.tick( now.month!, val, 12 )
 			// this.Years( null )!.tick( now.year!, val )
 			
 		}
