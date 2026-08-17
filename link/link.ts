@@ -147,9 +147,9 @@ namespace $ {
 		
 		mix( mixin: Uint8Array< ArrayBuffer > | $giper_baza_link ) {
 			if( mixin instanceof $giper_baza_link ) mixin = mixin.toBin()
-			const mix = this.toBin().slice()
-			for( let i = 0; i < mix.length; ++i ) mix[i] ^= mixin[i]
-			return mix
+			const mixout = $mol_buffer.from( this.toBin().slice() )
+			mixout.mix( mixin )
+			return mixout.asArray()
 		}
 	
 	}

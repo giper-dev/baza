@@ -139,10 +139,15 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		list_items() {
+			return this.pawn()?.units().map( ( unit, i )=> this.List_item( unit ) ) ?? []
+		}
+		
+		@ $mol_mem
+		list_tools() {
 			return [
-				... this.pawn()?.units().map( ( unit, i )=> this.List_item( unit ) ) ?? [],
 				... this.link_options().length ? [ this.List_pick() ] : [],
 				this.List_item_add(),
+				this.List_item_link(),
 			]
 		}
 		
@@ -157,6 +162,20 @@ namespace $.$$ {
 			const target = this.pawn( null as any ).cast( $giper_baza_list_link.to( ()=> $giper_baza_flex_subj ) ).make( null )
 			const meta = this.prop().Kind()?.remote()?.link() ?? null
 			if( meta ) target.meta( meta )
+		}
+	
+		@ $mol_action
+		list_item_link() {
+			const link = new $giper_baza_link( this.list_item_link_value() )
+			this.pawn( null as any ).cast( $giper_baza_list ).add( link )
+			this.list_item_link_value( '' )
+		}
+		
+		@ $mol_action
+		list_item_kill( sand: $giper_baza_unit_sand ) {
+			const list = this.pawn( null as any ).cast( $giper_baza_list )
+			const index = list.units().indexOf( sand )
+			list.wipe( index )
 		}
 		
 		@ $mol_mem_key
