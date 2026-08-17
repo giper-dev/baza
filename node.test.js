@@ -2542,7 +2542,8 @@ var $;
     class $mol_rest_port extends $mol_object {
         send_code(code) { }
         send_type(mime) { }
-        origin() { return 'uknown'; }
+        origin() { return 'unknown'; }
+        address() { return 'unknown'; }
         send_data(data) {
             if (data === null)
                 return this.send_nil();
@@ -4953,6 +4954,9 @@ var $;
         }
         origin() {
             return this.upgrade().origin();
+        }
+        address() {
+            return this.upgrade().address();
         }
         send_nil() {
             if (this.socket.writableEnded)
@@ -12370,7 +12374,7 @@ var $;
             this.$.$mol_state_time.now(1000);
             const yard = this.$.$giper_baza_glob.yard();
             this.uptime(new $mol_time_duration({ second: Math.floor(process.uptime()) }).normal);
-            this.slaves([...yard.slaves].map(port => port.origin()));
+            this.slaves([...yard.slaves].map(port => port.origin() + ' ' + port.address()));
             const res = process.resourceUsage();
             this.Cpu_user(null).tick_integral(Math.ceil(res.userCPUTime / 1e4)); // %
             this.Cpu_system(null).tick_integral(Math.ceil(res.systemCPUTime / 1e4)); // %

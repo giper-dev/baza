@@ -788,6 +788,7 @@ declare namespace $ {
         send_code(code: $mol_rest_code): void;
         send_type(mime: $mol_rest_port_mime): void;
         origin(): string;
+        address(): string;
         send_data(data: null | string | Uint8Array<ArrayBuffer> | Element | object): void;
         send_nil(): void;
         send_bin(data: Uint8Array<ArrayBuffer>): void;
@@ -1403,6 +1404,7 @@ declare namespace $ {
         socket: InstanceType<$node['stream']['Duplex']>;
         upgrade(): $mol_rest_message_http;
         origin(): string;
+        address(): string;
         send_nil(): void;
         send_bin(data: Uint8Array<ArrayBuffer>): void;
         send_text(data: string): void;
