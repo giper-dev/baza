@@ -88,7 +88,7 @@ namespace $ {
 			
 			this.uptime( new $mol_time_duration({ second: Math.floor( process.uptime() ) }).normal )
 			
-			this.slaves( [ ... yard.slaves ].map( port => port.origin() ) )
+			this.slaves( [ ... yard.slaves ].map( port => port.origin() + ' ' + port.address() ) )
 			
 			const res = process.resourceUsage()
 			this.Cpu_user( null )!.tick_integral( Math.ceil( res.userCPUTime / 1e4 ) ) // %
