@@ -41,11 +41,64 @@ namespace $ {
 			})
 		}
 		
+		/** Живые юниты по ключу значения — пополняется хвостом журнала Головы. */
+		_vary_units = {
+			done: 0,
+			purge: 0,
+			by_key: new Map< string, Set< $giper_baza_unit_sand > >(),
+			by_self: new Map< string, { unit: $giper_baza_unit_sand, key: string } >(),
+		}
+
 		/** Unit by Vary. */
 		find( vary: $giper_baza_vary_type ) {
-			for( const unit of this.units() ) {
-				if( $mol_compare_deep( this.land().sand_decode( unit ), vary ) ) return unit
+
+			const land = this.land()
+			const head = this.head().str
+
+			land.sand_version( head )
+
+			const state = this._vary_units
+			const log = land._head_log.get( head ) ?? []
+			const purge = land._head_purge.get( head ) ?? 0
+
+			if( state.purge !== purge ) {
+				state.done = 0
+				state.purge = purge
+				state.by_key.clear()
+				state.by_self.clear()
 			}
+
+			// декод может усыпить фибру — сначала читаем всё, состояние меняем после
+			const fresh = log.slice( state.done )
+			const keys = fresh.map( unit => unit.dead() ? '' : $mol_key( land.sand_decode( unit ) ) )
+
+			for( let at = 0; at < fresh.length; ++at ) {
+
+				const unit = fresh[ at ]
+				const self = unit.self().str
+
+				const prev = state.by_self.get( self )
+				if( prev ) {
+					state.by_key.get( prev.key )?.delete( prev.unit )
+					state.by_self.delete( self )
+				}
+
+				if( unit.dead() ) continue
+
+				const key = keys[ at ]
+				let units = state.by_key.get( key )
+				if( !units ) state.by_key.set( key, units = new Set )
+				units.add( unit )
+				state.by_self.set( self, { unit, key } )
+
+			}
+
+			state.done = log.length
+
+			for( const unit of state.by_key.get( $mol_key( vary ) ) ?? [] ) {
+				if( $mol_compare_deep( land.sand_decode( unit ), vary ) ) return unit
+			}
+
 			return null
 		}
 		
