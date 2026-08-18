@@ -95,7 +95,7 @@ namespace $ {
 		
 		/** Synchronize this clock with another. */
 		sync( right: $giper_baza_face_data ) {
-			if( right instanceof $giper_baza_face_map ) this.stat = right.stat.clone()
+			// if( right instanceof $giper_baza_face_map ) this.stat = right.stat.clone()
 			for( const [ peer, face ] of right ) {
 				this.peer_time( peer, face.time, face.tick )
 				this.peer_summ( peer, face.summ )
