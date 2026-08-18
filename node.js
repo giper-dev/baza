@@ -9497,6 +9497,10 @@ var $;
                     skip_mass,
                     peer_face: face,
                     self_face: this.faces.get(peer),
+                    debug: {
+                        seal_shot: this._seal_shot.size,
+                        seal_item: this._seal_item.size,
+                    },
                 });
                 if (skipped_units)
                     for (const unit of skipped_units)
