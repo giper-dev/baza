@@ -54,7 +54,9 @@ namespace $ {
 			
 			const socket = new $mol_dom_context.WebSocket( link.replace( /^http/, 'ws' ), [ '$giper_baza_yard_2' ] )
 			socket.binaryType = 'arraybuffer'
-			const port = $mol_rest_port_ws_std.make({ socket })
+			
+			const port = new $mol_rest_port_ws_std
+			port.socket = socket
 			
 			socket.onmessage = async( event )=> {
 				
@@ -107,12 +109,23 @@ namespace $ {
 				socket.onerror = ()=> {
 					
 					socket.onclose = event => {
-						fail( new Error( `Master (${link}) is unavailable (${ event.code })` ) )
+						
+						this.$.$mol_log3_warn({
+							place: this,
+							message: 'Master unavailable',
+							hint: 'Relax and wait for reconnect',
+							link,
+							code: event.code,
+						})
+
 						clearInterval( interval )
+						
 						interval = setTimeout( ()=> {
+							// fail( new Error( `Master unavailable`, { cause: { link, code: event.code } } ) )
 							this.master_next()
 							this.reconnects( null )
 						}, 1000 )
+						
 					}
 					
 				}
