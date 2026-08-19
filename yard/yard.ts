@@ -110,7 +110,7 @@ namespace $ {
 					
 					socket.onclose = event => {
 						
-						this.$.$mol_log3_warn({
+						if( this.$.$giper_baza_log() ) this.$.$mol_log3_warn({
 							place: this,
 							message: 'Master unavailable',
 							hint: 'Relax and wait for reconnect',
