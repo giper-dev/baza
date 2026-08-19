@@ -124,11 +124,10 @@ namespace $ {
 			peer: string,
 			summ: number,
 		) {
-			
 			this.stat.sync_summ( summ )
-			
+
 			let prev = this.get( peer )
-			if( prev ) prev.sync_summ( summ )
+			if( prev ) prev.summ = summ
 			else this.set( peer, new $giper_baza_face( 0, 0, summ ) )
 			
 		}
