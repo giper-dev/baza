@@ -124,9 +124,10 @@ namespace $ {
 			peer: string,
 			summ: number,
 		) {
-			this.stat.sync_summ( summ )
+			const prev = this.get( peer )
+			this.stat.summ = ( this.stat.summ ?? 0 ) + summ - ( prev?.summ ?? 0 )
+			if( this.stat.summ < 0 ) $mol_fail( new Error( 'Negative summ' ) )
 
-			let prev = this.get( peer )
 			if( prev ) prev.summ = summ
 			else this.set( peer, new $giper_baza_face( 0, 0, summ ) )
 			
