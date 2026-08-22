@@ -71,7 +71,7 @@ namespace $ {
 				for( const unit of units ) {
 					
 					this.units_persisted.add( unit )
-					$giper_baza_unit_trusted_grant( unit )
+					// $giper_baza_unit_trusted_grant( unit )
 					
 				}
 				
