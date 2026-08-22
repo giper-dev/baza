@@ -80,10 +80,8 @@ namespace $ {
 			}
 			
 			const peer = seal.lord().peer()
-			this.faces.peer_time( peer.str, seal.time(), seal.tick() )
 			
 			this._seal_shot.set( seal.shot().str, seal )
-			this.faces.peer_summ_shift( peer.str, +1 )
 			
 		}
 		
@@ -176,7 +174,6 @@ namespace $ {
 			if( !this._seal_shot.has( shot.str ) ) return
 			
 			this._seal_shot.delete( shot.str )
-			this.faces.peer_summ_shift( seal.lord().peer().str, -1 )
 			
 			for( const hash of seal.hash_list() ) {
 				if( this._seal_item.get( hash.str ) === seal ) {
@@ -433,6 +430,7 @@ namespace $ {
 			const skipped = new Map< string, Set< $giper_baza_unit_base > >()
 			const delta = new Set< $giper_baza_unit_base >()
 			const passes = new Set< $giper_baza_auth_pass >()
+			const seals = new Set< $giper_baza_unit_seal >()
 			
 			function collect( unit: $giper_baza_unit_base ) {
 				
@@ -448,11 +446,6 @@ namespace $ {
 			
 			}
 			
-			
-			for( const seal of this._seal_item.values() ) {
-				if( !seal.alive_items.size ) continue
-				collect( seal )
-			}
 			
 			for( const gift of this._gift.values() ) {
 				collect( gift )
@@ -494,18 +487,31 @@ namespace $ {
 					},
 				})
 				
-				if( skipped_units ) for( const unit of skipped_units ) delta.add( unit )
+				for( const unit of skipped_units! ) delta.add( unit )
 				
 			}
 			
 			for( const unit of delta ) {
-				if( skip_faces.has( unit.lord().peer().str ) ) continue
-				const pass = this.lord_pass( unit.lord() )
-				if( !pass ) return $mol_fail( new Error( 'No pass for lord' ) )
-				passes.add( pass )
+				
+				const seal = this._seal_item.get( unit.hash().str )
+				
+				if( seal ) seals.add( seal )
+				else delta.delete( unit )
+				
 			}
 			
-			return [ ... passes, ... delta ]
+			for( const unit of delta ) {
+				
+				if( skip_faces.has( unit.lord().peer().str ) ) continue
+				
+				const pass = this.lord_pass( unit.lord() )
+				if( !pass ) return $mol_fail( new Error( 'No pass for lord' ) )
+				
+				passes.add( pass )
+				
+			}
+			
+			return [ ... passes, ... seals, ... delta ]
 			
 		}
 		
