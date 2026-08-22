@@ -14107,7 +14107,8 @@ var $;
                         return $mol_fail(new Error(`Encrypted land can't be shared to everyone`));
                     const secret_mutual = this.auth().secret_mutual(mate_pass);
                     if (secret_mutual) {
-                        const code = $mol_wire_sync(secret_mutual).close(secret_land, gift.salt());
+                        const salt = $mol_buffer.from(gift.salt().slice()).mix(this.link().lord().toBin());
+                        const code = $mol_wire_sync(secret_mutual).close(secret_land, salt);
                         gift.code().set(code);
                     }
                 }
@@ -14385,8 +14386,10 @@ var $;
             let bin = sand._open;
             if (sand._vary !== null) {
                 const secret = sand._land.secret();
-                if (secret)
-                    bin = await secret.encrypt(bin, sand.salt());
+                if (secret) {
+                    const salt = $mol_buffer.from(sand.salt().slice()).mix(this.link().toBin());
+                    bin = await secret.encrypt(bin, salt);
+                }
             }
             sand.ball(bin);
             if (sand._alive)
@@ -14470,8 +14473,9 @@ var $;
             if (!sand._ball)
                 sand._ball = sand.big() ? await $mol_wire_async(this.mine()).ball_load(sand) : sand.data();
             if (secret && sand._ball && !sand.dead()) {
+                const salt = $mol_buffer.from(sand.salt().slice()).mix(this.link().toBin());
                 try {
-                    sand._open = await secret.decrypt(sand._ball, sand.salt());
+                    sand._open = await secret.decrypt(sand._ball, salt);
                 }
                 catch (error) {
                     if ($mol_fail_catch(error)) {
@@ -14530,7 +14534,8 @@ var $;
             const secret_mutual = auth.secret_mutual(this.lord_pass(gift.lord()));
             if (!secret_mutual)
                 return $mol_fail(new Error(`Can't decrypt secret`));
-            return new $mol_crypto_sacred($mol_wire_sync(secret_mutual).open(gift.code(), gift.salt()).buffer);
+            const salt = $mol_buffer.from(gift.salt().slice()).mix(this.link().lord().toBin());
+            return new $mol_crypto_sacred($mol_wire_sync(secret_mutual).open(gift.code(), salt).buffer);
         }
         dump() {
             this.units_saving();
@@ -16168,7 +16173,7 @@ var $;
                 const units = res.map(bin => $giper_baza_unit_base.narrow(bin[0]));
                 for (const unit of units) {
                     this.units_persisted.add(unit);
-                    $giper_baza_unit_trusted_grant(unit);
+                    // $giper_baza_unit_trusted_grant( unit )
                 }
                 return units;
             });
