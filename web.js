@@ -13489,6 +13489,7 @@ var $;
         _seal_shot = new $mol_wire_dict();
         _gift = new $mol_wire_dict();
         _sand = new $mol_wire_dict();
+        _unit_hash = new Map();
         pass_add(pass) {
             if (this._pass.has(pass.lord().str))
                 return;
@@ -13503,17 +13504,15 @@ var $;
                 if ($giper_baza_unit_seal.compare(prev, seal) <= 0)
                     continue;
                 if (prev?.alive_items.has(hash.str)) {
-                    seal.alive_items.add(hash.str);
                     prev.alive_items.delete(hash.str);
                     if (!prev.alive_items.size)
                         this.seal_del(prev);
+                    seal.alive_items.add(hash.str);
                 }
                 this._seal_item.set(hash.str, seal);
             }
             const peer = seal.lord().peer();
-            this.faces.peer_time(peer.str, seal.time(), seal.tick());
             this._seal_shot.set(seal.shot().str, seal);
-            this.faces.peer_summ_shift(peer.str, +1);
         }
         gift_add(gift) {
             const mate = gift.mate();
@@ -13546,8 +13545,7 @@ var $;
             this.faces.peer_summ_shift(peer.str, +1);
             sands.set(sand.self().str, sand);
             this.faces.peer_time(peer.str, sand.time(), sand.tick());
-            if (sand.encoded())
-                this.unit_seal_inc(sand);
+            this.unit_seal_inc(sand);
         }
         units_reaping = new Set();
         unit_reap(unit) {
@@ -13556,12 +13554,20 @@ var $;
             this.units_reaping.add(unit);
         }
         unit_seal_inc(unit) {
+            unit._alive = true;
+            if (!unit.encoded())
+                return;
+            this._unit_hash.set(unit.hash().str, unit);
             const seal = this.unit_seal(unit);
             if (!seal)
                 return;
             seal.alive_items.add(unit.hash().str);
         }
         unit_seal_dec(unit) {
+            unit._alive = false;
+            if (!unit.encoded())
+                return;
+            this._unit_hash.delete(unit.hash().str);
             const seal = this.unit_seal(unit);
             if (!seal)
                 return;
@@ -13574,7 +13580,6 @@ var $;
             if (!this._seal_shot.has(shot.str))
                 return;
             this._seal_shot.delete(shot.str);
-            this.faces.peer_summ_shift(seal.lord().peer().str, -1);
             for (const hash of seal.hash_list()) {
                 if (this._seal_item.get(hash.str) === seal) {
                     this._seal_item.delete(hash.str);
@@ -13604,8 +13609,7 @@ var $;
             sands.delete(sand.self().str);
             this.faces.peer_summ_shift(sand.lord().peer().str, -1);
             this.unit_reap(sand);
-            if (sand.encoded())
-                this.unit_seal_dec(sand);
+            this.unit_seal_dec(sand);
         }
         lord_pass(lord) {
             return this._pass.get(lord.str) ?? null;
@@ -13760,6 +13764,7 @@ var $;
             const skipped = new Map();
             const delta = new Set();
             const passes = new Set();
+            const seals = new Set();
             function collect(unit) {
                 const peer = unit.lord().peer().str;
                 const face_limit = skip_faces.get(peer)?.time_tick ?? 0;
@@ -13770,11 +13775,6 @@ var $;
                     skipped_units.add(unit);
                 else
                     skipped.set(peer, new Set([unit]));
-            }
-            for (const seal of this._seal_item.values()) {
-                if (!seal.alive_items.size)
-                    continue;
-                collect(seal);
             }
             for (const gift of this._gift.values()) {
                 collect(gift);
@@ -13813,9 +13813,15 @@ var $;
                         seal_item: this._seal_item.size,
                     },
                 });
-                if (skipped_units)
-                    for (const unit of skipped_units)
-                        delta.add(unit);
+                for (const unit of skipped_units)
+                    delta.add(unit);
+            }
+            for (const unit of delta) {
+                const seal = this._seal_item.get(unit.hash().str);
+                if (seal)
+                    seals.add(seal);
+                else
+                    delta.delete(unit);
             }
             for (const unit of delta) {
                 if (skip_faces.has(unit.lord().peer().str))
@@ -13825,7 +13831,7 @@ var $;
                     return $mol_fail(new Error('No pass for lord'));
                 passes.add(pass);
             }
-            return [...passes, ...delta];
+            return [...passes, ...seals, ...delta];
         }
         /** Picks units between Face and current state and make Part. */
         // @ $mol_action
@@ -14362,9 +14368,13 @@ var $;
             });
             const seals = await Promise.all(threads);
             for (const seal of seals) {
-                for (const hash of seal.hash_list())
-                    seal.alive_items.add(hash.str);
-                this.seal_add(seal);
+                for (const hash of seal.hash_list()) {
+                    if (this._unit_hash.has(hash.str)) {
+                        seal.alive_items.add(hash.str);
+                    }
+                }
+                if (seal.alive_items.size)
+                    this.seal_add(seal);
             }
             return seals;
         }
@@ -14379,6 +14389,8 @@ var $;
                     bin = await secret.encrypt(bin, sand.salt());
             }
             sand.ball(bin);
+            if (sand._alive)
+                this._unit_hash.set(sand.hash().str, sand);
             return sand;
         }
         sand_load(sand) {
@@ -14850,6 +14862,7 @@ var $;
             return true;
         }
         _land = null;
+        _alive = false;
         dump() {
             return {};
         }

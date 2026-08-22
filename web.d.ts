@@ -5175,6 +5175,7 @@ declare namespace $ {
         _seal_shot: $mol_wire_dict<string, $giper_baza_unit_seal>;
         _gift: $mol_wire_dict<string, $giper_baza_unit_gift>;
         _sand: $mol_wire_dict<string, $mol_wire_dict<string, $mol_wire_dict<string, $giper_baza_unit_sand>>>;
+        _unit_hash: Map<string, $giper_baza_unit_base>;
         pass_add(pass: $giper_baza_auth_pass): void;
         seal_add(seal: $giper_baza_unit_seal): void;
         gift_add(gift: $giper_baza_unit_gift): void;
@@ -5323,6 +5324,7 @@ declare namespace $ {
         tier_min(): $giper_baza_rank_tier;
         encoded(): boolean;
         _land: null | $giper_baza_land;
+        _alive: boolean;
         dump(): {};
         inspect(): string;
         toJSON(): string;
