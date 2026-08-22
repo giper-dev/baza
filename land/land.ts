@@ -52,6 +52,7 @@ namespace $ {
 		_seal_shot = new $mol_wire_dict< string /*Shot*/, $giper_baza_unit_seal >()
 		_gift = new $mol_wire_dict< string /*Lord*/, $giper_baza_unit_gift >()
 		_sand = new $mol_wire_dict< string /*Head*/, $mol_wire_dict< string /*Lord*/, $mol_wire_dict< string /*Self*/, $giper_baza_unit_sand > > >()
+		_unit_hash = new Map< string /*Hash*/, $giper_baza_unit_base >()
 		
 		pass_add( pass: $giper_baza_auth_pass ) {
 			if( this._pass.has( pass.lord().str ) ) return
@@ -70,9 +71,9 @@ namespace $ {
 				if( $giper_baza_unit_seal.compare( prev, seal ) <= 0 ) continue
 				
 				if( prev?.alive_items.has( hash.str ) ) {
-					seal.alive_items.add( hash.str )
 					prev.alive_items.delete( hash.str )
 					if( !prev.alive_items.size ) this.seal_del( prev )
+					seal.alive_items.add( hash.str )
 				}
 				
 				this._seal_item.set( hash.str, seal )
@@ -127,7 +128,7 @@ namespace $ {
 			
 			this.faces.peer_time( peer.str, sand.time(), sand.tick() )
 			
-			if( sand.encoded() ) this.unit_seal_inc( sand )
+			this.unit_seal_inc( sand )
 			
 		}
 		
@@ -140,6 +141,11 @@ namespace $ {
 		
 		unit_seal_inc( unit: $giper_baza_unit_base ) {
 			
+			unit._alive = true
+			if( !unit.encoded() ) return
+			
+			this._unit_hash.set( unit.hash().str, unit )
+			
 			const seal = this.unit_seal( unit )
 			if( !seal ) return
 			
@@ -148,6 +154,12 @@ namespace $ {
 		}
 		
 		unit_seal_dec( unit: $giper_baza_unit_base ) {
+			
+			unit._alive = false
+			
+			if( !unit.encoded() ) return
+			
+			this._unit_hash.delete( unit.hash().str )
 			
 			const seal = this.unit_seal( unit )
 			if( !seal ) return
@@ -204,7 +216,7 @@ namespace $ {
 			this.faces.peer_summ_shift( sand.lord().peer().str, -1 )
 			
 			this.unit_reap( sand )
-			if( sand.encoded() ) this.unit_seal_dec( sand )
+			this.unit_seal_dec( sand )
 			
 		}
 		
@@ -1275,8 +1287,12 @@ namespace $ {
 			
 			const seals = await Promise.all( threads )
 			for( const seal of seals ) {
-				for( const hash of seal.hash_list() ) seal.alive_items.add( hash.str )
-				this.seal_add( seal )
+				for( const hash of seal.hash_list() ) {
+					if( this._unit_hash.has( hash.str ) ) {
+						seal.alive_items.add( hash.str )
+					}
+				}
+				if( seal.alive_items.size ) this.seal_add( seal )
 			}
 			
 			return seals
@@ -1296,6 +1312,8 @@ namespace $ {
 			}
 			
 			sand.ball( bin! )
+			
+			if( sand._alive ) this._unit_hash.set( sand.hash().str, sand )
 			
 			return sand
 		}

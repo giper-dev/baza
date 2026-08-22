@@ -219,6 +219,7 @@ namespace $ {
 		}
 		
 		_land = null as null | $giper_baza_land
+		_alive = false
 		
 		dump() {
 			return {}
