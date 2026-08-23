@@ -1753,10 +1753,10 @@ $giper_baza_app_stat_page $mol_page
 			<= Mem $mol_chart
 				graphs /
 					<= Mem_free $mol_plot_line
-						title \Mem Free (%)
+						title \Mem Free (MB)
 						series_y <= mem_free /
 					<= Mem_used $mol_plot_line
-						title \Mem Used (%)
+						title \Mem Used (MB)
 						series_y <= mem_used /
 					<= Mem_ruler $mol_plot_ruler_vert
 					<= Mem_mark $mol_plot_mark_cross
@@ -1767,12 +1767,16 @@ $giper_baza_app_stat_page $mol_page
 			<= Fs_usage $mol_chart
 				graphs /
 					<= Fs_free $mol_plot_line
-						title \FS Free (%)
+						title \FS Free (MB)
 						series_y <= fs_free /
+					<= Fs_used $mol_plot_line
+						title \FS Used (MB)
+						series_y <= fs_used /
 					<= Fs_usage_ruler $mol_plot_ruler_vert
 					<= Fs_usage_mark $mol_plot_mark_cross
 						labels <= times /
 						graphs /
+							<= Fs_used
 							<= Fs_free
 			<= Fs_acting $mol_chart
 				graphs /
