@@ -15,6 +15,8 @@ namespace $ {
 		/** Memory in MB */
 		Mem_free: $giper_baza_stat_ranges,
 		
+		/** FS used */
+		Fs_used: $giper_baza_stat_ranges,
 		/** FS free */
 		Fs_free: $giper_baza_stat_ranges,
 		
@@ -96,12 +98,11 @@ namespace $ {
 			this.Fs_reads( null )!.tick_integral( res.fsRead ) // pct
 			this.Fs_writes( null )!.tick_integral( res.fsWrite ) // pct
 			
-			const mem_total = $node.os.totalmem()
-			this.Mem_used( null )!.tick_instant( Math.ceil( ( res.maxRSS - res.sharedMemorySize ) * 1024 / mem_total * 100 ) ) // %
-			this.Mem_free( null )!.tick_instant( Math.floor( $node.os.freemem() / mem_total * 100 ) ) // %
+			this.Mem_used( null )!.tick_instant( Math.ceil( ( res.maxRSS - res.sharedMemorySize ) / 1024 ) ) // MB
+			this.Mem_free( null )!.tick_instant( Math.floor( $node.os.freemem() / 1024 / 1024 ) ) // MB
 			
-			const fs = $node.fs.statfsSync( '.' )
-			this.Fs_free( null )!.tick_instant( Math.floor( Number( fs.bfree ) / Number( fs.blocks ) * 100 ) ) // %
+			this.Fs_used( null )!.tick_instant( Math.floor( $mol_storage.used() / 1024 / 1024 ) ) // MB
+			this.Fs_free( null )!.tick_instant( Math.floor( $mol_storage.free() / 1024 / 1024 ) ) // MB
 			
 			const masters = yard.masters()?.length ?? 0
 			this.Port_masters( null )!.tick_instant( masters ) // pct
