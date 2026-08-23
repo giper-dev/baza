@@ -5171,8 +5171,8 @@ declare namespace $ {
         faces: $giper_baza_face_map;
         tick(): $giper_baza_face;
         _pass: $mol_wire_dict<string, $giper_baza_auth_pass>;
-        _seal_item: $mol_wire_dict<string, $giper_baza_unit_seal>;
-        _seal_shot: $mol_wire_dict<string, $giper_baza_unit_seal>;
+        _seal_item: Map<string, Map<string, $giper_baza_unit_seal>>;
+        _seal_shot: Map<string, $giper_baza_unit_seal>;
         _gift: $mol_wire_dict<string, $giper_baza_unit_gift>;
         _sand: $mol_wire_dict<string, $mol_wire_dict<string, $mol_wire_dict<string, $giper_baza_unit_sand>>>;
         _unit_hash: Map<string, $giper_baza_unit_base>;
@@ -5189,6 +5189,9 @@ declare namespace $ {
         sand_del(sand: $giper_baza_unit_sand): void;
         lord_pass(lord: $giper_baza_link): $giper_baza_auth_pass | null;
         unit_seal(unit: $giper_baza_unit_base): $giper_baza_unit_seal | null;
+        seal_item_get(lord: $giper_baza_link, hash: $giper_baza_link): $giper_baza_unit_seal | undefined;
+        seal_item_del(lord: $giper_baza_link, hash: $giper_baza_link): void;
+        seal_item_set(seal: $giper_baza_unit_seal, hash: $giper_baza_link): void;
         sand_get(head: $giper_baza_link, lord: $giper_baza_link, self: $giper_baza_link): $giper_baza_unit_sand | null;
         _self_all: $mol_wire_dict<string, $giper_baza_unit_sand | null>;
         /** Generates unique local id base on optional idea number or random. */
