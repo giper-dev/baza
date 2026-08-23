@@ -48,8 +48,8 @@ namespace $ {
 		}
 
 		_pass = new $mol_wire_dict< string /*Lord*/, $giper_baza_auth_pass >()
-		_seal_item = new $mol_wire_dict< string /*Item*/, $giper_baza_unit_seal >()
-		_seal_shot = new $mol_wire_dict< string /*Shot*/, $giper_baza_unit_seal >()
+		_seal_item = new Map< string /*Lord*/, Map< string /*Item*/, $giper_baza_unit_seal > >()
+		_seal_shot = new Map< string /*Shot*/, $giper_baza_unit_seal >()
 		_gift = new $mol_wire_dict< string /*Lord*/, $giper_baza_unit_gift >()
 		_sand = new $mol_wire_dict< string /*Head*/, $mol_wire_dict< string /*Lord*/, $mol_wire_dict< string /*Self*/, $giper_baza_unit_sand > > >()
 		_unit_hash = new Map< string /*Hash*/, $giper_baza_unit_base >()
@@ -66,7 +66,7 @@ namespace $ {
 			
 			for( const hash of seal.hash_list() ) {
 				
-				const prev = this._seal_item.get( hash.str )
+				const prev = this.seal_item_get( seal.lord(), hash )
 				
 				if( $giper_baza_unit_seal.compare( prev, seal ) <= 0 ) continue
 				
@@ -76,10 +76,8 @@ namespace $ {
 					seal.alive_items.add( hash.str )
 				}
 				
-				this._seal_item.set( hash.str, seal )
+				this.seal_item_set( seal, hash )
 			}
-			
-			const peer = seal.lord().peer()
 			
 			this._seal_shot.set( seal.shot().str, seal )
 			
@@ -176,8 +174,8 @@ namespace $ {
 			this._seal_shot.delete( shot.str )
 			
 			for( const hash of seal.hash_list() ) {
-				if( this._seal_item.get( hash.str ) === seal ) {
-					this._seal_item.delete( hash.str )
+				if( this.seal_item_get( seal.lord(), hash ) === seal ) {
+					this.seal_item_del( seal.lord(), hash )
 				}
 			}
 			
@@ -226,12 +224,25 @@ namespace $ {
 			
 			if( !unit.encoded() ) return null
 			
-			const seal = this._seal_item.get( unit.hash().str )
-			if( !seal ) return null
+			return this.seal_item_get( unit.lord(), unit.hash() ) ?? null
 			
-			if( seal.lord().str != unit.lord().str ) return null
+		}
+		
+		seal_item_get( lord: $giper_baza_link, hash: $giper_baza_link ) {
+			return this._seal_item.get( lord.str )?.get( hash.str )
+		}
+		
+		seal_item_del( lord: $giper_baza_link, hash: $giper_baza_link ) {
+			this._seal_item.get( lord.str )?.delete( hash.str )
+		}
+		
+		seal_item_set( seal: $giper_baza_unit_seal, hash: $giper_baza_link ) {
 			
-			return seal
+			let seals = this._seal_item.get( seal.lord().str )
+			if( !seals ) this._seal_item.set( seal.lord().str, seals = new Map )
+			
+			seals.set( hash.str, seal )
+			
 		}
 		
 		sand_get( head: $giper_baza_link, lord: $giper_baza_link, self: $giper_baza_link ) {
@@ -365,7 +376,7 @@ namespace $ {
 		@ $mol_mem
 		total() {
 			
-			let total = this._gift.size + this._seal_item.size
+			let total = this._gift.size + this._seal_shot.size
 			
 			for( const peers of this._sand.values() ) {
 				for( const units of peers.values() ) {
@@ -481,10 +492,6 @@ namespace $ {
 					skip_mass,
 					peer_face: face,
 					self_face: this.faces.get( peer ),
-					debug: {
-						seal_shot: this._seal_shot.size,
-						seal_item: this._seal_item.size,
-					},
 				})
 				
 				for( const unit of skipped_units! ) delta.add( unit )
@@ -493,7 +500,7 @@ namespace $ {
 			
 			for( const unit of delta ) {
 				
-				const seal = this._seal_item.get( unit.hash().str )
+				const seal = this.seal_item_get( unit.lord(), unit.hash() )
 				
 				if( seal ) seals.add( seal )
 				else delta.delete( unit )
