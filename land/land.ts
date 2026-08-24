@@ -1255,10 +1255,10 @@ namespace $ {
 			if( level <= 0 ) return true
 			if( level >= 6 ) return false
 			
-			const crop = 32 - level
+			const crop = 8 - level
 			
-			const self = this.auth().pass().lord().toBin()[0]
-			const land = this.link().toBin()[0]
+			const self = this.auth().pass().lord().toBin().at(-1)!
+			const land = this.link().toBin().at(-1)!
 			
 			const persist = ( self >>> crop )===( land >>> crop )
 			// if( !persist ) console.log( 'GHOST', crop, this.auth().pass().lord().str, this.link().str, self,  land )
