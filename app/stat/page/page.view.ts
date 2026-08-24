@@ -55,8 +55,13 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
-		land_active() {
-			return this.stat()?.Land_active()?.series() ?? []
+		land_alive() {
+			return this.stat()?.Land_alive()?.series() ?? []
+		}
+		
+		@ $mol_mem
+		land_ghost() {
+			return this.stat()?.Land_ghost()?.series() ?? []
 		}
 		
 		@ $mol_mem

@@ -30,8 +30,10 @@ namespace $ {
 		/** Masters sockets count */
 		Port_masters: $giper_baza_stat_ranges,
 		
-		/** Active lands count */
-		Land_active: $giper_baza_stat_ranges,
+		/** Alive (in-memory) lands count */
+		Land_alive: $giper_baza_stat_ranges,
+		/** Ghost (non-persist) lands count */
+		Land_ghost: $giper_baza_stat_ranges,
 		
 		/** Unhandled errors */
 		Errors: $giper_baza_stat_ranges,
@@ -110,8 +112,10 @@ namespace $ {
 			const ports = yard.ports() ?? []
 			this.Port_slaves( null )!.tick_instant( ports.length - masters ) // pct
 			
-			const lands = ports.reduce( ( sum, port )=> sum + yard.port_lands_active( port ).size, 0 )
-			this.Land_active( null )!.tick_instant( lands ) // pct
+			const lands_alive = yard.lands_alive()
+			const lands_persist = yard.lands_alive().filter( land => land.persisted() )
+			this.Land_alive( null )!.tick_instant( lands_alive.length ) // pct
+			this.Land_ghost( null )!.tick_instant( lands_alive.length - lands_persist.length ) // pct
 			
 			this.Errors( null )!.tick_instant( 0 ) // pct
 			

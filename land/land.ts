@@ -918,6 +918,7 @@ namespace $ {
 			this.diff_apply( [ lord_pass, ... $mol_maybe( mate_pass ), gift ] )
 			
 			this.broadcast()
+			
 			return gift
 		}
 		
@@ -1032,6 +1033,7 @@ namespace $ {
 		}
 		
 		broadcast() {
+			this.persisted( true )
 			this.$.$giper_baza_glob.yard().lands_news.add( this.link().str )
 		}
 		
@@ -1094,6 +1096,7 @@ namespace $ {
 			$mol_wire_solid()
 			
 			let units = $mol_wire_sync( this.mine() ).units_load()
+			if( units.length ) this.persisted( true )
 			
 			if( this.$.$giper_baza_log() ) $mol_wire_sync( this.$ ).$mol_log3_rise({
 				place: this,
@@ -1215,6 +1218,7 @@ namespace $ {
 		@ $mol_mem
 		units_saving() {
 			this.units_signing()
+			if( !this.persisted() ) return
 			batch( this, this.units_unsaved, this.units_save )
 		}
 		
@@ -1237,6 +1241,20 @@ namespace $ {
 				ins: units,
 				del: reaping,
 			})
+			
+		}
+		
+		@ $mol_mem
+		persisted( next?: boolean ) {
+			
+			$mol_wire_solid()
+			if( next !== undefined ) return next
+			
+			const level = 32 - Math.min( this.$.$mol_storage.level(), 32 )
+			const self = new Uint32Array( this.auth().pass().lord().toBin().buffer )[0]
+			const land = new Uint32Array( this.link().toBin().buffer )[0]
+			
+			return ( self >>> level )===( land >>> level )
 			
 		}
 		

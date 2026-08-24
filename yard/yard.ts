@@ -206,6 +206,16 @@ namespace $ {
 			return passives
 		}
 		
+		@ $mol_mem
+		lands_alive() {
+			const ports = this.ports()
+			const actives = ports.flatMap( port => [ ...this.port_lands_active( port ) ] )
+			const passives = ports.flatMap( port => [ ...this.port_lands_passive( port ) ] )
+			const lands = new Set([ ... actives, ... passives ])
+			const glob = this.$.$giper_baza_glob
+			return [ ... lands ].map( id => glob.Land( new $giper_baza_link( id ) ) )
+		}
+		
 		@ $mol_action
 		port_income( port: $mol_rest_port, msg: Uint8Array< ArrayBuffer > ) {
 			
