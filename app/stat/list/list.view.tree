@@ -3,3 +3,5 @@ $giper_baza_app_stat_list $mol_book2_catalog
 	param \peer
 	Spread* $giper_baza_app_stat_page
 		home <= peer_home* $giper_baza_app_home
+		tools /
+			<= Spread_close
