@@ -10056,11 +10056,11 @@ var $;
             const level = $mol_wire_sync(this.$.$mol_storage).level();
             if (level <= 0)
                 return true;
-            if (level >= 10)
+            if (level >= 6)
                 return false;
             const crop = 32 - level;
-            const self = new Uint16Array(this.auth().pass().lord().toBin().buffer)[0];
-            const land = new Uint16Array(this.link().toBin().buffer)[0];
+            const self = this.auth().pass().lord().toBin()[0];
+            const land = this.link().toBin()[0];
             const persist = (self >>> crop) === (land >>> crop);
             // if( !persist ) console.log( 'GHOST', crop, this.auth().pass().lord().str, this.link().str, self,  land )
             return persist;
