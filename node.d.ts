@@ -2781,6 +2781,7 @@ declare namespace $ {
         units_unsaved(): $giper_baza_unit[];
         units_saving(): void;
         units_save(units: readonly $giper_baza_unit[]): Promise<void>;
+        persisted(next?: boolean): boolean;
         units_sign(units: readonly $giper_baza_unit_base[]): Promise<$giper_baza_unit_seal[]>;
         sands_encode(sands: readonly $giper_baza_unit_sand[]): Promise<$giper_baza_unit_sand[]>;
         sand_encode(sand: $giper_baza_unit_sand): Promise<$giper_baza_unit_sand>;
@@ -20999,7 +21000,8 @@ declare namespace $ {
             readonly Fs_writes: (auto?: any) => $giper_baza_stat_ranges | null;
             readonly Port_slaves: (auto?: any) => $giper_baza_stat_ranges | null;
             readonly Port_masters: (auto?: any) => $giper_baza_stat_ranges | null;
-            readonly Land_active: (auto?: any) => $giper_baza_stat_ranges | null;
+            readonly Land_alive: (auto?: any) => $giper_baza_stat_ranges | null;
+            readonly Land_ghost: (auto?: any) => $giper_baza_stat_ranges | null;
             readonly Errors: (auto?: any) => $giper_baza_stat_ranges | null;
         }>;
         path: string;
@@ -21675,8 +21677,10 @@ declare namespace $ {
             readonly Port_slaves: typeof $giper_baza_stat_ranges;
             /** Masters sockets count */
             readonly Port_masters: typeof $giper_baza_stat_ranges;
-            /** Active lands count */
-            readonly Land_active: typeof $giper_baza_stat_ranges;
+            /** Alive (in-memory) lands count */
+            readonly Land_alive: typeof $giper_baza_stat_ranges;
+            /** Ghost (non-persist) lands count */
+            readonly Land_ghost: typeof $giper_baza_stat_ranges;
             /** Unhandled errors */
             readonly Errors: typeof $giper_baza_stat_ranges;
         };
@@ -32258,6 +32262,7 @@ declare namespace $ {
         masters(): $mol_rest_port[];
         port_lands_active(port: $mol_rest_port): $mol_wire_set<string>;
         port_lands_passive(port: $mol_rest_port): Set<string>;
+        lands_alive(): $giper_baza_land[];
         port_income(port: $mol_rest_port, msg: Uint8Array<ArrayBuffer>): void;
         face_port_sync(port: $mol_rest_port, income: $giper_baza_pack_parts): void;
         sync_land(land: $giper_baza_link): void;

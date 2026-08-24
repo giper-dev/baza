@@ -5285,6 +5285,7 @@ declare namespace $ {
         units_unsaved(): $giper_baza_unit[];
         units_saving(): void;
         units_save(units: readonly $giper_baza_unit[]): Promise<void>;
+        persisted(next?: boolean): boolean;
         units_sign(units: readonly $giper_baza_unit_base[]): Promise<$giper_baza_unit_seal[]>;
         sands_encode(sands: readonly $giper_baza_unit_sand[]): Promise<$giper_baza_unit_sand[]>;
         sand_encode(sand: $giper_baza_unit_sand): Promise<$giper_baza_unit_sand>;
@@ -12175,6 +12176,7 @@ declare namespace $ {
         masters(): $mol_rest_port[];
         port_lands_active(port: $mol_rest_port): $mol_wire_set<string>;
         port_lands_passive(port: $mol_rest_port): Set<string>;
+        lands_alive(): $giper_baza_land[];
         port_income(port: $mol_rest_port, msg: Uint8Array<ArrayBuffer>): void;
         face_port_sync(port: $mol_rest_port, income: $giper_baza_pack_parts): void;
         sync_land(land: $giper_baza_link): void;
@@ -23665,7 +23667,8 @@ declare namespace $ {
             readonly Fs_writes: (auto?: any) => $giper_baza_stat_ranges | null;
             readonly Port_slaves: (auto?: any) => $giper_baza_stat_ranges | null;
             readonly Port_masters: (auto?: any) => $giper_baza_stat_ranges | null;
-            readonly Land_active: (auto?: any) => $giper_baza_stat_ranges | null;
+            readonly Land_alive: (auto?: any) => $giper_baza_stat_ranges | null;
+            readonly Land_ghost: (auto?: any) => $giper_baza_stat_ranges | null;
             readonly Errors: (auto?: any) => $giper_baza_stat_ranges | null;
         }>;
         path: string;
@@ -24341,8 +24344,10 @@ declare namespace $ {
             readonly Port_slaves: typeof $giper_baza_stat_ranges;
             /** Masters sockets count */
             readonly Port_masters: typeof $giper_baza_stat_ranges;
-            /** Active lands count */
-            readonly Land_active: typeof $giper_baza_stat_ranges;
+            /** Alive (in-memory) lands count */
+            readonly Land_alive: typeof $giper_baza_stat_ranges;
+            /** Ghost (non-persist) lands count */
+            readonly Land_ghost: typeof $giper_baza_stat_ranges;
             /** Unhandled errors */
             readonly Errors: typeof $giper_baza_stat_ranges;
         };
@@ -39691,51 +39696,61 @@ declare namespace $ {
 		ReturnType< $mol_plot_line['title'] >
 	>
 	type $mol_plot_line__series_y_giper_baza_app_stat_page_41 = $mol_type_enforce<
-		ReturnType< $giper_baza_app_stat_page['land_active'] >
+		ReturnType< $giper_baza_app_stat_page['land_alive'] >
 		,
 		ReturnType< $mol_plot_line['series_y'] >
 	>
-	type $mol_plot_mark_cross__labels_giper_baza_app_stat_page_42 = $mol_type_enforce<
-		ReturnType< $giper_baza_app_stat_page['times'] >
-		,
-		ReturnType< $mol_plot_mark_cross['labels'] >
-	>
-	type $mol_plot_mark_cross__graphs_giper_baza_app_stat_page_43 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_plot_mark_cross['graphs'] >
-	>
-	type $mol_chart__graphs_giper_baza_app_stat_page_44 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_chart['graphs'] >
-	>
-	type $mol_plot_line__title_giper_baza_app_stat_page_45 = $mol_type_enforce<
+	type $mol_plot_line__title_giper_baza_app_stat_page_42 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_plot_line['title'] >
 	>
-	type $mol_plot_line__series_y_giper_baza_app_stat_page_46 = $mol_type_enforce<
-		ReturnType< $giper_baza_app_stat_page['errors'] >
+	type $mol_plot_line__series_y_giper_baza_app_stat_page_43 = $mol_type_enforce<
+		ReturnType< $giper_baza_app_stat_page['land_ghost'] >
 		,
 		ReturnType< $mol_plot_line['series_y'] >
 	>
-	type $mol_plot_mark_cross__labels_giper_baza_app_stat_page_47 = $mol_type_enforce<
+	type $mol_plot_mark_cross__labels_giper_baza_app_stat_page_44 = $mol_type_enforce<
 		ReturnType< $giper_baza_app_stat_page['times'] >
 		,
 		ReturnType< $mol_plot_mark_cross['labels'] >
 	>
-	type $mol_plot_mark_cross__graphs_giper_baza_app_stat_page_48 = $mol_type_enforce<
+	type $mol_plot_mark_cross__graphs_giper_baza_app_stat_page_45 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_plot_mark_cross['graphs'] >
 	>
-	type $mol_chart__graphs_giper_baza_app_stat_page_49 = $mol_type_enforce<
+	type $mol_chart__graphs_giper_baza_app_stat_page_46 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_chart['graphs'] >
 	>
-	type $mol_gallery__items_giper_baza_app_stat_page_50 = $mol_type_enforce<
+	type $mol_plot_line__title_giper_baza_app_stat_page_47 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_plot_line['title'] >
+	>
+	type $mol_plot_line__series_y_giper_baza_app_stat_page_48 = $mol_type_enforce<
+		ReturnType< $giper_baza_app_stat_page['errors'] >
+		,
+		ReturnType< $mol_plot_line['series_y'] >
+	>
+	type $mol_plot_mark_cross__labels_giper_baza_app_stat_page_49 = $mol_type_enforce<
+		ReturnType< $giper_baza_app_stat_page['times'] >
+		,
+		ReturnType< $mol_plot_mark_cross['labels'] >
+	>
+	type $mol_plot_mark_cross__graphs_giper_baza_app_stat_page_50 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_plot_mark_cross['graphs'] >
+	>
+	type $mol_chart__graphs_giper_baza_app_stat_page_51 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_chart['graphs'] >
+	>
+	type $mol_gallery__items_giper_baza_app_stat_page_52 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_gallery['items'] >
@@ -39782,8 +39797,10 @@ declare namespace $ {
 		Port_ruler_pct( ): $mol_plot_ruler_vert
 		Port_mark( ): $mol_plot_mark_cross
 		Ports( ): $mol_chart
-		land_active( ): readonly(any)[]
-		Land_active( ): $mol_plot_line
+		land_alive( ): readonly(any)[]
+		Land_alive( ): $mol_plot_line
+		land_ghost( ): readonly(any)[]
+		Land_ghost( ): $mol_plot_line
 		Land_count_ruler( ): $mol_plot_ruler_vert
 		Land_count_mark( ): $mol_plot_mark_cross
 		Land_count( ): $mol_chart
@@ -39813,7 +39830,8 @@ declare namespace $.$$ {
         mem_free(): number[];
         fs_used(): number[];
         fs_free(): number[];
-        land_active(): number[];
+        land_alive(): number[];
+        land_ghost(): number[];
         fs_reads(): number[];
         fs_writes(): number[];
         port_slaves(): number[];

@@ -1808,14 +1808,18 @@ $giper_baza_app_stat_page $mol_page
 							<= Port_masters
 			<= Land_count $mol_chart
 				graphs /
-					<= Land_active $mol_plot_line
-						title \Active Lands
-						series_y <= land_active /
+					<= Land_alive $mol_plot_line
+						title \Alive Lands
+						series_y <= land_alive /
+					<= Land_ghost $mol_plot_line
+						title \Ghost Lands
+						series_y <= land_ghost /
 					<= Land_count_ruler $mol_plot_ruler_vert
 					<= Land_count_mark $mol_plot_mark_cross
 						labels <= times /
 						graphs /
-							<= Land_active
+							<= Land_alive
+							<= Land_ghost
 			<= Error_count $mol_chart
 				graphs /
 					<= Errors $mol_plot_line

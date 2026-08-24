@@ -4553,7 +4553,7 @@ var $;
          * `Infinity` - fulfilled
          */
         static level() {
-            return -Math.log2(1 - this.portion());
+            return Math.floor(-Math.log2(1 - this.portion()));
         }
     }
     $.$mol_storage = $mol_storage;
@@ -14241,6 +14241,7 @@ var $;
             return this.post(seat ? units[seat - 1].self() : $giper_baza_link.hole, head, sand.self(), null, 'term');
         }
         broadcast() {
+            this.persisted(true);
             this.$.$giper_baza_glob.yard().lands_news.add(this.link().str);
         }
         sync() {
@@ -14282,6 +14283,8 @@ var $;
         loading() {
             $mol_wire_solid();
             let units = $mol_wire_sync(this.mine()).units_load();
+            if (units.length)
+                this.persisted(true);
             if (this.$.$giper_baza_log())
                 $mol_wire_sync(this.$).$mol_log3_rise({
                     place: this,
@@ -14370,6 +14373,8 @@ var $;
         }
         units_saving() {
             this.units_signing();
+            if (!this.persisted())
+                return;
             batch(this, this.units_unsaved, this.units_save);
         }
         async units_save(units) {
@@ -14387,6 +14392,15 @@ var $;
                     ins: units,
                     del: reaping,
                 });
+        }
+        persisted(next) {
+            $mol_wire_solid();
+            if (next !== undefined)
+                return next;
+            const level = 32 - Math.min(this.$.$mol_storage.level(), 32);
+            const self = new Uint32Array(this.auth().pass().lord().toBin().buffer)[0];
+            const land = new Uint32Array(this.link().toBin().buffer)[0];
+            return (self >>> level) === (land >>> level);
         }
         async units_sign(units) {
             await Promise.resolve(); // prevent deps
@@ -14729,6 +14743,9 @@ var $;
     __decorate([
         $mol_mem
     ], $giper_baza_land.prototype, "units_saving", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_land.prototype, "persisted", null);
     __decorate([
         $mol_mem_key
     ], $giper_baza_land.prototype, "sand_load", null);
@@ -16704,6 +16721,14 @@ var $;
                 Passives.set(port, passives = new Set);
             return passives;
         }
+        lands_alive() {
+            const ports = this.ports();
+            const actives = ports.flatMap(port => [...this.port_lands_active(port)]);
+            const passives = ports.flatMap(port => [...this.port_lands_passive(port)]);
+            const lands = new Set([...actives, ...passives]);
+            const glob = this.$.$giper_baza_glob;
+            return [...lands].map(id => glob.Land(new $giper_baza_link(id)));
+        }
         port_income(port, msg) {
             const pack = $mol_wire_sync($giper_baza_pack).from(msg);
             const parts = $mol_wire_sync(pack).parts();
@@ -16885,6 +16910,9 @@ var $;
     __decorate([
         $mol_mem_key
     ], $giper_baza_yard.prototype, "port_lands_active", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_yard.prototype, "lands_alive", null);
     __decorate([
         $mol_action
     ], $giper_baza_yard.prototype, "port_income", null);
@@ -17341,8 +17369,10 @@ var $;
         Port_slaves: $giper_baza_stat_ranges,
         /** Masters sockets count */
         Port_masters: $giper_baza_stat_ranges,
-        /** Active lands count */
-        Land_active: $giper_baza_stat_ranges,
+        /** Alive (in-memory) lands count */
+        Land_alive: $giper_baza_stat_ranges,
+        /** Ghost (non-persist) lands count */
+        Land_ghost: $giper_baza_stat_ranges,
         /** Unhandled errors */
         Errors: $giper_baza_stat_ranges,
     }) {
@@ -17395,8 +17425,10 @@ var $;
             this.Port_masters(null).tick_instant(masters); // pct
             const ports = yard.ports() ?? [];
             this.Port_slaves(null).tick_instant(ports.length - masters); // pct
-            const lands = ports.reduce((sum, port) => sum + yard.port_lands_active(port).size, 0);
-            this.Land_active(null).tick_instant(lands); // pct
+            const lands_alive = yard.lands_alive();
+            const lands_persist = yard.lands_alive().filter(land => land.persisted());
+            this.Land_alive(null).tick_instant(lands_alive.length); // pct
+            this.Land_ghost(null).tick_instant(lands_alive.length - lands_persist.length); // pct
             this.Errors(null).tick_instant(0); // pct
         }
     }
@@ -26695,13 +26727,22 @@ var $;
 			]);
 			return obj;
 		}
-		land_active(){
+		land_alive(){
 			return [];
 		}
-		Land_active(){
+		Land_alive(){
 			const obj = new this.$.$mol_plot_line();
-			(obj.title) = () => ("Active Lands");
-			(obj.series_y) = () => ((this.land_active()));
+			(obj.title) = () => ("Alive Lands");
+			(obj.series_y) = () => ((this.land_alive()));
+			return obj;
+		}
+		land_ghost(){
+			return [];
+		}
+		Land_ghost(){
+			const obj = new this.$.$mol_plot_line();
+			(obj.title) = () => ("Ghost Lands");
+			(obj.series_y) = () => ((this.land_ghost()));
 			return obj;
 		}
 		Land_count_ruler(){
@@ -26711,13 +26752,14 @@ var $;
 		Land_count_mark(){
 			const obj = new this.$.$mol_plot_mark_cross();
 			(obj.labels) = () => ((this.times()));
-			(obj.graphs) = () => ([(this.Land_active())]);
+			(obj.graphs) = () => ([(this.Land_alive()), (this.Land_ghost())]);
 			return obj;
 		}
 		Land_count(){
 			const obj = new this.$.$mol_chart();
 			(obj.graphs) = () => ([
-				(this.Land_active()), 
+				(this.Land_alive()), 
+				(this.Land_ghost()), 
 				(this.Land_count_ruler()), 
 				(this.Land_count_mark())
 			]);
@@ -26806,7 +26848,8 @@ var $;
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Port_ruler_pct"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Port_mark"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Ports"));
-	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Land_active"));
+	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Land_alive"));
+	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Land_ghost"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Land_count_ruler"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Land_count_mark"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Land_count"));
@@ -26862,8 +26905,11 @@ var $;
             fs_free() {
                 return this.stat()?.Fs_free()?.series() ?? [];
             }
-            land_active() {
-                return this.stat()?.Land_active()?.series() ?? [];
+            land_alive() {
+                return this.stat()?.Land_alive()?.series() ?? [];
+            }
+            land_ghost() {
+                return this.stat()?.Land_ghost()?.series() ?? [];
             }
             fs_reads() {
                 return this.stat()?.Fs_reads()?.series() ?? [];
@@ -26924,7 +26970,10 @@ var $;
         ], $giper_baza_app_stat_page.prototype, "fs_free", null);
         __decorate([
             $mol_mem
-        ], $giper_baza_app_stat_page.prototype, "land_active", null);
+        ], $giper_baza_app_stat_page.prototype, "land_alive", null);
+        __decorate([
+            $mol_mem
+        ], $giper_baza_app_stat_page.prototype, "land_ghost", null);
         __decorate([
             $mol_mem
         ], $giper_baza_app_stat_page.prototype, "fs_reads", null);
