@@ -39014,6 +39014,13 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $giper_baza_app_home extends $giper_baza_flex_peer {
+        init(): void;
+        tick(): void;
+    }
+}
+
+declare namespace $ {
 
 	export class $mol_chip extends $mol_view {
 		hint( ): string
@@ -40192,13 +40199,6 @@ declare namespace $ {
 
 //# sourceMappingURL=chart.view.tree.d.ts.map
 declare namespace $ {
-    class $giper_baza_app_home extends $giper_baza_flex_peer {
-        init(): void;
-        tick(): void;
-    }
-}
-
-declare namespace $ {
 
 	type $giper_baza_link_chip__link_giper_baza_app_stat_page_1 = $mol_type_enforce<
 		ReturnType< $giper_baza_app_stat_page['home_link'] >
@@ -40464,6 +40464,7 @@ declare namespace $ {
 	>
 	export class $giper_baza_app_stat_page extends $mol_page {
 		home_link( ): ReturnType< ReturnType< $giper_baza_app_stat_page['home'] >['link'] >
+		title( ): ReturnType< ReturnType< $giper_baza_app_stat_page['home'] >['name'] >
 		Land( ): $giper_baza_link_chip
 		uptime( ): string
 		Uptime( ): $mol_chip
@@ -40518,7 +40519,6 @@ declare namespace $ {
 		Error_count( ): $mol_chart
 		Charts( ): $mol_gallery
 		home( ): $giper_baza_app_home
-		title( ): string
 		head( ): readonly(any)[]
 		body_content( ): readonly(any)[]
 	}
@@ -40528,7 +40528,6 @@ declare namespace $ {
 //# sourceMappingURL=page.view.tree.d.ts.map
 declare namespace $.$$ {
     class $giper_baza_app_stat_page extends $.$giper_baza_app_stat_page {
-        home(): $giper_baza_app_home;
         stat(): $giper_baza_app_stat | null;
         uptime(): string;
         cpu_user(): number[];
@@ -40549,6 +40548,31 @@ declare namespace $.$$ {
 }
 
 declare namespace $.$$ {
+}
+
+declare namespace $ {
+
+	type $giper_baza_app_stat_page__home_giper_baza_app_stat_list_1 = $mol_type_enforce<
+		ReturnType< $giper_baza_app_stat_list['peer_home'] >
+		,
+		ReturnType< $giper_baza_app_stat_page['home'] >
+	>
+	export class $giper_baza_app_stat_list extends $mol_book2_catalog {
+		peer_home( id: any): $giper_baza_app_home
+		menu_title( ): string
+		param( ): string
+		Spread( id: any): $giper_baza_app_stat_page
+	}
+	
+}
+
+//# sourceMappingURL=list.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $giper_baza_app_stat_list extends $.$giper_baza_app_stat_list {
+        self_link(): $giper_baza_link | null;
+        spread_ids(): string[];
+        peer_home(id: string): $giper_baza_app_home;
+    }
 }
 
 declare namespace $ {
@@ -40704,10 +40728,10 @@ declare namespace $ {
 		,
 		ReturnType< $giper_baza_glob_book['addon_tools'] >
 	>
-	type $giper_baza_app_stat_page__tools_giper_baza_app_5 = $mol_type_enforce<
+	type $giper_baza_app_stat_list__menu_tools_giper_baza_app_5 = $mol_type_enforce<
 		readonly(any)[]
 		,
-		ReturnType< $giper_baza_app_stat_page['tools'] >
+		ReturnType< $giper_baza_app_stat_list['menu_tools'] >
 	>
 	type $giper_baza_auth_slot__tools_giper_baza_app_6 = $mol_type_enforce<
 		readonly(any)[]
@@ -40719,7 +40743,7 @@ declare namespace $ {
 		Status( ): $giper_baza_status
 		Info( ): $mol_frame
 		Glob( ): $giper_baza_glob_book
-		Stat( ): $giper_baza_app_stat_page
+		Stat( ): $giper_baza_app_stat_list
 		Slot( ): $giper_baza_auth_slot
 		menu_title( ): string
 		param( ): string

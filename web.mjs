@@ -23861,7 +23861,7 @@ var $;
 			return obj;
 		}
 		menu_title(){
-			return "🌐 Global Explorer";
+			return "🌐 Database Explorer";
 		}
 		menu_tools(){
 			return [(this.Home_link())];
@@ -24131,6 +24131,25 @@ var $;
             },
         });
     })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    class $giper_baza_app_home extends $giper_baza_flex_peer {
+        init() {
+            this.meta($giper_baza_flex_peer.meta);
+        }
+        tick() {
+            this.init();
+            this.stat(null).tick();
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $giper_baza_app_home.prototype, "init", null);
+    $.$giper_baza_app_home = $giper_baza_app_home;
 })($ || ($ = {}));
 
 ;
@@ -26519,28 +26538,12 @@ var $;
 
 
 ;
-"use strict";
-var $;
-(function ($) {
-    class $giper_baza_app_home extends $giper_baza_flex_peer {
-        init() {
-            this.meta($giper_baza_flex_peer.meta);
-        }
-        tick() {
-            this.init();
-            this.stat(null).tick();
-        }
-    }
-    __decorate([
-        $mol_mem
-    ], $giper_baza_app_home.prototype, "init", null);
-    $.$giper_baza_app_home = $giper_baza_app_home;
-})($ || ($ = {}));
-
-;
 	($.$giper_baza_app_stat_page) = class $giper_baza_app_stat_page extends ($.$mol_page) {
 		home_link(){
 			return (this.home().link());
+		}
+		title(){
+			return (this.home().name());
 		}
 		Land(){
 			const obj = new this.$.$giper_baza_link_chip();
@@ -26837,9 +26840,6 @@ var $;
 			const obj = new this.$.$giper_baza_app_home();
 			return obj;
 		}
-		title(){
-			return "📊 Server Statistics";
-		}
 		head(){
 			return [(this.Main()), (this.Tools())];
 		}
@@ -26899,13 +26899,6 @@ var $;
     var $$;
     (function ($$) {
         class $giper_baza_app_stat_page extends $.$giper_baza_app_stat_page {
-            home() {
-                const url = this.$.$giper_baza_glob.yard().master_current();
-                if (!url)
-                    return null;
-                const link = new $giper_baza_link(this.$.$mol_fetch.text(url + 'link'));
-                return this.$.$giper_baza_glob.Pawn(link, $giper_baza_app_home);
-            }
             stat() {
                 return this.home()?.stat() ?? null;
             }
@@ -26968,9 +26961,6 @@ var $;
                 return times;
             }
         }
-        __decorate([
-            $mol_mem
-        ], $giper_baza_app_stat_page.prototype, "home", null);
         __decorate([
             $mol_mem
         ], $giper_baza_app_stat_page.prototype, "stat", null);
@@ -27052,6 +27042,75 @@ var $;
                 },
             },
         });
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$giper_baza_app_stat_list) = class $giper_baza_app_stat_list extends ($.$mol_book2_catalog) {
+		peer_home(id){
+			const obj = new this.$.$giper_baza_app_home();
+			return obj;
+		}
+		menu_title(){
+			return "📊 Network Monitoring";
+		}
+		param(){
+			return "peer";
+		}
+		Spread(id){
+			const obj = new this.$.$giper_baza_app_stat_page();
+			(obj.home) = () => ((this.peer_home(id)));
+			return obj;
+		}
+	};
+	($mol_mem_key(($.$giper_baza_app_stat_list.prototype), "peer_home"));
+	($mol_mem_key(($.$giper_baza_app_stat_list.prototype), "Spread"));
+
+
+;
+"use strict";
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $giper_baza_app_stat_list extends $.$giper_baza_app_stat_list {
+            self_link() {
+                try {
+                    const url = this.$.$giper_baza_glob.yard().master_current();
+                    if (!url)
+                        return null;
+                    const id = this.$.$mol_fetch.text(url + 'link');
+                    return new $giper_baza_link(id);
+                }
+                catch (error) {
+                    $mol_fail_log(error);
+                    return null;
+                }
+            }
+            spread_ids() {
+                return [
+                    ...$mol_maybe(this.self_link()?.str),
+                    ...this.$.$giper_baza_glob.Seed().peers().map(peer => peer.link().str),
+                ];
+            }
+            peer_home(id) {
+                return this.$.$giper_baza_glob.Pawn(new $giper_baza_link(id), $giper_baza_app_home);
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $giper_baza_app_stat_list.prototype, "self_link", null);
+        __decorate([
+            $mol_mem
+        ], $giper_baza_app_stat_list.prototype, "spread_ids", null);
+        __decorate([
+            $mol_mem_key
+        ], $giper_baza_app_stat_list.prototype, "peer_home", null);
+        $$.$giper_baza_app_stat_list = $giper_baza_app_stat_list;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
@@ -27339,8 +27398,8 @@ var $;
 			return obj;
 		}
 		Stat(){
-			const obj = new this.$.$giper_baza_app_stat_page();
-			(obj.tools) = () => ([(this.Spread_close())]);
+			const obj = new this.$.$giper_baza_app_stat_list();
+			(obj.menu_tools) = () => ([(this.Spread_close())]);
 			return obj;
 		}
 		Slot(){

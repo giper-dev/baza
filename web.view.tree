@@ -1261,7 +1261,7 @@ $giper_baza_land_rights $mol_list
 							id <= peer_id* \
 
 $giper_baza_glob_book $mol_book2_catalog
-	menu_title \🌐 Global Explorer
+	menu_title \🌐 Database Explorer
 	menu_tools /
 		<= Home_link $mol_link
 			hint \Your Home
@@ -1724,7 +1724,7 @@ $mol_chart $mol_view
 $giper_baza_app_stat_page $mol_page
 	home $giper_baza_app_home
 		link => home_link
-	title \📊 Server Statistics
+		name => title
 	head /
 		<= Main $mol_view sub / 
 			<= Land $giper_baza_link_chip
@@ -1831,6 +1831,12 @@ $giper_baza_app_stat_page $mol_page
 						graphs /
 							<= Errors
 
+$giper_baza_app_stat_list $mol_book2_catalog
+	menu_title \📊 Network Monitoring
+	param \peer
+	Spread* $giper_baza_app_stat_page
+		home <= peer_home* $giper_baza_app_home
+
 $mol_icon_play $mol_icon path \M8,5.14V19.14L19,12.14L8,5.14Z
 
 $mol_check_icon $mol_check
@@ -1872,8 +1878,8 @@ $giper_baza_app $mol_book2_catalog
 		glob <= Glob $giper_baza_glob_book
 			addon_tools /
 				<= Spread_close
-		stat <= Stat $giper_baza_app_stat_page
-			tools /
+		stat <= Stat $giper_baza_app_stat_list
+			menu_tools /
 				<= Spread_close
 		slot <= Slot $giper_baza_auth_slot
 			tools /
