@@ -27051,6 +27051,14 @@ var $;
 			const obj = new this.$.$giper_baza_app_home();
 			return obj;
 		}
+		peer_uptime(id){
+			return (this.Spread(id).uptime());
+		}
+		Menu_link_status(id){
+			const obj = new this.$.$mol_view();
+			(obj.sub) = () => ([(this.peer_uptime(id))]);
+			return obj;
+		}
 		menu_title(){
 			return "📊 Network Monitoring";
 		}
@@ -27063,8 +27071,12 @@ var $;
 			(obj.tools) = () => ([(this.Spread_close())]);
 			return obj;
 		}
+		menu_link_content(id){
+			return [(this.Menu_link_title(id)), (this.Menu_link_status(id))];
+		}
 	};
 	($mol_mem_key(($.$giper_baza_app_stat_list.prototype), "peer_home"));
+	($mol_mem_key(($.$giper_baza_app_stat_list.prototype), "Menu_link_status"));
 	($mol_mem_key(($.$giper_baza_app_stat_list.prototype), "Spread"));
 
 
@@ -27112,6 +27124,27 @@ var $;
             $mol_mem_key
         ], $giper_baza_app_stat_list.prototype, "peer_home", null);
         $$.$giper_baza_app_stat_list = $giper_baza_app_stat_list;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        $mol_style_define($giper_baza_app_stat_list, {
+            Menu: {
+                flex: {
+                    basis: '20rem',
+                },
+            },
+            Menu_link: {
+                justify: {
+                    content: 'space-between',
+                },
+            },
+        });
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 

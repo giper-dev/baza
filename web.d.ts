@@ -40552,21 +40552,34 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
-	type $giper_baza_app_stat_page__home_giper_baza_app_stat_list_1 = $mol_type_enforce<
+	type __giper_baza_app_stat_list_1 = $mol_type_enforce<
+		Parameters< $giper_baza_app_stat_list['peer_uptime'] >[0]
+		,
+		Parameters< $giper_baza_app_stat_list['Spread'] >[0]
+	>
+	type $mol_view__sub_giper_baza_app_stat_list_2 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	type $giper_baza_app_stat_page__home_giper_baza_app_stat_list_3 = $mol_type_enforce<
 		ReturnType< $giper_baza_app_stat_list['peer_home'] >
 		,
 		ReturnType< $giper_baza_app_stat_page['home'] >
 	>
-	type $giper_baza_app_stat_page__tools_giper_baza_app_stat_list_2 = $mol_type_enforce<
+	type $giper_baza_app_stat_page__tools_giper_baza_app_stat_list_4 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $giper_baza_app_stat_page['tools'] >
 	>
 	export class $giper_baza_app_stat_list extends $mol_book2_catalog {
 		peer_home( id: any): $giper_baza_app_home
+		peer_uptime( id: any): ReturnType< ReturnType< $giper_baza_app_stat_list['Spread'] >['uptime'] >
+		Menu_link_status( id: any): $mol_view
 		menu_title( ): string
 		param( ): string
 		Spread( id: any): $giper_baza_app_stat_page
+		menu_link_content( id: any): readonly($mol_view_content)[]
 	}
 	
 }
@@ -40578,6 +40591,9 @@ declare namespace $.$$ {
         spread_ids(): string[];
         peer_home(id: string): $giper_baza_app_home;
     }
+}
+
+declare namespace $.$$ {
 }
 
 declare namespace $ {
