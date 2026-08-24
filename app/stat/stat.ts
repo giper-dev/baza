@@ -116,9 +116,7 @@ namespace $ {
 			
 			const masters = yard.masters()?.length ?? 0
 			this.Port_masters( null )!.tick_instant( masters ) // pct
-			
-			const ports = yard.ports() ?? []
-			this.Port_slaves( null )!.tick_instant( ports.length - masters ) // pct
+			this.Port_slaves( null )!.tick_instant( yard.slaves.size ) // pct
 			
 			const lands_alive = yard.lands_alive()
 			const lands_persist = yard.lands_alive().filter( land => land.persisted() )
