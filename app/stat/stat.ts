@@ -3,6 +3,8 @@ namespace $ {
 	export class $giper_baza_app_stat extends $giper_baza_dict.with({
 		
 		Uptime: $giper_baza_atom_dura,
+		
+		Masters: $giper_baza_atom.of( $mol_schema_list( $mol_schema_string ) ),
 		Slaves: $giper_baza_atom.of( $mol_schema_list( $mol_schema_string ) ),
 		
 		/** User time in secs */
@@ -60,6 +62,11 @@ namespace $ {
 		}
 		
 		@ $mol_mem
+		masters( next?: string[] ) {
+			return this.Masters( next )?.val( next ) ?? []
+		}
+		
+		@ $mol_mem
 		slaves( next?: string[] ) {
 			return this.Slaves( next )?.val( next ) ?? []
 		}
@@ -92,6 +99,7 @@ namespace $ {
 			
 			this.uptime( new $mol_time_duration({ second: Math.floor( process.uptime() ) }).normal )
 			
+			this.masters( [ ... yard.masters() ].map( port => port.address() + ' ' + port.origin() ) )
 			this.slaves( [ ... yard.slaves ].map( port => port.address() + ' ' + port.origin() ) )
 			
 			const res = process.resourceUsage()
