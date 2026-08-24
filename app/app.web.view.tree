@@ -12,8 +12,8 @@ $giper_baza_app $mol_book2_catalog
 		glob <= Glob $giper_baza_glob_book
 			addon_tools /
 				<= Spread_close
-		stat <= Stat $giper_baza_app_stat_page
-			tools /
+		stat <= Stat $giper_baza_app_stat_list
+			menu_tools /
 				<= Spread_close
 		slot <= Slot $giper_baza_auth_slot
 			tools /

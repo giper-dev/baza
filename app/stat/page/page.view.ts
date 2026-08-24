@@ -2,17 +2,6 @@ namespace $.$$ {
 	export class $giper_baza_app_stat_page extends $.$giper_baza_app_stat_page {
 		
 		@ $mol_mem
-		home() {
-			
-			const url = this.$.$giper_baza_glob.yard().master_current()
-			if( !url ) return null!
-			
-			const link = new $giper_baza_link( this.$.$mol_fetch.text( url + 'link' ) )
-			return this.$.$giper_baza_glob.Pawn( link, $giper_baza_app_home )
-			
-		}
-
-		@ $mol_mem
 		stat() {
 			return this.home()?.stat() ?? null
 		}

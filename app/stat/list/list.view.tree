@@ -1,0 +1,5 @@
+$giper_baza_app_stat_list $mol_book2_catalog
+	menu_title \📊 Network Monitoring
+	param \peer
+	Spread* $giper_baza_app_stat_page
+		home <= peer_home* $giper_baza_app_home
