@@ -26,15 +26,15 @@ namespace $.$$ {
 			// padding: $mol_gap.text,
 		},
 		
-		// List_drop:{
-		// 	'[mol_drop_status]': {
-		// 		drag: {
-		// 			box: {
-		// 				shadow: [[ `inset`, 0, `-1px`, 0, 0, $mol_theme.focus ]],
-		// 			},
-		// 		},
-		// 	},
-		// },
+		List_drop:{
+			'[mol_drop_status]': {
+				drag: {
+					box: {
+						shadow: [[ `inset`, 0, `1px`, 0, 0, $mol_theme.focus ]],
+					},
+				},
+			},
+		},
 		
 		List_item_drop:{
 			'[mol_drop_status]': {
