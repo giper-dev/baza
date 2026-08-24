@@ -10551,6 +10551,9 @@ var $;
 (function ($) {
     class $mol_rest_port_ws_std extends $mol_rest_port_ws {
         socket;
+        origin() {
+            return this.socket.url;
+        }
         send_nil() {
             if (this.socket.readyState !== this.socket.OPEN)
                 return;
@@ -17435,8 +17438,7 @@ var $;
             this.Fs_free(null).tick_instant(Math.floor($mol_storage.free() / 1024 / 1024)); // MB
             const masters = yard.masters()?.length ?? 0;
             this.Port_masters(null).tick_instant(masters); // pct
-            const ports = yard.ports() ?? [];
-            this.Port_slaves(null).tick_instant(ports.length - masters); // pct
+            this.Port_slaves(null).tick_instant(yard.slaves.size); // pct
             const lands_alive = yard.lands_alive();
             const lands_persist = yard.lands_alive().filter(land => land.persisted());
             this.Land_alive(null).tick_instant(lands_alive.length); // pct
