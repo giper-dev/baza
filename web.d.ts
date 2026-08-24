@@ -40557,6 +40557,11 @@ declare namespace $ {
 		,
 		ReturnType< $giper_baza_app_stat_page['home'] >
 	>
+	type $giper_baza_app_stat_page__tools_giper_baza_app_stat_list_2 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $giper_baza_app_stat_page['tools'] >
+	>
 	export class $giper_baza_app_stat_list extends $mol_book2_catalog {
 		peer_home( id: any): $giper_baza_app_home
 		menu_title( ): string

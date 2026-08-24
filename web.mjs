@@ -27060,6 +27060,7 @@ var $;
 		Spread(id){
 			const obj = new this.$.$giper_baza_app_stat_page();
 			(obj.home) = () => ((this.peer_home(id)));
+			(obj.tools) = () => ([(this.Spread_close())]);
 			return obj;
 		}
 	};

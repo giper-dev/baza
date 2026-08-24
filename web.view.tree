@@ -1836,6 +1836,8 @@ $giper_baza_app_stat_list $mol_book2_catalog
 	param \peer
 	Spread* $giper_baza_app_stat_page
 		home <= peer_home* $giper_baza_app_home
+		tools /
+			<= Spread_close
 
 $mol_icon_play $mol_icon path \M8,5.14V19.14L19,12.14L8,5.14Z
 
