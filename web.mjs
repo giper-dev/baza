@@ -14397,10 +14397,17 @@ var $;
             $mol_wire_solid();
             if (next !== undefined)
                 return next;
-            const level = 32 - Math.min(this.$.$mol_storage.level(), 32);
-            const self = new Uint32Array(this.auth().pass().lord().toBin().buffer)[0];
-            const land = new Uint32Array(this.link().toBin().buffer)[0];
-            return (self >>> level) === (land >>> level);
+            const level = $mol_wire_sync(this.$.$mol_storage).level();
+            if (level <= 0)
+                return true;
+            if (level >= 10)
+                return false;
+            const crop = 32 - level;
+            const self = new Uint16Array(this.auth().pass().lord().toBin().buffer)[0];
+            const land = new Uint16Array(this.link().toBin().buffer)[0];
+            const persist = (self >>> crop) === (land >>> crop);
+            // if( !persist ) console.log( 'GHOST', crop, this.auth().pass().lord().str, this.link().str, self,  land )
+            return persist;
         }
         async units_sign(units) {
             await Promise.resolve(); // prevent deps
