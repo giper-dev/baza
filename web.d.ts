@@ -5145,7 +5145,7 @@ declare namespace $ {
         /** Packs any data to Uint8Array with deduplication. */
         pack(data: readonly unknown[]): Uint8Array<ArrayBuffer>;
         /** Parses buffer to rich runtime structures. */
-        take(array: Uint8Array<ArrayBuffer>): unknown;
+        take(array: Uint8Array<ArrayBuffer>): unknown[];
         rich_index: Map<string | null, any>;
         /** Isolated Vary for custom types */
         zone(): $mol_vary_class;
@@ -37562,32 +37562,37 @@ declare namespace $ {
 		,
 		ReturnType< $mol_button_minor['clicks'] >
 	>
-	type $mol_button_minor__sub_giper_baza_flex_field_14 = $mol_type_enforce<
+	type $mol_button_minor__hint_giper_baza_flex_field_14 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['hint'] >
+	>
+	type $mol_button_minor__sub_giper_baza_flex_field_15 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_button_minor['sub'] >
 	>
-	type $giper_baza_unit_sand_dump__land_giper_baza_flex_field_15 = $mol_type_enforce<
+	type $giper_baza_unit_sand_dump__land_giper_baza_flex_field_16 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['land'] >
 		,
 		ReturnType< $giper_baza_unit_sand_dump['land'] >
 	>
-	type $giper_baza_unit_sand_dump__sand_giper_baza_flex_field_16 = $mol_type_enforce<
+	type $giper_baza_unit_sand_dump__sand_giper_baza_flex_field_17 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['list_sand'] >
 		,
 		ReturnType< $giper_baza_unit_sand_dump['sand'] >
 	>
-	type $mol_view__sub_giper_baza_flex_field_17 = $mol_type_enforce<
+	type $mol_view__sub_giper_baza_flex_field_18 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_drag__end_giper_baza_flex_field_18 = $mol_type_enforce<
+	type $mol_drag__end_giper_baza_flex_field_19 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['list_item_drag_end'] >
 		,
 		ReturnType< $mol_drag['end'] >
 	>
-	type $mol_drag__transfer_giper_baza_flex_field_19 = $mol_type_enforce<
+	type $mol_drag__transfer_giper_baza_flex_field_20 = $mol_type_enforce<
 		({ 
 			'text/plain': ReturnType< $giper_baza_flex_field['list_item_value'] >,
 			'text/html': ReturnType< $giper_baza_flex_field['list_item_html'] >,
@@ -37596,202 +37601,222 @@ declare namespace $ {
 		,
 		ReturnType< $mol_drag['transfer'] >
 	>
-	type $mol_drag__Sub_giper_baza_flex_field_20 = $mol_type_enforce<
+	type $mol_drag__Sub_giper_baza_flex_field_21 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['List_item_content'] >
 		,
 		ReturnType< $mol_drag['Sub'] >
 	>
-	type $mol_drop__adopt_giper_baza_flex_field_21 = $mol_type_enforce<
+	type $mol_drop__adopt_giper_baza_flex_field_22 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['list_item_adopt'] >
 		,
 		ReturnType< $mol_drop['adopt'] >
 	>
-	type $mol_drop__receive_giper_baza_flex_field_22 = $mol_type_enforce<
+	type $mol_drop__receive_giper_baza_flex_field_23 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['list_item_receive'] >
 		,
 		ReturnType< $mol_drop['receive'] >
 	>
-	type $mol_drop__allow_giper_baza_flex_field_23 = $mol_type_enforce<
+	type $mol_drop__allow_giper_baza_flex_field_24 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_drop['allow'] >
 	>
-	type $mol_drop__Sub_giper_baza_flex_field_24 = $mol_type_enforce<
+	type $mol_drop__Sub_giper_baza_flex_field_25 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['List_item_drag'] >
 		,
 		ReturnType< $mol_drop['Sub'] >
 	>
-	type $mol_list__rows_giper_baza_flex_field_25 = $mol_type_enforce<
+	type $mol_list__rows_giper_baza_flex_field_26 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['list_items'] >
 		,
 		ReturnType< $mol_list['rows'] >
 	>
-	type $mol_select__enabled_giper_baza_flex_field_26 = $mol_type_enforce<
+	type $mol_select__enabled_giper_baza_flex_field_27 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['enabled'] >
 		,
 		ReturnType< $mol_select['enabled'] >
 	>
-	type $mol_select__value_giper_baza_flex_field_27 = $mol_type_enforce<
+	type $mol_select__value_giper_baza_flex_field_28 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['list_pick'] >
 		,
 		ReturnType< $mol_select['value'] >
 	>
-	type $mol_select__options_giper_baza_flex_field_28 = $mol_type_enforce<
+	type $mol_select__options_giper_baza_flex_field_29 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['link_options'] >
 		,
 		ReturnType< $mol_select['options'] >
 	>
-	type $mol_select__option_label_giper_baza_flex_field_29 = $mol_type_enforce<
+	type $mol_select__option_label_giper_baza_flex_field_30 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['link_label'] >
 		,
 		ReturnType< $mol_select['option_label'] >
 	>
-	type $mol_button_minor__enabled_giper_baza_flex_field_30 = $mol_type_enforce<
+	type $mol_button_minor__enabled_giper_baza_flex_field_31 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['enabled'] >
 		,
 		ReturnType< $mol_button_minor['enabled'] >
 	>
-	type $mol_button_minor__click_giper_baza_flex_field_31 = $mol_type_enforce<
+	type $mol_button_minor__click_giper_baza_flex_field_32 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['list_item_add'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__title_giper_baza_flex_field_32 = $mol_type_enforce<
+	type $mol_button_minor__title_giper_baza_flex_field_33 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_string__enabled_giper_baza_flex_field_33 = $mol_type_enforce<
+	type $mol_string__enabled_giper_baza_flex_field_34 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['enabled'] >
 		,
 		ReturnType< $mol_string['enabled'] >
 	>
-	type $mol_string__value_giper_baza_flex_field_34 = $mol_type_enforce<
+	type $mol_string__value_giper_baza_flex_field_35 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['list_item_link_value'] >
 		,
 		ReturnType< $mol_string['value'] >
 	>
-	type $mol_string__submit_giper_baza_flex_field_35 = $mol_type_enforce<
+	type $mol_string__submit_giper_baza_flex_field_36 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['list_item_link'] >
 		,
 		ReturnType< $mol_string['submit'] >
 	>
-	type $mol_string__hint_giper_baza_flex_field_36 = $mol_type_enforce<
+	type $mol_string__hint_giper_baza_flex_field_37 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_string['hint'] >
 	>
-	type $mol_bar__sub_giper_baza_flex_field_37 = $mol_type_enforce<
+	type $mol_bar__sub_giper_baza_flex_field_38 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['list_tools'] >
 		,
 		ReturnType< $mol_bar['sub'] >
 	>
-	type $mol_select__enabled_giper_baza_flex_field_38 = $mol_type_enforce<
+	type $mol_drop__adopt_giper_baza_flex_field_39 = $mol_type_enforce<
+		ReturnType< $giper_baza_flex_field['list_item_adopt'] >
+		,
+		ReturnType< $mol_drop['adopt'] >
+	>
+	type $mol_drop__receive_giper_baza_flex_field_40 = $mol_type_enforce<
+		ReturnType< $giper_baza_flex_field['list_receive'] >
+		,
+		ReturnType< $mol_drop['receive'] >
+	>
+	type $mol_drop__allow_giper_baza_flex_field_41 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_drop['allow'] >
+	>
+	type $mol_drop__Sub_giper_baza_flex_field_42 = $mol_type_enforce<
+		ReturnType< $giper_baza_flex_field['List_tools'] >
+		,
+		ReturnType< $mol_drop['Sub'] >
+	>
+	type $mol_select__enabled_giper_baza_flex_field_43 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['enabled'] >
 		,
 		ReturnType< $mol_select['enabled'] >
 	>
-	type $mol_select__value_giper_baza_flex_field_39 = $mol_type_enforce<
+	type $mol_select__value_giper_baza_flex_field_44 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['enum'] >
 		,
 		ReturnType< $mol_select['value'] >
 	>
-	type $mol_select__options_giper_baza_flex_field_40 = $mol_type_enforce<
+	type $mol_select__options_giper_baza_flex_field_45 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['enum_options'] >
 		,
 		ReturnType< $mol_select['options'] >
 	>
-	type $mol_select__option_label_giper_baza_flex_field_41 = $mol_type_enforce<
+	type $mol_select__option_label_giper_baza_flex_field_46 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['enum_label'] >
 		,
 		ReturnType< $mol_select['option_label'] >
 	>
-	type $mol_check_box__enabled_giper_baza_flex_field_42 = $mol_type_enforce<
+	type $mol_check_box__enabled_giper_baza_flex_field_47 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['enabled'] >
 		,
 		ReturnType< $mol_check_box['enabled'] >
 	>
-	type $mol_check_box__checked_giper_baza_flex_field_43 = $mol_type_enforce<
+	type $mol_check_box__checked_giper_baza_flex_field_48 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['bool'] >
 		,
 		ReturnType< $mol_check_box['checked'] >
 	>
-	type $mol_number__enabled_giper_baza_flex_field_44 = $mol_type_enforce<
+	type $mol_number__enabled_giper_baza_flex_field_49 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['enabled'] >
 		,
 		ReturnType< $mol_number['enabled'] >
 	>
-	type $mol_number__value_giper_baza_flex_field_45 = $mol_type_enforce<
+	type $mol_number__value_giper_baza_flex_field_50 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['int'] >
 		,
 		ReturnType< $mol_number['value'] >
 	>
-	type $mol_number__enabled_giper_baza_flex_field_46 = $mol_type_enforce<
+	type $mol_number__enabled_giper_baza_flex_field_51 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['enabled'] >
 		,
 		ReturnType< $mol_number['enabled'] >
 	>
-	type $mol_number__value_giper_baza_flex_field_47 = $mol_type_enforce<
+	type $mol_number__value_giper_baza_flex_field_52 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['real'] >
 		,
 		ReturnType< $mol_number['value'] >
 	>
-	type $mol_bar__sub_giper_baza_flex_field_48 = $mol_type_enforce<
+	type $mol_bar__sub_giper_baza_flex_field_53 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['link_content'] >
 		,
 		ReturnType< $mol_bar['sub'] >
 	>
-	type $mol_textarea__enabled_giper_baza_flex_field_49 = $mol_type_enforce<
+	type $mol_textarea__enabled_giper_baza_flex_field_54 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['enabled'] >
 		,
 		ReturnType< $mol_textarea['enabled'] >
 	>
-	type $mol_textarea__value_giper_baza_flex_field_50 = $mol_type_enforce<
+	type $mol_textarea__value_giper_baza_flex_field_55 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['str'] >
 		,
 		ReturnType< $mol_textarea['value'] >
 	>
-	type $mol_textarea__selection_giper_baza_flex_field_51 = $mol_type_enforce<
+	type $mol_textarea__selection_giper_baza_flex_field_56 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['str_selection'] >
 		,
 		ReturnType< $mol_textarea['selection'] >
 	>
-	type $mol_date__enabled_giper_baza_flex_field_52 = $mol_type_enforce<
+	type $mol_date__enabled_giper_baza_flex_field_57 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['enabled'] >
 		,
 		ReturnType< $mol_date['enabled'] >
 	>
-	type $mol_date__value_moment_giper_baza_flex_field_53 = $mol_type_enforce<
+	type $mol_date__value_moment_giper_baza_flex_field_58 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['time'] >
 		,
 		ReturnType< $mol_date['value_moment'] >
 	>
-	type $mol_expander__title_giper_baza_flex_field_54 = $mol_type_enforce<
+	type $mol_expander__title_giper_baza_flex_field_59 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['dict_title'] >
 		,
 		ReturnType< $mol_expander['title'] >
 	>
-	type $mol_expander__content_giper_baza_flex_field_55 = $mol_type_enforce<
+	type $mol_expander__content_giper_baza_flex_field_60 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_expander['content'] >
 	>
-	type $mol_textarea__enabled_giper_baza_flex_field_56 = $mol_type_enforce<
+	type $mol_textarea__enabled_giper_baza_flex_field_61 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['enabled'] >
 		,
 		ReturnType< $mol_textarea['enabled'] >
 	>
-	type $mol_textarea__value_giper_baza_flex_field_57 = $mol_type_enforce<
+	type $mol_textarea__value_giper_baza_flex_field_62 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['text'] >
 		,
 		ReturnType< $mol_textarea['value'] >
 	>
-	type $mol_textarea__selection_giper_baza_flex_field_58 = $mol_type_enforce<
+	type $mol_textarea__selection_giper_baza_flex_field_63 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['text_selection'] >
 		,
 		ReturnType< $mol_textarea['selection'] >
 	>
-	type $mol_list__rows_giper_baza_flex_field_59 = $mol_type_enforce<
+	type $mol_list__rows_giper_baza_flex_field_64 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_list['rows'] >
@@ -37840,6 +37865,7 @@ declare namespace $ {
 		List_item( id: any): ReturnType< $giper_baza_flex_field['List_item_drop'] >
 		list_items( ): readonly(any)[]
 		List_items( ): $mol_list
+		list_receive( next?: any ): any
 		list_pick( next?: any ): any
 		List_pick( ): $mol_select
 		list_item_add( next?: any ): any
@@ -37849,6 +37875,7 @@ declare namespace $ {
 		List_item_link( ): $mol_string
 		list_tools( ): readonly(any)[]
 		List_tools( ): $mol_bar
+		List_drop( ): $mol_drop
 		sub( ): readonly(any)[]
 		pawn( next?: $giper_baza_pawn ): $giper_baza_pawn
 		land( ): ReturnType< ReturnType< $giper_baza_flex_field['pawn'] >['land'] >
@@ -37903,8 +37930,8 @@ declare namespace $.$$ {
         list_item_kill(sand: $giper_baza_unit_sand): void;
         list_sand(sand: $giper_baza_unit_sand): $giper_baza_unit_sand;
         list_item_value(sand: $giper_baza_unit_sand): string;
-        list_item_adopt(transfer: DataTransfer): string | $giper_baza_link | null;
-        list_item_receive(sand: $giper_baza_unit_sand, value: string): void;
+        list_item_adopt(transfer: DataTransfer): $giper_baza_vary_type;
+        list_item_receive(sand: $giper_baza_unit_sand, value: $giper_baza_vary_type): void;
         list_receive(value: string): void;
         list_item_drag_end(sand: $giper_baza_unit_sand, event: DragEvent): void;
     }

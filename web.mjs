@@ -21476,6 +21476,7 @@ var $;
 		List_item_kill(id){
 			const obj = new this.$.$mol_button_minor();
 			(obj.clicks) = (next) => ((this.list_item_kill(id, next)));
+			(obj.hint) = () => ("Double to remove");
 			(obj.sub) = () => ([(this.List_item_kill_icon(id))]);
 			return obj;
 		}
@@ -21523,6 +21524,10 @@ var $;
 			const obj = new this.$.$mol_list();
 			(obj.rows) = () => ((this.list_items()));
 			return obj;
+		}
+		list_receive(next){
+			if(next !== undefined) return next;
+			return null;
 		}
 		list_pick(next){
 			if(next !== undefined) return next;
@@ -21573,6 +21578,14 @@ var $;
 		List_tools(){
 			const obj = new this.$.$mol_bar();
 			(obj.sub) = () => ((this.list_tools()));
+			return obj;
+		}
+		List_drop(){
+			const obj = new this.$.$mol_drop();
+			(obj.adopt) = (next) => ((this.list_item_adopt(next)));
+			(obj.receive) = (next) => ((this.list_receive(next)));
+			(obj.allow) = () => (["move", "copy"]);
+			(obj.Sub) = () => ((this.List_tools()));
 			return obj;
 		}
 		sub(){
@@ -21649,7 +21662,7 @@ var $;
 		}
 		List(){
 			const obj = new this.$.$mol_list();
-			(obj.rows) = () => ([(this.List_items()), (this.List_tools())]);
+			(obj.rows) = () => ([(this.List_items()), (this.List_drop())]);
 			return obj;
 		}
 	};
@@ -21683,6 +21696,7 @@ var $;
 	($mol_mem_key(($.$giper_baza_flex_field.prototype), "List_item_drag"));
 	($mol_mem_key(($.$giper_baza_flex_field.prototype), "List_item_drop"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "List_items"));
+	($mol_mem(($.$giper_baza_flex_field.prototype), "list_receive"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "list_pick"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "List_pick"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "list_item_add"));
@@ -21691,6 +21705,7 @@ var $;
 	($mol_mem(($.$giper_baza_flex_field.prototype), "list_item_link"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "List_item_link"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "List_tools"));
+	($mol_mem(($.$giper_baza_flex_field.prototype), "List_drop"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "pawn"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "prop"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "Enum"));
@@ -22108,21 +22123,18 @@ var $;
                 return sand;
             }
             list_item_value(sand) {
-                return $mol_schema_string.cast(this.land().sand_decode(sand));
+                return $mol_base64_encode($giper_baza_vary.pack([this.land().sand_decode(sand)]));
             }
             list_item_adopt(transfer) {
-                let val = transfer.getData("text/plain");
-                if (this.prop().Kind()?.val())
-                    val = $giper_baza_link_schema.cast(val);
-                return val;
+                return $giper_baza_vary.take($mol_base64_decode(transfer.getData("text/plain")))[0];
             }
             list_item_receive(sand, value) {
                 const list = this.pawn().cast($giper_baza_list);
-                this.pawn()?.cast($giper_baza_list).splice([value], list.units().indexOf(sand));
+                list.splice([value], list.units().indexOf(sand));
             }
             list_receive(value) {
                 const list = this.pawn().cast($giper_baza_list);
-                this.pawn()?.cast($giper_baza_list).splice([value]);
+                list.splice([value]);
             }
             list_item_drag_end(sand, event) {
                 if (event.dataTransfer?.dropEffect !== 'move')
@@ -22200,15 +22212,15 @@ var $;
             List_item_dump: {
             // padding: $mol_gap.text,
             },
-            // List_drop:{
-            // 	'[mol_drop_status]': {
-            // 		drag: {
-            // 			box: {
-            // 				shadow: [[ `inset`, 0, `-1px`, 0, 0, $mol_theme.focus ]],
-            // 			},
-            // 		},
-            // 	},
-            // },
+            List_drop: {
+                '[mol_drop_status]': {
+                    drag: {
+                        box: {
+                            shadow: [[`inset`, 0, `1px`, 0, 0, $mol_theme.focus]],
+                        },
+                    },
+                },
+            },
             List_item_drop: {
                 '[mol_drop_status]': {
                     drag: {

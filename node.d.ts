@@ -2641,7 +2641,7 @@ declare namespace $ {
         /** Packs any data to Uint8Array with deduplication. */
         pack(data: readonly unknown[]): Uint8Array<ArrayBuffer>;
         /** Parses buffer to rich runtime structures. */
-        take(array: Uint8Array<ArrayBuffer>): unknown;
+        take(array: Uint8Array<ArrayBuffer>): unknown[];
         rich_index: Map<string | null, any>;
         /** Isolated Vary for custom types */
         zone(): $mol_vary_class;
