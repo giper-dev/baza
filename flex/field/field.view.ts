@@ -184,23 +184,21 @@ namespace $.$$ {
 		}
 		
 		list_item_value( sand: $giper_baza_unit_sand ) {
-			return $mol_schema_string.cast( this.land().sand_decode( sand ) )
+			return $mol_base64_encode( $giper_baza_vary.pack([ this.land().sand_decode( sand ) ]) )
 		}
 		
 		list_item_adopt( transfer : DataTransfer ) {
-			let val: $giper_baza_vary_type = transfer.getData( "text/plain" )
-			if( this.prop().Kind()?.val() ) val = $giper_baza_link_schema.cast( val )
-			return val
+			return $giper_baza_vary.take( $mol_base64_decode( transfer.getData( "text/plain" ) ) )[0] as $giper_baza_vary_type
 		}
 
-		list_item_receive( sand: $giper_baza_unit_sand, value: string ) {
+		list_item_receive( sand: $giper_baza_unit_sand, value: $giper_baza_vary_type ) {
 			const list = this.pawn()!.cast( $giper_baza_list )
-			this.pawn()?.cast( $giper_baza_list ).splice( [ value ], list.units().indexOf( sand ) )
+			list.splice( [ value ], list.units().indexOf( sand ) )
 		}
 		
 		list_receive( value: string ) {
 			const list = this.pawn()!.cast( $giper_baza_list )
-			this.pawn()?.cast( $giper_baza_list ).splice( [ value ] )
+			list.splice( [ value ] )
 		}
 		
 		list_item_drag_end( sand: $giper_baza_unit_sand, event: DragEvent ) {
