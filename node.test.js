@@ -12373,6 +12373,7 @@ var $;
 (function ($) {
     class $giper_baza_app_stat extends $giper_baza_dict.with({
         Uptime: $giper_baza_atom_dura,
+        Masters: $giper_baza_atom.of($mol_schema_list($mol_schema_string)),
         Slaves: $giper_baza_atom.of($mol_schema_list($mol_schema_string)),
         /** User time in secs */
         Cpu_user: $giper_baza_stat_ranges,
@@ -12414,6 +12415,9 @@ var $;
         uptime(next) {
             return this.Uptime(next)?.val(next) ?? new $mol_time_duration(0);
         }
+        masters(next) {
+            return this.Masters(next)?.val(next) ?? [];
+        }
         slaves(next) {
             return this.Slaves(next)?.val(next) ?? [];
         }
@@ -12436,6 +12440,7 @@ var $;
             this.$.$mol_state_time.now(1000);
             const yard = this.$.$giper_baza_glob.yard();
             this.uptime(new $mol_time_duration({ second: Math.floor(process.uptime()) }).normal);
+            this.masters([...yard.masters()].map(port => port.address() + ' ' + port.origin()));
             this.slaves([...yard.slaves].map(port => port.address() + ' ' + port.origin()));
             const res = process.resourceUsage();
             this.Cpu_user(null).tick_integral(Math.ceil(res.userCPUTime / 1e4)); // %
@@ -12463,6 +12468,9 @@ var $;
     __decorate([
         $mol_mem
     ], $giper_baza_app_stat.prototype, "uptime", null);
+    __decorate([
+        $mol_mem
+    ], $giper_baza_app_stat.prototype, "masters", null);
     __decorate([
         $mol_mem
     ], $giper_baza_app_stat.prototype, "slaves", null);
