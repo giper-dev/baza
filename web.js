@@ -26903,9 +26903,21 @@ var $;
                 return this.home()?.stat() ?? null;
             }
             uptime() {
-                const status = (this.stat()?.freshness() ?? Number.POSITIVE_INFINITY) < 5 ? '🟢' : '🔴';
-                const uptime = this.stat()?.uptime().toString('#Y #D hh:mm:ss') ?? '';
-                return `${status} ${uptime}`;
+                const stat = this.stat();
+                if (!stat)
+                    return '🔴';
+                if ((stat.freshness() ?? Number.POSITIVE_INFINITY) < 5) {
+                    const uptime = this.stat()?.uptime().toString('#Y #D hh:mm:ss');
+                    return `🟢 ${uptime}`;
+                }
+                else {
+                    const range = new $mol_time_interval({
+                        start: stat.last_change() ?? undefined,
+                        end: new $mol_time_moment,
+                    });
+                    const downtime = range.duration.normal.toString('#Y #D hh:mm:ss');
+                    return `🔴 ${downtime}`;
+                }
             }
             cpu_user() {
                 return this.stat()?.Cpu_user()?.series() ?? [];
