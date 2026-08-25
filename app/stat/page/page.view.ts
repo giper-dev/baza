@@ -19,8 +19,11 @@ namespace $.$$ {
 				
 			} else {
 				
+				const last = stat.last_change()
+				if( !last ) return '🔴'
+				
 				const range = new $mol_time_interval({
-					start: stat.last_change() ?? undefined,
+					start: last,
 					end: new $mol_time_moment,
 				})
 				

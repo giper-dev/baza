@@ -43,6 +43,7 @@ namespace $ {
 		}
 		
 		POST( msg: $mol_rest_message ) {
+			if( msg.type() !== 'application/octet-stream' ) return super.POST( msg )
 			this._yard().port_income( msg.port, msg.bin() )
 		}
 		
