@@ -32,5 +32,10 @@ namespace $.$$ {
 			return this.$.$giper_baza_glob.Pawn( new $giper_baza_link( id ), $giper_baza_app_home )
 		}
 		
+		@ $mol_mem_key
+		peer_uri( id: string ) {
+			return this.peer_urls( id )[0] ?? ''
+		}
+		
 	}
 }

@@ -4,13 +4,19 @@ namespace $.$$ {
 		
 		Menu: {
 			flex: {
-				basis: '20rem',
+				basis: '25rem',
 			},
 		},
 		
 		Menu_link: {
 			justify: {
 				content: 'space-between',
+			},
+		},
+		
+		Menu_link_title: {
+			flex: {
+				grow: 1,
 			},
 		},
 		
