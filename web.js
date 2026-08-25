@@ -27062,12 +27062,23 @@ var $;
 
 ;
 	($.$giper_baza_app_stat_list) = class $giper_baza_app_stat_list extends ($.$mol_book2_catalog) {
+		peer_urls(id){
+			return (this.peer_home(id).urls());
+		}
 		peer_home(id){
 			const obj = new this.$.$giper_baza_app_home();
 			return obj;
 		}
 		peer_uptime(id){
 			return (this.Spread(id).uptime());
+		}
+		peer_uri(id){
+			return "";
+		}
+		Menu_link_avatar(id){
+			const obj = new this.$.$mol_avatar();
+			(obj.id) = () => ((this.peer_uri(id)));
+			return obj;
 		}
 		Menu_link_status(id){
 			const obj = new this.$.$mol_view();
@@ -27087,10 +27098,15 @@ var $;
 			return obj;
 		}
 		menu_link_content(id){
-			return [(this.Menu_link_title(id)), (this.Menu_link_status(id))];
+			return [
+				(this.Menu_link_avatar(id)), 
+				(this.Menu_link_title(id)), 
+				(this.Menu_link_status(id))
+			];
 		}
 	};
 	($mol_mem_key(($.$giper_baza_app_stat_list.prototype), "peer_home"));
+	($mol_mem_key(($.$giper_baza_app_stat_list.prototype), "Menu_link_avatar"));
 	($mol_mem_key(($.$giper_baza_app_stat_list.prototype), "Menu_link_status"));
 	($mol_mem_key(($.$giper_baza_app_stat_list.prototype), "Spread"));
 
@@ -27128,6 +27144,9 @@ var $;
             peer_home(id) {
                 return this.$.$giper_baza_glob.Pawn(new $giper_baza_link(id), $giper_baza_app_home);
             }
+            peer_uri(id) {
+                return this.peer_urls(id)[0] ?? '';
+            }
         }
         __decorate([
             $mol_mem
@@ -27138,6 +27157,9 @@ var $;
         __decorate([
             $mol_mem_key
         ], $giper_baza_app_stat_list.prototype, "peer_home", null);
+        __decorate([
+            $mol_mem_key
+        ], $giper_baza_app_stat_list.prototype, "peer_uri", null);
         $$.$giper_baza_app_stat_list = $giper_baza_app_stat_list;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -27151,12 +27173,17 @@ var $;
         $mol_style_define($giper_baza_app_stat_list, {
             Menu: {
                 flex: {
-                    basis: '20rem',
+                    basis: '25rem',
                 },
             },
             Menu_link: {
                 justify: {
                     content: 'space-between',
+                },
+            },
+            Menu_link_title: {
+                flex: {
+                    grow: 1,
                 },
             },
         });
