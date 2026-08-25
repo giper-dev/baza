@@ -940,7 +940,7 @@ declare namespace $ {
             code?: $mol_rest_code;
         }): void;
         route(uri: URL): $mol_rest_message;
-        derive(method: string, data: null | string | Uint8Array<ArrayBuffer> | Element | object): $mol_rest_message;
+        derive(method: string, data: null | string | Uint8Array<ArrayBuffer> | Element | object, type?: $mol_rest_port_mime): $mol_rest_message;
         static make<This extends typeof $mol_object>(this: This, config: Partial<InstanceType<This>>): InstanceType<This>;
     }
 }

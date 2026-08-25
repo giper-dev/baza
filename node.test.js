@@ -3048,13 +3048,13 @@ var $;
                 data: () => this.data(),
             });
         }
-        derive(method, data) {
+        derive(method, data, type = this.type()) {
             return $mol_rest_message.make({
                 port: this.port,
                 method: $mol_const(method),
                 uri: () => this.uri(),
                 protocols: () => this.protocols(),
-                type: () => this.type(),
+                type: $mol_const(type),
                 origin: () => this.origin(),
                 data: $mol_const(data),
             });
@@ -5321,7 +5321,8 @@ var $;
                     setTimeout(() => sock.resume());
                     return;
                 }
-                const message = upgrade.derive('POST', data);
+                const type = typeof data === 'string' ? 'text/plain' : 'application/octet-stream';
+                const message = upgrade.derive('POST', data, type);
                 if (data.length !== 0) {
                     if (this.log())
                         this.$.$mol_log3_rise({
@@ -13760,6 +13761,8 @@ var $;
             return protocol;
         }
         POST(msg) {
+            if (msg.type() !== 'application/octet-stream')
+                return super.POST(msg);
             this._yard().port_income(msg.port, msg.bin());
         }
         CLOSE(msg) {
