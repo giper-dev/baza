@@ -3,7 +3,7 @@ namespace $.$$ {
 	$mol_style_define( $giper_baza_app_stat_page, {
 		
 		flex: {
-			basis: `40rem`,
+			basis: `100%`,
 			grow: 1,
 		},
 		
