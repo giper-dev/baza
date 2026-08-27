@@ -27173,7 +27173,7 @@ var $;
         $mol_style_define($giper_baza_app_stat_list, {
             Menu: {
                 flex: {
-                    basis: '25rem',
+                    basis: '30rem',
                 },
             },
             Menu_link: {
