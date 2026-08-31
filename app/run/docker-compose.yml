@@ -40,7 +40,7 @@ services:
     image: openserbia/watchtower
     logging:
       driver: "local"
-    command: --interval 300 --cleanup --remove-volumes --log-level warn
+    command: --interval 300 --cleanup --remove-volumes --stop-timeout 60s --log-level warn
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
     restart: unless-stopped
