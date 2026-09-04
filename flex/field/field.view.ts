@@ -6,15 +6,34 @@ namespace $.$$ {
 		}
 		
 		@ $mol_mem
+		schema() {
+			const type = this.prop().Type()?.val() ?? 'str'
+			switch( type ) {
+				case 'vary': return null
+				case 'enum': return null
+				case 'bool': return 'Bool'
+				case 'int': return 'Bint'
+				case 'real': return 'Real'
+				case 'str': return 'Text'
+				case 'link': return null
+				case 'time': return null
+				case 'dict': return null
+				case 'text': return null
+				case 'list': return null
+				default: return null
+			}
+		}
+		
+		@ $mol_mem
 		Sub() {
 			const type = this.prop().Type()?.val() ?? 'str'
 			switch( type ) {
-				case 'vary': return this.Str()
+				case 'vary': return this.Atom()
 				case 'enum': return this.Enum()
-				case 'bool': return this.Bool()
+				case 'bool': return this.Atom()
 				case 'int': return this.Int()
 				case 'real': return this.Real()
-				case 'str': return this.Str()
+				case 'str': return this.Atom()
 				case 'link': return this.Ref()
 				case 'time': return this.Time()
 				case 'dict': return this.Dict()
@@ -36,6 +55,34 @@ namespace $.$$ {
 		@ $mol_mem_key
 		override enum_label( option: $giper_baza_vary_type ) {
 			return $mol_schema_string.cast( option )
+		}
+		
+		atom_value( next?: $giper_baza_vary_type ) {
+			return this.pawn( next as any )?.cast( $giper_baza_atom ).vary( next ) ?? null
+		}
+		
+		atom_selection( next?: readonly[ path: string, begin: number, end: number ] ) {
+			
+			const link = this.pawn()?.head().str ?? ''
+			const user = this.$.$giper_baza_glob.Land( this.$.$giper_baza_auth.current().pass().lord() ).Data( $giper_baza_flex_user )
+			
+			if( next ) {
+				
+				user.caret([ [ link + next[0], next[1], 0 ], [ link + next[0], next[2], 0 ] ])
+				return next
+				
+			} else {
+				
+				this.atom_value() // track text to recalc selection on its change
+				
+				const sel = user.caret()
+				if( !sel ) return [ '', 0, 0 ]
+				if( !sel[0][0].startsWith( link ) ) return [ '', 0, 0 ]
+				if( !sel[1][0].startsWith( link ) ) return [ '', 0, 0 ]
+				
+				return [ sel[0][0].slice( link.length ), sel[0][1], sel[1][1] ]
+			}
+
 		}
 		
 		bool( next?: boolean ) {

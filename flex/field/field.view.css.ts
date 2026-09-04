@@ -7,6 +7,12 @@ namespace $.$$ {
 			shrink: 1,
 		},
 		
+		Atom: {
+			flex: {
+				grow: 1,
+			},
+		},
+		
 		Link_new: {
 			Trigger: {
 				justify: {

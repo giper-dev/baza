@@ -8,6 +8,11 @@ $giper_baza_flex_field $mol_view
 		value? <=> enum? null
 		options <= enum_options /
 		option_label* <= enum_label* \
+	Atom $mol_vary_edit
+		enabled <= enabled true
+		value? <=> atom_value? null
+		schema <= schema null
+		selection? <=> atom_selection? /
 	Bool $mol_check_box
 		enabled <= enabled true
 		checked? <=> bool? false
