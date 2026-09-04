@@ -5291,8 +5291,9 @@ var $;
             });
         }
         response() {
+            const native = $mol_error_enriched(this, () => $mol_wire_sync(this).response_async());
             return this.$.$mol_fetch_response.make({
-                native: $mol_wire_sync(this).response_async(),
+                native,
                 request: this
             });
         }
@@ -6125,22 +6126,27 @@ var $;
                 const el = this.dom_node();
                 const from = el.selectionStart;
                 const to = el.selectionEnd;
-                try {
-                    el.value = this.value_changed(el.value);
-                }
-                catch (error) {
-                    const el = this.dom_node();
-                    if (error instanceof Error) {
-                        el.setCustomValidity(error.message);
-                        el.reportValidity();
-                    }
-                    $mol_fail_hidden(error);
-                }
+                el.value = this.value_changed(el.value);
                 if (to === null)
                     return;
                 el.selectionEnd = to;
                 el.selectionStart = from;
                 this.selection_change(next);
+            }
+            value_changed(next) {
+                const el = this.dom_node();
+                try {
+                    el.setCustomValidity('');
+                    return this.value(next);
+                }
+                catch (error) {
+                    $mol_fail_log(error);
+                    if (error instanceof Error) {
+                        el.setCustomValidity(error.message);
+                        el.reportValidity();
+                    }
+                    return next ?? $mol_mem_cached(() => this.value_changed()) ?? '';
+                }
             }
             error_report() {
                 try {
@@ -6201,6 +6207,9 @@ var $;
         __decorate([
             $mol_action
         ], $mol_string.prototype, "event_change", null);
+        __decorate([
+            $mol_mem
+        ], $mol_string.prototype, "value_changed", null);
         __decorate([
             $mol_mem
         ], $mol_string.prototype, "error_report", null);
@@ -8823,6 +8832,9 @@ var $;
 			if(next !== undefined) return next;
 			return null;
 		}
+		option_hint(id){
+			return null;
+		}
 		option_label(id){
 			return "";
 		}
@@ -8898,6 +8910,7 @@ var $;
 			const obj = new this.$.$mol_button_minor();
 			(obj.enabled) = () => ((this.enabled()));
 			(obj.event_click) = (next) => ((this.event_select(id, next)));
+			(obj.hint) = () => ((this.option_hint(id)));
 			(obj.sub) = () => ((this.option_content(id)));
 			return obj;
 		}
@@ -8984,6 +8997,9 @@ var $;
             option_label(id) {
                 const value = this.dictionary()[id];
                 return (value == null ? id : value) || this.option_label_default();
+            }
+            option_hint(id) {
+                return id;
             }
             option_rows() {
                 return this.options_filtered().map((option) => this.Option_row(option));
@@ -13292,11 +13308,7 @@ var $;
                 const vals = new Array(len);
                 for (let i = 0; i < len; ++i)
                     vals[i] = read_vary();
-                const node = this.rich_node(keys);
-                let rich = node.get(null);
-                if (!rich)
-                    node.set(null, rich = pojo_maker(keys));
-                const obj = rich(vals);
+                const obj = this.rich(keys, vals);
                 stream.push(obj);
                 return obj;
             };
@@ -13369,6 +13381,13 @@ var $;
             room.rich_index = index_clone(this.rich_index);
             return room;
         }
+        rich(keys, vals) {
+            const node = this.rich_node(keys);
+            let rich = node.get(null);
+            if (!rich)
+                node.set(null, rich = pojo_maker(keys));
+            return rich(vals);
+        }
         rich_node(keys) {
             let node = this.rich_index;
             for (let i = 0; i < keys.length; ++i) {
@@ -13379,6 +13398,9 @@ var $;
                     node.set(keys[i], node = new Map);
             }
             return node;
+        }
+        lean(obj) {
+            return this.lean_find(obj)?.(obj) ?? [Object.keys(obj), Object.values(obj)];
         }
         lean_find(val) {
             const lean = val[this.lean_symbol];
@@ -13402,7 +13424,7 @@ var $;
         type: Map,
         keys: ['keys', 'vals'],
         lean: obj => [[...obj.keys()], [...obj.values()]],
-        rich: ([keys, vals]) => new Map(keys.map((k, i) => [k, vals[i]])),
+        rich: ([keys, vals]) => new Map((keys ?? []).map((k, i) => [k, vals?.[i]])),
     });
     /** Native Set support */
     $.$mol_vary.type({

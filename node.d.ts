@@ -2645,7 +2645,9 @@ declare namespace $ {
         rich_index: Map<string | null, any>;
         /** Isolated Vary for custom types */
         zone(): $mol_vary_class;
+        rich(keys: readonly string[], vals: readonly unknown[]): any;
         rich_node(keys: readonly string[]): Map<string | null, any>;
+        lean(obj: {}): any;
         lean_find(val: any): any;
         /** Adds custom types support. */
         type<const Instance extends object, const Keys extends readonly any[], const Vals extends readonly any[]>({ type, keys, rich, lean }: {
