@@ -1625,6 +1625,8 @@ declare namespace $ {
     class $giper_baza_link extends Object {
         readonly str: string;
         constructor(str: string);
+        static [Symbol.match](str: string): RegExpMatchArray | null;
+        static [Symbol.matchAll](str: string): RegExpStringIterator<RegExpExecArray>;
         static hole: $giper_baza_link;
         static check(val: string): string | null;
         [$mol_key_handle](): string;

@@ -499,169 +499,6 @@ $giper_baza_link_chip $mol_link
 		<= icon \
 		<= title
 
-$mol_stack $mol_view
-
-$mol_text_code_token $mol_dimmer
-	attr *
-		^
-		mol_text_code_token_type <= type \
-
-$mol_text_code_token_link $mol_text_code_token
-	dom_name \a
-	type \code-link
-	attr *
-		^
-		href <= uri \
-		target \_blank
-
-$mol_text_code_line $mol_paragraph
-	text \
-	minimal_height 24
-	numb_showed true
-	syntax null
-	uri_resolve* \
-	Numb $mol_view
-		sub /
-			<= numb 0
-	Token* $mol_text_code_token
-		type <= token_type* \
-		haystack <= token_text* \
-		needle <= highlight \
-	Token_link* $mol_text_code_token_link
-		haystack <= token_text* \
-		needle <= highlight \
-		uri <= token_uri* \
-	find_pos* null
-
-$mol_icon_clipboard $mol_icon path \M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3
-
-$mol_icon_clipboard_outline $mol_icon path \M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M7,7H17V5H19V19H5V5H7V7Z
-
-$mol_button_copy $mol_button_minor
-	blobs /$mol_blob
-		<= text_blob? $mol_blob /
-			/BlobPart <= text <= title
-			* type \text/plain
-		<= html_blob? $mol_blob /
-			/BlobPart <= html \
-			* type \text/html
-	data *
-	sub /
-		<= Icon $mol_icon_clipboard_outline
-		<= title \
-
-$mol_text_code $mol_stack
-	attr *
-		^
-		mol_text_code_sidebar_showed <= sidebar_showed false
-	text \
-	text_lines /string
-	find_pos* null
-	uri_base \
-	row_themes /string
-	sub /
-		<= Rows $mol_list
-			render_visible_only <= render_visible_only false
-			rows <= rows /
-				<= Row*0 $mol_text_code_line
-					numb_showed <= sidebar_showed
-					numb <= row_numb* 0
-					theme <= row_theme* \
-					text <= row_text* \
-					syntax <= syntax null
-					uri_resolve* <= uri_resolve* \
-					highlight <= highlight \
-		<= Copy $mol_button_copy
-			hint @ \Copy whole code
-			text <= text_export \
-
-$mol_icon_chevron $mol_icon path \M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z
-
-$mol_check_expand $mol_check
-	Icon $mol_icon_chevron
-	level 0
-	style *
-		^
-		paddingLeft <= level_style \0px
-	checked? <=> expanded? false
-	enabled <= expandable false
-
-$mol_dump_list $mol_view
-	values /
-	sub /
-		<= Dump*0 $mol_dump_value
-			value <= dump_value* null
-			expanded? <=> dump_expanded*? false
-			prototypes <= prototypes false
-			preview_show <= preview_show true
-
-$mol_expander $mol_list
-	rows /
-		<= Label $mol_view
-			sub /
-				<= Trigger $mol_check_expand
-					checked? <=> expanded? false
-					expandable <= expandable true
-					label <= label /
-						<= title
-				<= Tools null
-		<= Content $mol_list
-			rows <= content /
-
-$mol_dump_value $mol_view
-	value? null
-	preview_show? true
-	sub /
-		<= Simple $mol_text_code
-			text <= simple \
-		<= Expand $mol_expander
-			expanded? <=> expanded? false
-			Trigger <= Expand_head $mol_check_expand
-				minimal_height 24
-				minimal_width 24
-				expanded? <=> expanded? false
-				expandable <= expandable true
-				clicks? <=> expand_all? null
-				label /
-					<= Expand_title $mol_text_code
-						text <= expand_title \
-			content <= expand_content /
-				<= Preview $mol_view sub /
-					<= Preview_dom $mol_view
-						dom_node <= preview_dom null
-						render <= preview null
-				<= Row*0 $mol_dump_list
-					values <= row_values* /
-					prototypes <= prototypes false
-					preview_show <= preview_show
-
-$giper_baza_unit_sand_dump $mol_view
-	land $giper_baza_land
-	sand $giper_baza_unit_sand
-	Ref $giper_baza_link_chip
-		link <= value
-	Other $mol_dump_value
-		value <= value null
-
-$mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
-
-$mol_drag $mol_ghost
-	event *
-		dragstart? <=> drag_start? <=> start? null
-		drag? <=> drag_move? <=> move? null
-		dragend? <=> drag_end? <=> end? null
-	attr *
-		draggable true
-		mol_drag_status <= status? \ready
-	transfer *
-		text/plain \
-		text/html \
-		text/uri-list \
-	allow_copy true
-	allow_link true
-	allow_move true
-	image <= dom_node
-
 $mol_drop $mol_ghost
 	enabled? true
 	event *
@@ -677,12 +514,12 @@ $mol_drop $mol_ghost
 		\move
 		\link
 
-$mol_bar $mol_view
-
 $mol_icon_tick $mol_icon path \M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z
 
 $mol_check_box $mol_check
 	Icon $mol_icon_tick
+
+$mol_bar $mol_view
 
 $mol_icon_menu $mol_icon path \M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z
 
@@ -775,6 +612,8 @@ $mol_format $mol_string
 $mol_icon_trash_can $mol_icon path \M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z
 
 $mol_icon_trash_can_outline $mol_icon path \M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z
+
+$mol_icon_chevron $mol_icon path \M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z
 
 $mol_icon_chevron_double_left $mol_icon path \M18.41,7.41L17,6L11,12L17,18L18.41,16.59L13.83,12L18.41,7.41M12.41,7.41L11,6L5,12L11,18L12.41,16.59L7.83,12L12.41,7.41Z
 
@@ -893,6 +732,82 @@ $mol_date_calendar $mol_calendar
 			minimal_height 24
 			enabled <= enabled true
 
+$mol_stack $mol_view
+
+$mol_text_code_token $mol_dimmer
+	attr *
+		^
+		mol_text_code_token_type <= type \
+
+$mol_text_code_token_link $mol_text_code_token
+	dom_name \a
+	type \code-link
+	attr *
+		^
+		href <= uri \
+		target \_blank
+
+$mol_text_code_line $mol_paragraph
+	text \
+	minimal_height 24
+	numb_showed true
+	syntax null
+	uri_resolve* \
+	Numb $mol_view
+		sub /
+			<= numb 0
+	Token* $mol_text_code_token
+		type <= token_type* \
+		haystack <= token_text* \
+		needle <= highlight \
+	Token_link* $mol_text_code_token_link
+		haystack <= token_text* \
+		needle <= highlight \
+		uri <= token_uri* \
+	find_pos* null
+
+$mol_icon_clipboard $mol_icon path \M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3
+
+$mol_icon_clipboard_outline $mol_icon path \M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M7,7H17V5H19V19H5V5H7V7Z
+
+$mol_button_copy $mol_button_minor
+	blobs /$mol_blob
+		<= text_blob? $mol_blob /
+			/BlobPart <= text <= title
+			* type \text/plain
+		<= html_blob? $mol_blob /
+			/BlobPart <= html \
+			* type \text/html
+	data *
+	sub /
+		<= Icon $mol_icon_clipboard_outline
+		<= title \
+
+$mol_text_code $mol_stack
+	attr *
+		^
+		mol_text_code_sidebar_showed <= sidebar_showed false
+	text \
+	text_lines /string
+	find_pos* null
+	uri_base \
+	row_themes /string
+	sub /
+		<= Rows $mol_list
+			render_visible_only <= render_visible_only false
+			rows <= rows /
+				<= Row*0 $mol_text_code_line
+					numb_showed <= sidebar_showed
+					numb <= row_numb* 0
+					theme <= row_theme* \
+					text <= row_text* \
+					syntax <= syntax null
+					uri_resolve* <= uri_resolve* \
+					highlight <= highlight \
+		<= Copy $mol_button_copy
+			hint @ \Copy whole code
+			text <= text_export \
+
 $mol_textarea $mol_stack
 	attr *
 		^
@@ -968,6 +883,34 @@ $mol_textarea_edit $mol_string
 		^
 		scrollTop 0
 
+$mol_check_expand $mol_check
+	Icon $mol_icon_chevron
+	level 0
+	style *
+		^
+		paddingLeft <= level_style \0px
+	checked? <=> expanded? false
+	enabled <= expandable false
+
+$mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
+
+$mol_drag $mol_ghost
+	event *
+		dragstart? <=> drag_start? <=> start? null
+		drag? <=> drag_move? <=> move? null
+		dragend? <=> drag_end? <=> end? null
+	attr *
+		draggable true
+		mol_drag_status <= status? \ready
+	transfer *
+		text/plain \
+		text/html \
+		text/uri-list \
+	allow_copy true
+	allow_link true
+	allow_move true
+	image <= dom_node
+
 $mol_icon_circle $mol_icon path \M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z
 
 $mol_icon_circle_off_outline $mol_icon path \M22.11 21.46L2.39 1.73L1.11 3L4.06 5.95C2.78 7.63 2 9.72 2 12C2 17.5 6.5 22 12 22C14.28 22 16.37 21.23 18.05 19.94L20.84 22.73L22.11 21.46M12 20C7.58 20 4 16.42 4 12C4 10.27 4.56 8.68 5.5 7.38L16.62 18.5C15.32 19.45 13.73 20 12 20M8.17 4.97L6.72 3.5C8.25 2.56 10.06 2 12 2C17.5 2 22 6.5 22 12C22 13.94 21.44 15.75 20.5 17.28L19.03 15.83C19.65 14.69 20 13.39 20 12C20 7.58 16.42 4 12 4C10.61 4 9.31 4.35 8.17 4.97Z
@@ -1017,7 +960,7 @@ $mol_vary_edit $mol_list
 					Trigger_icon null
 					option_content* / <= Type_icon* $mol_icon
 					enabled <= type_mutable <= enabled true
-					dictionary *
+					dictionary <= type_dict *
 						Null \Nothing
 						Bool \Boolean
 						Bint \Integer
@@ -1025,7 +968,7 @@ $mol_vary_edit $mol_list
 						Text \Text
 						List \Array
 						Tupl \Dictionary
-					value? <=> type? \Null
+					value? <=> type? <= type_auto \Null
 			^ head /
 				<= Bool $mol_check_box
 					checked? <=> bool? false
@@ -1077,6 +1020,36 @@ $mol_vary_edit $mol_list
 					value? <=> item_val*? null
 					selection? <=> item_selection*? /
 
+$mol_icon_link $mol_icon path \M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z
+
+$giper_baza_vary_edit $mol_vary_edit
+	Vary $mol_vary_class
+	Link_icon $mol_icon_link
+	Link $giper_baza_link_chip
+		link <= link $giper_baza_link
+	type_dict *
+		^
+		Link \Link
+
+$giper_baza_unit_sand_dump $giper_baza_vary_edit
+	land $giper_baza_land
+	sand $giper_baza_unit_sand
+
+$mol_icon_content_paste $mol_icon path \M19,20H5V4H7V7H17V4H19M12,2A1,1 0 0,1 13,3A1,1 0 0,1 12,4A1,1 0 0,1 11,3A1,1 0 0,1 12,2M19,2H14.82C14.4,0.84 13.3,0 12,0C10.7,0 9.6,0.84 9.18,2H5A2,2 0 0,0 3,4V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V4A2,2 0 0,0 19,2Z
+
+$mol_expander $mol_list
+	rows /
+		<= Label $mol_view
+			sub /
+				<= Trigger $mol_check_expand
+					checked? <=> expanded? false
+					expandable <= expandable true
+					label <= label /
+						<= title
+				<= Tools null
+		<= Content $mol_list
+			rows <= content /
+
 $giper_baza_flex_field $mol_view
 	sub / <= Sub $mol_view
 	pawn? $giper_baza_pawn
@@ -1087,7 +1060,7 @@ $giper_baza_flex_field $mol_view
 		value? <=> enum? null
 		options <= enum_options /
 		option_label* <= enum_label* \
-	Atom $mol_vary_edit
+	Atom $giper_baza_vary_edit
 		enabled <= enabled true
 		value? <=> atom_value? null
 		schema <= schema null
@@ -1139,29 +1112,6 @@ $giper_baza_flex_field $mol_view
 		selection? <=> text_selection? /
 	List $mol_list
 		rows /
-			<= List_items $mol_list
-				rows <= list_items /
-					<= List_item*0 <= List_item_drop* $mol_drop
-						adopt? <=> list_item_adopt? null
-						receive? <=> list_item_receive*? null
-						allow /
-							\move
-							\copy
-						Sub <= List_item_drag* $mol_drag
-							end? <=> list_item_drag_end*? null
-							transfer *
-								text/plain <= list_item_value* \
-								text/html <= list_item_html* \
-								text/uri-list <= list_item_uri* \
-							Sub <= List_item_content* $mol_view sub /
-								<= List_item_kill* $mol_button_minor
-									clicks? <=> list_item_kill*? null
-									hint \Double to remove
-									sub /
-										<= List_item_kill_icon* $mol_icon_close
-								<= List_item_dump* $giper_baza_unit_sand_dump
-									land <= land
-									sand <= list_sand* $giper_baza_unit_sand
 			<= List_drop $mol_drop
 				adopt? <=> list_item_adopt? null
 				receive? <=> list_receive? null
@@ -1178,11 +1128,30 @@ $giper_baza_flex_field $mol_view
 						enabled <= enabled true
 						click? <=> list_item_add? null
 						title \+
-					<= List_item_link $mol_string
+					<= List_item_paste $mol_button_minor
 						enabled <= enabled true
-						value? <=> list_item_link_value? \
-						submit? <=> list_item_link? null
-						hint \Link
+						click? <=> list_item_paste? null
+						title \Paste item
+						sub /
+							<= List_item_paste_icon $mol_icon_content_paste
+			<= List_items $mol_list
+				rows <= list_items /
+					<= List_item*0 <= List_item_drop* $mol_drop
+						adopt? <=> list_item_adopt? null
+						receive? <=> list_item_receive*? null
+						allow /
+							\move
+							\copy
+						Sub <= List_item_drag* $mol_drag
+							end? <=> list_item_drag_end*? null
+							transfer *
+								text/plain <= list_item_text* \
+								text/html <= list_item_html* \
+								text/uri-list <= list_item_uri* \
+							Sub <= List_item_dump* $giper_baza_unit_sand_dump
+								land <= land
+								sand <= list_item_sand* $giper_baza_unit_sand
+								enabled <= enabled
 
 $giper_baza_flex_form $mol_list
 	pawn $giper_baza_dict
