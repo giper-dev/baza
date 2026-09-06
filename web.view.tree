@@ -1065,15 +1065,6 @@ $giper_baza_flex_field $mol_view
 		value? <=> atom_value? null
 		schema <= schema null
 		selection? <=> atom_selection? /
-	Bool $mol_check_box
-		enabled <= enabled true
-		checked? <=> bool? false
-	Int $mol_number
-		enabled <= enabled true
-		value? <=> int? +NaN
-	Real $mol_number
-		enabled <= enabled true
-		value? <=> real? +NaN
 	Ref $mol_bar sub <= link_content /
 		<= Link_dump $giper_baza_unit_sand_dump
 			land <= land
@@ -1198,25 +1189,6 @@ $giper_baza_pawn_dump $mol_expander
 			<= Pawn_inner* $giper_baza_pawn_dump
 				tag <= unit_tag*
 				addons <= pawn_addons* /
-					- <= Unit_tip* $mol_select
-						value? <=> unit_tip*? \bin
-						enabled <= can_change
-						dictionary *
-							bin \💠 bin
-							bool \🚩 bool
-							int \1️⃣ int
-							real \💫 real
-							ints \🔢 ints
-							reals \✨ reals
-							link \🎯 link
-							str \🔠 str
-							time \⏰ time
-							dur \🕓 dur
-							range \🎬 range
-							json \📑 json
-							jsan \📚 jsan
-							xml \🛐 xml
-							tree \🌴 tree
 					<= Unit_tag* $mol_select
 						value? <=> unit_tag*? \term
 						enabled <= can_change
@@ -1226,10 +1198,6 @@ $giper_baza_pawn_dump $mol_expander
 							vals \🎹 vals
 							keys \🔑 keys
 					<= Unit_time* $mol_view sub / <= unit_time* \
-					<= Unit_wipe* $mol_button_minor
-						sub / <= Unit_wipe_icon* $mol_icon_close
-						enabled <= can_change
-						click? <=> unit_wipe*? null
 					<= Unit_value* $giper_baza_unit_sand_dump
 						land <= land
 						sand <= unit_value* null

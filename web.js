@@ -22363,18 +22363,6 @@ var $;
 			if(next !== undefined) return next;
 			return [];
 		}
-		bool(next){
-			if(next !== undefined) return next;
-			return false;
-		}
-		int(next){
-			if(next !== undefined) return next;
-			return +NaN;
-		}
-		real(next){
-			if(next !== undefined) return next;
-			return +NaN;
-		}
 		link_value(){
 			return null;
 		}
@@ -22621,24 +22609,6 @@ var $;
 			(obj.selection) = (next) => ((this.atom_selection(next)));
 			return obj;
 		}
-		Bool(){
-			const obj = new this.$.$mol_check_box();
-			(obj.enabled) = () => ((this.enabled()));
-			(obj.checked) = (next) => ((this.bool(next)));
-			return obj;
-		}
-		Int(){
-			const obj = new this.$.$mol_number();
-			(obj.enabled) = () => ((this.enabled()));
-			(obj.value) = (next) => ((this.int(next)));
-			return obj;
-		}
-		Real(){
-			const obj = new this.$.$mol_number();
-			(obj.enabled) = () => ((this.enabled()));
-			(obj.value) = (next) => ((this.real(next)));
-			return obj;
-		}
 		Ref(){
 			const obj = new this.$.$mol_bar();
 			(obj.sub) = () => ((this.link_content()));
@@ -22680,9 +22650,6 @@ var $;
 	($mol_mem(($.$giper_baza_flex_field.prototype), "enum"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "atom_value"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "atom_selection"));
-	($mol_mem(($.$giper_baza_flex_field.prototype), "bool"));
-	($mol_mem(($.$giper_baza_flex_field.prototype), "int"));
-	($mol_mem(($.$giper_baza_flex_field.prototype), "real"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "Link_dump"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "link"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "Link_pick"));
@@ -22718,9 +22685,6 @@ var $;
 	($mol_mem(($.$giper_baza_flex_field.prototype), "prop"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "Enum"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "Atom"));
-	($mol_mem(($.$giper_baza_flex_field.prototype), "Bool"));
-	($mol_mem(($.$giper_baza_flex_field.prototype), "Int"));
-	($mol_mem(($.$giper_baza_flex_field.prototype), "Real"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "Ref"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "Str"));
 	($mol_mem(($.$giper_baza_flex_field.prototype), "Time"));
@@ -23016,11 +22980,11 @@ var $;
                     case 'vary': return this.Atom();
                     case 'enum': return this.Enum();
                     case 'bool': return this.Atom();
-                    case 'int': return this.Int();
-                    case 'real': return this.Real();
+                    case 'int': return this.Atom();
+                    case 'real': return this.Atom();
                     case 'str': return this.Atom();
                     case 'link': return this.Ref();
-                    case 'time': return this.Time();
+                    case 'time': return this.Atom();
                     case 'dict': return this.Dict();
                     case 'text': return this.Text();
                     case 'list': return this.List();
@@ -23057,24 +23021,6 @@ var $;
                         return ['', 0, 0];
                     return [sel[0][0].slice(link.length), sel[0][1], sel[1][1]];
                 }
-            }
-            bool(next) {
-                return this.pawn(next)?.cast($giper_baza_atom_bool).val(next) ?? false;
-            }
-            int(next) {
-                return Number(this.pawn(next)?.cast($giper_baza_atom_bint).val(next === undefined ? undefined : BigInt(next)) ?? Number.NaN);
-            }
-            real(next) {
-                return this.pawn(next)?.cast($giper_baza_atom_real).val(next) ?? Number.NaN;
-            }
-            str(next) {
-                return this.pawn(next)?.cast($giper_baza_atom_text).val(next) ?? '';
-            }
-            str_selection(next) {
-                return this.pawn(next)?.cast($giper_baza_atom_text).selection(this.land().auth().pass().lord(), next) ?? [0, 0];
-            }
-            time(next) {
-                return this.pawn(next)?.cast($giper_baza_atom_time).val(next) ?? null;
             }
             link(next) {
                 this.pawn(next)?.cast($giper_baza_atom_link).val(next) ?? null;
@@ -23541,21 +23487,6 @@ var $;
 			(obj.sub) = () => ([(this.unit_time(id))]);
 			return obj;
 		}
-		Unit_wipe_icon(id){
-			const obj = new this.$.$mol_icon_close();
-			return obj;
-		}
-		unit_wipe(id, next){
-			if(next !== undefined) return next;
-			return null;
-		}
-		Unit_wipe(id){
-			const obj = new this.$.$mol_button_minor();
-			(obj.sub) = () => ([(this.Unit_wipe_icon(id))]);
-			(obj.enabled) = () => ((this.can_change()));
-			(obj.click) = (next) => ((this.unit_wipe(id, next)));
-			return obj;
-		}
 		unit_value(id){
 			return null;
 		}
@@ -23569,7 +23500,6 @@ var $;
 			return [
 				(this.Unit_tag(id)), 
 				(this.Unit_time(id)), 
-				(this.Unit_wipe(id)), 
 				(this.Unit_value(id))
 			];
 		}
@@ -23636,9 +23566,6 @@ var $;
 	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "unit_tag"));
 	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "Unit_tag"));
 	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "Unit_time"));
-	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "Unit_wipe_icon"));
-	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "unit_wipe"));
-	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "Unit_wipe"));
 	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "Unit_value"));
 	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "pawn_inner"));
 	($mol_mem_key(($.$giper_baza_pawn_dump.prototype), "Pawn_inner"));
@@ -23683,20 +23610,6 @@ var $;
                 }
                 return this.units()[index].tag();
             }
-            // unit_tip( index: number, next?: keyof typeof $giper_baza_vary_tip ) {
-            // 	if( next ) {
-            // 		const units = this.units()
-            // 		const unit = units[ index ]
-            // 		this.pawn().land().post(
-            // 			index ? units[ index - 1 ].self() : $giper_baza_link.hole,
-            // 			unit.head(),
-            // 			unit.self(),
-            // 			[ $giper_baza_vary_cast( next, this.pawn().land().sand_decode( unit ) ) ],
-            // 			unit.tag(),
-            // 		)
-            // 	}
-            // 	return this.units()[ index ].tip()
-            // }
             unit_time(index) {
                 const unit = this.units()[index];
                 return $giper_baza_time_dump(unit.time(), unit.tick());
@@ -23704,39 +23617,8 @@ var $;
             unit_value(index) {
                 return this.units()[index];
             }
-            unit_wipe(index, event) {
-                this.pawn().land().sand_wipe(this.units()[index]);
-            }
             pawn_inner(index) {
                 return this.pawn().land().Pawn($giper_baza_dict).Head(this.units()[index].self());
-            }
-            add_key(event) {
-                if (!this.expandable())
-                    this.expanded(true);
-                this.pawn().cast($giper_baza_list).has(this.key_new(), true, 'solo');
-                this.key_new('');
-            }
-            add_value(event) {
-                if (!this.expandable())
-                    this.expanded(true);
-                this.pawn().cast($giper_baza_list).splice([this.value_new()]);
-                this.value_new('');
-            }
-            value_str(next) {
-                return this.pawn().cast($giper_baza_atom_text).val(next) ?? '';
-            }
-            text(next) {
-                return this.pawn().cast($giper_baza_text).str(next);
-            }
-            editors() {
-                return [
-                    ...this.tag() === 'keys' ? [this.Add_key()] : [],
-                    ...this.tag() === 'vals' ? [
-                        this.Add_value(),
-                        // this.Value_text(),
-                    ] : [],
-                    // ... this.tag() === 'solo' ? [ this.Value_str() ] : [],
-                ];
             }
         }
         __decorate([
@@ -23745,9 +23627,6 @@ var $;
         __decorate([
             $mol_mem
         ], $giper_baza_pawn_dump.prototype, "pawns", null);
-        __decorate([
-            $mol_mem
-        ], $giper_baza_pawn_dump.prototype, "editors", null);
         $$.$giper_baza_pawn_dump = $giper_baza_pawn_dump;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));

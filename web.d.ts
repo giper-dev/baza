@@ -38225,92 +38225,62 @@ declare namespace $ {
 		,
 		ReturnType< $giper_baza_vary_edit['selection'] >
 	>
-	type $mol_check_box__enabled_giper_baza_flex_field_48 = $mol_type_enforce<
-		ReturnType< $giper_baza_flex_field['enabled'] >
-		,
-		ReturnType< $mol_check_box['enabled'] >
-	>
-	type $mol_check_box__checked_giper_baza_flex_field_49 = $mol_type_enforce<
-		ReturnType< $giper_baza_flex_field['bool'] >
-		,
-		ReturnType< $mol_check_box['checked'] >
-	>
-	type $mol_number__enabled_giper_baza_flex_field_50 = $mol_type_enforce<
-		ReturnType< $giper_baza_flex_field['enabled'] >
-		,
-		ReturnType< $mol_number['enabled'] >
-	>
-	type $mol_number__value_giper_baza_flex_field_51 = $mol_type_enforce<
-		ReturnType< $giper_baza_flex_field['int'] >
-		,
-		ReturnType< $mol_number['value'] >
-	>
-	type $mol_number__enabled_giper_baza_flex_field_52 = $mol_type_enforce<
-		ReturnType< $giper_baza_flex_field['enabled'] >
-		,
-		ReturnType< $mol_number['enabled'] >
-	>
-	type $mol_number__value_giper_baza_flex_field_53 = $mol_type_enforce<
-		ReturnType< $giper_baza_flex_field['real'] >
-		,
-		ReturnType< $mol_number['value'] >
-	>
-	type $mol_bar__sub_giper_baza_flex_field_54 = $mol_type_enforce<
+	type $mol_bar__sub_giper_baza_flex_field_48 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['link_content'] >
 		,
 		ReturnType< $mol_bar['sub'] >
 	>
-	type $mol_textarea__enabled_giper_baza_flex_field_55 = $mol_type_enforce<
+	type $mol_textarea__enabled_giper_baza_flex_field_49 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['enabled'] >
 		,
 		ReturnType< $mol_textarea['enabled'] >
 	>
-	type $mol_textarea__value_giper_baza_flex_field_56 = $mol_type_enforce<
+	type $mol_textarea__value_giper_baza_flex_field_50 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['str'] >
 		,
 		ReturnType< $mol_textarea['value'] >
 	>
-	type $mol_textarea__selection_giper_baza_flex_field_57 = $mol_type_enforce<
+	type $mol_textarea__selection_giper_baza_flex_field_51 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['str_selection'] >
 		,
 		ReturnType< $mol_textarea['selection'] >
 	>
-	type $mol_date__enabled_giper_baza_flex_field_58 = $mol_type_enforce<
+	type $mol_date__enabled_giper_baza_flex_field_52 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['enabled'] >
 		,
 		ReturnType< $mol_date['enabled'] >
 	>
-	type $mol_date__value_moment_giper_baza_flex_field_59 = $mol_type_enforce<
+	type $mol_date__value_moment_giper_baza_flex_field_53 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['time'] >
 		,
 		ReturnType< $mol_date['value_moment'] >
 	>
-	type $mol_expander__title_giper_baza_flex_field_60 = $mol_type_enforce<
+	type $mol_expander__title_giper_baza_flex_field_54 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['dict_title'] >
 		,
 		ReturnType< $mol_expander['title'] >
 	>
-	type $mol_expander__content_giper_baza_flex_field_61 = $mol_type_enforce<
+	type $mol_expander__content_giper_baza_flex_field_55 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_expander['content'] >
 	>
-	type $mol_textarea__enabled_giper_baza_flex_field_62 = $mol_type_enforce<
+	type $mol_textarea__enabled_giper_baza_flex_field_56 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['enabled'] >
 		,
 		ReturnType< $mol_textarea['enabled'] >
 	>
-	type $mol_textarea__value_giper_baza_flex_field_63 = $mol_type_enforce<
+	type $mol_textarea__value_giper_baza_flex_field_57 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['text'] >
 		,
 		ReturnType< $mol_textarea['value'] >
 	>
-	type $mol_textarea__selection_giper_baza_flex_field_64 = $mol_type_enforce<
+	type $mol_textarea__selection_giper_baza_flex_field_58 = $mol_type_enforce<
 		ReturnType< $giper_baza_flex_field['text_selection'] >
 		,
 		ReturnType< $mol_textarea['selection'] >
 	>
-	type $mol_list__rows_giper_baza_flex_field_65 = $mol_type_enforce<
+	type $mol_list__rows_giper_baza_flex_field_59 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_list['rows'] >
@@ -38324,9 +38294,6 @@ declare namespace $ {
 		atom_value( next?: any ): any
 		schema( ): any
 		atom_selection( next?: readonly(any)[] ): readonly(any)[]
-		bool( next?: boolean ): boolean
-		int( next?: number ): number
-		real( next?: number ): number
 		link_value( ): any
 		Link_dump( ): $giper_baza_unit_sand_dump
 		link( next?: any ): any
@@ -38375,9 +38342,6 @@ declare namespace $ {
 		prop( ): $giper_baza_flex_prop
 		Enum( ): $mol_select
 		Atom( ): $giper_baza_vary_edit
-		Bool( ): $mol_check_box
-		Int( ): $mol_number
-		Real( ): $mol_number
 		Ref( ): $mol_bar
 		Str( ): $mol_textarea
 		Time( ): $mol_date
@@ -38393,7 +38357,7 @@ declare namespace $.$$ {
     class $giper_baza_flex_field extends $.$giper_baza_flex_field {
         dict_pawn(): $giper_baza_dict;
         schema(): "Bool" | "Bint" | "Real" | "Text" | null;
-        Sub(): $.$mol_list | $.$mol_select | $mol_bar | $.$mol_number | $.$mol_date | $.$mol_textarea | $.$giper_baza_vary_edit | $.$mol_expander;
+        Sub(): $.$mol_list | $.$mol_select | $mol_bar | $.$mol_textarea | $.$giper_baza_vary_edit | $.$mol_expander;
         enum(next?: $giper_baza_vary_type): string | number | bigint | boolean | Element | $giper_baza_link | Uint8Array<ArrayBuffer> | Uint16Array<ArrayBuffer> | Uint32Array<ArrayBuffer> | BigUint64Array<ArrayBuffer> | Int8Array<ArrayBuffer> | Int16Array<ArrayBuffer> | Int32Array<ArrayBuffer> | BigInt64Array<ArrayBuffer> | Float64Array<ArrayBuffer> | Float32Array<ArrayBuffer> | $mol_time_moment | $mol_time_duration | $mol_time_interval | $mol_tree2 | readonly $giper_baza_vary_type[] | Readonly<{
             [x: string]: $giper_baza_vary_type;
         }> | null;
@@ -38403,12 +38367,6 @@ declare namespace $.$$ {
             [x: string]: $giper_baza_vary_type;
         }> | null;
         atom_selection(next?: readonly [path: string, begin: number, end: number]): (string | number)[] | readonly [path: string, begin: number, end: number];
-        bool(next?: boolean): boolean;
-        int(next?: number): number;
-        real(next?: number): number;
-        str(next?: string): string;
-        str_selection(next?: readonly [begin: number, end: number]): number[] | readonly [begin: number, end: number];
-        time(next?: $mol_time_moment): $mol_time_moment;
         link(next?: $giper_baza_link): null;
         link_content(): ($.$mol_select | $.$giper_baza_unit_sand_dump)[];
         link_value(): string | number | bigint | boolean | Element | $giper_baza_link | Uint8Array<ArrayBuffer> | Uint16Array<ArrayBuffer> | Uint32Array<ArrayBuffer> | BigUint64Array<ArrayBuffer> | Int8Array<ArrayBuffer> | Int16Array<ArrayBuffer> | Int32Array<ArrayBuffer> | BigInt64Array<ArrayBuffer> | Float64Array<ArrayBuffer> | Float32Array<ArrayBuffer> | $mol_time_moment | $mol_time_duration | $mol_time_interval | $mol_tree2 | readonly $giper_baza_vary_type[] | Readonly<{
@@ -38600,52 +38558,37 @@ declare namespace $ {
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_button_minor__sub_giper_baza_pawn_dump_18 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_button_minor['sub'] >
-	>
-	type $mol_button_minor__enabled_giper_baza_pawn_dump_19 = $mol_type_enforce<
-		ReturnType< $giper_baza_pawn_dump['can_change'] >
-		,
-		ReturnType< $mol_button_minor['enabled'] >
-	>
-	type $mol_button_minor__click_giper_baza_pawn_dump_20 = $mol_type_enforce<
-		ReturnType< $giper_baza_pawn_dump['unit_wipe'] >
-		,
-		ReturnType< $mol_button_minor['click'] >
-	>
-	type $giper_baza_unit_sand_dump__land_giper_baza_pawn_dump_21 = $mol_type_enforce<
+	type $giper_baza_unit_sand_dump__land_giper_baza_pawn_dump_18 = $mol_type_enforce<
 		ReturnType< $giper_baza_pawn_dump['land'] >
 		,
 		ReturnType< $giper_baza_unit_sand_dump['land'] >
 	>
-	type $giper_baza_unit_sand_dump__sand_giper_baza_pawn_dump_22 = $mol_type_enforce<
+	type $giper_baza_unit_sand_dump__sand_giper_baza_pawn_dump_19 = $mol_type_enforce<
 		ReturnType< $giper_baza_pawn_dump['unit_value'] >
 		,
 		ReturnType< $giper_baza_unit_sand_dump['sand'] >
 	>
-	type $giper_baza_pawn_dump__tag_giper_baza_pawn_dump_23 = $mol_type_enforce<
+	type $giper_baza_pawn_dump__tag_giper_baza_pawn_dump_20 = $mol_type_enforce<
 		ReturnType< $giper_baza_pawn_dump['unit_tag'] >
 		,
 		ReturnType< $giper_baza_pawn_dump['tag'] >
 	>
-	type $giper_baza_pawn_dump__addons_giper_baza_pawn_dump_24 = $mol_type_enforce<
+	type $giper_baza_pawn_dump__addons_giper_baza_pawn_dump_21 = $mol_type_enforce<
 		ReturnType< $giper_baza_pawn_dump['pawn_addons'] >
 		,
 		ReturnType< $giper_baza_pawn_dump['addons'] >
 	>
-	type $giper_baza_pawn_dump__pawn_giper_baza_pawn_dump_25 = $mol_type_enforce<
+	type $giper_baza_pawn_dump__pawn_giper_baza_pawn_dump_22 = $mol_type_enforce<
 		ReturnType< $giper_baza_pawn_dump['pawn_inner'] >
 		,
 		ReturnType< $giper_baza_pawn_dump['pawn'] >
 	>
-	type $mol_view__sub_giper_baza_pawn_dump_26 = $mol_type_enforce<
+	type $mol_view__sub_giper_baza_pawn_dump_23 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_view__sub_giper_baza_pawn_dump_27 = $mol_type_enforce<
+	type $mol_view__sub_giper_baza_pawn_dump_24 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
@@ -38669,9 +38612,6 @@ declare namespace $ {
 		Unit_tag( id: any): $mol_select
 		unit_time( id: any): string
 		Unit_time( id: any): $mol_view
-		Unit_wipe_icon( id: any): $mol_icon_close
-		unit_wipe( id: any, next?: any ): any
-		Unit_wipe( id: any): $mol_button_minor
 		unit_value( id: any): any
 		Unit_value( id: any): $giper_baza_unit_sand_dump
 		pawn_addons( id: any): readonly(any)[]
@@ -38701,13 +38641,7 @@ declare namespace $.$$ {
         unit_tag(index: number, next?: keyof typeof $giper_baza_unit_sand_tag): "keys" | "term" | "solo" | "vals";
         unit_time(index: number): string;
         unit_value(index: number): $giper_baza_unit_sand;
-        unit_wipe(index: number, event?: Event): void;
         pawn_inner(index: number): $giper_baza_dict;
-        add_key(event: Event): void;
-        add_value(event: Event): void;
-        value_str(next?: string): string;
-        text(next?: string): string;
-        editors(): $.$mol_textarea[];
     }
 }
 
