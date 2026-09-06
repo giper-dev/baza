@@ -21,8 +21,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		icon() {
-			
-			return this.subj()?.icon() || '💠'
+			return ( this.subj()?.icon() || '💠' ) + ' '
 		}
 		
 		@ $mol_mem

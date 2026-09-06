@@ -5,7 +5,7 @@ namespace $.$$ {
 			
 			$mol_assert_fail(
 				()=> new $giper_baza_link( 'qwertyui_asdfghjk123' ),
-				'Wrong Link (qwertyui_asdfghjk123)',
+				'Wrong Link',
 			)
 			
 		},

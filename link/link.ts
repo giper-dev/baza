@@ -4,16 +4,26 @@ namespace $ {
 		return ( right.str > left.str ? 1 : right.str < left.str ? -1 : 0 )
 	}
 	
+	const regexp = /(?<![\p{L}_])(?:(?:[a-zæA-ZÆ0-9]{8})?_){0,3}(?:[a-zæA-ZÆ0-9]{8})(?![\p{L}_])/gu
+	
 	export class $giper_baza_link extends Object {
 		
 		constructor( readonly str: string ) {
 			super()
 			
-			if( !/^(([a-zæA-ZÆ0-9]{8})?_){0,3}([a-zæA-ZÆ0-9]{8})?$/.test( str ) ) {
-				$mol_fail( new Error( `Wrong Link (${str})` ) )
-			}
+			const short = str.replace( /AAAAAAAA/g, '' ).replace( /_+$/, '' )
+			const found = short && ( short.match( regexp )?.[0] ?? null )
+			if( found !== short ) $mol_fail( new Error( 'Wrong Link', { cause: str } ) )
 		
-			this.str = str.replace( /AAAAAAAA/g, '' ).replace( /_+$/, '' )
+			this.str = found
+		}
+		
+		static [ Symbol.match ]( str: string ) {
+			return str.match( regexp )
+		}
+		
+		static [ Symbol.matchAll ]( str: string ) {
+			return str.matchAll( regexp )
 		}
 		
 		static hole = new this( '' )

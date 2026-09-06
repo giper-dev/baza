@@ -1,0 +1,8 @@
+$giper_baza_vary_edit $mol_vary_edit
+	Vary $mol_vary_class
+	Link_icon $mol_icon_link
+	Link $giper_baza_link_chip
+		link <= link $giper_baza_link
+	type_dict *
+		^
+		Link \Link
