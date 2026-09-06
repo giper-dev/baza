@@ -31,11 +31,11 @@ namespace $.$$ {
 				case 'vary': return this.Atom()
 				case 'enum': return this.Enum()
 				case 'bool': return this.Atom()
-				case 'int': return this.Int()
-				case 'real': return this.Real()
+				case 'int': return this.Atom()
+				case 'real': return this.Atom()
 				case 'str': return this.Atom()
 				case 'link': return this.Ref()
-				case 'time': return this.Time()
+				case 'time': return this.Atom()
 				case 'dict': return this.Dict()
 				case 'text': return this.Text()
 				case 'list': return this.List()
@@ -83,30 +83,6 @@ namespace $.$$ {
 				return [ sel[0][0].slice( link.length ), sel[0][1], sel[1][1] ]
 			}
 
-		}
-		
-		bool( next?: boolean ) {
-			return this.pawn( next as any )?.cast( $giper_baza_atom_bool ).val( next ) ?? false
-		}
-		
-		int( next?: number ) {
-			return Number( this.pawn( next as any )?.cast( $giper_baza_atom_bint ).val( next === undefined ? undefined : BigInt( next ) ) ?? Number.NaN )
-		}
-		
-		real( next?: number ) {
-			return this.pawn( next as any )?.cast( $giper_baza_atom_real ).val( next ) ?? Number.NaN
-		}
-		
-		str( next?: string ) {
-			return this.pawn( next as any )?.cast( $giper_baza_atom_text ).val( next ) ?? ''
-		}
-		
-		str_selection( next?: readonly[ begin: number, end: number ] ) {
-			return this.pawn( next as any )?.cast( $giper_baza_atom_text ).selection( this.land().auth().pass().lord(), next ) ?? [ 0, 0 ]
-		}
-		
-		time( next?: $mol_time_moment ) {
-			return this.pawn( next as any )?.cast( $giper_baza_atom_time ).val( next ) ?? null!
 		}
 		
 		link( next?: $giper_baza_link ) {
