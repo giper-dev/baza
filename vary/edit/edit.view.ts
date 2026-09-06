@@ -1,8 +1,12 @@
 namespace $.$$ {
 	export class $giper_baza_vary_edit extends $.$giper_baza_vary_edit {
 		
-		Vary() {
-			return this.$.$giper_baza_vary
+		@ $mol_memo.field
+		get $() {
+			return super.$.$mol_ambient({
+				$mol_vary_edit: super.$.$giper_baza_vary_edit as any as typeof $mol_vary_edit,
+				$mol_vary: super.$.$giper_baza_vary,
+			})
 		}
 		
 		type( next?: string ) {
