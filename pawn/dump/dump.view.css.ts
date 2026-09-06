@@ -93,9 +93,8 @@ namespace $.$$ {
 		},
 		
 		Unit_value: {
-			// padding: $mol_gap.text,
-			align: {
-				self: 'flex-start',
+			flex: {
+				grow: 1,
 			},
 		},
 		
