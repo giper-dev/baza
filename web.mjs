@@ -22148,6 +22148,8 @@ var $;
     (function ($$) {
         class $giper_baza_vary_edit extends $.$giper_baza_vary_edit {
             get $() {
+                if (super.$.$mol_vary_edit === this.constructor)
+                    return super.$;
                 return super.$.$mol_ambient({
                     $mol_vary_edit: super.$.$giper_baza_vary_edit,
                     $mol_vary: super.$.$giper_baza_vary,
