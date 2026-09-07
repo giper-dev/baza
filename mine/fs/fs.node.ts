@@ -117,7 +117,7 @@ namespace $ {
 				const tx = this.sides[0].open( 'read_only' )
 				const data = tx.read()
 				tx.destructor()
-				this.pool().acquire( data.byteLength )
+				this.pool().acquire( Math.ceil( data.byteLength / 8 ) * 8 )
 				return data
 			} catch( error: any ) {
 				if( error.code === 'ENOENT' ) return new Uint8Array()
