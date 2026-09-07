@@ -3,6 +3,7 @@ namespace $.$$ {
 		
 		@ $mol_memo.field
 		get $() {
+			if( super.$.$mol_vary_edit === this.constructor ) return super.$
 			return super.$.$mol_ambient({
 				$mol_vary_edit: super.$.$giper_baza_vary_edit as any as typeof $mol_vary_edit,
 				$mol_vary: super.$.$giper_baza_vary,
