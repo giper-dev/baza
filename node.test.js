@@ -2542,6 +2542,7 @@ var $;
     class $mol_rest_port extends $mol_object {
         send_code(code) { }
         send_type(mime) { }
+        send_name(name) { }
         origin() { return 'unknown'; }
         address() { return 'unknown'; }
         send_data(data) {
@@ -4486,6 +4487,15 @@ var $;
                 return;
             this.output.setHeader('content-type', mime);
         }
+        send_name(name) {
+            if (this.output.writableEnded)
+                return;
+            if (this.output.getHeader('content-disposition'))
+                return;
+            const utf8 = encodeURIComponent(name)
+                .replace(/['()*]/g, char => '%' + char.charCodeAt(0).toString(16).toUpperCase());
+            this.output.setHeader('content-disposition', `inline; filename*=UTF-8''${utf8}`);
+        }
         send_bin(data) {
             if (this.output.writableEnded)
                 return;
@@ -4499,6 +4509,9 @@ var $;
     __decorate([
         $mol_action
     ], $mol_rest_port_http.prototype, "send_type", null);
+    __decorate([
+        $mol_action
+    ], $mol_rest_port_http.prototype, "send_name", null);
     __decorate([
         $mol_action
     ], $mol_rest_port_http.prototype, "send_bin", null);
