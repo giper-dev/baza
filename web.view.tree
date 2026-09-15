@@ -1056,6 +1056,72 @@ $mol_expander $mol_list
 		<= Content $mol_list
 			rows <= content /
 
+$mol_icon_exclamation $mol_icon path \M 11,4L 13,4L 13,15L 11,15L 11,4 Z M 13,18L 13,20L 11,20L 11,18L 13,18 Z
+
+$mol_icon_exclamation_thick $mol_icon path \M10 3H14V14H10V3M10 21V17H14V21H10Z
+
+$mol_icon_function $mol_icon path \M15.6,5.29C14.5,5.19 13.53,6 13.43,7.11L13.18,10H16V12H13L12.56,17.07C12.37,19.27 10.43,20.9 8.23,20.7C6.92,20.59 5.82,19.86 5.17,18.83L6.67,17.33C6.91,18.07 7.57,18.64 8.4,18.71C9.5,18.81 10.47,18 10.57,16.89L11,12H8V10H11.17L11.44,6.93C11.63,4.73 13.57,3.1 15.77,3.3C17.08,3.41 18.18,4.14 18.83,5.17L17.33,6.67C17.09,5.93 16.43,5.36 15.6,5.29Z
+
+$mol_icon_plus_thick $mol_icon path \M20 14H14V20H10V14H4V10H10V4H14V10H20V14Z
+
+$mol_icon_minus $mol_icon path \M19,13H5V11H19V13Z
+
+$mol_icon_minus_thick $mol_icon path \M20 14H4V10H20
+
+$mol_icon_xml $mol_icon path \M12.89,3L14.85,3.4L11.11,21L9.15,20.6L12.89,3M19.59,12L16,8.41V5.58L22.42,12L16,18.41V15.58L19.59,12M1.58,12L8,5.58V8.41L4.41,12L8,15.58V18.41L1.58,12Z
+
+$mol_float $mol_view
+	style *
+		^
+		minHeight \auto
+
+$giper_baza_dom_edit $mol_view
+	pawn? $giper_baza_dom
+	enabled true
+	hint \
+	auto /
+		<= selection_load null
+		<= selection_sync null
+	plugins /
+		<= Inline_toggle $mol_hotkey
+			mod_ctrl true
+			key *
+				B? <=> inline_toggle*strong? null - \Brutal
+				I? <=> inline_toggle*em? null - \Ironic
+				U? <=> inline_toggle*ins? null - \Update
+				O? <=> inline_toggle*del? null - \Omit
+				M? <=> inline_toggle*code? null - \Monospace
+	sub /
+		<= Tools $mol_float sub /
+			<= Strong_button $mol_button_minor
+				hint \Strong: Ctrl+B
+				click? <=> inline_toggle*strong?
+				sub / <= Strong_icon $mol_icon_exclamation_thick
+			<= Em_button $mol_button_minor
+				hint \Emphasis: Ctrl+I
+				click? <=> inline_toggle*em?
+				sub / <= Em_icon $mol_icon_function
+			<= Ins_button $mol_button_minor
+				hint \Insertion: Ctrl+U
+				click? <=> inline_toggle*ins?
+				sub / <= Ins_icon $mol_icon_plus_thick
+			<= Del_button $mol_button_minor
+				hint \Deletion: Ctrl+O
+				click? <=> inline_toggle*del?
+				sub / <= Del_icon $mol_icon_minus_thick
+			<= Code_button $mol_button_minor
+				hint \Code: Ctrl+M
+				click? <=> inline_toggle*code?
+				sub / <= Code_icon $mol_icon_xml
+		<= Content $mol_view
+			attr *
+				contenteditable <= editable? \true
+			event *
+				input? <=> save? null
+				paste? <=> paste? null
+				pointermove? <=> hover? null
+			sub <= content /
+
 $giper_baza_flex_field $mol_view
 	sub / <= Sub $mol_view
 	pawn? $giper_baza_pawn
@@ -1107,6 +1173,9 @@ $giper_baza_flex_field $mol_view
 		enabled <= enabled true
 		value? <=> text? \
 		selection? <=> text_selection? /
+	Rich $giper_baza_dom_edit
+		enabled <= enabled true
+		pawn? <=> rich_pawn? $giper_baza_dom
 	List $mol_list
 		rows /
 			<= List_drop $mol_drop
