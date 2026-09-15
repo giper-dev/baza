@@ -22896,7 +22896,7 @@ var $;
 		}
 		Strong_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ("Strong");
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Strong_button_title")));
 			(obj.hint) = () => ("Ctrl+B");
 			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("strong", next)));
@@ -22904,7 +22904,7 @@ var $;
 		}
 		Em_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ("Emphasis");
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Em_button_title")));
 			(obj.hint) = () => ("Ctrl+I");
 			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("em", next)));
@@ -22912,7 +22912,7 @@ var $;
 		}
 		Ins_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ("Insertion");
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Ins_button_title")));
 			(obj.hint) = () => ("Ctrl+U");
 			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("ins", next)));
@@ -22920,7 +22920,7 @@ var $;
 		}
 		Del_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ("Deletion");
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Del_button_title")));
 			(obj.hint) = () => ("Ctrl+O");
 			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("del", next)));
@@ -22928,7 +22928,7 @@ var $;
 		}
 		Code_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ("Code");
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Code_button_title")));
 			(obj.hint) = () => ("Ctrl+M");
 			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("code", next)));
@@ -22936,7 +22936,7 @@ var $;
 		}
 		Inline_format_menu(){
 			const obj = new this.$.$mol_pick();
-			(obj.hint) = () => ("Inline Formating");
+			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Inline_format_menu_hint")));
 			(obj.trigger_content) = () => ([(this.Inline_format_menu_icon())]);
 			(obj.bubble_content) = () => ([
 				(this.Strong_button()), 
@@ -22953,21 +22953,21 @@ var $;
 		}
 		Header_inc_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ("Increase");
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Header_inc_button_title")));
 			(obj.hint) = () => ("Ctrl+H");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Header_dec_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ("Decrease");
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Header_dec_button_title")));
 			(obj.hint) = () => ("Ctrl+Shift+H");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Heading_menu(){
 			const obj = new this.$.$mol_pick();
-			(obj.hint) = () => ("Heading");
+			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Heading_menu_hint")));
 			(obj.trigger_content) = () => ([(this.Heading_menu_icon())]);
 			(obj.bubble_content) = () => ([(this.Header_inc_button()), (this.Header_dec_button())]);
 			return obj;
@@ -22978,35 +22978,35 @@ var $;
 		}
 		Indent_inc_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ("Increase");
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Indent_inc_button_title")));
 			(obj.hint) = () => ("Ctrl+Shift+L");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Indent_dec_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ("Decrease");
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Indent_dec_button_title")));
 			(obj.hint) = () => ("Ctrl+L");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Bullet_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ("Bullets");
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Bullet_button_title")));
 			(obj.hint) = () => ("Ctrl+8");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Number_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ("Numbers");
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Number_button_title")));
 			(obj.hint) = () => ("Ctrl+1");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Indent_menu(){
 			const obj = new this.$.$mol_pick();
-			(obj.hint) = () => ("Indentation");
+			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Indent_menu_hint")));
 			(obj.trigger_content) = () => ([(this.Indent_menu_icon())]);
 			(obj.bubble_content) = () => ([
 				(this.Indent_inc_button()), 
@@ -23022,28 +23022,28 @@ var $;
 		}
 		Quote_inc_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ("Increase");
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Quote_inc_button_title")));
 			(obj.hint) = () => ("Ctrl+Shift+Q");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Quote_dec_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ("Decrease");
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Quote_dec_button_title")));
 			(obj.hint) = () => ("Ctrl+Q");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Quote_code_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ("Code");
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Quote_code_button_title")));
 			(obj.hint) = () => ("Ctrl+3");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Quote_menu(){
 			const obj = new this.$.$mol_pick();
-			(obj.hint) = () => ("Quotation");
+			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Quote_menu_hint")));
 			(obj.trigger_content) = () => ([(this.Quote_menu_icon())]);
 			(obj.bubble_content) = () => ([
 				(this.Quote_inc_button()), 

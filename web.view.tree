@@ -1090,84 +1090,84 @@ $giper_baza_dom_edit $mol_view
 	sub /
 		<= Tools $mol_float sub /
 			<= Inline_format_menu $mol_pick
-				hint \Inline Formating
+				hint @ \Inline Formating
 				trigger_content /
 					<= Inline_format_menu_icon $mol_icon_marker
 				bubble_content /
 					<= Strong_button $mol_button_minor
-						title \Strong
+						title @ \Strong
 						hint \Ctrl+B
 						enabled? <=> selected? false
 						click? <=> inline_toggle*strong?
 					<= Em_button $mol_button_minor
-						title \Emphasis
+						title @ \Emphasis
 						hint \Ctrl+I
 						enabled? <=> selected? false
 						click? <=> inline_toggle*em?
 					<= Ins_button $mol_button_minor
-						title \Insertion
+						title @ \Insertion
 						hint \Ctrl+U
 						enabled? <=> selected? false
 						click? <=> inline_toggle*ins?
 					<= Del_button $mol_button_minor
-						title \Deletion
+						title @ \Deletion
 						hint \Ctrl+O
 						enabled? <=> selected? false
 						click? <=> inline_toggle*del?
 					<= Code_button $mol_button_minor
-						title \Code
+						title @ \Code
 						hint \Ctrl+M
 						enabled? <=> selected? false
 						click? <=> inline_toggle*code?
 			<= Heading_menu $mol_pick
-				hint \Heading
+				hint @ \Heading
 				trigger_content /
 					<= Heading_menu_icon $mol_icon_format_size
 				bubble_content /
 					<= Header_inc_button $mol_button_minor
-						title \Increase
+						title @ \Increase
 						hint \Ctrl+H
 						enabled false
 					<= Header_dec_button $mol_button_minor
-						title \Decrease
+						title @ \Decrease
 						hint \Ctrl+Shift+H
 						enabled false
 			<= Indent_menu $mol_pick
-				hint \Indentation
+				hint @ \Indentation
 				trigger_content /
 					<= Indent_menu_icon $mol_icon_format_list_bulleted
 				bubble_content /
 					<= Indent_inc_button $mol_button_minor
-						title \Increase
+						title @ \Increase
 						hint \Ctrl+Shift+L
 						enabled false
 					<= Indent_dec_button $mol_button_minor
-						title \Decrease
+						title @ \Decrease
 						hint \Ctrl+L
 						enabled false
 					<= Bullet_button $mol_button_minor
-						title \Bullets
+						title @ \Bullets
 						hint \Ctrl+8
 						enabled false
 					<= Number_button $mol_button_minor
-						title \Numbers
+						title @ \Numbers
 						hint \Ctrl+1
 						enabled false
 			<= Quote_menu $mol_pick
-				hint \Quotation
+				hint @ \Quotation
 				trigger_content /
 					<= Quote_menu_icon $mol_icon_comment_quote_outline
 				bubble_content /
 					<= Quote_inc_button $mol_button_minor
-						title \Increase
+						title @ \Increase
 						hint \Ctrl+Shift+Q
 						enabled false
 					<= Quote_dec_button $mol_button_minor
-						title \Decrease
+						title @ \Decrease
 						hint \Ctrl+Q
 						enabled false
 					<= Quote_code_button $mol_button_minor
-						title \Code
+						title @ \Code
 						hint \Ctrl+3
 						enabled false
 		<= Content $mol_view
