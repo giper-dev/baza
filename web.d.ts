@@ -37985,67 +37985,49 @@ declare namespace $ {
 
 declare namespace $ {
 
-	export class $mol_icon_exclamation extends $mol_icon {
+	export class $mol_icon_marker extends $mol_icon {
 		path( ): string
 	}
 	
 }
 
-//# sourceMappingURL=exclamation.view.tree.d.ts.map
+//# sourceMappingURL=marker.view.tree.d.ts.map
 declare namespace $ {
 
-	export class $mol_icon_exclamation_thick extends $mol_icon {
+	export class $mol_icon_format_size extends $mol_icon {
 		path( ): string
 	}
 	
 }
 
-//# sourceMappingURL=thick.view.tree.d.ts.map
+//# sourceMappingURL=size.view.tree.d.ts.map
 declare namespace $ {
 
-	export class $mol_icon_function extends $mol_icon {
+	export class $mol_icon_comment extends $mol_icon {
 		path( ): string
 	}
 	
 }
 
-//# sourceMappingURL=function.view.tree.d.ts.map
+//# sourceMappingURL=comment.view.tree.d.ts.map
 declare namespace $ {
 
-	export class $mol_icon_plus_thick extends $mol_icon {
+	export class $mol_icon_comment_quote extends $mol_icon {
 		path( ): string
 	}
 	
 }
 
-//# sourceMappingURL=thick.view.tree.d.ts.map
+//# sourceMappingURL=quote.view.tree.d.ts.map
 declare namespace $ {
 
-	export class $mol_icon_minus extends $mol_icon {
+	export class $mol_icon_comment_quote_outline extends $mol_icon {
 		path( ): string
 	}
 	
 }
 
-//# sourceMappingURL=minus.view.tree.d.ts.map
-declare namespace $ {
-
-	export class $mol_icon_minus_thick extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=thick.view.tree.d.ts.map
-declare namespace $ {
-
-	export class $mol_icon_xml extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=xml.view.tree.d.ts.map
+//# sourceMappingURL=outline.view.tree.d.ts.map
 declare namespace $ {
 }
 
@@ -38178,119 +38160,314 @@ declare namespace $ {
 		,
 		ReturnType< $mol_hotkey['key'] >
 	>
-	type $mol_button_minor__hint_giper_baza_dom_edit_3 = $mol_type_enforce<
+	type $mol_button_minor__title_giper_baza_dom_edit_3 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['title'] >
+	>
+	type $mol_button_minor__hint_giper_baza_dom_edit_4 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['hint'] >
 	>
-	type $mol_button_minor__enabled_giper_baza_dom_edit_4 = $mol_type_enforce<
+	type $mol_button_minor__enabled_giper_baza_dom_edit_5 = $mol_type_enforce<
 		ReturnType< $giper_baza_dom_edit['selected'] >
 		,
 		ReturnType< $mol_button_minor['enabled'] >
 	>
-	type $mol_button_minor__click_giper_baza_dom_edit_5 = $mol_type_enforce<
+	type $mol_button_minor__click_giper_baza_dom_edit_6 = $mol_type_enforce<
 		ReturnType< $giper_baza_dom_edit['inline_toggle'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__sub_giper_baza_dom_edit_6 = $mol_type_enforce<
-		readonly(any)[]
+	type $mol_button_minor__title_giper_baza_dom_edit_7 = $mol_type_enforce<
+		string
 		,
-		ReturnType< $mol_button_minor['sub'] >
+		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__hint_giper_baza_dom_edit_7 = $mol_type_enforce<
+	type $mol_button_minor__hint_giper_baza_dom_edit_8 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['hint'] >
 	>
-	type $mol_button_minor__enabled_giper_baza_dom_edit_8 = $mol_type_enforce<
+	type $mol_button_minor__enabled_giper_baza_dom_edit_9 = $mol_type_enforce<
 		ReturnType< $giper_baza_dom_edit['selected'] >
 		,
 		ReturnType< $mol_button_minor['enabled'] >
 	>
-	type $mol_button_minor__click_giper_baza_dom_edit_9 = $mol_type_enforce<
+	type $mol_button_minor__click_giper_baza_dom_edit_10 = $mol_type_enforce<
 		ReturnType< $giper_baza_dom_edit['inline_toggle'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__sub_giper_baza_dom_edit_10 = $mol_type_enforce<
-		readonly(any)[]
+	type $mol_button_minor__title_giper_baza_dom_edit_11 = $mol_type_enforce<
+		string
 		,
-		ReturnType< $mol_button_minor['sub'] >
+		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__hint_giper_baza_dom_edit_11 = $mol_type_enforce<
+	type $mol_button_minor__hint_giper_baza_dom_edit_12 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['hint'] >
 	>
-	type $mol_button_minor__enabled_giper_baza_dom_edit_12 = $mol_type_enforce<
+	type $mol_button_minor__enabled_giper_baza_dom_edit_13 = $mol_type_enforce<
 		ReturnType< $giper_baza_dom_edit['selected'] >
 		,
 		ReturnType< $mol_button_minor['enabled'] >
 	>
-	type $mol_button_minor__click_giper_baza_dom_edit_13 = $mol_type_enforce<
+	type $mol_button_minor__click_giper_baza_dom_edit_14 = $mol_type_enforce<
 		ReturnType< $giper_baza_dom_edit['inline_toggle'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__sub_giper_baza_dom_edit_14 = $mol_type_enforce<
-		readonly(any)[]
+	type $mol_button_minor__title_giper_baza_dom_edit_15 = $mol_type_enforce<
+		string
 		,
-		ReturnType< $mol_button_minor['sub'] >
+		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__hint_giper_baza_dom_edit_15 = $mol_type_enforce<
+	type $mol_button_minor__hint_giper_baza_dom_edit_16 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['hint'] >
 	>
-	type $mol_button_minor__enabled_giper_baza_dom_edit_16 = $mol_type_enforce<
+	type $mol_button_minor__enabled_giper_baza_dom_edit_17 = $mol_type_enforce<
 		ReturnType< $giper_baza_dom_edit['selected'] >
 		,
 		ReturnType< $mol_button_minor['enabled'] >
 	>
-	type $mol_button_minor__click_giper_baza_dom_edit_17 = $mol_type_enforce<
+	type $mol_button_minor__click_giper_baza_dom_edit_18 = $mol_type_enforce<
 		ReturnType< $giper_baza_dom_edit['inline_toggle'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__sub_giper_baza_dom_edit_18 = $mol_type_enforce<
-		readonly(any)[]
+	type $mol_button_minor__title_giper_baza_dom_edit_19 = $mol_type_enforce<
+		string
 		,
-		ReturnType< $mol_button_minor['sub'] >
+		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__hint_giper_baza_dom_edit_19 = $mol_type_enforce<
+	type $mol_button_minor__hint_giper_baza_dom_edit_20 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_button_minor['hint'] >
 	>
-	type $mol_button_minor__enabled_giper_baza_dom_edit_20 = $mol_type_enforce<
+	type $mol_button_minor__enabled_giper_baza_dom_edit_21 = $mol_type_enforce<
 		ReturnType< $giper_baza_dom_edit['selected'] >
 		,
 		ReturnType< $mol_button_minor['enabled'] >
 	>
-	type $mol_button_minor__click_giper_baza_dom_edit_21 = $mol_type_enforce<
+	type $mol_button_minor__click_giper_baza_dom_edit_22 = $mol_type_enforce<
 		ReturnType< $giper_baza_dom_edit['inline_toggle'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__sub_giper_baza_dom_edit_22 = $mol_type_enforce<
+	type $mol_pick__hint_giper_baza_dom_edit_23 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_pick['hint'] >
+	>
+	type $mol_pick__trigger_content_giper_baza_dom_edit_24 = $mol_type_enforce<
 		readonly(any)[]
 		,
-		ReturnType< $mol_button_minor['sub'] >
+		ReturnType< $mol_pick['trigger_content'] >
 	>
-	type $mol_float__sub_giper_baza_dom_edit_23 = $mol_type_enforce<
+	type $mol_pick__bubble_content_giper_baza_dom_edit_25 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_pick['bubble_content'] >
+	>
+	type $mol_button_minor__title_giper_baza_dom_edit_26 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['title'] >
+	>
+	type $mol_button_minor__hint_giper_baza_dom_edit_27 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['hint'] >
+	>
+	type $mol_button_minor__enabled_giper_baza_dom_edit_28 = $mol_type_enforce<
+		boolean
+		,
+		ReturnType< $mol_button_minor['enabled'] >
+	>
+	type $mol_button_minor__title_giper_baza_dom_edit_29 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['title'] >
+	>
+	type $mol_button_minor__hint_giper_baza_dom_edit_30 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['hint'] >
+	>
+	type $mol_button_minor__enabled_giper_baza_dom_edit_31 = $mol_type_enforce<
+		boolean
+		,
+		ReturnType< $mol_button_minor['enabled'] >
+	>
+	type $mol_pick__hint_giper_baza_dom_edit_32 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_pick['hint'] >
+	>
+	type $mol_pick__trigger_content_giper_baza_dom_edit_33 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_pick['trigger_content'] >
+	>
+	type $mol_pick__bubble_content_giper_baza_dom_edit_34 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_pick['bubble_content'] >
+	>
+	type $mol_button_minor__title_giper_baza_dom_edit_35 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['title'] >
+	>
+	type $mol_button_minor__hint_giper_baza_dom_edit_36 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['hint'] >
+	>
+	type $mol_button_minor__enabled_giper_baza_dom_edit_37 = $mol_type_enforce<
+		boolean
+		,
+		ReturnType< $mol_button_minor['enabled'] >
+	>
+	type $mol_button_minor__title_giper_baza_dom_edit_38 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['title'] >
+	>
+	type $mol_button_minor__hint_giper_baza_dom_edit_39 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['hint'] >
+	>
+	type $mol_button_minor__enabled_giper_baza_dom_edit_40 = $mol_type_enforce<
+		boolean
+		,
+		ReturnType< $mol_button_minor['enabled'] >
+	>
+	type $mol_button_minor__title_giper_baza_dom_edit_41 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['title'] >
+	>
+	type $mol_button_minor__hint_giper_baza_dom_edit_42 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['hint'] >
+	>
+	type $mol_button_minor__enabled_giper_baza_dom_edit_43 = $mol_type_enforce<
+		boolean
+		,
+		ReturnType< $mol_button_minor['enabled'] >
+	>
+	type $mol_button_minor__title_giper_baza_dom_edit_44 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['title'] >
+	>
+	type $mol_button_minor__hint_giper_baza_dom_edit_45 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['hint'] >
+	>
+	type $mol_button_minor__enabled_giper_baza_dom_edit_46 = $mol_type_enforce<
+		boolean
+		,
+		ReturnType< $mol_button_minor['enabled'] >
+	>
+	type $mol_pick__hint_giper_baza_dom_edit_47 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_pick['hint'] >
+	>
+	type $mol_pick__trigger_content_giper_baza_dom_edit_48 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_pick['trigger_content'] >
+	>
+	type $mol_pick__bubble_content_giper_baza_dom_edit_49 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_pick['bubble_content'] >
+	>
+	type $mol_button_minor__title_giper_baza_dom_edit_50 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['title'] >
+	>
+	type $mol_button_minor__hint_giper_baza_dom_edit_51 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['hint'] >
+	>
+	type $mol_button_minor__enabled_giper_baza_dom_edit_52 = $mol_type_enforce<
+		boolean
+		,
+		ReturnType< $mol_button_minor['enabled'] >
+	>
+	type $mol_button_minor__title_giper_baza_dom_edit_53 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['title'] >
+	>
+	type $mol_button_minor__hint_giper_baza_dom_edit_54 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['hint'] >
+	>
+	type $mol_button_minor__enabled_giper_baza_dom_edit_55 = $mol_type_enforce<
+		boolean
+		,
+		ReturnType< $mol_button_minor['enabled'] >
+	>
+	type $mol_button_minor__title_giper_baza_dom_edit_56 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['title'] >
+	>
+	type $mol_button_minor__hint_giper_baza_dom_edit_57 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['hint'] >
+	>
+	type $mol_button_minor__enabled_giper_baza_dom_edit_58 = $mol_type_enforce<
+		boolean
+		,
+		ReturnType< $mol_button_minor['enabled'] >
+	>
+	type $mol_pick__hint_giper_baza_dom_edit_59 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_pick['hint'] >
+	>
+	type $mol_pick__trigger_content_giper_baza_dom_edit_60 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_pick['trigger_content'] >
+	>
+	type $mol_pick__bubble_content_giper_baza_dom_edit_61 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_pick['bubble_content'] >
+	>
+	type $mol_float__sub_giper_baza_dom_edit_62 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_float['sub'] >
 	>
-	type $mol_view__attr_giper_baza_dom_edit_24 = $mol_type_enforce<
+	type $mol_view__attr_giper_baza_dom_edit_63 = $mol_type_enforce<
 		({ 
 			'contenteditable': ReturnType< $giper_baza_dom_edit['editable'] >,
 		}) 
 		,
 		ReturnType< $mol_view['attr'] >
 	>
-	type $mol_view__event_giper_baza_dom_edit_25 = $mol_type_enforce<
+	type $mol_view__event_giper_baza_dom_edit_64 = $mol_type_enforce<
 		({ 
 			input( next?: ReturnType< $giper_baza_dom_edit['save'] > ): ReturnType< $giper_baza_dom_edit['save'] >,
 			paste( next?: ReturnType< $giper_baza_dom_edit['paste'] > ): ReturnType< $giper_baza_dom_edit['paste'] >,
@@ -38299,7 +38476,7 @@ declare namespace $ {
 		,
 		ReturnType< $mol_view['event'] >
 	>
-	type $mol_view__sub_giper_baza_dom_edit_26 = $mol_type_enforce<
+	type $mol_view__sub_giper_baza_dom_edit_65 = $mol_type_enforce<
 		ReturnType< $giper_baza_dom_edit['content'] >
 		,
 		ReturnType< $mol_view['sub'] >
@@ -38309,17 +38486,29 @@ declare namespace $ {
 		selection_sync( ): any
 		inline_toggle( id: any, next?: any ): any
 		Inline_toggle( ): $mol_hotkey
+		Inline_format_menu_icon( ): $mol_icon_marker
 		selected( next?: boolean ): boolean
-		Strong_icon( ): $mol_icon_exclamation_thick
 		Strong_button( ): $mol_button_minor
-		Em_icon( ): $mol_icon_function
 		Em_button( ): $mol_button_minor
-		Ins_icon( ): $mol_icon_plus_thick
 		Ins_button( ): $mol_button_minor
-		Del_icon( ): $mol_icon_minus_thick
 		Del_button( ): $mol_button_minor
-		Code_icon( ): $mol_icon_xml
 		Code_button( ): $mol_button_minor
+		Inline_format_menu( ): $mol_pick
+		Heading_menu_icon( ): $mol_icon_format_size
+		Header_inc_button( ): $mol_button_minor
+		Header_dec_button( ): $mol_button_minor
+		Heading_menu( ): $mol_pick
+		Indent_menu_icon( ): $mol_icon_format_list_bulleted
+		Indent_inc_button( ): $mol_button_minor
+		Indent_dec_button( ): $mol_button_minor
+		Bullet_button( ): $mol_button_minor
+		Number_button( ): $mol_button_minor
+		Indent_menu( ): $mol_pick
+		Quote_menu_icon( ): $mol_icon_comment_quote_outline
+		Quote_inc_button( ): $mol_button_minor
+		Quote_dec_button( ): $mol_button_minor
+		Quote_code_button( ): $mol_button_minor
+		Quote_menu( ): $mol_pick
 		Tools( ): $mol_float
 		editable( next?: string ): string
 		save( next?: any ): any
