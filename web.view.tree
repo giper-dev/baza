@@ -1071,8 +1071,8 @@ $mol_float $mol_view
 		^
 		minHeight \auto
 
-$giper_baza_dom_edit $mol_view
-	pawn? $giper_baza_dom
+$giper_baza_rich_edit $mol_view
+	pawn? $giper_baza_rich
 	enabled true
 	hint \
 	auto /
@@ -1230,9 +1230,9 @@ $giper_baza_flex_field $mol_view
 		enabled <= enabled true
 		value? <=> text? \
 		selection? <=> text_selection? /
-	Rich $giper_baza_dom_edit
+	Rich $giper_baza_rich_edit
 		enabled <= enabled true
-		pawn? <=> rich_pawn? $giper_baza_dom
+		pawn? <=> rich_pawn? $giper_baza_rich
 	List $mol_list
 		rows /
 			<= List_drop $mol_drop

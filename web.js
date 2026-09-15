@@ -22495,10 +22495,10 @@ var $;
 /** @jsxFrag $mol_jsx_frag */
 var $;
 (function ($) {
-    class $giper_baza_dom extends $giper_baza_pawn {
+    class $giper_baza_rich extends $giper_baza_pawn {
         dom(next) {
             const land = this.land();
-            const doms = land.Pawn($giper_baza_dom);
+            const doms = land.Pawn($giper_baza_rich);
             const regs = land.Pawn($giper_baza_atom_text);
             const used_ids = new Set;
             const link_of = (el) => {
@@ -22657,7 +22657,7 @@ var $;
                     const content = unit.tag() === 'term'
                         ? $mol_schema_string.cast(land.sand_decode(unit))
                         : doms.Head(unit.self()).dom();
-                    return $mol_jsx(Tag, { ...attrs, id: unit.self().str, giper_baza_dom_link: unit.self() }, content);
+                    return $mol_jsx(Tag, { ...attrs, id: unit.self().str }, content);
                 });
             }
         }
@@ -22683,8 +22683,8 @@ var $;
     }
     __decorate([
         $mol_mem_key
-    ], $giper_baza_dom.prototype, "selection", null);
-    $.$giper_baza_dom = $giper_baza_dom;
+    ], $giper_baza_rich.prototype, "selection", null);
+    $.$giper_baza_rich = $giper_baza_rich;
 })($ || ($ = {}));
 
 ;
@@ -22863,7 +22863,7 @@ var $;
 
 
 ;
-	($.$giper_baza_dom_edit) = class $giper_baza_dom_edit extends ($.$mol_view) {
+	($.$giper_baza_rich_edit) = class $giper_baza_rich_edit extends ($.$mol_view) {
 		selection_load(){
 			return null;
 		}
@@ -22896,7 +22896,7 @@ var $;
 		}
 		Strong_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Strong_button_title")));
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Strong_button_title")));
 			(obj.hint) = () => ("Ctrl+B");
 			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("strong", next)));
@@ -22904,7 +22904,7 @@ var $;
 		}
 		Em_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Em_button_title")));
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Em_button_title")));
 			(obj.hint) = () => ("Ctrl+I");
 			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("em", next)));
@@ -22912,7 +22912,7 @@ var $;
 		}
 		Ins_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Ins_button_title")));
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Ins_button_title")));
 			(obj.hint) = () => ("Ctrl+U");
 			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("ins", next)));
@@ -22920,7 +22920,7 @@ var $;
 		}
 		Del_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Del_button_title")));
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Del_button_title")));
 			(obj.hint) = () => ("Ctrl+O");
 			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("del", next)));
@@ -22928,7 +22928,7 @@ var $;
 		}
 		Code_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Code_button_title")));
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Code_button_title")));
 			(obj.hint) = () => ("Ctrl+M");
 			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("code", next)));
@@ -22936,7 +22936,7 @@ var $;
 		}
 		Inline_format_menu(){
 			const obj = new this.$.$mol_pick();
-			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Inline_format_menu_hint")));
+			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Inline_format_menu_hint")));
 			(obj.trigger_content) = () => ([(this.Inline_format_menu_icon())]);
 			(obj.bubble_content) = () => ([
 				(this.Strong_button()), 
@@ -22953,21 +22953,21 @@ var $;
 		}
 		Header_inc_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Header_inc_button_title")));
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Header_inc_button_title")));
 			(obj.hint) = () => ("Ctrl+H");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Header_dec_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Header_dec_button_title")));
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Header_dec_button_title")));
 			(obj.hint) = () => ("Ctrl+Shift+H");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Heading_menu(){
 			const obj = new this.$.$mol_pick();
-			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Heading_menu_hint")));
+			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Heading_menu_hint")));
 			(obj.trigger_content) = () => ([(this.Heading_menu_icon())]);
 			(obj.bubble_content) = () => ([(this.Header_inc_button()), (this.Header_dec_button())]);
 			return obj;
@@ -22978,35 +22978,35 @@ var $;
 		}
 		Indent_inc_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Indent_inc_button_title")));
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Indent_inc_button_title")));
 			(obj.hint) = () => ("Ctrl+Shift+L");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Indent_dec_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Indent_dec_button_title")));
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Indent_dec_button_title")));
 			(obj.hint) = () => ("Ctrl+L");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Bullet_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Bullet_button_title")));
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Bullet_button_title")));
 			(obj.hint) = () => ("Ctrl+8");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Number_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Number_button_title")));
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Number_button_title")));
 			(obj.hint) = () => ("Ctrl+1");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Indent_menu(){
 			const obj = new this.$.$mol_pick();
-			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Indent_menu_hint")));
+			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Indent_menu_hint")));
 			(obj.trigger_content) = () => ([(this.Indent_menu_icon())]);
 			(obj.bubble_content) = () => ([
 				(this.Indent_inc_button()), 
@@ -23022,28 +23022,28 @@ var $;
 		}
 		Quote_inc_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Quote_inc_button_title")));
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Quote_inc_button_title")));
 			(obj.hint) = () => ("Ctrl+Shift+Q");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Quote_dec_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Quote_dec_button_title")));
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Quote_dec_button_title")));
 			(obj.hint) = () => ("Ctrl+Q");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Quote_code_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Quote_code_button_title")));
+			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Quote_code_button_title")));
 			(obj.hint) = () => ("Ctrl+3");
 			(obj.enabled) = () => (false);
 			return obj;
 		}
 		Quote_menu(){
 			const obj = new this.$.$mol_pick();
-			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_dom_edit_Quote_menu_hint")));
+			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Quote_menu_hint")));
 			(obj.trigger_content) = () => ([(this.Quote_menu_icon())]);
 			(obj.bubble_content) = () => ([
 				(this.Quote_inc_button()), 
@@ -23094,7 +23094,7 @@ var $;
 		}
 		pawn(next){
 			if(next !== undefined) return next;
-			const obj = new this.$.$giper_baza_dom();
+			const obj = new this.$.$giper_baza_rich();
 			return obj;
 		}
 		enabled(){
@@ -23113,38 +23113,38 @@ var $;
 			return [(this.Tools()), (this.Content())];
 		}
 	};
-	($mol_mem_key(($.$giper_baza_dom_edit.prototype), "inline_toggle"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Inline_toggle"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Inline_format_menu_icon"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "selected"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Strong_button"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Em_button"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Ins_button"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Del_button"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Code_button"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Inline_format_menu"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Heading_menu_icon"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Header_inc_button"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Header_dec_button"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Heading_menu"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Indent_menu_icon"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Indent_inc_button"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Indent_dec_button"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Bullet_button"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Number_button"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Indent_menu"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Quote_menu_icon"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Quote_inc_button"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Quote_dec_button"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Quote_code_button"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Quote_menu"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Tools"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "editable"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "save"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "paste"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "hover"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "Content"));
-	($mol_mem(($.$giper_baza_dom_edit.prototype), "pawn"));
+	($mol_mem_key(($.$giper_baza_rich_edit.prototype), "inline_toggle"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Inline_toggle"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Inline_format_menu_icon"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "selected"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Strong_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Em_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Ins_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Del_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Code_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Inline_format_menu"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Heading_menu_icon"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Header_inc_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Header_dec_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Heading_menu"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Indent_menu_icon"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Indent_inc_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Indent_dec_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Bullet_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Number_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Indent_menu"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Quote_menu_icon"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Quote_inc_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Quote_dec_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Quote_code_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Quote_menu"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Tools"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "editable"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "save"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "paste"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "hover"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Content"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "pawn"));
 
 
 ;
@@ -23456,7 +23456,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("giper/baza/dom/edit/edit.view.css", "[giper_baza_dom_edit] {\n\tflex-direction: column;\n\tflex-grow: 1;\n\tborder-radius: var(--mol_gap_round);\n\toutline: 1px solid var(--mol_theme_line);\n\tbackground-color: var(--mol_theme_field);\n}\n[giper_baza_dom_edit]:focus-within {\n\tz-index: var(--mol_layer_focus);\n\toutline: 1px solid var(--mol_theme_focus);\n}\n\n[giper_baza_dom_edit_tools] {\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_dom_edit_content] {\n\tflex-direction: column;\n\tflex: 1;\n\twhite-space: pre-wrap;\n\toutline: none;\n}\n\n[giper_baza_dom_edit_content] a {\n\tcolor: var(--mol_theme_control);\n\ttext-decoration: none;\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_dom_edit_content] a:hover {\n\tbackground: var(--mol_theme_card);\n\tbox-shadow: 0 0 0 .25rem var(--mol_theme_card);\n}\n\n[giper_baza_dom_edit_content] p {\n\tmargin: 0;\n\tpadding: var(--mol_gap_text);\n}\n\n[giper_baza_dom_edit_content] img {\n\tmargin: var(--mol_gap_block);\n\tmax-width: calc( 100% - 2 * var(--mol_gap_block) );\n}\n\n[giper_baza_dom_edit_content] strong {\n\ttext-shadow: 0 0;\n\tfont-weight: normal;\n}\n\n[giper_baza_dom_edit_content] em {\n\tfont-style: italic;\n}\n\n[giper_baza_dom_edit_content] ins {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_special);\n}\n\n[giper_baza_dom_edit_content] del {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_shade);\n}\n\n[giper_baza_dom_edit_content] del {\n\tfont-family: monospace;\n}\n\n[giper_baza_dom_edit_content] hr {\n\tmargin: var(--mol_gap_block);\n\tborder: none;\n\tbox-shadow: 0 -1px 0 0px var(--mol_theme_line);\n    height: 1px;\n}\n\n[giper_baza_dom_edit_content] h1,\n[giper_baza_dom_edit_content] h2 {\n\tfont-size: 1em;\n\tfont-weight: bolder;\n\tmargin: 0;\n\tpadding: var(--mol_gap_text);\n}\n");
+    $mol_style_attach("giper/baza/rich/edit/edit.view.css", "[giper_baza_rich_edit] {\n\tflex-direction: column;\n\tflex-grow: 1;\n\tborder-radius: var(--mol_gap_round);\n\toutline: 1px solid var(--mol_theme_line);\n\tbackground-color: var(--mol_theme_field);\n}\n[giper_baza_rich_edit]:focus-within {\n\tz-index: var(--mol_layer_focus);\n\toutline: 1px solid var(--mol_theme_focus);\n}\n\n[giper_baza_rich_edit_tools] {\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] {\n\tflex-direction: column;\n\tflex: 1;\n\twhite-space: pre-wrap;\n\toutline: none;\n}\n\n[giper_baza_rich_edit_content] a {\n\tcolor: var(--mol_theme_control);\n\ttext-decoration: none;\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] a:hover {\n\tbackground: var(--mol_theme_card);\n\tbox-shadow: 0 0 0 .25rem var(--mol_theme_card);\n}\n\n[giper_baza_rich_edit_content] p {\n\tmargin: 0;\n\tpadding: var(--mol_gap_text);\n}\n\n[giper_baza_rich_edit_content] img {\n\tmargin: var(--mol_gap_block);\n\tmax-width: calc( 100% - 2 * var(--mol_gap_block) );\n}\n\n[giper_baza_rich_edit_content] strong {\n\ttext-shadow: 0 0;\n\tfont-weight: normal;\n}\n\n[giper_baza_rich_edit_content] em {\n\tfont-style: italic;\n}\n\n[giper_baza_rich_edit_content] ins {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_special);\n}\n\n[giper_baza_rich_edit_content] del {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_shade);\n}\n\n[giper_baza_rich_edit_content] del {\n\tfont-family: monospace;\n}\n\n[giper_baza_rich_edit_content] hr {\n\tmargin: var(--mol_gap_block);\n\tborder: none;\n\tbox-shadow: 0 -1px 0 0px var(--mol_theme_line);\n    height: 1px;\n}\n\n[giper_baza_rich_edit_content] h1,\n[giper_baza_rich_edit_content] h2 {\n\tfont-size: 1em;\n\tfont-weight: bolder;\n\tmargin: 0;\n\tpadding: var(--mol_gap_text);\n}\n");
 })($ || ($ = {}));
 
 ;
@@ -23471,7 +23471,7 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
-        class $giper_baza_dom_edit extends $.$giper_baza_dom_edit {
+        class $giper_baza_rich_edit extends $.$giper_baza_rich_edit {
             // dom_id() {
             // 	return this.pawn()?.head().str ?? ''
             // }
@@ -23503,7 +23503,7 @@ var $;
                 //     container = container.parentNode as Element
                 // }
                 let dom = this.pawn(null);
-                // if( container.id ) dom = dom.land().Pawn( $giper_baza_dom ).Head( new $giper_baza_link( container.id ) )
+                // if( container.id ) dom = dom.land().Pawn( $giper_baza_rich ).Head( new $giper_baza_link( container.id ) )
                 let nodes = [...container.childNodes];
                 nodes = this.$.$mol_dom_safe(nodes);
                 // console.log( event, container, dom, nodes )
@@ -23602,19 +23602,27 @@ var $;
                 event.preventDefault();
             }
             paste(event) {
+                const sel = $mol_dom_range.from_selection();
+                const html = event.clipboardData.getData('text/html');
                 const text = event.clipboardData.getData('text/plain');
+                let url = true;
                 try {
                     new URL(text);
                 }
                 catch {
-                    return;
+                    url = false;
                 }
-                const sel = $mol_dom_range.from_selection();
-                if (sel.is_empty()) {
-                    sel.paste($mol_jsx("a", { href: text }, text));
+                if (url) {
+                    if (sel.is_empty()) {
+                        sel.paste($mol_jsx("a", { href: text }, text));
+                    }
+                    else {
+                        sel.surround($mol_jsx("a", { href: text }));
+                    }
                 }
                 else {
-                    sel.surround($mol_jsx("a", { href: text }));
+                    const data = html ? $mol_dom_range.inside($mol_dom_parse(html).documentElement).copy() : new Text(text);
+                    sel.paste(data);
                 }
                 this.selection_load();
                 this.save();
@@ -23626,20 +23634,20 @@ var $;
         }
         __decorate([
             $mol_mem
-        ], $giper_baza_dom_edit.prototype, "editable", null);
+        ], $giper_baza_rich_edit.prototype, "editable", null);
         __decorate([
             $mol_mem
-        ], $giper_baza_dom_edit.prototype, "content", null);
+        ], $giper_baza_rich_edit.prototype, "content", null);
         __decorate([
             $mol_mem
-        ], $giper_baza_dom_edit.prototype, "selection", null);
+        ], $giper_baza_rich_edit.prototype, "selection", null);
         __decorate([
             $mol_mem
-        ], $giper_baza_dom_edit.prototype, "selection_sync", null);
+        ], $giper_baza_rich_edit.prototype, "selection_sync", null);
         __decorate([
             $mol_mem
-        ], $giper_baza_dom_edit.prototype, "selected", null);
-        $$.$giper_baza_dom_edit = $giper_baza_dom_edit;
+        ], $giper_baza_rich_edit.prototype, "selected", null);
+        $$.$giper_baza_rich_edit = $giper_baza_rich_edit;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
 
@@ -23765,7 +23773,7 @@ var $;
 		}
 		rich_pawn(next){
 			if(next !== undefined) return next;
-			const obj = new this.$.$giper_baza_dom();
+			const obj = new this.$.$giper_baza_rich();
 			return obj;
 		}
 		list_item_adopt(next){
@@ -23956,7 +23964,7 @@ var $;
 			return obj;
 		}
 		Rich(){
-			const obj = new this.$.$giper_baza_dom_edit();
+			const obj = new this.$.$giper_baza_rich_edit();
 			(obj.enabled) = () => ((this.enabled()));
 			(obj.pawn) = (next) => ((this.rich_pawn(next)));
 			return obj;
@@ -24173,7 +24181,7 @@ var $;
                 return this.pawn(next)?.cast($giper_baza_text).selection(this.land().auth().pass().lord(), next);
             }
             rich_pawn(next) {
-                return this.pawn(next)?.cast($giper_baza_dom) ?? null;
+                return this.pawn(next)?.cast($giper_baza_rich) ?? null;
             }
             dict_title() {
                 return this.pawn()?.cast($giper_baza_entity).Title()?.val() || this.pawn().link().str;
