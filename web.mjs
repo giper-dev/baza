@@ -22910,6 +22910,10 @@ var $;
 			});
 			return obj;
 		}
+		selected(next){
+			if(next !== undefined) return next;
+			return false;
+		}
 		Strong_icon(){
 			const obj = new this.$.$mol_icon_exclamation_thick();
 			return obj;
@@ -22917,6 +22921,7 @@ var $;
 		Strong_button(){
 			const obj = new this.$.$mol_button_minor();
 			(obj.hint) = () => ("Strong: Ctrl+B");
+			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("strong", next)));
 			(obj.sub) = () => ([(this.Strong_icon())]);
 			return obj;
@@ -22928,6 +22933,7 @@ var $;
 		Em_button(){
 			const obj = new this.$.$mol_button_minor();
 			(obj.hint) = () => ("Emphasis: Ctrl+I");
+			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("em", next)));
 			(obj.sub) = () => ([(this.Em_icon())]);
 			return obj;
@@ -22939,6 +22945,7 @@ var $;
 		Ins_button(){
 			const obj = new this.$.$mol_button_minor();
 			(obj.hint) = () => ("Insertion: Ctrl+U");
+			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("ins", next)));
 			(obj.sub) = () => ([(this.Ins_icon())]);
 			return obj;
@@ -22950,6 +22957,7 @@ var $;
 		Del_button(){
 			const obj = new this.$.$mol_button_minor();
 			(obj.hint) = () => ("Deletion: Ctrl+O");
+			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("del", next)));
 			(obj.sub) = () => ([(this.Del_icon())]);
 			return obj;
@@ -22961,6 +22969,7 @@ var $;
 		Code_button(){
 			const obj = new this.$.$mol_button_minor();
 			(obj.hint) = () => ("Code: Ctrl+M");
+			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("code", next)));
 			(obj.sub) = () => ([(this.Code_icon())]);
 			return obj;
@@ -23029,6 +23038,7 @@ var $;
 	};
 	($mol_mem_key(($.$giper_baza_dom_edit.prototype), "inline_toggle"));
 	($mol_mem(($.$giper_baza_dom_edit.prototype), "Inline_toggle"));
+	($mol_mem(($.$giper_baza_dom_edit.prototype), "selected"));
 	($mol_mem(($.$giper_baza_dom_edit.prototype), "Strong_icon"));
 	($mol_mem(($.$giper_baza_dom_edit.prototype), "Strong_button"));
 	($mol_mem(($.$giper_baza_dom_edit.prototype), "Em_icon"));
@@ -23324,7 +23334,6 @@ var $;
             const [anchorNode, anchorOffset] = this.anchor.native();
             const [focusNode, focusOffset] = this.extend.native();
             const sel = $mol_dom_context.document.getSelection();
-            console.log('select', anchorNode, anchorOffset, focusNode, focusOffset);
             sel.setBaseAndExtent(anchorNode, anchorOffset, focusNode, focusOffset);
             return this;
         }
@@ -23414,6 +23423,16 @@ var $;
             }
             selection_sync() {
                 return new this.$.$mol_dom_listener($mol_dom_context.document, 'selectionchange', event => this.selection_save());
+            }
+            selected() {
+                $mol_wire_watch();
+                const sel = $mol_dom_range.from_selection();
+                if (!sel)
+                    return false;
+                const root = this.Content().dom_node();
+                if (!$mol_dom_range.inside(root).range_contains(sel))
+                    return false;
+                return true;
             }
             selection_save() {
                 const sel = $mol_dom_range.from_selection();
@@ -23528,6 +23547,9 @@ var $;
         __decorate([
             $mol_mem
         ], $giper_baza_dom_edit.prototype, "selection_sync", null);
+        __decorate([
+            $mol_mem
+        ], $giper_baza_dom_edit.prototype, "selected", null);
         $$.$giper_baza_dom_edit = $giper_baza_dom_edit;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));

@@ -1095,22 +1095,27 @@ $giper_baza_dom_edit $mol_view
 		<= Tools $mol_float sub /
 			<= Strong_button $mol_button_minor
 				hint \Strong: Ctrl+B
+				enabled? <=> selected? false
 				click? <=> inline_toggle*strong?
 				sub / <= Strong_icon $mol_icon_exclamation_thick
 			<= Em_button $mol_button_minor
 				hint \Emphasis: Ctrl+I
+				enabled? <=> selected? false
 				click? <=> inline_toggle*em?
 				sub / <= Em_icon $mol_icon_function
 			<= Ins_button $mol_button_minor
 				hint \Insertion: Ctrl+U
+				enabled? <=> selected? false
 				click? <=> inline_toggle*ins?
 				sub / <= Ins_icon $mol_icon_plus_thick
 			<= Del_button $mol_button_minor
 				hint \Deletion: Ctrl+O
+				enabled? <=> selected? false
 				click? <=> inline_toggle*del?
 				sub / <= Del_icon $mol_icon_minus_thick
 			<= Code_button $mol_button_minor
 				hint \Code: Ctrl+M
+				enabled? <=> selected? false
 				click? <=> inline_toggle*code?
 				sub / <= Code_icon $mol_icon_xml
 		<= Content $mol_view
