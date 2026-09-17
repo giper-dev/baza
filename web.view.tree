@@ -67,10 +67,13 @@ $mol_pop_bubble $mol_view
 		tabindex 0
 		popover \manual
 
-$mol_hotkey $mol_plugin
+$mol_hotkey2 $mol_plugin
 	event *
 		^
 		keydown? <=> keydown? null
+	action *
+
+$mol_hotkey $mol_hotkey2
 	key *
 	mod_ctrl false
 	mod_alt false
@@ -1081,26 +1084,16 @@ $giper_baza_rich_edit $mol_view
 		<= selection_load null
 		<= selection_sync null
 	plugins /
-		<= Inline_toggle $mol_hotkey
-			mod_ctrl true
-			key *
-				B? <=> inline_toggle*strong? null - \Brutal
-				I? <=> inline_toggle*em? null - \Ironic
-				U? <=> inline_toggle*ins? null - \Update
-				O? <=> inline_toggle*del? null - \Omit
-				M? <=> inline_toggle*code? null - \Monospace
-		<= Block_more $mol_hotkey
-			mod_ctrl true
-			key * Q? <=> block_more*blockquote? null - \Quote
-		<= Block_less $mol_hotkey
-			mod_ctrl true
-			mod_shift true
-			key * Q? <=> block_less*blockquote? null - \Quote
-		<= Indent_more $mol_hotkey
-			key * tab? <=> block_more*ul? null - \Indent
-		<= Indent_less $mol_hotkey
-			mod_shift true
-			key * tab? <=> block_less*ul? null - \Indent
+		<= Hotkey $mol_hotkey2 action *
+			ctrl_B? <=> inline_toggle*strong? null - \Brutal
+			ctrl_I? <=> inline_toggle*em? null - \Ironic
+			ctrl_U? <=> inline_toggle*ins? null - \Update
+			ctrl_O? <=> inline_toggle*del? null - \Omit
+			ctrl_M? <=> inline_toggle*code? null - \Monospace
+			ctrl_Q? <=> block_more*blockquote? null - \Quote
+			ctrl_shift_Q? <=> block_less*blockquote? null - \Quote
+			tab? <=> block_more*ul? null - \Indent
+			shift_tab? <=> block_less*ul? null - \Indent
 	sub /
 		<= Tools $mol_float sub /
 			<= Inline_format_menu $mol_pick
@@ -1153,12 +1146,12 @@ $giper_baza_rich_edit $mol_view
 				bubble_content /
 					<= Indent_inc_button $mol_button_minor
 						title @ \Increase
-						hint \Ctrl+Tab
+						hint \Tab
 						enabled? <=> selected? false
 						click? <=> block_more*ul?
 					<= Indent_dec_button $mol_button_minor
 						title @ \Decrease
-						hint \Ctrl+Shift+Tab
+						hint \Shift+Tab
 						enabled? <=> selected? false
 						click? <=> block_less*ul?
 					<= Bullet_button $mol_button_minor

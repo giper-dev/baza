@@ -5746,7 +5746,7 @@ var $;
 })($ || ($ = {}));
 
 ;
-	($.$mol_hotkey) = class $mol_hotkey extends ($.$mol_plugin) {
+	($.$mol_hotkey2) = class $mol_hotkey2 extends ($.$mol_plugin) {
 		keydown(next){
 			if(next !== undefined) return next;
 			return null;
@@ -5754,20 +5754,11 @@ var $;
 		event(){
 			return {...(super.event()), "keydown": (next) => (this.keydown(next))};
 		}
-		key(){
+		action(){
 			return {};
 		}
-		mod_ctrl(){
-			return false;
-		}
-		mod_alt(){
-			return false;
-		}
-		mod_shift(){
-			return false;
-		}
 	};
-	($mol_mem(($.$mol_hotkey.prototype), "keydown"));
+	($mol_mem(($.$mol_hotkey2.prototype), "keydown"));
 
 
 ;
@@ -5784,27 +5775,71 @@ var $;
          * Plugin which adds handlers for keyboard keys.
          * @see [mol_keyboard_code](../keyboard/code/code.ts)
          */
-        class $mol_hotkey extends $.$mol_hotkey {
-            key() {
-                return super.key();
-            }
+        class $mol_hotkey2 extends $.$mol_hotkey2 {
             keydown(event) {
                 if (!event)
                     return;
                 if (event.defaultPrevented)
                     return;
-                let name = $mol_keyboard_code[event.keyCode];
-                if (this.mod_ctrl() !== (event.ctrlKey || event.metaKey))
-                    return;
-                if (this.mod_alt() !== event.altKey)
-                    return;
-                if (this.mod_shift() !== event.shiftKey)
-                    return;
-                const handle = this.key()[name];
-                if (handle)
-                    handle(event);
+                const key = [...new Set([
+                        ...(event.ctrlKey || event.metaKey) ? ['ctrl'] : [],
+                        ...event.altKey ? ['alt'] : [],
+                        ...event.shiftKey ? ['shift'] : [],
+                        $mol_keyboard_code[event.keyCode] ?? '?',
+                    ])].join('_');
+                this.action()[key]?.(event);
             }
         }
+        $$.$mol_hotkey2 = $mol_hotkey2;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$mol_hotkey) = class $mol_hotkey extends ($.$mol_hotkey2) {
+		key(){
+			return {};
+		}
+		mod_ctrl(){
+			return false;
+		}
+		mod_alt(){
+			return false;
+		}
+		mod_shift(){
+			return false;
+		}
+	};
+
+
+;
+"use strict";
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        /**
+         * Plugin which adds handlers for keyboard keys.
+         * @deprecated Use $mol_hotkey2
+         * @see [mol_keyboard_code](../keyboard/code/code.ts)
+         */
+        class $mol_hotkey extends $.$mol_hotkey {
+            action() {
+                const prefix = [...new Set([
+                        ...this.mod_ctrl() ? ['ctrl_'] : [],
+                        ...this.mod_alt() ? ['alt_'] : [],
+                        ...this.mod_shift() ? ['shift_'] : [],
+                    ])].join('');
+                return Object.fromEntries(Object.entries(this.key())
+                    .map(([key, val]) => [prefix + key, val]));
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_hotkey.prototype, "action", null);
         $$.$mol_hotkey = $mol_hotkey;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -22877,48 +22912,27 @@ var $;
 			if(next !== undefined) return next;
 			return null;
 		}
-		Inline_toggle(){
-			const obj = new this.$.$mol_hotkey();
-			(obj.mod_ctrl) = () => (true);
-			(obj.key) = () => ({
-				"B": (next) => (this.inline_toggle("strong", next)), 
-				"I": (next) => (this.inline_toggle("em", next)), 
-				"U": (next) => (this.inline_toggle("ins", next)), 
-				"O": (next) => (this.inline_toggle("del", next)), 
-				"M": (next) => (this.inline_toggle("code", next))
-			});
-			return obj;
-		}
 		block_more(id, next){
 			if(next !== undefined) return next;
 			return null;
-		}
-		Block_more(){
-			const obj = new this.$.$mol_hotkey();
-			(obj.mod_ctrl) = () => (true);
-			(obj.key) = () => ({"Q": (next) => (this.block_more("blockquote", next))});
-			return obj;
 		}
 		block_less(id, next){
 			if(next !== undefined) return next;
 			return null;
 		}
-		Block_less(){
-			const obj = new this.$.$mol_hotkey();
-			(obj.mod_ctrl) = () => (true);
-			(obj.mod_shift) = () => (true);
-			(obj.key) = () => ({"Q": (next) => (this.block_less("blockquote", next))});
-			return obj;
-		}
-		Indent_more(){
-			const obj = new this.$.$mol_hotkey();
-			(obj.key) = () => ({"tab": (next) => (this.block_more("ul", next))});
-			return obj;
-		}
-		Indent_less(){
-			const obj = new this.$.$mol_hotkey();
-			(obj.mod_shift) = () => (true);
-			(obj.key) = () => ({"tab": (next) => (this.block_less("ul", next))});
+		Hotkey(){
+			const obj = new this.$.$mol_hotkey2();
+			(obj.action) = () => ({
+				"ctrl_B": (next) => (this.inline_toggle("strong", next)), 
+				"ctrl_I": (next) => (this.inline_toggle("em", next)), 
+				"ctrl_U": (next) => (this.inline_toggle("ins", next)), 
+				"ctrl_O": (next) => (this.inline_toggle("del", next)), 
+				"ctrl_M": (next) => (this.inline_toggle("code", next)), 
+				"ctrl_Q": (next) => (this.block_more("blockquote", next)), 
+				"ctrl_shift_Q": (next) => (this.block_less("blockquote", next)), 
+				"tab": (next) => (this.block_more("ul", next)), 
+				"shift_tab": (next) => (this.block_less("ul", next))
+			});
 			return obj;
 		}
 		Inline_format_menu_icon(){
@@ -23014,7 +23028,7 @@ var $;
 		Indent_inc_button(){
 			const obj = new this.$.$mol_button_minor();
 			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Indent_inc_button_title")));
-			(obj.hint) = () => ("Ctrl+Tab");
+			(obj.hint) = () => ("Tab");
 			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.block_more("ul", next)));
 			return obj;
@@ -23022,7 +23036,7 @@ var $;
 		Indent_dec_button(){
 			const obj = new this.$.$mol_button_minor();
 			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Indent_dec_button_title")));
-			(obj.hint) = () => ("Ctrl+Shift+Tab");
+			(obj.hint) = () => ("Shift+Tab");
 			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.block_less("ul", next)));
 			return obj;
@@ -23146,26 +23160,16 @@ var $;
 			return [(this.selection_load()), (this.selection_sync())];
 		}
 		plugins(){
-			return [
-				(this.Inline_toggle()), 
-				(this.Block_more()), 
-				(this.Block_less()), 
-				(this.Indent_more()), 
-				(this.Indent_less())
-			];
+			return [(this.Hotkey())];
 		}
 		sub(){
 			return [(this.Tools()), (this.Content())];
 		}
 	};
 	($mol_mem_key(($.$giper_baza_rich_edit.prototype), "inline_toggle"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Inline_toggle"));
 	($mol_mem_key(($.$giper_baza_rich_edit.prototype), "block_more"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Block_more"));
 	($mol_mem_key(($.$giper_baza_rich_edit.prototype), "block_less"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Block_less"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Indent_more"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Indent_less"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Hotkey"));
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "Inline_format_menu_icon"));
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "selected"));
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "Strong_button"));
@@ -23507,7 +23511,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("giper/baza/rich/edit/edit.view.css", "[giper_baza_rich_edit] {\n\tflex-direction: column;\n\tflex: 1;\n\tborder-radius: var(--mol_gap_round);\n\tbackground-color: var(--mol_theme_field);\n}\n\n[giper_baza_rich_edit_enabled] {\n\toutline: 1px solid var(--mol_theme_line);\n}\n\n[giper_baza_rich_edit]:focus-within {\n\tz-index: var(--mol_layer_focus);\n\toutline: 1px solid var(--mol_theme_focus);\n}\n\n[giper_baza_rich_edit_tools] {\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] {\n\tflex-direction: column;\n\tflex: 1;\n\twhite-space: pre-wrap;\n\toutline: none;\n\tpadding: var(--mol_gap_block);\n}\n\n[giper_baza_rich_edit_content] a {\n\tcolor: var(--mol_theme_control);\n\ttext-decoration: none;\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] a:hover {\n\tbackground: var(--mol_theme_card);\n\tbox-shadow: 0 0 0 .25rem var(--mol_theme_card);\n}\n\n[giper_baza_rich_edit_content] p {\n\tmargin: 0;\n\tpadding: var(--mol_gap_text);\n}\n\n[giper_baza_rich_edit_content] ul {\n\tmargin: 0;\n\tpadding: 0 var(--mol_gap_block);\n}\n\n[giper_baza_rich_edit_content] ul > p:before {\n\tcontent: '• ';\n}\n\n[giper_baza_rich_edit_content] blockquote {\n\tmargin: var(--mol_gap_block);\n\tpadding: var(--mol_gap_block);\n\tbackground: var(--mol_theme_card);\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] img {\n\tmargin: var(--mol_gap_block);\n\tmax-width: calc( 100% - 2 * var(--mol_gap_block) );\n}\n\n[giper_baza_rich_edit_content] strong {\n\ttext-shadow: 0 0;\n\tfont-weight: normal;\n}\n\n[giper_baza_rich_edit_content] em {\n\tfont-style: italic;\n}\n\n[giper_baza_rich_edit_content] ins {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_special);\n}\n\n[giper_baza_rich_edit_content] del {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_shade);\n}\n\n[giper_baza_rich_edit_content] del {\n\tfont-family: monospace;\n}\n\n[giper_baza_rich_edit_content] hr {\n\tmargin: var(--mol_gap_block);\n\tborder: none;\n\tbox-shadow: 0 -1px 0 0px var(--mol_theme_line);\n    height: 1px;\n}\n\n[giper_baza_rich_edit_content] h1,\n[giper_baza_rich_edit_content] h2 {\n\tfont-size: 1em;\n\tfont-weight: bolder;\n\tmargin: 0;\n\tpadding: var(--mol_gap_text);\n}\n");
+    $mol_style_attach("giper/baza/rich/edit/edit.view.css", "[giper_baza_rich_edit] {\n\tflex-direction: column;\n\tflex: 1;\n\tborder-radius: var(--mol_gap_round);\n\tbackground-color: var(--mol_theme_field);\n}\n\n[giper_baza_rich_edit_enabled] {\n\toutline: 1px solid var(--mol_theme_line);\n}\n\n[giper_baza_rich_edit]:focus-within {\n\tz-index: var(--mol_layer_focus);\n\toutline: 1px solid var(--mol_theme_focus);\n}\n\n[giper_baza_rich_edit_tools] {\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] {\n\tflex-direction: column;\n\tflex: 1;\n\twhite-space: pre-wrap;\n\toutline: none;\n\tpadding: var(--mol_gap_block);\n}\n\n[giper_baza_rich_edit_content] a {\n\tcolor: var(--mol_theme_control);\n\ttext-decoration: none;\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] a:hover {\n\tbackground: var(--mol_theme_card);\n\tbox-shadow: 0 0 0 .25rem var(--mol_theme_card);\n}\n\n[giper_baza_rich_edit_content] p {\n\tmargin: 0;\n\tpadding: var(--mol_gap_text);\n}\n\n[giper_baza_rich_edit_content] ul {\n\tmargin: 0;\n\tpadding: 0 var(--mol_gap_block);\n}\n\n[giper_baza_rich_edit_content] ul > p:before {\n\tcontent: '• ';\n}\n\n[giper_baza_rich_edit_content] blockquote {\n\tmargin: var(--mol_gap_block);\n\tpadding: var(--mol_gap_block);\n\tbackground: var(--mol_theme_card);\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] img {\n\tmargin: var(--mol_gap_block);\n\tmax-width: calc( 100% - 2 * var(--mol_gap_block) );\n}\n\n[giper_baza_rich_edit_content] strong {\n\ttext-shadow: 0 0;\n\tfont-weight: normal;\n}\n\n[giper_baza_rich_edit_content] em {\n\tfont-style: italic;\n}\n\n[giper_baza_rich_edit_content] ins {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_special);\n}\n\n[giper_baza_rich_edit_content] del {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_shade);\n}\n\n[giper_baza_rich_edit_content] del {\n\tfont-family: monospace;\n}\n\n[giper_baza_rich_edit_content] hr {\n\tmargin: var(--mol_gap_block);\n\tborder: none;\n\tbox-shadow: 0 -1px 0 0px var(--mol_theme_line);\n    height: 1px;\n}\n\n[giper_baza_rich_edit_content] h1,\n[giper_baza_rich_edit_content] h2,\n[giper_baza_rich_edit_content] h3,\n[giper_baza_rich_edit_content] h4,\n[giper_baza_rich_edit_content] h5,\n[giper_baza_rich_edit_content] h6,\n[giper_baza_rich_edit_content] h7 {\n\tfont-size: 1em;\n\tfont-weight: normal;\n\tletter-spacing: 2px;\n\tmargin: var(--mol_gap_block) 0;\n\tpadding: var(--mol_gap_text);\n}\n\n[giper_baza_rich_edit_content] h1 { font-size: 2.75rem; line-height: 3rem; }\n[giper_baza_rich_edit_content] h2 { font-size: 2.5rem; line-height: 3rem; }\n[giper_baza_rich_edit_content] h3 { font-size: 2.25rem; line-height: 3rem; }\n[giper_baza_rich_edit_content] h4 { font-size: 2rem; line-height: 3rem; }\n[giper_baza_rich_edit_content] h5 { font-size: 1.75rem; line-height: 3rem; }\n[giper_baza_rich_edit_content] h6 { font-size: 1.5rem; line-height: 3rem; }\n[giper_baza_rich_edit_content] h7 { font-size: 1.25rem; line-height: 1.5rem; }\n\n[giper_baza_rich_edit_content] *+h1,\n[giper_baza_rich_edit_content] *+h2,\n[giper_baza_rich_edit_content] *+h3,\n[giper_baza_rich_edit_content] *+h4,\n[giper_baza_rich_edit_content] *+h5,\n[giper_baza_rich_edit_content] *+h6,\n[giper_baza_rich_edit_content] *+h7 {\n\tbox-shadow: 0 -1px 0 0 var(--mol_theme_line);\n}\n");
 })($ || ($ = {}));
 
 ;
