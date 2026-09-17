@@ -22843,6 +22843,30 @@ var $;
 
 
 ;
+	($.$mol_icon_order_bool_ascending) = class $mol_icon_order_bool_ascending extends ($.$mol_icon) {
+		path(){
+			return "M6 3C3.79 3 2 4.79 2 7S3.79 11 6 11 10 9.21 10 7 8.21 3 6 3M6 9C4.9 9 4 8.1 4 7S4.9 5 6 5 8 5.9 8 7 7.1 9 6 9M6 13C3.79 13 2 14.79 2 17S3.79 21 6 21 10 19.21 10 17 8.21 13 6 13M12 5H22V7H12V5M12 19V17H22V19H12M12 11H22V13H12V11Z";
+		}
+	};
+
+
+;
+"use strict";
+
+
+;
+	($.$mol_icon_order_numeric_ascending) = class $mol_icon_order_numeric_ascending extends ($.$mol_icon) {
+		path(){
+			return "M7 21H3V19H7V18H5C3.9 18 3 17.11 3 16V15C3 13.9 3.9 13 5 13H7C8.11 13 9 13.9 9 15V19C9 20.11 8.11 21 7 21M7 15H5V16H7M5 3H7C8.11 3 9 3.9 9 5V9C9 10.11 8.11 11 7 11H5C3.9 11 3 10.11 3 9V5C3 3.9 3.9 3 5 3M5 9H7V5H5M12 5H22V7H12M12 19V17H22V19M12 11H22V13H12Z";
+		}
+	};
+
+
+;
+"use strict";
+
+
+;
 	($.$mol_icon_comment) = class $mol_icon_comment extends ($.$mol_icon) {
 		path(){
 			return "M9,22A1,1 0 0,1 8,21V18H4A2,2 0 0,1 2,16V4C2,2.89 2.9,2 4,2H20A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H13.9L10.2,21.71C10,21.9 9.75,22 9.5,22V22H9Z";
@@ -22870,6 +22894,42 @@ var $;
 	($.$mol_icon_comment_quote_outline) = class $mol_icon_comment_quote_outline extends ($.$mol_icon) {
 		path(){
 			return "M9 22C8.4 22 8 21.6 8 21V18H4C2.9 18 2 17.1 2 16V4C2 2.9 2.9 2 4 2H20C21.1 2 22 2.9 22 4V16C22 17.1 21.1 18 20 18H13.9L10.2 21.7C10 21.9 9.8 22 9.5 22H9M10 16V19.1L13.1 16H20V4H4V16H10M16.3 6L14.9 9H17V13H13V8.8L14.3 6H16.3M10.3 6L8.9 9H11V13H7V8.8L8.3 6H10.3Z";
+		}
+	};
+
+
+;
+"use strict";
+
+
+;
+	($.$mol_icon_xml) = class $mol_icon_xml extends ($.$mol_icon) {
+		path(){
+			return "M12.89,3L14.85,3.4L11.11,21L9.15,20.6L12.89,3M19.59,12L16,8.41V5.58L22.42,12L16,18.41V15.58L19.59,12M1.58,12L8,5.58V8.41L4.41,12L8,15.58V18.41L1.58,12Z";
+		}
+	};
+
+
+;
+"use strict";
+
+
+;
+	($.$mol_icon_arrow_collapse) = class $mol_icon_arrow_collapse extends ($.$mol_icon) {
+		path(){
+			return "M19.5,3.09L15,7.59V4H13V11H20V9H16.41L20.91,4.5L19.5,3.09M4,13V15H7.59L3.09,19.5L4.5,20.91L9,16.41V20H11V13H4Z";
+		}
+	};
+
+
+;
+"use strict";
+
+
+;
+	($.$mol_icon_arrow_collapse_left) = class $mol_icon_arrow_collapse_left extends ($.$mol_icon) {
+		path(){
+			return "M11.92,19.92L4,12L11.92,4.08L13.33,5.5L7.83,11H22V13H7.83L13.34,18.5L11.92,19.92M4,12V2H2V22H4V12Z";
 		}
 	};
 
@@ -22912,26 +22972,33 @@ var $;
 			if(next !== undefined) return next;
 			return null;
 		}
-		block_more(id, next){
+		block_wrap(id, next){
 			if(next !== undefined) return next;
 			return null;
 		}
-		block_less(id, next){
+		block_rewrap(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		block_unwrap(next){
 			if(next !== undefined) return next;
 			return null;
 		}
 		Hotkey(){
 			const obj = new this.$.$mol_hotkey2();
 			(obj.action) = () => ({
-				"ctrl_B": (next) => (this.inline_toggle("strong", next)), 
-				"ctrl_I": (next) => (this.inline_toggle("em", next)), 
-				"ctrl_U": (next) => (this.inline_toggle("ins", next)), 
-				"ctrl_O": (next) => (this.inline_toggle("del", next)), 
-				"ctrl_M": (next) => (this.inline_toggle("code", next)), 
-				"ctrl_Q": (next) => (this.block_more("blockquote", next)), 
-				"ctrl_shift_Q": (next) => (this.block_less("blockquote", next)), 
-				"tab": (next) => (this.block_more("ul", next)), 
-				"shift_tab": (next) => (this.block_less("ul", next))
+				"alt_S": (next) => (this.inline_toggle("strong", next)), 
+				"alt_E": (next) => (this.inline_toggle("em", next)), 
+				"alt_I": (next) => (this.inline_toggle("ins", next)), 
+				"alt_R": (next) => (this.inline_toggle("del", next)), 
+				"alt_C": (next) => (this.inline_toggle("code", next)), 
+				"alt_T": (next) => (this.block_wrap("section", next)), 
+				"alt_Q": (next) => (this.block_wrap("blockquote", next)), 
+				"alt_U": (next) => (this.block_wrap("ul", next)), 
+				"alt_O": (next) => (this.block_wrap("ol", next)), 
+				"alt_P": (next) => (this.block_wrap("pre", next)), 
+				"tab": (next) => (this.block_rewrap(next)), 
+				"shift_tab": (next) => (this.block_unwrap(next))
 			});
 			return obj;
 		}
@@ -22946,7 +23013,7 @@ var $;
 		Strong_button(){
 			const obj = new this.$.$mol_button_minor();
 			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Strong_button_title")));
-			(obj.hint) = () => ("Ctrl+B");
+			(obj.hint) = () => ("Alt+S");
 			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("strong", next)));
 			return obj;
@@ -22954,7 +23021,7 @@ var $;
 		Em_button(){
 			const obj = new this.$.$mol_button_minor();
 			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Em_button_title")));
-			(obj.hint) = () => ("Ctrl+I");
+			(obj.hint) = () => ("Alt+E");
 			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("em", next)));
 			return obj;
@@ -22962,7 +23029,7 @@ var $;
 		Ins_button(){
 			const obj = new this.$.$mol_button_minor();
 			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Ins_button_title")));
-			(obj.hint) = () => ("Ctrl+U");
+			(obj.hint) = () => ("Alt+I");
 			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("ins", next)));
 			return obj;
@@ -22970,7 +23037,7 @@ var $;
 		Del_button(){
 			const obj = new this.$.$mol_button_minor();
 			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Del_button_title")));
-			(obj.hint) = () => ("Ctrl+O");
+			(obj.hint) = () => ("Alt+R");
 			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("del", next)));
 			return obj;
@@ -22978,7 +23045,7 @@ var $;
 		Code_button(){
 			const obj = new this.$.$mol_button_minor();
 			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Code_button_title")));
-			(obj.hint) = () => ("Ctrl+M");
+			(obj.hint) = () => ("Alt+C");
 			(obj.enabled) = (next) => ((this.selected(next)));
 			(obj.click) = (next) => ((this.inline_toggle("code", next)));
 			return obj;
@@ -22996,122 +23063,88 @@ var $;
 			]);
 			return obj;
 		}
-		Heading_menu_icon(){
+		Section_icon(){
 			const obj = new this.$.$mol_icon_format_size();
 			return obj;
 		}
-		Header_inc_button(){
+		Section_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Header_inc_button_title")));
-			(obj.hint) = () => ("Ctrl+H");
-			(obj.enabled) = () => (false);
-			return obj;
-		}
-		Header_dec_button(){
-			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Header_dec_button_title")));
-			(obj.hint) = () => ("Ctrl+Shift+H");
-			(obj.enabled) = () => (false);
-			return obj;
-		}
-		Heading_menu(){
-			const obj = new this.$.$mol_pick();
-			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Heading_menu_hint")));
-			(obj.trigger_content) = () => ([(this.Heading_menu_icon())]);
-			(obj.bubble_content) = () => ([(this.Header_inc_button()), (this.Header_dec_button())]);
-			return obj;
-		}
-		Indent_menu_icon(){
-			const obj = new this.$.$mol_icon_format_list_bulleted();
-			return obj;
-		}
-		Indent_inc_button(){
-			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Indent_inc_button_title")));
-			(obj.hint) = () => ("Tab");
+			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Section_button_hint")));
 			(obj.enabled) = (next) => ((this.selected(next)));
-			(obj.click) = (next) => ((this.block_more("ul", next)));
+			(obj.click) = (next) => ((this.block_wrap("section", next)));
+			(obj.sub) = () => ([(this.Section_icon())]);
 			return obj;
 		}
-		Indent_dec_button(){
+		List_bullet_icon(){
+			const obj = new this.$.$mol_icon_order_bool_ascending();
+			return obj;
+		}
+		List_bullet_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Indent_dec_button_title")));
-			(obj.hint) = () => ("Shift+Tab");
+			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_List_bullet_button_hint")));
 			(obj.enabled) = (next) => ((this.selected(next)));
-			(obj.click) = (next) => ((this.block_less("ul", next)));
+			(obj.click) = (next) => ((this.block_wrap("ul", next)));
+			(obj.sub) = () => ([(this.List_bullet_icon())]);
 			return obj;
 		}
-		Bullet_button(){
+		List_number_icon(){
+			const obj = new this.$.$mol_icon_order_numeric_ascending();
+			return obj;
+		}
+		List_number_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Bullet_button_title")));
-			(obj.hint) = () => ("Ctrl+8");
-			(obj.enabled) = () => (false);
+			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_List_number_button_hint")));
+			(obj.enabled) = (next) => ((this.selected(next)));
+			(obj.click) = (next) => ((this.block_wrap("ol", next)));
+			(obj.sub) = () => ([(this.List_number_icon())]);
 			return obj;
 		}
-		Number_button(){
-			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Number_button_title")));
-			(obj.hint) = () => ("Ctrl+1");
-			(obj.enabled) = () => (false);
-			return obj;
-		}
-		Indent_menu(){
-			const obj = new this.$.$mol_pick();
-			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Indent_menu_hint")));
-			(obj.trigger_content) = () => ([(this.Indent_menu_icon())]);
-			(obj.bubble_content) = () => ([
-				(this.Indent_inc_button()), 
-				(this.Indent_dec_button()), 
-				(this.Bullet_button()), 
-				(this.Number_button())
-			]);
-			return obj;
-		}
-		Quote_menu_icon(){
+		Quote_icon(){
 			const obj = new this.$.$mol_icon_comment_quote_outline();
 			return obj;
 		}
-		Quote_inc_button(){
+		Quote_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Quote_inc_button_title")));
-			(obj.hint) = () => ("Ctrl+Q");
+			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Quote_button_hint")));
 			(obj.enabled) = (next) => ((this.selected(next)));
-			(obj.click) = (next) => ((this.block_more("blockquote", next)));
+			(obj.click) = (next) => ((this.block_wrap("blockquote", next)));
+			(obj.sub) = () => ([(this.Quote_icon())]);
 			return obj;
 		}
-		Quote_dec_button(){
+		Preformat_icon(){
+			const obj = new this.$.$mol_icon_xml();
+			return obj;
+		}
+		Preformat_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Quote_dec_button_title")));
-			(obj.hint) = () => ("Ctrl+Shift+Q");
+			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Preformat_button_hint")));
 			(obj.enabled) = (next) => ((this.selected(next)));
-			(obj.click) = (next) => ((this.block_less("blockquote", next)));
+			(obj.click) = (next) => ((this.block_wrap("pre", next)));
+			(obj.sub) = () => ([(this.Preformat_icon())]);
 			return obj;
 		}
-		Quote_code_button(){
+		Decrease_icon(){
+			const obj = new this.$.$mol_icon_arrow_collapse_left();
+			return obj;
+		}
+		Unwrap_button(){
 			const obj = new this.$.$mol_button_minor();
-			(obj.title) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Quote_code_button_title")));
-			(obj.hint) = () => ("Ctrl+3");
-			(obj.enabled) = () => (false);
-			return obj;
-		}
-		Quote_menu(){
-			const obj = new this.$.$mol_pick();
-			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Quote_menu_hint")));
-			(obj.trigger_content) = () => ([(this.Quote_menu_icon())]);
-			(obj.bubble_content) = () => ([
-				(this.Quote_inc_button()), 
-				(this.Quote_dec_button()), 
-				(this.Quote_code_button())
-			]);
+			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Unwrap_button_hint")));
+			(obj.enabled) = (next) => ((this.selected(next)));
+			(obj.click) = (next) => ((this.block_unwrap(next)));
+			(obj.sub) = () => ([(this.Decrease_icon())]);
 			return obj;
 		}
 		Tools(){
 			const obj = new this.$.$mol_float();
 			(obj.sub) = () => ([
 				(this.Inline_format_menu()), 
-				(this.Heading_menu()), 
-				(this.Indent_menu()), 
-				(this.Quote_menu())
+				(this.Section_button()), 
+				(this.List_bullet_button()), 
+				(this.List_number_button()), 
+				(this.Quote_button()), 
+				(this.Preformat_button()), 
+				(this.Unwrap_button())
 			]);
 			return obj;
 		}
@@ -23167,8 +23200,9 @@ var $;
 		}
 	};
 	($mol_mem_key(($.$giper_baza_rich_edit.prototype), "inline_toggle"));
-	($mol_mem_key(($.$giper_baza_rich_edit.prototype), "block_more"));
-	($mol_mem_key(($.$giper_baza_rich_edit.prototype), "block_less"));
+	($mol_mem_key(($.$giper_baza_rich_edit.prototype), "block_wrap"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "block_rewrap"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "block_unwrap"));
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "Hotkey"));
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "Inline_format_menu_icon"));
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "selected"));
@@ -23178,21 +23212,18 @@ var $;
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "Del_button"));
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "Code_button"));
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "Inline_format_menu"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Heading_menu_icon"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Header_inc_button"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Header_dec_button"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Heading_menu"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Indent_menu_icon"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Indent_inc_button"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Indent_dec_button"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Bullet_button"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Number_button"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Indent_menu"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Quote_menu_icon"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Quote_inc_button"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Quote_dec_button"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Quote_code_button"));
-	($mol_mem(($.$giper_baza_rich_edit.prototype), "Quote_menu"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Section_icon"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Section_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "List_bullet_icon"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "List_bullet_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "List_number_icon"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "List_number_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Quote_icon"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Quote_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Preformat_icon"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Preformat_button"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Decrease_icon"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Unwrap_button"));
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "Tools"));
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "editable"));
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "save"));
@@ -23511,7 +23542,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("giper/baza/rich/edit/edit.view.css", "[giper_baza_rich_edit] {\n\tflex-direction: column;\n\tflex: 1;\n\tborder-radius: var(--mol_gap_round);\n\tbackground-color: var(--mol_theme_field);\n}\n\n[giper_baza_rich_edit_enabled] {\n\toutline: 1px solid var(--mol_theme_line);\n}\n\n[giper_baza_rich_edit]:focus-within {\n\tz-index: var(--mol_layer_focus);\n\toutline: 1px solid var(--mol_theme_focus);\n}\n\n[giper_baza_rich_edit_tools] {\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] {\n\tflex-direction: column;\n\tflex: 1;\n\twhite-space: pre-wrap;\n\toutline: none;\n\tpadding: var(--mol_gap_block);\n}\n\n[giper_baza_rich_edit_content] a {\n\tcolor: var(--mol_theme_control);\n\ttext-decoration: none;\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] a:hover {\n\tbackground: var(--mol_theme_card);\n\tbox-shadow: 0 0 0 .25rem var(--mol_theme_card);\n}\n\n[giper_baza_rich_edit_content] p {\n\tmargin: 0;\n\tpadding: var(--mol_gap_text);\n}\n\n[giper_baza_rich_edit_content] ul {\n\tmargin: 0;\n\tpadding: 0 var(--mol_gap_block);\n}\n\n[giper_baza_rich_edit_content] ul > p:before {\n\tcontent: '• ';\n}\n\n[giper_baza_rich_edit_content] blockquote {\n\tmargin: var(--mol_gap_block);\n\tpadding: var(--mol_gap_block);\n\tbackground: var(--mol_theme_card);\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] img {\n\tmargin: var(--mol_gap_block);\n\tmax-width: calc( 100% - 2 * var(--mol_gap_block) );\n}\n\n[giper_baza_rich_edit_content] strong {\n\ttext-shadow: 0 0;\n\tfont-weight: normal;\n}\n\n[giper_baza_rich_edit_content] em {\n\tfont-style: italic;\n}\n\n[giper_baza_rich_edit_content] ins {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_special);\n}\n\n[giper_baza_rich_edit_content] del {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_shade);\n}\n\n[giper_baza_rich_edit_content] del {\n\tfont-family: monospace;\n}\n\n[giper_baza_rich_edit_content] hr {\n\tmargin: var(--mol_gap_block);\n\tborder: none;\n\tbox-shadow: 0 -1px 0 0px var(--mol_theme_line);\n    height: 1px;\n}\n\n[giper_baza_rich_edit_content] h1,\n[giper_baza_rich_edit_content] h2,\n[giper_baza_rich_edit_content] h3,\n[giper_baza_rich_edit_content] h4,\n[giper_baza_rich_edit_content] h5,\n[giper_baza_rich_edit_content] h6,\n[giper_baza_rich_edit_content] h7 {\n\tfont-size: 1em;\n\tfont-weight: normal;\n\tletter-spacing: 2px;\n\tmargin: var(--mol_gap_block) 0;\n\tpadding: var(--mol_gap_text);\n}\n\n[giper_baza_rich_edit_content] h1 { font-size: 2.75rem; line-height: 3rem; }\n[giper_baza_rich_edit_content] h2 { font-size: 2.5rem; line-height: 3rem; }\n[giper_baza_rich_edit_content] h3 { font-size: 2.25rem; line-height: 3rem; }\n[giper_baza_rich_edit_content] h4 { font-size: 2rem; line-height: 3rem; }\n[giper_baza_rich_edit_content] h5 { font-size: 1.75rem; line-height: 3rem; }\n[giper_baza_rich_edit_content] h6 { font-size: 1.5rem; line-height: 3rem; }\n[giper_baza_rich_edit_content] h7 { font-size: 1.25rem; line-height: 1.5rem; }\n\n[giper_baza_rich_edit_content] *+h1,\n[giper_baza_rich_edit_content] *+h2,\n[giper_baza_rich_edit_content] *+h3,\n[giper_baza_rich_edit_content] *+h4,\n[giper_baza_rich_edit_content] *+h5,\n[giper_baza_rich_edit_content] *+h6,\n[giper_baza_rich_edit_content] *+h7 {\n\tbox-shadow: 0 -1px 0 0 var(--mol_theme_line);\n}\n");
+    $mol_style_attach("giper/baza/rich/edit/edit.view.css", "[giper_baza_rich_edit] {\n\tflex-direction: column;\n\tflex: 1;\n\tborder-radius: var(--mol_gap_round);\n\tbackground-color: var(--mol_theme_field);\n}\n\n[giper_baza_rich_edit_enabled] {\n\toutline: 1px solid var(--mol_theme_line);\n}\n\n[giper_baza_rich_edit]:focus-within {\n\tz-index: var(--mol_layer_focus);\n\toutline: 1px solid var(--mol_theme_focus);\n}\n\n[giper_baza_rich_edit_tools] {\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] {\n\tflex-direction: column;\n\tflex: 1;\n\twhite-space: pre-wrap;\n\toutline: none;\n\tpadding: var(--mol_gap_block);\n}\n\n[giper_baza_rich_edit_content] a {\n\tcolor: var(--mol_theme_control);\n\ttext-decoration: none;\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] a:hover {\n\tbackground: var(--mol_theme_card);\n\tbox-shadow: 0 0 0 .25rem var(--mol_theme_card);\n}\n\n[giper_baza_rich_edit_content] p {\n\tmargin: 0;\n\tpadding: var(--mol_gap_text);\n}\n\n[giper_baza_rich_edit_content] ul {\n\tmargin: 0;\n\tpadding: 0 1.5rem;\n}\n\n[giper_baza_rich_edit_content] ul > p:before {\n\tcontent: '• ';\n\twidth: 0;\n    display: inline-flex;\n    white-space: pre;\n    flex-direction: row-reverse;\n}\n\n[giper_baza_rich_edit_content] ol {\n\tmargin: 0;\n\tpadding: 0 1.5rem;\n}\n\n[giper_baza_rich_edit_content] ol > p:before {\n\tcontent: counter(giper_baza_rich_edit_content_ol) \". \";\n\twidth: 0;\n    display: inline-flex;\n    white-space: pre;\n    flex-direction: row-reverse;\n}\n\n[giper_baza_rich_edit_content] blockquote {\n\tmargin: var(--mol_gap_block);\n\tpadding: var(--mol_gap_block);\n\tbackground: var(--mol_theme_card);\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] pre {\n\tmargin: 0 var(--mol_gap_block);\n\tpadding: 0 var(--mol_gap_block);\n\tborder-radius: var(--mol_gap_round);\n\toverflow-x: auto;\n}\n\n[giper_baza_rich_edit_content] img {\n\tmargin: var(--mol_gap_block);\n\tmax-width: calc( 100% - 2 * var(--mol_gap_block) );\n}\n\n[giper_baza_rich_edit_content] strong {\n\ttext-shadow: 0 0;\n\tfont-weight: normal;\n}\n\n[giper_baza_rich_edit_content] em {\n\tfont-style: italic;\n}\n\n[giper_baza_rich_edit_content] ins {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_special);\n}\n\n[giper_baza_rich_edit_content] del {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_shade);\n}\n\n[giper_baza_rich_edit_content] del {\n\tfont-family: monospace;\n}\n\n[giper_baza_rich_edit_content] hr {\n\tmargin: var(--mol_gap_block);\n\tborder: none;\n\tbox-shadow: 0 -1px 0 0px var(--mol_theme_line);\n    height: 1px;\n}\n\n[giper_baza_rich_edit_content] section > p:first-child {\n\tfont-size: 2rem;\n\tline-height: 3rem;\n\tfont-weight: normal;\n\tletter-spacing: 2px;\n\tmargin: var(--mol_gap_block) 0;\n\tpadding: var(--mol_gap_text);\n}\n\n[giper_baza_rich_edit_content] section section > p:first-child {\n\tfont-size: 1.75rem;\n\tline-height: 3rem;\n}\n\n[giper_baza_rich_edit_content] section section section > p:first-child {\n\tfont-size: 1.5rem;\n\tline-height: 3rem;\n}\n\n[giper_baza_rich_edit_content] section section section section > p:first-child {\n\tfont-size: 1.25rem;\n\tline-height: 3rem;\n}\n\n[giper_baza_rich_edit_content] section section section section section > p:first-child {\n\tfont-size: 1.25rem;\n\tline-height: 3rem;\n\tfont-style: italic;\n}\n\n[giper_baza_rich_edit_content] section:not(:last-child) {\n\tbox-shadow: 0 1px 0 0 var(--mol_theme_line);\n}\n");
 })($ || ($ = {}));
 
 ;
@@ -23635,51 +23666,49 @@ var $;
             // 	} ) )
             // 	obs.observe( this.Body(), { attributes: true, childList: true, subtree: true, characterData: true } )
             // }
-            block_more(Type, event) {
+            block_wrap(Type, event) {
                 const sel = $mol_dom_range.from_selection();
-                if (sel.is_empty()) {
-                    let box = sel.container();
-                    if (box.nodeType !== box.ELEMENT_NODE)
-                        box = box.parentNode;
-                    while (box) {
-                        if (box === this.Content().dom_node()) {
-                            sel.expand().surround($mol_jsx(Type, null));
-                            break;
-                        }
-                        if (box.localName === 'p') {
-                            $mol_dom_range.around(box).surround($mol_jsx(Type, null));
-                            break;
-                        }
-                        box = box.parentNode;
+                if (!sel.is_empty())
+                    return;
+                let box = sel.container();
+                if (box.nodeType !== box.ELEMENT_NODE)
+                    box = box.parentNode;
+                while (box) {
+                    if (box === this.Content().dom_node()) {
+                        $mol_dom_range.inside(box).surround($mol_jsx("p", null)).surround($mol_jsx(Type, null));
+                        break;
                     }
-                }
-                else {
-                    sel.surround($mol_jsx(Type, null));
+                    if (box.localName === 'p') {
+                        $mol_dom_range.around(box).surround($mol_jsx(Type, null));
+                        break;
+                    }
+                    box = box.parentNode;
                 }
                 this.selection_load();
                 this.save();
                 event.preventDefault();
             }
-            block_less(Type, event) {
+            block_unwrap(event) {
                 const sel = $mol_dom_range.from_selection();
-                if (sel.is_empty()) {
-                    let box = sel.container();
-                    if (box.nodeType !== box.ELEMENT_NODE)
-                        box = box.parentNode;
-                    while (box) {
-                        if (box === this.Content().dom_node())
+                if (!sel.is_empty())
+                    return;
+                let box = sel.container();
+                if (box.nodeType !== box.ELEMENT_NODE)
+                    box = box.parentNode;
+                while (box) {
+                    if (box === this.Content().dom_node())
+                        return;
+                    if (box.localName === 'p') {
+                        const parent = box.parentNode;
+                        if (parent === this.Content().dom_node())
                             return;
-                        if (box.localName === Type) {
-                            while (box.firstChild)
-                                box.parentNode.insertBefore(box.firstChild, box);
-                            box.remove();
-                            break;
-                        }
-                        box = box.parentNode;
+                        // $mol_dom_range.around( box ).split() ???
+                        while (parent.firstChild)
+                            parent.parentNode.insertBefore(parent.firstChild, parent);
+                        parent.remove();
+                        break;
                     }
-                }
-                else {
-                    // TODO: search inside
+                    box = box.parentNode;
                 }
                 this.selection_load();
                 this.save();
