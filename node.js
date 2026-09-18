@@ -12904,13 +12904,11 @@ var $;
                 clearInterval(interval);
                 setTimeout(() => this.reconnects(null), 1000);
             };
-            Object.assign(socket, {
-                destructor: () => {
-                    socket.onclose = () => { };
-                    clearInterval(interval);
-                    socket.close();
-                }
-            });
+            port.destructor = () => {
+                socket.onclose = () => { };
+                clearInterval(interval);
+                socket.close();
+            };
             return new Promise((done, fail) => {
                 socket.onopen = () => {
                     this.$.$mol_log3_come({
