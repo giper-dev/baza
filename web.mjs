@@ -28793,6 +28793,7 @@ var $;
 		}
 		Zones(){
 			const obj = new this.$.$mol_plot_fill();
+			(obj.Sample) = () => (null);
 			(obj.series_x) = () => ((this.zones_x()));
 			(obj.series_y) = () => ((this.zones_y()));
 			return obj;

@@ -41269,22 +41269,27 @@ declare namespace $ {
 
 declare namespace $ {
 
-	type $mol_plot_fill__series_x_giper_baza_app_stat_chart_1 = $mol_type_enforce<
+	type $mol_plot_fill__Sample_giper_baza_app_stat_chart_1 = $mol_type_enforce<
+		any
+		,
+		ReturnType< $mol_plot_fill['Sample'] >
+	>
+	type $mol_plot_fill__series_x_giper_baza_app_stat_chart_2 = $mol_type_enforce<
 		ReturnType< $giper_baza_app_stat_chart['zones_x'] >
 		,
 		ReturnType< $mol_plot_fill['series_x'] >
 	>
-	type $mol_plot_fill__series_y_giper_baza_app_stat_chart_2 = $mol_type_enforce<
+	type $mol_plot_fill__series_y_giper_baza_app_stat_chart_3 = $mol_type_enforce<
 		ReturnType< $giper_baza_app_stat_chart['zones_y'] >
 		,
 		ReturnType< $mol_plot_fill['series_y'] >
 	>
-	type $mol_plot_mark_cross__labels_giper_baza_app_stat_chart_3 = $mol_type_enforce<
+	type $mol_plot_mark_cross__labels_giper_baza_app_stat_chart_4 = $mol_type_enforce<
 		ReturnType< $giper_baza_app_stat_chart['times'] >
 		,
 		ReturnType< $mol_plot_mark_cross['labels'] >
 	>
-	type $mol_plot_mark_cross__graphs_giper_baza_app_stat_chart_4 = $mol_type_enforce<
+	type $mol_plot_mark_cross__graphs_giper_baza_app_stat_chart_5 = $mol_type_enforce<
 		ReturnType< $giper_baza_app_stat_chart['metrics'] >
 		,
 		ReturnType< $mol_plot_mark_cross['graphs'] >
