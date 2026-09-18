@@ -1658,114 +1658,6 @@ $mol_plot_line $mol_plot_graph
 		color <= color
 		type <= type
 
-$mol_svg_rect $mol_svg
-	dom_name \rect
-	pos /
-	attr *
-		^
-		width <= width \0
-		height <= height \0
-		x <= pos_x \
-		y <= pos_y \
-
-$mol_svg_text $mol_svg
-	dom_name \text
-	pos /
-	attr *
-		^
-		x <= pos_x \
-		y <= pos_y \
-		text-anchor <= align_hor <= align \middle
-		alignment-baseline <= align_vert \baseline
-	sub /
-		<= text \
-
-$mol_plot_ruler $mol_plot_graph
-	step 0
-	scale_axis 1
-	scale_step 1
-	shift_axis 1
-	dimensions_axis $mol_vector_range<number> /
-		Infinity
-		-Infinity
-	viewport_axis $mol_vector_range<number> /
-		Infinity
-		-Infinity
-	axis_points /number
-	normalize? 0
-	precision 1
-	sub /
-		<= Background $mol_svg_rect
-			pos_x <= background_x \0
-			pos_y <= background_y \0
-			width <= background_width \100%
-			height <= background_height \14
-		<= Curve $mol_svg_path
-			geometry <= curve \
-		<= labels_formatted /
-		<= Title $mol_svg_text
-			pos_x <= title_pos_x \0
-			pos_y <= title_pos_y \100%
-			align <= title_align \start
-			text <= title
-	Label* $mol_svg_text
-		pos <= label_pos* /
-			<= label_pos_x* \
-			<= label_pos_y* \
-		text <= label_text* \
-		align <= label_align \
-
-$mol_plot_ruler_vert $mol_plot_ruler
-	title_align \end
-	label_align \end
-	title_pos_y \14
-	label_pos_x* <= title_pos_x
-	background_height \100%
-	background_width <= title_pos_x
-
-$mol_svg_text_box $mol_svg_group
-	font_size 16
-	width 0
-	sub /
-		<= Back $mol_svg_rect
-			width <= box_width \0.5rem
-			height <= box_height \1rem
-			pos /
-				<= box_pos_x <= pos_x
-				<= box_pos_y \0
-		<= Text $mol_svg_text
-			pos /
-				<= pos_x \0
-				<= pos_y \100%
-			align <= align \start
-			sub /
-				<= text \
-
-$mol_plot_mark_cross $mol_plot_graph
-	labels /string
-	title_x_gap 4
-	title_y_gap 22
-	threshold 16
-	graphs /$mol_plot_graph
-	dimensions $mol_vector_2d<$mol_vector_range<number>> /
-		<= dimensions_x $mol_vector_range<number> /
-			Infinity
-			-Infinity
-		<= dimensions_y $mol_vector_range<number> /
-			Infinity
-			-Infinity
-	sub /
-		<= Curve $mol_svg_path
-			geometry <= curve \
-		<= Label_x $mol_svg_text_box
-			pos_x <= title_x_pos_x \0
-			pos_y <= title_x_pos_y \100%
-			text <= title_x \
-		<= Label_y $mol_svg_text_box
-			pos_x <= title_y_pos_x \0
-			pos_y <= title_y_pos_y \0
-			text <= title_y \
-
 $mol_gallery $mol_view
 	sub <= items /$mol_view
 	Side* $mol_gallery
@@ -1958,6 +1850,132 @@ $mol_chart $mol_view
 			hue_base <= hue_base 210
 			hue_shift <= hue_shift 163
 
+$mol_plot_fill $mol_plot_line
+	threshold 4
+
+$mol_svg_rect $mol_svg
+	dom_name \rect
+	pos /
+	attr *
+		^
+		width <= width \0
+		height <= height \0
+		x <= pos_x \
+		y <= pos_y \
+
+$mol_svg_text $mol_svg
+	dom_name \text
+	pos /
+	attr *
+		^
+		x <= pos_x \
+		y <= pos_y \
+		text-anchor <= align_hor <= align \middle
+		alignment-baseline <= align_vert \baseline
+	sub /
+		<= text \
+
+$mol_plot_ruler $mol_plot_graph
+	step 0
+	scale_axis 1
+	scale_step 1
+	shift_axis 1
+	dimensions_axis $mol_vector_range<number> /
+		Infinity
+		-Infinity
+	viewport_axis $mol_vector_range<number> /
+		Infinity
+		-Infinity
+	axis_points /number
+	normalize? 0
+	precision 1
+	sub /
+		<= Background $mol_svg_rect
+			pos_x <= background_x \0
+			pos_y <= background_y \0
+			width <= background_width \100%
+			height <= background_height \14
+		<= Curve $mol_svg_path
+			geometry <= curve \
+		<= labels_formatted /
+		<= Title $mol_svg_text
+			pos_x <= title_pos_x \0
+			pos_y <= title_pos_y \100%
+			align <= title_align \start
+			text <= title
+	Label* $mol_svg_text
+		pos <= label_pos* /
+			<= label_pos_x* \
+			<= label_pos_y* \
+		text <= label_text* \
+		align <= label_align \
+
+$mol_plot_ruler_vert $mol_plot_ruler
+	title_align \end
+	label_align \end
+	title_pos_y \14
+	label_pos_x* <= title_pos_x
+	background_height \100%
+	background_width <= title_pos_x
+
+$mol_svg_text_box $mol_svg_group
+	font_size 16
+	width 0
+	sub /
+		<= Back $mol_svg_rect
+			width <= box_width \0.5rem
+			height <= box_height \1rem
+			pos /
+				<= box_pos_x <= pos_x
+				<= box_pos_y \0
+		<= Text $mol_svg_text
+			pos /
+				<= pos_x \0
+				<= pos_y \100%
+			align <= align \start
+			sub /
+				<= text \
+
+$mol_plot_mark_cross $mol_plot_graph
+	labels /string
+	title_x_gap 4
+	title_y_gap 22
+	threshold 16
+	graphs /$mol_plot_graph
+	dimensions $mol_vector_2d<$mol_vector_range<number>> /
+		<= dimensions_x $mol_vector_range<number> /
+			Infinity
+			-Infinity
+		<= dimensions_y $mol_vector_range<number> /
+			Infinity
+			-Infinity
+	sub /
+		<= Curve $mol_svg_path
+			geometry <= curve \
+		<= Label_x $mol_svg_text_box
+			pos_x <= title_x_pos_x \0
+			pos_y <= title_x_pos_y \100%
+			text <= title_x \
+		<= Label_y $mol_svg_text_box
+			pos_x <= title_y_pos_x \0
+			pos_y <= title_y_pos_y \0
+			text <= title_y \
+
+$giper_baza_app_stat_chart $mol_chart
+	graphs /
+		<= Zones $mol_plot_fill
+			series_x <= zones_x /
+			series_y <= zones_y /
+				0
+				100
+				100
+				0
+		^ metrics /$mol_plot_graph
+		<= Ruler_vert $mol_plot_ruler_vert
+		<= Marks $mol_plot_mark_cross
+			labels <= times /
+			graphs <= metrics
+
 $giper_baza_app_stat_page $mol_page
 	home $giper_baza_app_home
 		link => home_link
@@ -1973,100 +1991,52 @@ $giper_baza_app_stat_page $mol_page
 		<= Tools
 	body_content /
 		<= Charts $mol_gallery items /
-			<= Cpu $mol_chart
-				graphs /
-					<= Cpu_user $mol_plot_line
-						title \CPU User (%)
-						series_y <= cpu_user /
-					<= Cpu_system $mol_plot_line
-						title \CPU System (%)
-						series_y <= cpu_system /
-					<= Cpu_ruler_sec $mol_plot_ruler_vert
-					<= Cpu_mark $mol_plot_mark_cross
-						labels <= times /
-						graphs /
-							<= Cpu_user
-							<= Cpu_system
-			<= Mem $mol_chart
-				graphs /
-					<= Mem_free $mol_plot_line
-						title \Mem Free (MB)
-						series_y <= mem_free /
-					<= Mem_used $mol_plot_line
-						title \Mem Used (MB)
-						series_y <= mem_used /
-					<= Mem_ruler $mol_plot_ruler_vert
-					<= Mem_mark $mol_plot_mark_cross
-						labels <= times /
-						graphs /
-							<= Mem_used
-							<= Mem_free
-			<= Fs_usage $mol_chart
-				graphs /
-					<= Fs_free $mol_plot_line
-						title \FS Free (MB)
-						series_y <= fs_free /
-					<= Fs_used $mol_plot_line
-						title \FS Used (MB)
-						series_y <= fs_used /
-					<= Fs_usage_ruler $mol_plot_ruler_vert
-					<= Fs_usage_mark $mol_plot_mark_cross
-						labels <= times /
-						graphs /
-							<= Fs_used
-							<= Fs_free
-			<= Fs_acting $mol_chart
-				graphs /
-					<= Fs_reads $mol_plot_line
-						title \FS Reads / sec
-						series_y <= fs_reads /
-					<= Fs_writes $mol_plot_line
-						title \FS Writes / sec
-						series_y <= fs_writes /
-					<= Fs_acting_ruler $mol_plot_ruler_vert
-					<= Fs_acting_mark $mol_plot_mark_cross
-						labels <= times /
-						graphs /
-							<= Fs_reads
-							<= Fs_writes
-			<= Ports $mol_chart
-				graphs /
-					<= Port_slaves $mol_plot_line
-						title \Slave Ports
-						series_y <= port_slaves /
-					<= Port_masters $mol_plot_line
-						title \Master Ports
-						series_y <= port_masters /
-					<= Port_ruler_pct $mol_plot_ruler_vert
-					<= Port_mark $mol_plot_mark_cross
-						labels <= times /
-						graphs /
-							<= Port_slaves
-							<= Port_masters
-			<= Land_count $mol_chart
-				graphs /
-					<= Land_alive $mol_plot_line
-						title \Alive Lands
-						series_y <= land_alive /
-					<= Land_ghost $mol_plot_line
-						title \Ghost Lands
-						series_y <= land_ghost /
-					<= Land_count_ruler $mol_plot_ruler_vert
-					<= Land_count_mark $mol_plot_mark_cross
-						labels <= times /
-						graphs /
-							<= Land_alive
-							<= Land_ghost
-			<= Error_count $mol_chart
-				graphs /
-					<= Errors $mol_plot_line
-						title \Errors
-						series_y <= errors /
-					<= Error_count_ruler $mol_plot_ruler_vert
-					<= Error_count_mark $mol_plot_mark_cross
-						labels <= times /
-						graphs /
-							<= Errors
+			<= Cpu $giper_baza_app_stat_chart metrics /
+				<= Cpu_user $mol_plot_line
+					title \CPU User (%)
+					series_y <= cpu_user /
+				<= Cpu_system $mol_plot_line
+					title \CPU System (%)
+					series_y <= cpu_system /
+			<= Mem $giper_baza_app_stat_chart metrics /
+				<= Mem_free $mol_plot_line
+					title \Mem Free (MB)
+					series_y <= mem_free /
+				<= Mem_used $mol_plot_line
+					title \Mem Used (MB)
+					series_y <= mem_used /
+			<= Fs_usage $giper_baza_app_stat_chart metrics /
+				<= Fs_free $mol_plot_line
+					title \FS Free (MB)
+					series_y <= fs_free /
+				<= Fs_used $mol_plot_line
+					title \FS Used (MB)
+					series_y <= fs_used /
+			<= Fs_acting $giper_baza_app_stat_chart metrics /
+				<= Fs_reads $mol_plot_line
+					title \FS Reads / sec
+					series_y <= fs_reads /
+				<= Fs_writes $mol_plot_line
+					title \FS Writes / sec
+					series_y <= fs_writes /
+			<= Ports $giper_baza_app_stat_chart metrics /
+				<= Port_slaves $mol_plot_line
+					title \Slave Ports
+					series_y <= port_slaves /
+				<= Port_masters $mol_plot_line
+					title \Master Ports
+					series_y <= port_masters /
+			<= Land_count $giper_baza_app_stat_chart metrics /
+				<= Land_alive $mol_plot_line
+					title \Alive Lands
+					series_y <= land_alive /
+				<= Land_ghost $mol_plot_line
+					title \Ghost Lands
+					series_y <= land_ghost /
+			<= Error_count $giper_baza_app_stat_chart metrics /
+				<= Errors $mol_plot_line
+					title \Errors
+					series_y <= errors /
 
 $giper_baza_app_stat_list $mol_book2_catalog
 	menu_title \📊 Network Monitoring

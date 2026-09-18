@@ -26876,754 +26876,6 @@ var $;
 })($ || ($ = {}));
 
 ;
-	($.$mol_svg_rect) = class $mol_svg_rect extends ($.$mol_svg) {
-		width(){
-			return "0";
-		}
-		height(){
-			return "0";
-		}
-		pos_x(){
-			return "";
-		}
-		pos_y(){
-			return "";
-		}
-		dom_name(){
-			return "rect";
-		}
-		pos(){
-			return [];
-		}
-		attr(){
-			return {
-				...(super.attr()), 
-				"width": (this.width()), 
-				"height": (this.height()), 
-				"x": (this.pos_x()), 
-				"y": (this.pos_y())
-			};
-		}
-	};
-
-
-;
-"use strict";
-
-
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_svg_rect extends $.$mol_svg_rect {
-            pos_x() {
-                return this.pos()[0];
-            }
-            pos_y() {
-                return this.pos()[1];
-            }
-        }
-        $$.$mol_svg_rect = $mol_svg_rect;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-
-;
-	($.$mol_svg_text) = class $mol_svg_text extends ($.$mol_svg) {
-		pos_x(){
-			return "";
-		}
-		pos_y(){
-			return "";
-		}
-		align(){
-			return "middle";
-		}
-		align_hor(){
-			return (this.align());
-		}
-		align_vert(){
-			return "baseline";
-		}
-		text(){
-			return "";
-		}
-		dom_name(){
-			return "text";
-		}
-		pos(){
-			return [];
-		}
-		attr(){
-			return {
-				...(super.attr()), 
-				"x": (this.pos_x()), 
-				"y": (this.pos_y()), 
-				"text-anchor": (this.align_hor()), 
-				"alignment-baseline": (this.align_vert())
-			};
-		}
-		sub(){
-			return [(this.text())];
-		}
-	};
-
-
-;
-"use strict";
-
-
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_svg_text extends $.$mol_svg_text {
-            pos_x() {
-                return this.pos()[0];
-            }
-            pos_y() {
-                return this.pos()[1];
-            }
-        }
-        $$.$mol_svg_text = $mol_svg_text;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_attach("mol/svg/text/text.view.css", "[mol_svg_text] {\n\tfill: currentColor;\n\tstroke: none;\n}\n");
-})($ || ($ = {}));
-
-;
-	($.$mol_plot_ruler) = class $mol_plot_ruler extends ($.$mol_plot_graph) {
-		background_x(){
-			return "0";
-		}
-		background_y(){
-			return "0";
-		}
-		background_width(){
-			return "100%";
-		}
-		background_height(){
-			return "14";
-		}
-		Background(){
-			const obj = new this.$.$mol_svg_rect();
-			(obj.pos_x) = () => ((this.background_x()));
-			(obj.pos_y) = () => ((this.background_y()));
-			(obj.width) = () => ((this.background_width()));
-			(obj.height) = () => ((this.background_height()));
-			return obj;
-		}
-		curve(){
-			return "";
-		}
-		Curve(){
-			const obj = new this.$.$mol_svg_path();
-			(obj.geometry) = () => ((this.curve()));
-			return obj;
-		}
-		labels_formatted(){
-			return [];
-		}
-		title_pos_x(){
-			return "0";
-		}
-		title_pos_y(){
-			return "100%";
-		}
-		title_align(){
-			return "start";
-		}
-		Title(){
-			const obj = new this.$.$mol_svg_text();
-			(obj.pos_x) = () => ((this.title_pos_x()));
-			(obj.pos_y) = () => ((this.title_pos_y()));
-			(obj.align) = () => ((this.title_align()));
-			(obj.text) = () => ((this.title()));
-			return obj;
-		}
-		label_pos_x(id){
-			return "";
-		}
-		label_pos_y(id){
-			return "";
-		}
-		label_pos(id){
-			return [(this.label_pos_x(id)), (this.label_pos_y(id))];
-		}
-		label_text(id){
-			return "";
-		}
-		label_align(){
-			return "";
-		}
-		step(){
-			return 0;
-		}
-		scale_axis(){
-			return 1;
-		}
-		scale_step(){
-			return 1;
-		}
-		shift_axis(){
-			return 1;
-		}
-		dimensions_axis(){
-			const obj = new this.$.$mol_vector_range(Infinity, -Infinity);
-			return obj;
-		}
-		viewport_axis(){
-			const obj = new this.$.$mol_vector_range(Infinity, -Infinity);
-			return obj;
-		}
-		axis_points(){
-			return [];
-		}
-		normalize(next){
-			if(next !== undefined) return next;
-			return 0;
-		}
-		precision(){
-			return 1;
-		}
-		sub(){
-			return [
-				(this.Background()), 
-				(this.Curve()), 
-				(this.labels_formatted()), 
-				(this.Title())
-			];
-		}
-		Label(id){
-			const obj = new this.$.$mol_svg_text();
-			(obj.pos) = () => ((this.label_pos(id)));
-			(obj.text) = () => ((this.label_text(id)));
-			(obj.align) = () => ((this.label_align()));
-			return obj;
-		}
-	};
-	($mol_mem(($.$mol_plot_ruler.prototype), "Background"));
-	($mol_mem(($.$mol_plot_ruler.prototype), "Curve"));
-	($mol_mem(($.$mol_plot_ruler.prototype), "Title"));
-	($mol_mem(($.$mol_plot_ruler.prototype), "dimensions_axis"));
-	($mol_mem(($.$mol_plot_ruler.prototype), "viewport_axis"));
-	($mol_mem(($.$mol_plot_ruler.prototype), "normalize"));
-	($mol_mem_key(($.$mol_plot_ruler.prototype), "Label"));
-
-
-;
-"use strict";
-var $;
-(function ($) {
-    function $mol_math_round_expand(val, gap = 1) {
-        if (val === 0)
-            return 0;
-        const val_abs = Math.abs(val);
-        const val_sign = val ? Math.round(val / val_abs) : 0;
-        const digits = Math.floor(Math.log(val_abs) / Math.log(10));
-        const precission = Math.pow(10, digits - gap);
-        const val_expanded = precission * Math.ceil(val_abs / precission);
-        return val_sign * val_expanded;
-    }
-    $.$mol_math_round_expand = $mol_math_round_expand;
-})($ || ($ = {}));
-
-;
-"use strict";
-
-
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_plot_ruler extends $.$mol_plot_ruler {
-            labels_formatted() {
-                return this.axis_points().map((point, index) => this.Label(index));
-            }
-            step() {
-                const scale = Math.abs(this.scale_step());
-                const dims = this.dimensions_axis();
-                const range = dims.max - dims.min;
-                const min_width = (Math.abs(Math.log10(range)) + 2) * 15;
-                const size = $mol_math_round_expand(range, -1);
-                const count = Math.max(1, Math.pow(10, Math.floor(Math.log(size * scale / min_width) / Math.log(10))));
-                let step = size / count;
-                const step_max = min_width * 2 / scale;
-                if (step > step_max)
-                    step /= 2;
-                if (step > step_max)
-                    step /= 2;
-                return Math.max(step, Math.abs(dims.min) / 1e10, Math.abs(dims.max) / 1e10);
-            }
-            snap_to_grid(coord) {
-                const viewport = this.viewport_axis();
-                const scale = this.scale_axis();
-                const shift = this.shift_axis();
-                const step = this.step();
-                const val = Math.round(coord / step) * step;
-                if (scale == 0)
-                    return val;
-                const step_scaled = step * scale;
-                const scaled = val * scale + shift;
-                let count = 0;
-                if (scaled < viewport.min)
-                    count = (scaled - viewport.min) / step_scaled;
-                if (scaled > viewport.max)
-                    count = (scaled - viewport.max) / step_scaled;
-                return val - Math.floor(count) * step;
-            }
-            axis_points() {
-                const dims = this.dimensions_axis();
-                const start = this.snap_to_grid(dims.min);
-                const end = this.snap_to_grid(dims.max);
-                const step = this.step();
-                const next = [];
-                for (let val = start; val <= end; val += step) {
-                    next.push(val);
-                }
-                return next;
-            }
-            precision() {
-                const step = this.step();
-                return Math.max(0, Math.min(15, (step - Math.floor(step)).toString().length - 2));
-            }
-            label_text(index) {
-                const point = this.axis_points()[index];
-                return point.toFixed(this.precision());
-            }
-            font_size() {
-                return this.Background().font_size();
-            }
-            back() {
-                return [this.Curve()];
-            }
-            front() {
-                return [
-                    // this.Background(),
-                    ...this.labels_formatted(),
-                    this.Title()
-                ];
-            }
-        }
-        __decorate([
-            $mol_mem
-        ], $mol_plot_ruler.prototype, "step", null);
-        __decorate([
-            $mol_mem
-        ], $mol_plot_ruler.prototype, "axis_points", null);
-        __decorate([
-            $mol_mem
-        ], $mol_plot_ruler.prototype, "precision", null);
-        $$.$mol_plot_ruler = $mol_plot_ruler;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_attach("mol/plot/ruler/ruler.view.css", "[mol_plot_ruler_curve] {\n\tcolor: var(--mol_theme_line);\n\tstroke-width: 1px;\n\tstroke: currentColor;\n}\n\n[mol_plot_ruler_label] {\n\tcolor: var(--mol_theme_text);\n\ttext-shadow: 0 -1px var(--mol_theme_back), 0px 1px var(--mol_theme_back);\n}\n\n[mol_plot_ruler_title] {\n\tcolor: var(--mol_theme_shade);\n\tbackground-color: var(--mol_theme_back);\n\ttext-shadow: 0 -1px var(--mol_theme_back), 0px 1px var(--mol_theme_back);\n}\n\n[mol_plot_ruler_background] {\n\tstroke: none;\n\tfill: var(--mol_theme_back);\n\topacity: 0.8;\n}\n");
-})($ || ($ = {}));
-
-;
-	($.$mol_plot_ruler_vert) = class $mol_plot_ruler_vert extends ($.$mol_plot_ruler) {
-		title_align(){
-			return "end";
-		}
-		label_align(){
-			return "end";
-		}
-		title_pos_y(){
-			return "14";
-		}
-		label_pos_x(id){
-			return (this.title_pos_x());
-		}
-		background_height(){
-			return "100%";
-		}
-		background_width(){
-			return (this.title_pos_x());
-		}
-	};
-
-
-;
-"use strict";
-
-
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_plot_ruler_vert extends $.$mol_plot_ruler_vert {
-            dimensions_axis() {
-                return this.dimensions_pane().y;
-            }
-            viewport_axis() {
-                return new this.$.$mol_vector_range(0, this.size_real().y);
-            }
-            scale_axis() {
-                return this.scale()[1];
-            }
-            scale_step() {
-                return -this.scale()[1];
-            }
-            shift_axis() {
-                return this.shift()[1];
-            }
-            curve() {
-                const [, shift] = this.shift();
-                const [, scale] = this.scale();
-                return this.axis_points().map(point => {
-                    let scaled = Math.round(point * scale + shift);
-                    scaled = Math.max(Number.MIN_SAFE_INTEGER, Math.min(scaled, Number.MAX_SAFE_INTEGER));
-                    return `M 0 ${scaled} H 2000`;
-                }).join(' ');
-            }
-            title_pos_x() {
-                return String(this.gap().x.min);
-            }
-            label_pos_y(index) {
-                return (this.axis_points()[index] * this.scale()[1] + this.shift()[1]).toFixed(3);
-            }
-        }
-        $$.$mol_plot_ruler_vert = $mol_plot_ruler_vert;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_attach("mol/plot/ruler/vert/vert.view.css", "[mol_plot_ruler_vert_label] {\n\ttransform: translateY( 4px );\n}\n");
-})($ || ($ = {}));
-
-;
-	($.$mol_svg_text_box) = class $mol_svg_text_box extends ($.$mol_svg_group) {
-		box_width(){
-			return "0.5rem";
-		}
-		box_height(){
-			return "1rem";
-		}
-		box_pos_x(){
-			return (this.pos_x());
-		}
-		box_pos_y(){
-			return "0";
-		}
-		Back(){
-			const obj = new this.$.$mol_svg_rect();
-			(obj.width) = () => ((this.box_width()));
-			(obj.height) = () => ((this.box_height()));
-			(obj.pos) = () => ([(this.box_pos_x()), (this.box_pos_y())]);
-			return obj;
-		}
-		pos_x(){
-			return "0";
-		}
-		pos_y(){
-			return "100%";
-		}
-		align(){
-			return "start";
-		}
-		text(){
-			return "";
-		}
-		Text(){
-			const obj = new this.$.$mol_svg_text();
-			(obj.pos) = () => ([(this.pos_x()), (this.pos_y())]);
-			(obj.align) = () => ((this.align()));
-			(obj.sub) = () => ([(this.text())]);
-			return obj;
-		}
-		font_size(){
-			return 16;
-		}
-		width(){
-			return 0;
-		}
-		sub(){
-			return [(this.Back()), (this.Text())];
-		}
-	};
-	($mol_mem(($.$mol_svg_text_box.prototype), "Back"));
-	($mol_mem(($.$mol_svg_text_box.prototype), "Text"));
-
-
-;
-"use strict";
-var $;
-(function ($) {
-    let canvas;
-    function $mol_font_canvas(next = canvas) {
-        if (!next)
-            next = $mol_dom_context.document.createElement('canvas').getContext('2d');
-        return canvas = next;
-    }
-    $.$mol_font_canvas = $mol_font_canvas;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    function $mol_font_measure(font, text) {
-        const canvas = $mol_font_canvas();
-        canvas.font = font;
-        return canvas.measureText(text).width;
-    }
-    $.$mol_font_measure = $mol_font_measure;
-})($ || ($ = {}));
-
-;
-"use strict";
-
-
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_svg_text_box extends $.$mol_svg_text_box {
-            box_width() {
-                return `${this.width()}px`;
-            }
-            width() {
-                return $mol_font_measure(this.font_size() + 'px ' + this.font_family(), this.text());
-            }
-            box_pos_x() {
-                const align = this.align();
-                if (align === 'end')
-                    return `calc(${this.pos_x()} - ${this.width()})`;
-                if (align === 'middle')
-                    return `calc(${this.pos_x()} - ${Math.round(this.width() / 2)})`;
-                return this.pos_x();
-            }
-            box_pos_y() {
-                return `calc(${this.pos_y()} - ${this.font_size() - 2})`;
-            }
-        }
-        __decorate([
-            $mol_mem
-        ], $mol_svg_text_box.prototype, "width", null);
-        $$.$mol_svg_text_box = $mol_svg_text_box;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_attach("mol/svg/text/box/box.view.css", "[mol_svg_text_box_back] {\n\tstroke: none;\n\tfill: var(--mol_theme_back);\n\ttransition: none;\n}\n");
-})($ || ($ = {}));
-
-;
-	($.$mol_plot_mark_cross) = class $mol_plot_mark_cross extends ($.$mol_plot_graph) {
-		dimensions_x(){
-			const obj = new this.$.$mol_vector_range(Infinity, -Infinity);
-			return obj;
-		}
-		dimensions_y(){
-			const obj = new this.$.$mol_vector_range(Infinity, -Infinity);
-			return obj;
-		}
-		curve(){
-			return "";
-		}
-		Curve(){
-			const obj = new this.$.$mol_svg_path();
-			(obj.geometry) = () => ((this.curve()));
-			return obj;
-		}
-		title_x_pos_x(){
-			return "0";
-		}
-		title_x_pos_y(){
-			return "100%";
-		}
-		title_x(){
-			return "";
-		}
-		Label_x(){
-			const obj = new this.$.$mol_svg_text_box();
-			(obj.pos_x) = () => ((this.title_x_pos_x()));
-			(obj.pos_y) = () => ((this.title_x_pos_y()));
-			(obj.text) = () => ((this.title_x()));
-			return obj;
-		}
-		title_y_pos_x(){
-			return "0";
-		}
-		title_y_pos_y(){
-			return "0";
-		}
-		title_y(){
-			return "";
-		}
-		Label_y(){
-			const obj = new this.$.$mol_svg_text_box();
-			(obj.pos_x) = () => ((this.title_y_pos_x()));
-			(obj.pos_y) = () => ((this.title_y_pos_y()));
-			(obj.text) = () => ((this.title_y()));
-			return obj;
-		}
-		labels(){
-			return [];
-		}
-		title_x_gap(){
-			return 4;
-		}
-		title_y_gap(){
-			return 22;
-		}
-		threshold(){
-			return 16;
-		}
-		graphs(){
-			return [];
-		}
-		dimensions(){
-			const obj = new this.$.$mol_vector_2d((this.dimensions_x()), (this.dimensions_y()));
-			return obj;
-		}
-		sub(){
-			return [
-				(this.Curve()), 
-				(this.Label_x()), 
-				(this.Label_y())
-			];
-		}
-	};
-	($mol_mem(($.$mol_plot_mark_cross.prototype), "dimensions_x"));
-	($mol_mem(($.$mol_plot_mark_cross.prototype), "dimensions_y"));
-	($mol_mem(($.$mol_plot_mark_cross.prototype), "Curve"));
-	($mol_mem(($.$mol_plot_mark_cross.prototype), "Label_x"));
-	($mol_mem(($.$mol_plot_mark_cross.prototype), "Label_y"));
-	($mol_mem(($.$mol_plot_mark_cross.prototype), "dimensions"));
-
-
-;
-"use strict";
-
-
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_plot_mark_cross extends $.$mol_plot_mark_cross {
-            nearest() {
-                let delta = this.threshold() ** 2;
-                const [cursor_x, cursor_y] = this.cursor_position();
-                if (Number.isNaN(cursor_x) || Number.isNaN(cursor_y))
-                    return null;
-                const graphs = this.graphs();
-                let index = 0;
-                let graph = null;
-                const [shift_x, shift_y] = this.shift();
-                const [scale_x, scale_y] = this.scale();
-                for (let current of graphs) {
-                    const indexes = current.indexes();
-                    const series_x = current.series_x();
-                    const series_y = current.series_y();
-                    for (let i of indexes) {
-                        const point_x = shift_x + series_x[i] * scale_x;
-                        const point_y = shift_y + series_y[i] * scale_y;
-                        const diff = (point_x - cursor_x) ** 2 + (point_y - cursor_y) ** 2;
-                        if (diff < delta) {
-                            delta = diff;
-                            index = i;
-                            graph = current;
-                        }
-                    }
-                }
-                if (!graph)
-                    return null;
-                const value = new $mol_vector_2d(graph.series_x()[index], graph.series_y()[index]);
-                const scaled = new $mol_vector_2d(shift_x + value.x * scale_x, shift_y + value.y * scale_y);
-                return { value, scaled, index };
-            }
-            curve() {
-                const nearest = this.nearest();
-                if (!nearest)
-                    return '';
-                return `M ${nearest.scaled.x.toFixed(3)} 1000 V 0 M 0 ${nearest.scaled.y.toFixed(3)} H 2000`;
-            }
-            title_x() {
-                const nearest = this.nearest();
-                if (!nearest)
-                    return '';
-                const labels = this.labels();
-                if (labels.length > nearest.index)
-                    return labels[nearest.index];
-                return String(nearest.value.x);
-            }
-            title_x_pos_x() {
-                const nearest = this.nearest();
-                if (!nearest)
-                    return '0';
-                const width = this.Label_x().width();
-                return (nearest.scaled.x - width / 2).toFixed(3);
-            }
-            title_x_pos_y() {
-                const nearest = this.nearest();
-                if (!nearest)
-                    return '0';
-                const pos = this.size_real().y - this.title_x_gap();
-                return pos.toFixed(3);
-            }
-            title_y() {
-                const nearest = this.nearest();
-                if (!nearest)
-                    return '';
-                return String(nearest.value.y);
-            }
-            title_y_pos_y() {
-                const nearest = this.nearest();
-                if (!nearest)
-                    return '0';
-                return nearest.scaled.y.toFixed(3);
-            }
-            title_y_pos_x() {
-                const nearest = this.nearest();
-                if (!nearest)
-                    return '0';
-                const pos = this.title_y_gap();
-                return pos.toFixed(3);
-            }
-        }
-        __decorate([
-            $mol_mem
-        ], $mol_plot_mark_cross.prototype, "nearest", null);
-        $$.$mol_plot_mark_cross = $mol_plot_mark_cross;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_attach("mol/plot/mark/cross/cross.view.css", "[mol_plot_mark_cross_curve] {\n\tcolor: var(--mol_theme_focus);\n\tstroke-width: 1px;\n\tstroke: currentColor;\n\tpointer-events: none;\n}\n\n[mol_plot_mark_cross_label_x], [mol_plot_mark_cross_label_y] {\n\tcolor: var(--mol_theme_focus);\n\tpointer-events: none;\n}\n\n[mol_plot_mark_cross_label_y] {\n\ttransform: translateY( 4px );\n}\n");
-})($ || ($ = {}));
-
-;
 	($.$mol_gallery) = class $mol_gallery extends ($.$mol_view) {
 		items(){
 			return [];
@@ -28734,6 +27986,898 @@ var $;
 
 
 ;
+	($.$mol_plot_fill) = class $mol_plot_fill extends ($.$mol_plot_line) {
+		threshold(){
+			return 4;
+		}
+	};
+
+
+;
+"use strict";
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_plot_fill extends $.$mol_plot_fill {
+            curve() {
+                const points = this.points();
+                if (points.length === 0)
+                    return '';
+                const [, shift_y] = this.shift();
+                const main = points.map(point => point.join(',')).join(' ');
+                return `M ${points[0].join(' ')} L ${main} V ${shift_y} H ${points[0][0]}`;
+            }
+            front() {
+                return [];
+            }
+            back() {
+                return [this];
+            }
+        }
+        $$.$mol_plot_fill = $mol_plot_fill;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/plot/fill/fill.view.css", "[mol_plot_fill] {\n\tstroke: none;\n\tstroke-width: 0;\n\topacity: .1;\n\tfill: currentColor;\n\tpointer-events: none;\n}\n\n[mol_plot_fill_sample] {\n\topacity: .1;\n\tbackground: currentColor;\n\tposition: absolute;\n\tbottom: 0;\n\ttop: .75em;\n\tleft: 0;\n\tright: 0;\n}\n");
+})($ || ($ = {}));
+
+;
+	($.$mol_svg_rect) = class $mol_svg_rect extends ($.$mol_svg) {
+		width(){
+			return "0";
+		}
+		height(){
+			return "0";
+		}
+		pos_x(){
+			return "";
+		}
+		pos_y(){
+			return "";
+		}
+		dom_name(){
+			return "rect";
+		}
+		pos(){
+			return [];
+		}
+		attr(){
+			return {
+				...(super.attr()), 
+				"width": (this.width()), 
+				"height": (this.height()), 
+				"x": (this.pos_x()), 
+				"y": (this.pos_y())
+			};
+		}
+	};
+
+
+;
+"use strict";
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_svg_rect extends $.$mol_svg_rect {
+            pos_x() {
+                return this.pos()[0];
+            }
+            pos_y() {
+                return this.pos()[1];
+            }
+        }
+        $$.$mol_svg_rect = $mol_svg_rect;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+	($.$mol_svg_text) = class $mol_svg_text extends ($.$mol_svg) {
+		pos_x(){
+			return "";
+		}
+		pos_y(){
+			return "";
+		}
+		align(){
+			return "middle";
+		}
+		align_hor(){
+			return (this.align());
+		}
+		align_vert(){
+			return "baseline";
+		}
+		text(){
+			return "";
+		}
+		dom_name(){
+			return "text";
+		}
+		pos(){
+			return [];
+		}
+		attr(){
+			return {
+				...(super.attr()), 
+				"x": (this.pos_x()), 
+				"y": (this.pos_y()), 
+				"text-anchor": (this.align_hor()), 
+				"alignment-baseline": (this.align_vert())
+			};
+		}
+		sub(){
+			return [(this.text())];
+		}
+	};
+
+
+;
+"use strict";
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_svg_text extends $.$mol_svg_text {
+            pos_x() {
+                return this.pos()[0];
+            }
+            pos_y() {
+                return this.pos()[1];
+            }
+        }
+        $$.$mol_svg_text = $mol_svg_text;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/svg/text/text.view.css", "[mol_svg_text] {\n\tfill: currentColor;\n\tstroke: none;\n}\n");
+})($ || ($ = {}));
+
+;
+	($.$mol_plot_ruler) = class $mol_plot_ruler extends ($.$mol_plot_graph) {
+		background_x(){
+			return "0";
+		}
+		background_y(){
+			return "0";
+		}
+		background_width(){
+			return "100%";
+		}
+		background_height(){
+			return "14";
+		}
+		Background(){
+			const obj = new this.$.$mol_svg_rect();
+			(obj.pos_x) = () => ((this.background_x()));
+			(obj.pos_y) = () => ((this.background_y()));
+			(obj.width) = () => ((this.background_width()));
+			(obj.height) = () => ((this.background_height()));
+			return obj;
+		}
+		curve(){
+			return "";
+		}
+		Curve(){
+			const obj = new this.$.$mol_svg_path();
+			(obj.geometry) = () => ((this.curve()));
+			return obj;
+		}
+		labels_formatted(){
+			return [];
+		}
+		title_pos_x(){
+			return "0";
+		}
+		title_pos_y(){
+			return "100%";
+		}
+		title_align(){
+			return "start";
+		}
+		Title(){
+			const obj = new this.$.$mol_svg_text();
+			(obj.pos_x) = () => ((this.title_pos_x()));
+			(obj.pos_y) = () => ((this.title_pos_y()));
+			(obj.align) = () => ((this.title_align()));
+			(obj.text) = () => ((this.title()));
+			return obj;
+		}
+		label_pos_x(id){
+			return "";
+		}
+		label_pos_y(id){
+			return "";
+		}
+		label_pos(id){
+			return [(this.label_pos_x(id)), (this.label_pos_y(id))];
+		}
+		label_text(id){
+			return "";
+		}
+		label_align(){
+			return "";
+		}
+		step(){
+			return 0;
+		}
+		scale_axis(){
+			return 1;
+		}
+		scale_step(){
+			return 1;
+		}
+		shift_axis(){
+			return 1;
+		}
+		dimensions_axis(){
+			const obj = new this.$.$mol_vector_range(Infinity, -Infinity);
+			return obj;
+		}
+		viewport_axis(){
+			const obj = new this.$.$mol_vector_range(Infinity, -Infinity);
+			return obj;
+		}
+		axis_points(){
+			return [];
+		}
+		normalize(next){
+			if(next !== undefined) return next;
+			return 0;
+		}
+		precision(){
+			return 1;
+		}
+		sub(){
+			return [
+				(this.Background()), 
+				(this.Curve()), 
+				(this.labels_formatted()), 
+				(this.Title())
+			];
+		}
+		Label(id){
+			const obj = new this.$.$mol_svg_text();
+			(obj.pos) = () => ((this.label_pos(id)));
+			(obj.text) = () => ((this.label_text(id)));
+			(obj.align) = () => ((this.label_align()));
+			return obj;
+		}
+	};
+	($mol_mem(($.$mol_plot_ruler.prototype), "Background"));
+	($mol_mem(($.$mol_plot_ruler.prototype), "Curve"));
+	($mol_mem(($.$mol_plot_ruler.prototype), "Title"));
+	($mol_mem(($.$mol_plot_ruler.prototype), "dimensions_axis"));
+	($mol_mem(($.$mol_plot_ruler.prototype), "viewport_axis"));
+	($mol_mem(($.$mol_plot_ruler.prototype), "normalize"));
+	($mol_mem_key(($.$mol_plot_ruler.prototype), "Label"));
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_math_round_expand(val, gap = 1) {
+        if (val === 0)
+            return 0;
+        const val_abs = Math.abs(val);
+        const val_sign = val ? Math.round(val / val_abs) : 0;
+        const digits = Math.floor(Math.log(val_abs) / Math.log(10));
+        const precission = Math.pow(10, digits - gap);
+        const val_expanded = precission * Math.ceil(val_abs / precission);
+        return val_sign * val_expanded;
+    }
+    $.$mol_math_round_expand = $mol_math_round_expand;
+})($ || ($ = {}));
+
+;
+"use strict";
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_plot_ruler extends $.$mol_plot_ruler {
+            labels_formatted() {
+                return this.axis_points().map((point, index) => this.Label(index));
+            }
+            step() {
+                const scale = Math.abs(this.scale_step());
+                const dims = this.dimensions_axis();
+                const range = dims.max - dims.min;
+                const min_width = (Math.abs(Math.log10(range)) + 2) * 15;
+                const size = $mol_math_round_expand(range, -1);
+                const count = Math.max(1, Math.pow(10, Math.floor(Math.log(size * scale / min_width) / Math.log(10))));
+                let step = size / count;
+                const step_max = min_width * 2 / scale;
+                if (step > step_max)
+                    step /= 2;
+                if (step > step_max)
+                    step /= 2;
+                return Math.max(step, Math.abs(dims.min) / 1e10, Math.abs(dims.max) / 1e10);
+            }
+            snap_to_grid(coord) {
+                const viewport = this.viewport_axis();
+                const scale = this.scale_axis();
+                const shift = this.shift_axis();
+                const step = this.step();
+                const val = Math.round(coord / step) * step;
+                if (scale == 0)
+                    return val;
+                const step_scaled = step * scale;
+                const scaled = val * scale + shift;
+                let count = 0;
+                if (scaled < viewport.min)
+                    count = (scaled - viewport.min) / step_scaled;
+                if (scaled > viewport.max)
+                    count = (scaled - viewport.max) / step_scaled;
+                return val - Math.floor(count) * step;
+            }
+            axis_points() {
+                const dims = this.dimensions_axis();
+                const start = this.snap_to_grid(dims.min);
+                const end = this.snap_to_grid(dims.max);
+                const step = this.step();
+                const next = [];
+                for (let val = start; val <= end; val += step) {
+                    next.push(val);
+                }
+                return next;
+            }
+            precision() {
+                const step = this.step();
+                return Math.max(0, Math.min(15, (step - Math.floor(step)).toString().length - 2));
+            }
+            label_text(index) {
+                const point = this.axis_points()[index];
+                return point.toFixed(this.precision());
+            }
+            font_size() {
+                return this.Background().font_size();
+            }
+            back() {
+                return [this.Curve()];
+            }
+            front() {
+                return [
+                    // this.Background(),
+                    ...this.labels_formatted(),
+                    this.Title()
+                ];
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_plot_ruler.prototype, "step", null);
+        __decorate([
+            $mol_mem
+        ], $mol_plot_ruler.prototype, "axis_points", null);
+        __decorate([
+            $mol_mem
+        ], $mol_plot_ruler.prototype, "precision", null);
+        $$.$mol_plot_ruler = $mol_plot_ruler;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/plot/ruler/ruler.view.css", "[mol_plot_ruler_curve] {\n\tcolor: var(--mol_theme_line);\n\tstroke-width: 1px;\n\tstroke: currentColor;\n}\n\n[mol_plot_ruler_label] {\n\tcolor: var(--mol_theme_text);\n\ttext-shadow: 0 -1px var(--mol_theme_back), 0px 1px var(--mol_theme_back);\n}\n\n[mol_plot_ruler_title] {\n\tcolor: var(--mol_theme_shade);\n\tbackground-color: var(--mol_theme_back);\n\ttext-shadow: 0 -1px var(--mol_theme_back), 0px 1px var(--mol_theme_back);\n}\n\n[mol_plot_ruler_background] {\n\tstroke: none;\n\tfill: var(--mol_theme_back);\n\topacity: 0.8;\n}\n");
+})($ || ($ = {}));
+
+;
+	($.$mol_plot_ruler_vert) = class $mol_plot_ruler_vert extends ($.$mol_plot_ruler) {
+		title_align(){
+			return "end";
+		}
+		label_align(){
+			return "end";
+		}
+		title_pos_y(){
+			return "14";
+		}
+		label_pos_x(id){
+			return (this.title_pos_x());
+		}
+		background_height(){
+			return "100%";
+		}
+		background_width(){
+			return (this.title_pos_x());
+		}
+	};
+
+
+;
+"use strict";
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_plot_ruler_vert extends $.$mol_plot_ruler_vert {
+            dimensions_axis() {
+                return this.dimensions_pane().y;
+            }
+            viewport_axis() {
+                return new this.$.$mol_vector_range(0, this.size_real().y);
+            }
+            scale_axis() {
+                return this.scale()[1];
+            }
+            scale_step() {
+                return -this.scale()[1];
+            }
+            shift_axis() {
+                return this.shift()[1];
+            }
+            curve() {
+                const [, shift] = this.shift();
+                const [, scale] = this.scale();
+                return this.axis_points().map(point => {
+                    let scaled = Math.round(point * scale + shift);
+                    scaled = Math.max(Number.MIN_SAFE_INTEGER, Math.min(scaled, Number.MAX_SAFE_INTEGER));
+                    return `M 0 ${scaled} H 2000`;
+                }).join(' ');
+            }
+            title_pos_x() {
+                return String(this.gap().x.min);
+            }
+            label_pos_y(index) {
+                return (this.axis_points()[index] * this.scale()[1] + this.shift()[1]).toFixed(3);
+            }
+        }
+        $$.$mol_plot_ruler_vert = $mol_plot_ruler_vert;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/plot/ruler/vert/vert.view.css", "[mol_plot_ruler_vert_label] {\n\ttransform: translateY( 4px );\n}\n");
+})($ || ($ = {}));
+
+;
+	($.$mol_svg_text_box) = class $mol_svg_text_box extends ($.$mol_svg_group) {
+		box_width(){
+			return "0.5rem";
+		}
+		box_height(){
+			return "1rem";
+		}
+		box_pos_x(){
+			return (this.pos_x());
+		}
+		box_pos_y(){
+			return "0";
+		}
+		Back(){
+			const obj = new this.$.$mol_svg_rect();
+			(obj.width) = () => ((this.box_width()));
+			(obj.height) = () => ((this.box_height()));
+			(obj.pos) = () => ([(this.box_pos_x()), (this.box_pos_y())]);
+			return obj;
+		}
+		pos_x(){
+			return "0";
+		}
+		pos_y(){
+			return "100%";
+		}
+		align(){
+			return "start";
+		}
+		text(){
+			return "";
+		}
+		Text(){
+			const obj = new this.$.$mol_svg_text();
+			(obj.pos) = () => ([(this.pos_x()), (this.pos_y())]);
+			(obj.align) = () => ((this.align()));
+			(obj.sub) = () => ([(this.text())]);
+			return obj;
+		}
+		font_size(){
+			return 16;
+		}
+		width(){
+			return 0;
+		}
+		sub(){
+			return [(this.Back()), (this.Text())];
+		}
+	};
+	($mol_mem(($.$mol_svg_text_box.prototype), "Back"));
+	($mol_mem(($.$mol_svg_text_box.prototype), "Text"));
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    let canvas;
+    function $mol_font_canvas(next = canvas) {
+        if (!next)
+            next = $mol_dom_context.document.createElement('canvas').getContext('2d');
+        return canvas = next;
+    }
+    $.$mol_font_canvas = $mol_font_canvas;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_font_measure(font, text) {
+        const canvas = $mol_font_canvas();
+        canvas.font = font;
+        return canvas.measureText(text).width;
+    }
+    $.$mol_font_measure = $mol_font_measure;
+})($ || ($ = {}));
+
+;
+"use strict";
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_svg_text_box extends $.$mol_svg_text_box {
+            box_width() {
+                return `${this.width()}px`;
+            }
+            width() {
+                return $mol_font_measure(this.font_size() + 'px ' + this.font_family(), this.text());
+            }
+            box_pos_x() {
+                const align = this.align();
+                if (align === 'end')
+                    return `calc(${this.pos_x()} - ${this.width()})`;
+                if (align === 'middle')
+                    return `calc(${this.pos_x()} - ${Math.round(this.width() / 2)})`;
+                return this.pos_x();
+            }
+            box_pos_y() {
+                return `calc(${this.pos_y()} - ${this.font_size() - 2})`;
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_svg_text_box.prototype, "width", null);
+        $$.$mol_svg_text_box = $mol_svg_text_box;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/svg/text/box/box.view.css", "[mol_svg_text_box_back] {\n\tstroke: none;\n\tfill: var(--mol_theme_back);\n\ttransition: none;\n}\n");
+})($ || ($ = {}));
+
+;
+	($.$mol_plot_mark_cross) = class $mol_plot_mark_cross extends ($.$mol_plot_graph) {
+		dimensions_x(){
+			const obj = new this.$.$mol_vector_range(Infinity, -Infinity);
+			return obj;
+		}
+		dimensions_y(){
+			const obj = new this.$.$mol_vector_range(Infinity, -Infinity);
+			return obj;
+		}
+		curve(){
+			return "";
+		}
+		Curve(){
+			const obj = new this.$.$mol_svg_path();
+			(obj.geometry) = () => ((this.curve()));
+			return obj;
+		}
+		title_x_pos_x(){
+			return "0";
+		}
+		title_x_pos_y(){
+			return "100%";
+		}
+		title_x(){
+			return "";
+		}
+		Label_x(){
+			const obj = new this.$.$mol_svg_text_box();
+			(obj.pos_x) = () => ((this.title_x_pos_x()));
+			(obj.pos_y) = () => ((this.title_x_pos_y()));
+			(obj.text) = () => ((this.title_x()));
+			return obj;
+		}
+		title_y_pos_x(){
+			return "0";
+		}
+		title_y_pos_y(){
+			return "0";
+		}
+		title_y(){
+			return "";
+		}
+		Label_y(){
+			const obj = new this.$.$mol_svg_text_box();
+			(obj.pos_x) = () => ((this.title_y_pos_x()));
+			(obj.pos_y) = () => ((this.title_y_pos_y()));
+			(obj.text) = () => ((this.title_y()));
+			return obj;
+		}
+		labels(){
+			return [];
+		}
+		title_x_gap(){
+			return 4;
+		}
+		title_y_gap(){
+			return 22;
+		}
+		threshold(){
+			return 16;
+		}
+		graphs(){
+			return [];
+		}
+		dimensions(){
+			const obj = new this.$.$mol_vector_2d((this.dimensions_x()), (this.dimensions_y()));
+			return obj;
+		}
+		sub(){
+			return [
+				(this.Curve()), 
+				(this.Label_x()), 
+				(this.Label_y())
+			];
+		}
+	};
+	($mol_mem(($.$mol_plot_mark_cross.prototype), "dimensions_x"));
+	($mol_mem(($.$mol_plot_mark_cross.prototype), "dimensions_y"));
+	($mol_mem(($.$mol_plot_mark_cross.prototype), "Curve"));
+	($mol_mem(($.$mol_plot_mark_cross.prototype), "Label_x"));
+	($mol_mem(($.$mol_plot_mark_cross.prototype), "Label_y"));
+	($mol_mem(($.$mol_plot_mark_cross.prototype), "dimensions"));
+
+
+;
+"use strict";
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_plot_mark_cross extends $.$mol_plot_mark_cross {
+            nearest() {
+                let delta = this.threshold() ** 2;
+                const [cursor_x, cursor_y] = this.cursor_position();
+                if (Number.isNaN(cursor_x) || Number.isNaN(cursor_y))
+                    return null;
+                const graphs = this.graphs();
+                let index = 0;
+                let graph = null;
+                const [shift_x, shift_y] = this.shift();
+                const [scale_x, scale_y] = this.scale();
+                for (let current of graphs) {
+                    const indexes = current.indexes();
+                    const series_x = current.series_x();
+                    const series_y = current.series_y();
+                    for (let i of indexes) {
+                        const point_x = shift_x + series_x[i] * scale_x;
+                        const point_y = shift_y + series_y[i] * scale_y;
+                        const diff = (point_x - cursor_x) ** 2 + (point_y - cursor_y) ** 2;
+                        if (diff < delta) {
+                            delta = diff;
+                            index = i;
+                            graph = current;
+                        }
+                    }
+                }
+                if (!graph)
+                    return null;
+                const value = new $mol_vector_2d(graph.series_x()[index], graph.series_y()[index]);
+                const scaled = new $mol_vector_2d(shift_x + value.x * scale_x, shift_y + value.y * scale_y);
+                return { value, scaled, index };
+            }
+            curve() {
+                const nearest = this.nearest();
+                if (!nearest)
+                    return '';
+                return `M ${nearest.scaled.x.toFixed(3)} 1000 V 0 M 0 ${nearest.scaled.y.toFixed(3)} H 2000`;
+            }
+            title_x() {
+                const nearest = this.nearest();
+                if (!nearest)
+                    return '';
+                const labels = this.labels();
+                if (labels.length > nearest.index)
+                    return labels[nearest.index];
+                return String(nearest.value.x);
+            }
+            title_x_pos_x() {
+                const nearest = this.nearest();
+                if (!nearest)
+                    return '0';
+                const width = this.Label_x().width();
+                return (nearest.scaled.x - width / 2).toFixed(3);
+            }
+            title_x_pos_y() {
+                const nearest = this.nearest();
+                if (!nearest)
+                    return '0';
+                const pos = this.size_real().y - this.title_x_gap();
+                return pos.toFixed(3);
+            }
+            title_y() {
+                const nearest = this.nearest();
+                if (!nearest)
+                    return '';
+                return String(nearest.value.y);
+            }
+            title_y_pos_y() {
+                const nearest = this.nearest();
+                if (!nearest)
+                    return '0';
+                return nearest.scaled.y.toFixed(3);
+            }
+            title_y_pos_x() {
+                const nearest = this.nearest();
+                if (!nearest)
+                    return '0';
+                const pos = this.title_y_gap();
+                return pos.toFixed(3);
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_plot_mark_cross.prototype, "nearest", null);
+        $$.$mol_plot_mark_cross = $mol_plot_mark_cross;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/plot/mark/cross/cross.view.css", "[mol_plot_mark_cross_curve] {\n\tcolor: var(--mol_theme_focus);\n\tstroke-width: 1px;\n\tstroke: currentColor;\n\tpointer-events: none;\n}\n\n[mol_plot_mark_cross_label_x], [mol_plot_mark_cross_label_y] {\n\tcolor: var(--mol_theme_focus);\n\tpointer-events: none;\n}\n\n[mol_plot_mark_cross_label_y] {\n\ttransform: translateY( 4px );\n}\n");
+})($ || ($ = {}));
+
+;
+	($.$giper_baza_app_stat_chart) = class $giper_baza_app_stat_chart extends ($.$mol_chart) {
+		zones_x(){
+			return [];
+		}
+		zones_y(){
+			return [
+				0, 
+				100, 
+				100, 
+				0
+			];
+		}
+		Zones(){
+			const obj = new this.$.$mol_plot_fill();
+			(obj.series_x) = () => ((this.zones_x()));
+			(obj.series_y) = () => ((this.zones_y()));
+			return obj;
+		}
+		metrics(){
+			return [];
+		}
+		Ruler_vert(){
+			const obj = new this.$.$mol_plot_ruler_vert();
+			return obj;
+		}
+		times(){
+			return [];
+		}
+		Marks(){
+			const obj = new this.$.$mol_plot_mark_cross();
+			(obj.labels) = () => ((this.times()));
+			(obj.graphs) = () => ((this.metrics()));
+			return obj;
+		}
+		graphs(){
+			return [
+				(this.Zones()), 
+				...(this.metrics()), 
+				(this.Ruler_vert()), 
+				(this.Marks())
+			];
+		}
+	};
+	($mol_mem(($.$giper_baza_app_stat_chart.prototype), "Zones"));
+	($mol_mem(($.$giper_baza_app_stat_chart.prototype), "Ruler_vert"));
+	($mol_mem(($.$giper_baza_app_stat_chart.prototype), "Marks"));
+
+
+;
+"use strict";
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $giper_baza_app_stat_chart extends $.$giper_baza_app_stat_chart {
+            times() {
+                const times = [];
+                for (let i = 1; i < 59; ++i)
+                    times.push(`${i} secs ago`);
+                for (let i = 1; i < 59; ++i)
+                    times.push(`${i} mins ago`);
+                for (let i = 1; i < 23; ++i)
+                    times.push(`${i} hours ago`);
+                for (let i = 1; i < 31; ++i)
+                    times.push(`${i} days ago`);
+                for (let i = 1; i < 12; ++i)
+                    times.push(`${i} months ago`);
+                return times;
+            }
+            zones_x() {
+                return [58, 116, 138, 168].flatMap(x => [x, x]);
+            }
+            zones_y() {
+                let max = 0;
+                for (const metric of this.metrics())
+                    for (const y of metric.series_y())
+                        if (y > max)
+                            max = y;
+                return Array.from({ length: 2 }, _ => [0, max, max, 0]).flatMap(x => x);
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $giper_baza_app_stat_chart.prototype, "times", null);
+        __decorate([
+            $mol_mem
+        ], $giper_baza_app_stat_chart.prototype, "zones_x", null);
+        __decorate([
+            $mol_mem
+        ], $giper_baza_app_stat_chart.prototype, "zones_y", null);
+        $$.$giper_baza_app_stat_chart = $giper_baza_app_stat_chart;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$giper_baza_app_stat_page) = class $giper_baza_app_stat_page extends ($.$mol_page) {
 		home_link(){
 			return (this.home().link());
@@ -28778,27 +28922,9 @@ var $;
 			(obj.series_y) = () => ((this.cpu_system()));
 			return obj;
 		}
-		Cpu_ruler_sec(){
-			const obj = new this.$.$mol_plot_ruler_vert();
-			return obj;
-		}
-		times(){
-			return [];
-		}
-		Cpu_mark(){
-			const obj = new this.$.$mol_plot_mark_cross();
-			(obj.labels) = () => ((this.times()));
-			(obj.graphs) = () => ([(this.Cpu_user()), (this.Cpu_system())]);
-			return obj;
-		}
 		Cpu(){
-			const obj = new this.$.$mol_chart();
-			(obj.graphs) = () => ([
-				(this.Cpu_user()), 
-				(this.Cpu_system()), 
-				(this.Cpu_ruler_sec()), 
-				(this.Cpu_mark())
-			]);
+			const obj = new this.$.$giper_baza_app_stat_chart();
+			(obj.metrics) = () => ([(this.Cpu_user()), (this.Cpu_system())]);
 			return obj;
 		}
 		mem_free(){
@@ -28819,24 +28945,9 @@ var $;
 			(obj.series_y) = () => ((this.mem_used()));
 			return obj;
 		}
-		Mem_ruler(){
-			const obj = new this.$.$mol_plot_ruler_vert();
-			return obj;
-		}
-		Mem_mark(){
-			const obj = new this.$.$mol_plot_mark_cross();
-			(obj.labels) = () => ((this.times()));
-			(obj.graphs) = () => ([(this.Mem_used()), (this.Mem_free())]);
-			return obj;
-		}
 		Mem(){
-			const obj = new this.$.$mol_chart();
-			(obj.graphs) = () => ([
-				(this.Mem_free()), 
-				(this.Mem_used()), 
-				(this.Mem_ruler()), 
-				(this.Mem_mark())
-			]);
+			const obj = new this.$.$giper_baza_app_stat_chart();
+			(obj.metrics) = () => ([(this.Mem_free()), (this.Mem_used())]);
 			return obj;
 		}
 		fs_free(){
@@ -28857,24 +28968,9 @@ var $;
 			(obj.series_y) = () => ((this.fs_used()));
 			return obj;
 		}
-		Fs_usage_ruler(){
-			const obj = new this.$.$mol_plot_ruler_vert();
-			return obj;
-		}
-		Fs_usage_mark(){
-			const obj = new this.$.$mol_plot_mark_cross();
-			(obj.labels) = () => ((this.times()));
-			(obj.graphs) = () => ([(this.Fs_used()), (this.Fs_free())]);
-			return obj;
-		}
 		Fs_usage(){
-			const obj = new this.$.$mol_chart();
-			(obj.graphs) = () => ([
-				(this.Fs_free()), 
-				(this.Fs_used()), 
-				(this.Fs_usage_ruler()), 
-				(this.Fs_usage_mark())
-			]);
+			const obj = new this.$.$giper_baza_app_stat_chart();
+			(obj.metrics) = () => ([(this.Fs_free()), (this.Fs_used())]);
 			return obj;
 		}
 		fs_reads(){
@@ -28895,24 +28991,9 @@ var $;
 			(obj.series_y) = () => ((this.fs_writes()));
 			return obj;
 		}
-		Fs_acting_ruler(){
-			const obj = new this.$.$mol_plot_ruler_vert();
-			return obj;
-		}
-		Fs_acting_mark(){
-			const obj = new this.$.$mol_plot_mark_cross();
-			(obj.labels) = () => ((this.times()));
-			(obj.graphs) = () => ([(this.Fs_reads()), (this.Fs_writes())]);
-			return obj;
-		}
 		Fs_acting(){
-			const obj = new this.$.$mol_chart();
-			(obj.graphs) = () => ([
-				(this.Fs_reads()), 
-				(this.Fs_writes()), 
-				(this.Fs_acting_ruler()), 
-				(this.Fs_acting_mark())
-			]);
+			const obj = new this.$.$giper_baza_app_stat_chart();
+			(obj.metrics) = () => ([(this.Fs_reads()), (this.Fs_writes())]);
 			return obj;
 		}
 		port_slaves(){
@@ -28933,24 +29014,9 @@ var $;
 			(obj.series_y) = () => ((this.port_masters()));
 			return obj;
 		}
-		Port_ruler_pct(){
-			const obj = new this.$.$mol_plot_ruler_vert();
-			return obj;
-		}
-		Port_mark(){
-			const obj = new this.$.$mol_plot_mark_cross();
-			(obj.labels) = () => ((this.times()));
-			(obj.graphs) = () => ([(this.Port_slaves()), (this.Port_masters())]);
-			return obj;
-		}
 		Ports(){
-			const obj = new this.$.$mol_chart();
-			(obj.graphs) = () => ([
-				(this.Port_slaves()), 
-				(this.Port_masters()), 
-				(this.Port_ruler_pct()), 
-				(this.Port_mark())
-			]);
+			const obj = new this.$.$giper_baza_app_stat_chart();
+			(obj.metrics) = () => ([(this.Port_slaves()), (this.Port_masters())]);
 			return obj;
 		}
 		land_alive(){
@@ -28971,24 +29037,9 @@ var $;
 			(obj.series_y) = () => ((this.land_ghost()));
 			return obj;
 		}
-		Land_count_ruler(){
-			const obj = new this.$.$mol_plot_ruler_vert();
-			return obj;
-		}
-		Land_count_mark(){
-			const obj = new this.$.$mol_plot_mark_cross();
-			(obj.labels) = () => ((this.times()));
-			(obj.graphs) = () => ([(this.Land_alive()), (this.Land_ghost())]);
-			return obj;
-		}
 		Land_count(){
-			const obj = new this.$.$mol_chart();
-			(obj.graphs) = () => ([
-				(this.Land_alive()), 
-				(this.Land_ghost()), 
-				(this.Land_count_ruler()), 
-				(this.Land_count_mark())
-			]);
+			const obj = new this.$.$giper_baza_app_stat_chart();
+			(obj.metrics) = () => ([(this.Land_alive()), (this.Land_ghost())]);
 			return obj;
 		}
 		errors(){
@@ -29000,23 +29051,9 @@ var $;
 			(obj.series_y) = () => ((this.errors()));
 			return obj;
 		}
-		Error_count_ruler(){
-			const obj = new this.$.$mol_plot_ruler_vert();
-			return obj;
-		}
-		Error_count_mark(){
-			const obj = new this.$.$mol_plot_mark_cross();
-			(obj.labels) = () => ((this.times()));
-			(obj.graphs) = () => ([(this.Errors())]);
-			return obj;
-		}
 		Error_count(){
-			const obj = new this.$.$mol_chart();
-			(obj.graphs) = () => ([
-				(this.Errors()), 
-				(this.Error_count_ruler()), 
-				(this.Error_count_mark())
-			]);
+			const obj = new this.$.$giper_baza_app_stat_chart();
+			(obj.metrics) = () => ([(this.Errors())]);
 			return obj;
 		}
 		Charts(){
@@ -29048,37 +29085,23 @@ var $;
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Main"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Cpu_user"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Cpu_system"));
-	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Cpu_ruler_sec"));
-	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Cpu_mark"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Cpu"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Mem_free"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Mem_used"));
-	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Mem_ruler"));
-	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Mem_mark"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Mem"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Fs_free"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Fs_used"));
-	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Fs_usage_ruler"));
-	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Fs_usage_mark"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Fs_usage"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Fs_reads"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Fs_writes"));
-	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Fs_acting_ruler"));
-	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Fs_acting_mark"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Fs_acting"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Port_slaves"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Port_masters"));
-	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Port_ruler_pct"));
-	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Port_mark"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Ports"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Land_alive"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Land_ghost"));
-	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Land_count_ruler"));
-	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Land_count_mark"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Land_count"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Errors"));
-	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Error_count_ruler"));
-	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Error_count_mark"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Error_count"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "Charts"));
 	($mol_mem(($.$giper_baza_app_stat_page.prototype), "home"));
@@ -29157,20 +29180,6 @@ var $;
             errors() {
                 return this.stat()?.Errors()?.series() ?? [];
             }
-            times() {
-                const times = [];
-                for (let i = 1; i < 59; ++i)
-                    times.push(`${i} secs ago`);
-                for (let i = 1; i < 59; ++i)
-                    times.push(`${i} mins ago`);
-                for (let i = 1; i < 23; ++i)
-                    times.push(`${i} hours ago`);
-                for (let i = 1; i < 31; ++i)
-                    times.push(`${i} days ago`);
-                for (let i = 1; i < 12; ++i)
-                    times.push(`${i} months ago`);
-                return times;
-            }
         }
         __decorate([
             $mol_mem
@@ -29217,9 +29226,6 @@ var $;
         __decorate([
             $mol_mem
         ], $giper_baza_app_stat_page.prototype, "errors", null);
-        __decorate([
-            $mol_mem
-        ], $giper_baza_app_stat_page.prototype, "times", null);
         $$.$giper_baza_app_stat_page = $giper_baza_app_stat_page;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));

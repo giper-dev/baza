@@ -40372,391 +40372,6 @@ declare namespace $ {
 
 declare namespace $ {
 
-	export class $mol_svg_rect extends $mol_svg {
-		width( ): string
-		height( ): string
-		pos_x( ): string
-		pos_y( ): string
-		dom_name( ): string
-		pos( ): readonly(any)[]
-		attr( ): ({ 
-			'width': ReturnType< $mol_svg_rect['width'] >,
-			'height': ReturnType< $mol_svg_rect['height'] >,
-			'x': ReturnType< $mol_svg_rect['pos_x'] >,
-			'y': ReturnType< $mol_svg_rect['pos_y'] >,
-		})  & ReturnType< $mol_svg['attr'] >
-	}
-	
-}
-
-//# sourceMappingURL=rect.view.tree.d.ts.map
-declare namespace $.$$ {
-    class $mol_svg_rect extends $.$mol_svg_rect {
-        pos_x(): any;
-        pos_y(): any;
-    }
-}
-
-declare namespace $ {
-
-	export class $mol_svg_text extends $mol_svg {
-		pos_x( ): string
-		pos_y( ): string
-		align( ): string
-		align_hor( ): ReturnType< $mol_svg_text['align'] >
-		align_vert( ): string
-		text( ): string
-		dom_name( ): string
-		pos( ): readonly(any)[]
-		attr( ): ({ 
-			'x': ReturnType< $mol_svg_text['pos_x'] >,
-			'y': ReturnType< $mol_svg_text['pos_y'] >,
-			'text-anchor': ReturnType< $mol_svg_text['align_hor'] >,
-			'alignment-baseline': ReturnType< $mol_svg_text['align_vert'] >,
-		})  & ReturnType< $mol_svg['attr'] >
-		sub( ): readonly(any)[]
-	}
-	
-}
-
-//# sourceMappingURL=text.view.tree.d.ts.map
-declare namespace $.$$ {
-    class $mol_svg_text extends $.$mol_svg_text {
-        pos_x(): any;
-        pos_y(): any;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    function $mol_math_round_expand(val: number, gap?: number): number;
-}
-
-declare namespace $ {
-
-	type $mol_svg_rect__pos_x_mol_plot_ruler_1 = $mol_type_enforce<
-		ReturnType< $mol_plot_ruler['background_x'] >
-		,
-		ReturnType< $mol_svg_rect['pos_x'] >
-	>
-	type $mol_svg_rect__pos_y_mol_plot_ruler_2 = $mol_type_enforce<
-		ReturnType< $mol_plot_ruler['background_y'] >
-		,
-		ReturnType< $mol_svg_rect['pos_y'] >
-	>
-	type $mol_svg_rect__width_mol_plot_ruler_3 = $mol_type_enforce<
-		ReturnType< $mol_plot_ruler['background_width'] >
-		,
-		ReturnType< $mol_svg_rect['width'] >
-	>
-	type $mol_svg_rect__height_mol_plot_ruler_4 = $mol_type_enforce<
-		ReturnType< $mol_plot_ruler['background_height'] >
-		,
-		ReturnType< $mol_svg_rect['height'] >
-	>
-	type $mol_svg_path__geometry_mol_plot_ruler_5 = $mol_type_enforce<
-		ReturnType< $mol_plot_ruler['curve'] >
-		,
-		ReturnType< $mol_svg_path['geometry'] >
-	>
-	type $mol_svg_text__pos_x_mol_plot_ruler_6 = $mol_type_enforce<
-		ReturnType< $mol_plot_ruler['title_pos_x'] >
-		,
-		ReturnType< $mol_svg_text['pos_x'] >
-	>
-	type $mol_svg_text__pos_y_mol_plot_ruler_7 = $mol_type_enforce<
-		ReturnType< $mol_plot_ruler['title_pos_y'] >
-		,
-		ReturnType< $mol_svg_text['pos_y'] >
-	>
-	type $mol_svg_text__align_mol_plot_ruler_8 = $mol_type_enforce<
-		ReturnType< $mol_plot_ruler['title_align'] >
-		,
-		ReturnType< $mol_svg_text['align'] >
-	>
-	type $mol_svg_text__text_mol_plot_ruler_9 = $mol_type_enforce<
-		ReturnType< $mol_plot_ruler['title'] >
-		,
-		ReturnType< $mol_svg_text['text'] >
-	>
-	type $mol_vector_range__mol_plot_ruler_10 = $mol_type_enforce<
-		[ number, number ]
-		,
-		ConstructorParameters< typeof $mol_vector_range<number> >
-	>
-	type $mol_vector_range__mol_plot_ruler_11 = $mol_type_enforce<
-		[ number, number ]
-		,
-		ConstructorParameters< typeof $mol_vector_range<number> >
-	>
-	type $mol_svg_text__pos_mol_plot_ruler_12 = $mol_type_enforce<
-		ReturnType< $mol_plot_ruler['label_pos'] >
-		,
-		ReturnType< $mol_svg_text['pos'] >
-	>
-	type $mol_svg_text__text_mol_plot_ruler_13 = $mol_type_enforce<
-		ReturnType< $mol_plot_ruler['label_text'] >
-		,
-		ReturnType< $mol_svg_text['text'] >
-	>
-	type $mol_svg_text__align_mol_plot_ruler_14 = $mol_type_enforce<
-		ReturnType< $mol_plot_ruler['label_align'] >
-		,
-		ReturnType< $mol_svg_text['align'] >
-	>
-	export class $mol_plot_ruler extends $mol_plot_graph {
-		background_x( ): string
-		background_y( ): string
-		background_width( ): string
-		background_height( ): string
-		Background( ): $mol_svg_rect
-		curve( ): string
-		Curve( ): $mol_svg_path
-		labels_formatted( ): readonly(any)[]
-		title_pos_x( ): string
-		title_pos_y( ): string
-		title_align( ): string
-		Title( ): $mol_svg_text
-		label_pos_x( id: any): string
-		label_pos_y( id: any): string
-		label_pos( id: any): readonly(any)[]
-		label_text( id: any): string
-		label_align( ): string
-		step( ): number
-		scale_axis( ): number
-		scale_step( ): number
-		shift_axis( ): number
-		dimensions_axis( ): $mol_vector_range<number>
-		viewport_axis( ): $mol_vector_range<number>
-		axis_points( ): readonly(number)[]
-		normalize( next?: number ): number
-		precision( ): number
-		sub( ): readonly(any)[]
-		Label( id: any): $mol_svg_text
-	}
-	
-}
-
-//# sourceMappingURL=ruler.view.tree.d.ts.map
-declare namespace $.$$ {
-    class $mol_plot_ruler extends $.$mol_plot_ruler {
-        labels_formatted(): $.$mol_svg_text[];
-        step(): number;
-        snap_to_grid(coord: number): number;
-        axis_points(): number[];
-        precision(): number;
-        label_text(index: number): string;
-        font_size(): number;
-        back(): $mol_svg_path[];
-        front(): readonly $.$mol_svg[];
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-
-	export class $mol_plot_ruler_vert extends $mol_plot_ruler {
-		title_align( ): string
-		label_align( ): string
-		title_pos_y( ): string
-		label_pos_x( id: any): ReturnType< $mol_plot_ruler_vert['title_pos_x'] >
-		background_height( ): string
-		background_width( ): ReturnType< $mol_plot_ruler_vert['title_pos_x'] >
-	}
-	
-}
-
-//# sourceMappingURL=vert.view.tree.d.ts.map
-declare namespace $.$$ {
-    class $mol_plot_ruler_vert extends $.$mol_plot_ruler_vert {
-        dimensions_axis(): $mol_vector_range<number>;
-        viewport_axis(): $mol_vector_range<number>;
-        scale_axis(): number;
-        scale_step(): number;
-        shift_axis(): number;
-        curve(): string;
-        title_pos_x(): string;
-        label_pos_y(index: number): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    function $mol_font_canvas(next?: CanvasRenderingContext2D): CanvasRenderingContext2D;
-}
-
-declare namespace $ {
-    function $mol_font_measure(font: string, text: string): number;
-}
-
-declare namespace $ {
-
-	type $mol_svg_rect__width_mol_svg_text_box_1 = $mol_type_enforce<
-		ReturnType< $mol_svg_text_box['box_width'] >
-		,
-		ReturnType< $mol_svg_rect['width'] >
-	>
-	type $mol_svg_rect__height_mol_svg_text_box_2 = $mol_type_enforce<
-		ReturnType< $mol_svg_text_box['box_height'] >
-		,
-		ReturnType< $mol_svg_rect['height'] >
-	>
-	type $mol_svg_rect__pos_mol_svg_text_box_3 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_svg_rect['pos'] >
-	>
-	type $mol_svg_text__pos_mol_svg_text_box_4 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_svg_text['pos'] >
-	>
-	type $mol_svg_text__align_mol_svg_text_box_5 = $mol_type_enforce<
-		ReturnType< $mol_svg_text_box['align'] >
-		,
-		ReturnType< $mol_svg_text['align'] >
-	>
-	type $mol_svg_text__sub_mol_svg_text_box_6 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_svg_text['sub'] >
-	>
-	export class $mol_svg_text_box extends $mol_svg_group {
-		box_width( ): string
-		box_height( ): string
-		box_pos_x( ): ReturnType< $mol_svg_text_box['pos_x'] >
-		box_pos_y( ): string
-		Back( ): $mol_svg_rect
-		pos_x( ): string
-		pos_y( ): string
-		align( ): string
-		text( ): string
-		Text( ): $mol_svg_text
-		font_size( ): number
-		width( ): number
-		sub( ): readonly(any)[]
-	}
-	
-}
-
-//# sourceMappingURL=box.view.tree.d.ts.map
-declare namespace $.$$ {
-    class $mol_svg_text_box extends $.$mol_svg_text_box {
-        box_width(): string;
-        width(): number;
-        box_pos_x(): string;
-        box_pos_y(): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-
-	type $mol_vector_range__mol_plot_mark_cross_1 = $mol_type_enforce<
-		[ number, number ]
-		,
-		ConstructorParameters< typeof $mol_vector_range<number> >
-	>
-	type $mol_vector_range__mol_plot_mark_cross_2 = $mol_type_enforce<
-		[ number, number ]
-		,
-		ConstructorParameters< typeof $mol_vector_range<number> >
-	>
-	type $mol_svg_path__geometry_mol_plot_mark_cross_3 = $mol_type_enforce<
-		ReturnType< $mol_plot_mark_cross['curve'] >
-		,
-		ReturnType< $mol_svg_path['geometry'] >
-	>
-	type $mol_svg_text_box__pos_x_mol_plot_mark_cross_4 = $mol_type_enforce<
-		ReturnType< $mol_plot_mark_cross['title_x_pos_x'] >
-		,
-		ReturnType< $mol_svg_text_box['pos_x'] >
-	>
-	type $mol_svg_text_box__pos_y_mol_plot_mark_cross_5 = $mol_type_enforce<
-		ReturnType< $mol_plot_mark_cross['title_x_pos_y'] >
-		,
-		ReturnType< $mol_svg_text_box['pos_y'] >
-	>
-	type $mol_svg_text_box__text_mol_plot_mark_cross_6 = $mol_type_enforce<
-		ReturnType< $mol_plot_mark_cross['title_x'] >
-		,
-		ReturnType< $mol_svg_text_box['text'] >
-	>
-	type $mol_svg_text_box__pos_x_mol_plot_mark_cross_7 = $mol_type_enforce<
-		ReturnType< $mol_plot_mark_cross['title_y_pos_x'] >
-		,
-		ReturnType< $mol_svg_text_box['pos_x'] >
-	>
-	type $mol_svg_text_box__pos_y_mol_plot_mark_cross_8 = $mol_type_enforce<
-		ReturnType< $mol_plot_mark_cross['title_y_pos_y'] >
-		,
-		ReturnType< $mol_svg_text_box['pos_y'] >
-	>
-	type $mol_svg_text_box__text_mol_plot_mark_cross_9 = $mol_type_enforce<
-		ReturnType< $mol_plot_mark_cross['title_y'] >
-		,
-		ReturnType< $mol_svg_text_box['text'] >
-	>
-	type $mol_vector_2d__mol_plot_mark_cross_10 = $mol_type_enforce<
-		[ ReturnType< $mol_plot_mark_cross['dimensions_x'] >, ReturnType< $mol_plot_mark_cross['dimensions_y'] > ]
-		,
-		ConstructorParameters< typeof $mol_vector_2d<$mol_vector_range<number>> >
-	>
-	export class $mol_plot_mark_cross extends $mol_plot_graph {
-		dimensions_x( ): $mol_vector_range<number>
-		dimensions_y( ): $mol_vector_range<number>
-		curve( ): string
-		Curve( ): $mol_svg_path
-		title_x_pos_x( ): string
-		title_x_pos_y( ): string
-		title_x( ): string
-		Label_x( ): $mol_svg_text_box
-		title_y_pos_x( ): string
-		title_y_pos_y( ): string
-		title_y( ): string
-		Label_y( ): $mol_svg_text_box
-		labels( ): readonly(string)[]
-		title_x_gap( ): number
-		title_y_gap( ): number
-		threshold( ): number
-		graphs( ): readonly($mol_plot_graph)[]
-		dimensions( ): $mol_vector_2d<$mol_vector_range<number>>
-		sub( ): readonly(any)[]
-	}
-	
-}
-
-//# sourceMappingURL=cross.view.tree.d.ts.map
-declare namespace $.$$ {
-    class $mol_plot_mark_cross extends $.$mol_plot_mark_cross {
-        nearest(): {
-            value: $mol_vector_2d<number>;
-            scaled: $mol_vector_2d<number>;
-            index: number;
-        } | null;
-        curve(): string;
-        title_x(): string;
-        title_x_pos_x(): string;
-        title_x_pos_y(): string;
-        title_y(): string;
-        title_y_pos_y(): string;
-        title_y_pos_x(): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-
 	type $mol_gallery__style_mol_gallery_1 = $mol_type_enforce<
 		({ 
 			'flexGrow': ReturnType< $mol_gallery['side_size'] >,
@@ -41249,6 +40864,455 @@ declare namespace $ {
 //# sourceMappingURL=chart.view.tree.d.ts.map
 declare namespace $ {
 
+	export class $mol_plot_fill extends $mol_plot_line {
+		threshold( ): number
+	}
+	
+}
+
+//# sourceMappingURL=fill.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_plot_fill extends $.$mol_plot_fill {
+        curve(): string;
+        front(): never[];
+        back(): this[];
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+
+	export class $mol_svg_rect extends $mol_svg {
+		width( ): string
+		height( ): string
+		pos_x( ): string
+		pos_y( ): string
+		dom_name( ): string
+		pos( ): readonly(any)[]
+		attr( ): ({ 
+			'width': ReturnType< $mol_svg_rect['width'] >,
+			'height': ReturnType< $mol_svg_rect['height'] >,
+			'x': ReturnType< $mol_svg_rect['pos_x'] >,
+			'y': ReturnType< $mol_svg_rect['pos_y'] >,
+		})  & ReturnType< $mol_svg['attr'] >
+	}
+	
+}
+
+//# sourceMappingURL=rect.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_svg_rect extends $.$mol_svg_rect {
+        pos_x(): any;
+        pos_y(): any;
+    }
+}
+
+declare namespace $ {
+
+	export class $mol_svg_text extends $mol_svg {
+		pos_x( ): string
+		pos_y( ): string
+		align( ): string
+		align_hor( ): ReturnType< $mol_svg_text['align'] >
+		align_vert( ): string
+		text( ): string
+		dom_name( ): string
+		pos( ): readonly(any)[]
+		attr( ): ({ 
+			'x': ReturnType< $mol_svg_text['pos_x'] >,
+			'y': ReturnType< $mol_svg_text['pos_y'] >,
+			'text-anchor': ReturnType< $mol_svg_text['align_hor'] >,
+			'alignment-baseline': ReturnType< $mol_svg_text['align_vert'] >,
+		})  & ReturnType< $mol_svg['attr'] >
+		sub( ): readonly(any)[]
+	}
+	
+}
+
+//# sourceMappingURL=text.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_svg_text extends $.$mol_svg_text {
+        pos_x(): any;
+        pos_y(): any;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    function $mol_math_round_expand(val: number, gap?: number): number;
+}
+
+declare namespace $ {
+
+	type $mol_svg_rect__pos_x_mol_plot_ruler_1 = $mol_type_enforce<
+		ReturnType< $mol_plot_ruler['background_x'] >
+		,
+		ReturnType< $mol_svg_rect['pos_x'] >
+	>
+	type $mol_svg_rect__pos_y_mol_plot_ruler_2 = $mol_type_enforce<
+		ReturnType< $mol_plot_ruler['background_y'] >
+		,
+		ReturnType< $mol_svg_rect['pos_y'] >
+	>
+	type $mol_svg_rect__width_mol_plot_ruler_3 = $mol_type_enforce<
+		ReturnType< $mol_plot_ruler['background_width'] >
+		,
+		ReturnType< $mol_svg_rect['width'] >
+	>
+	type $mol_svg_rect__height_mol_plot_ruler_4 = $mol_type_enforce<
+		ReturnType< $mol_plot_ruler['background_height'] >
+		,
+		ReturnType< $mol_svg_rect['height'] >
+	>
+	type $mol_svg_path__geometry_mol_plot_ruler_5 = $mol_type_enforce<
+		ReturnType< $mol_plot_ruler['curve'] >
+		,
+		ReturnType< $mol_svg_path['geometry'] >
+	>
+	type $mol_svg_text__pos_x_mol_plot_ruler_6 = $mol_type_enforce<
+		ReturnType< $mol_plot_ruler['title_pos_x'] >
+		,
+		ReturnType< $mol_svg_text['pos_x'] >
+	>
+	type $mol_svg_text__pos_y_mol_plot_ruler_7 = $mol_type_enforce<
+		ReturnType< $mol_plot_ruler['title_pos_y'] >
+		,
+		ReturnType< $mol_svg_text['pos_y'] >
+	>
+	type $mol_svg_text__align_mol_plot_ruler_8 = $mol_type_enforce<
+		ReturnType< $mol_plot_ruler['title_align'] >
+		,
+		ReturnType< $mol_svg_text['align'] >
+	>
+	type $mol_svg_text__text_mol_plot_ruler_9 = $mol_type_enforce<
+		ReturnType< $mol_plot_ruler['title'] >
+		,
+		ReturnType< $mol_svg_text['text'] >
+	>
+	type $mol_vector_range__mol_plot_ruler_10 = $mol_type_enforce<
+		[ number, number ]
+		,
+		ConstructorParameters< typeof $mol_vector_range<number> >
+	>
+	type $mol_vector_range__mol_plot_ruler_11 = $mol_type_enforce<
+		[ number, number ]
+		,
+		ConstructorParameters< typeof $mol_vector_range<number> >
+	>
+	type $mol_svg_text__pos_mol_plot_ruler_12 = $mol_type_enforce<
+		ReturnType< $mol_plot_ruler['label_pos'] >
+		,
+		ReturnType< $mol_svg_text['pos'] >
+	>
+	type $mol_svg_text__text_mol_plot_ruler_13 = $mol_type_enforce<
+		ReturnType< $mol_plot_ruler['label_text'] >
+		,
+		ReturnType< $mol_svg_text['text'] >
+	>
+	type $mol_svg_text__align_mol_plot_ruler_14 = $mol_type_enforce<
+		ReturnType< $mol_plot_ruler['label_align'] >
+		,
+		ReturnType< $mol_svg_text['align'] >
+	>
+	export class $mol_plot_ruler extends $mol_plot_graph {
+		background_x( ): string
+		background_y( ): string
+		background_width( ): string
+		background_height( ): string
+		Background( ): $mol_svg_rect
+		curve( ): string
+		Curve( ): $mol_svg_path
+		labels_formatted( ): readonly(any)[]
+		title_pos_x( ): string
+		title_pos_y( ): string
+		title_align( ): string
+		Title( ): $mol_svg_text
+		label_pos_x( id: any): string
+		label_pos_y( id: any): string
+		label_pos( id: any): readonly(any)[]
+		label_text( id: any): string
+		label_align( ): string
+		step( ): number
+		scale_axis( ): number
+		scale_step( ): number
+		shift_axis( ): number
+		dimensions_axis( ): $mol_vector_range<number>
+		viewport_axis( ): $mol_vector_range<number>
+		axis_points( ): readonly(number)[]
+		normalize( next?: number ): number
+		precision( ): number
+		sub( ): readonly(any)[]
+		Label( id: any): $mol_svg_text
+	}
+	
+}
+
+//# sourceMappingURL=ruler.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_plot_ruler extends $.$mol_plot_ruler {
+        labels_formatted(): $.$mol_svg_text[];
+        step(): number;
+        snap_to_grid(coord: number): number;
+        axis_points(): number[];
+        precision(): number;
+        label_text(index: number): string;
+        font_size(): number;
+        back(): $mol_svg_path[];
+        front(): readonly $.$mol_svg[];
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+
+	export class $mol_plot_ruler_vert extends $mol_plot_ruler {
+		title_align( ): string
+		label_align( ): string
+		title_pos_y( ): string
+		label_pos_x( id: any): ReturnType< $mol_plot_ruler_vert['title_pos_x'] >
+		background_height( ): string
+		background_width( ): ReturnType< $mol_plot_ruler_vert['title_pos_x'] >
+	}
+	
+}
+
+//# sourceMappingURL=vert.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_plot_ruler_vert extends $.$mol_plot_ruler_vert {
+        dimensions_axis(): $mol_vector_range<number>;
+        viewport_axis(): $mol_vector_range<number>;
+        scale_axis(): number;
+        scale_step(): number;
+        shift_axis(): number;
+        curve(): string;
+        title_pos_x(): string;
+        label_pos_y(index: number): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    function $mol_font_canvas(next?: CanvasRenderingContext2D): CanvasRenderingContext2D;
+}
+
+declare namespace $ {
+    function $mol_font_measure(font: string, text: string): number;
+}
+
+declare namespace $ {
+
+	type $mol_svg_rect__width_mol_svg_text_box_1 = $mol_type_enforce<
+		ReturnType< $mol_svg_text_box['box_width'] >
+		,
+		ReturnType< $mol_svg_rect['width'] >
+	>
+	type $mol_svg_rect__height_mol_svg_text_box_2 = $mol_type_enforce<
+		ReturnType< $mol_svg_text_box['box_height'] >
+		,
+		ReturnType< $mol_svg_rect['height'] >
+	>
+	type $mol_svg_rect__pos_mol_svg_text_box_3 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_svg_rect['pos'] >
+	>
+	type $mol_svg_text__pos_mol_svg_text_box_4 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_svg_text['pos'] >
+	>
+	type $mol_svg_text__align_mol_svg_text_box_5 = $mol_type_enforce<
+		ReturnType< $mol_svg_text_box['align'] >
+		,
+		ReturnType< $mol_svg_text['align'] >
+	>
+	type $mol_svg_text__sub_mol_svg_text_box_6 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_svg_text['sub'] >
+	>
+	export class $mol_svg_text_box extends $mol_svg_group {
+		box_width( ): string
+		box_height( ): string
+		box_pos_x( ): ReturnType< $mol_svg_text_box['pos_x'] >
+		box_pos_y( ): string
+		Back( ): $mol_svg_rect
+		pos_x( ): string
+		pos_y( ): string
+		align( ): string
+		text( ): string
+		Text( ): $mol_svg_text
+		font_size( ): number
+		width( ): number
+		sub( ): readonly(any)[]
+	}
+	
+}
+
+//# sourceMappingURL=box.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_svg_text_box extends $.$mol_svg_text_box {
+        box_width(): string;
+        width(): number;
+        box_pos_x(): string;
+        box_pos_y(): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+
+	type $mol_vector_range__mol_plot_mark_cross_1 = $mol_type_enforce<
+		[ number, number ]
+		,
+		ConstructorParameters< typeof $mol_vector_range<number> >
+	>
+	type $mol_vector_range__mol_plot_mark_cross_2 = $mol_type_enforce<
+		[ number, number ]
+		,
+		ConstructorParameters< typeof $mol_vector_range<number> >
+	>
+	type $mol_svg_path__geometry_mol_plot_mark_cross_3 = $mol_type_enforce<
+		ReturnType< $mol_plot_mark_cross['curve'] >
+		,
+		ReturnType< $mol_svg_path['geometry'] >
+	>
+	type $mol_svg_text_box__pos_x_mol_plot_mark_cross_4 = $mol_type_enforce<
+		ReturnType< $mol_plot_mark_cross['title_x_pos_x'] >
+		,
+		ReturnType< $mol_svg_text_box['pos_x'] >
+	>
+	type $mol_svg_text_box__pos_y_mol_plot_mark_cross_5 = $mol_type_enforce<
+		ReturnType< $mol_plot_mark_cross['title_x_pos_y'] >
+		,
+		ReturnType< $mol_svg_text_box['pos_y'] >
+	>
+	type $mol_svg_text_box__text_mol_plot_mark_cross_6 = $mol_type_enforce<
+		ReturnType< $mol_plot_mark_cross['title_x'] >
+		,
+		ReturnType< $mol_svg_text_box['text'] >
+	>
+	type $mol_svg_text_box__pos_x_mol_plot_mark_cross_7 = $mol_type_enforce<
+		ReturnType< $mol_plot_mark_cross['title_y_pos_x'] >
+		,
+		ReturnType< $mol_svg_text_box['pos_x'] >
+	>
+	type $mol_svg_text_box__pos_y_mol_plot_mark_cross_8 = $mol_type_enforce<
+		ReturnType< $mol_plot_mark_cross['title_y_pos_y'] >
+		,
+		ReturnType< $mol_svg_text_box['pos_y'] >
+	>
+	type $mol_svg_text_box__text_mol_plot_mark_cross_9 = $mol_type_enforce<
+		ReturnType< $mol_plot_mark_cross['title_y'] >
+		,
+		ReturnType< $mol_svg_text_box['text'] >
+	>
+	type $mol_vector_2d__mol_plot_mark_cross_10 = $mol_type_enforce<
+		[ ReturnType< $mol_plot_mark_cross['dimensions_x'] >, ReturnType< $mol_plot_mark_cross['dimensions_y'] > ]
+		,
+		ConstructorParameters< typeof $mol_vector_2d<$mol_vector_range<number>> >
+	>
+	export class $mol_plot_mark_cross extends $mol_plot_graph {
+		dimensions_x( ): $mol_vector_range<number>
+		dimensions_y( ): $mol_vector_range<number>
+		curve( ): string
+		Curve( ): $mol_svg_path
+		title_x_pos_x( ): string
+		title_x_pos_y( ): string
+		title_x( ): string
+		Label_x( ): $mol_svg_text_box
+		title_y_pos_x( ): string
+		title_y_pos_y( ): string
+		title_y( ): string
+		Label_y( ): $mol_svg_text_box
+		labels( ): readonly(string)[]
+		title_x_gap( ): number
+		title_y_gap( ): number
+		threshold( ): number
+		graphs( ): readonly($mol_plot_graph)[]
+		dimensions( ): $mol_vector_2d<$mol_vector_range<number>>
+		sub( ): readonly(any)[]
+	}
+	
+}
+
+//# sourceMappingURL=cross.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_plot_mark_cross extends $.$mol_plot_mark_cross {
+        nearest(): {
+            value: $mol_vector_2d<number>;
+            scaled: $mol_vector_2d<number>;
+            index: number;
+        } | null;
+        curve(): string;
+        title_x(): string;
+        title_x_pos_x(): string;
+        title_x_pos_y(): string;
+        title_y(): string;
+        title_y_pos_y(): string;
+        title_y_pos_x(): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+
+	type $mol_plot_fill__series_x_giper_baza_app_stat_chart_1 = $mol_type_enforce<
+		ReturnType< $giper_baza_app_stat_chart['zones_x'] >
+		,
+		ReturnType< $mol_plot_fill['series_x'] >
+	>
+	type $mol_plot_fill__series_y_giper_baza_app_stat_chart_2 = $mol_type_enforce<
+		ReturnType< $giper_baza_app_stat_chart['zones_y'] >
+		,
+		ReturnType< $mol_plot_fill['series_y'] >
+	>
+	type $mol_plot_mark_cross__labels_giper_baza_app_stat_chart_3 = $mol_type_enforce<
+		ReturnType< $giper_baza_app_stat_chart['times'] >
+		,
+		ReturnType< $mol_plot_mark_cross['labels'] >
+	>
+	type $mol_plot_mark_cross__graphs_giper_baza_app_stat_chart_4 = $mol_type_enforce<
+		ReturnType< $giper_baza_app_stat_chart['metrics'] >
+		,
+		ReturnType< $mol_plot_mark_cross['graphs'] >
+	>
+	export class $giper_baza_app_stat_chart extends $mol_chart {
+		zones_x( ): readonly(any)[]
+		zones_y( ): readonly(any)[]
+		Zones( ): $mol_plot_fill
+		metrics( ): readonly($mol_plot_graph)[]
+		Ruler_vert( ): $mol_plot_ruler_vert
+		times( ): readonly(any)[]
+		Marks( ): $mol_plot_mark_cross
+		graphs( ): readonly(any)[]
+	}
+	
+}
+
+//# sourceMappingURL=chart.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $giper_baza_app_stat_chart extends $.$giper_baza_app_stat_chart {
+        times(): string[];
+        zones_x(): number[];
+        zones_y(): number[];
+    }
+}
+
+declare namespace $ {
+
 	type $giper_baza_link_chip__link_giper_baza_app_stat_page_1 = $mol_type_enforce<
 		ReturnType< $giper_baza_app_stat_page['home_link'] >
 		,
@@ -41291,20 +41355,20 @@ declare namespace $ {
 		,
 		ReturnType< $mol_plot_line['series_y'] >
 	>
-	type $mol_plot_mark_cross__labels_giper_baza_app_stat_page_9 = $mol_type_enforce<
-		ReturnType< $giper_baza_app_stat_page['times'] >
-		,
-		ReturnType< $mol_plot_mark_cross['labels'] >
-	>
-	type $mol_plot_mark_cross__graphs_giper_baza_app_stat_page_10 = $mol_type_enforce<
+	type $giper_baza_app_stat_chart__metrics_giper_baza_app_stat_page_9 = $mol_type_enforce<
 		readonly(any)[]
 		,
-		ReturnType< $mol_plot_mark_cross['graphs'] >
+		ReturnType< $giper_baza_app_stat_chart['metrics'] >
 	>
-	type $mol_chart__graphs_giper_baza_app_stat_page_11 = $mol_type_enforce<
-		readonly(any)[]
+	type $mol_plot_line__title_giper_baza_app_stat_page_10 = $mol_type_enforce<
+		string
 		,
-		ReturnType< $mol_chart['graphs'] >
+		ReturnType< $mol_plot_line['title'] >
+	>
+	type $mol_plot_line__series_y_giper_baza_app_stat_page_11 = $mol_type_enforce<
+		ReturnType< $giper_baza_app_stat_page['mem_free'] >
+		,
+		ReturnType< $mol_plot_line['series_y'] >
 	>
 	type $mol_plot_line__title_giper_baza_app_stat_page_12 = $mol_type_enforce<
 		string
@@ -41312,114 +41376,114 @@ declare namespace $ {
 		ReturnType< $mol_plot_line['title'] >
 	>
 	type $mol_plot_line__series_y_giper_baza_app_stat_page_13 = $mol_type_enforce<
-		ReturnType< $giper_baza_app_stat_page['mem_free'] >
-		,
-		ReturnType< $mol_plot_line['series_y'] >
-	>
-	type $mol_plot_line__title_giper_baza_app_stat_page_14 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_plot_line['title'] >
-	>
-	type $mol_plot_line__series_y_giper_baza_app_stat_page_15 = $mol_type_enforce<
 		ReturnType< $giper_baza_app_stat_page['mem_used'] >
 		,
 		ReturnType< $mol_plot_line['series_y'] >
 	>
-	type $mol_plot_mark_cross__labels_giper_baza_app_stat_page_16 = $mol_type_enforce<
-		ReturnType< $giper_baza_app_stat_page['times'] >
-		,
-		ReturnType< $mol_plot_mark_cross['labels'] >
-	>
-	type $mol_plot_mark_cross__graphs_giper_baza_app_stat_page_17 = $mol_type_enforce<
+	type $giper_baza_app_stat_chart__metrics_giper_baza_app_stat_page_14 = $mol_type_enforce<
 		readonly(any)[]
 		,
-		ReturnType< $mol_plot_mark_cross['graphs'] >
+		ReturnType< $giper_baza_app_stat_chart['metrics'] >
 	>
-	type $mol_chart__graphs_giper_baza_app_stat_page_18 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_chart['graphs'] >
-	>
-	type $mol_plot_line__title_giper_baza_app_stat_page_19 = $mol_type_enforce<
+	type $mol_plot_line__title_giper_baza_app_stat_page_15 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_plot_line['title'] >
 	>
-	type $mol_plot_line__series_y_giper_baza_app_stat_page_20 = $mol_type_enforce<
+	type $mol_plot_line__series_y_giper_baza_app_stat_page_16 = $mol_type_enforce<
 		ReturnType< $giper_baza_app_stat_page['fs_free'] >
 		,
 		ReturnType< $mol_plot_line['series_y'] >
 	>
-	type $mol_plot_line__title_giper_baza_app_stat_page_21 = $mol_type_enforce<
+	type $mol_plot_line__title_giper_baza_app_stat_page_17 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_plot_line['title'] >
 	>
-	type $mol_plot_line__series_y_giper_baza_app_stat_page_22 = $mol_type_enforce<
+	type $mol_plot_line__series_y_giper_baza_app_stat_page_18 = $mol_type_enforce<
 		ReturnType< $giper_baza_app_stat_page['fs_used'] >
 		,
 		ReturnType< $mol_plot_line['series_y'] >
 	>
-	type $mol_plot_mark_cross__labels_giper_baza_app_stat_page_23 = $mol_type_enforce<
-		ReturnType< $giper_baza_app_stat_page['times'] >
-		,
-		ReturnType< $mol_plot_mark_cross['labels'] >
-	>
-	type $mol_plot_mark_cross__graphs_giper_baza_app_stat_page_24 = $mol_type_enforce<
+	type $giper_baza_app_stat_chart__metrics_giper_baza_app_stat_page_19 = $mol_type_enforce<
 		readonly(any)[]
 		,
-		ReturnType< $mol_plot_mark_cross['graphs'] >
+		ReturnType< $giper_baza_app_stat_chart['metrics'] >
 	>
-	type $mol_chart__graphs_giper_baza_app_stat_page_25 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_chart['graphs'] >
-	>
-	type $mol_plot_line__title_giper_baza_app_stat_page_26 = $mol_type_enforce<
+	type $mol_plot_line__title_giper_baza_app_stat_page_20 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_plot_line['title'] >
 	>
-	type $mol_plot_line__series_y_giper_baza_app_stat_page_27 = $mol_type_enforce<
+	type $mol_plot_line__series_y_giper_baza_app_stat_page_21 = $mol_type_enforce<
 		ReturnType< $giper_baza_app_stat_page['fs_reads'] >
 		,
 		ReturnType< $mol_plot_line['series_y'] >
 	>
-	type $mol_plot_line__title_giper_baza_app_stat_page_28 = $mol_type_enforce<
+	type $mol_plot_line__title_giper_baza_app_stat_page_22 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_plot_line['title'] >
 	>
-	type $mol_plot_line__series_y_giper_baza_app_stat_page_29 = $mol_type_enforce<
+	type $mol_plot_line__series_y_giper_baza_app_stat_page_23 = $mol_type_enforce<
 		ReturnType< $giper_baza_app_stat_page['fs_writes'] >
 		,
 		ReturnType< $mol_plot_line['series_y'] >
 	>
-	type $mol_plot_mark_cross__labels_giper_baza_app_stat_page_30 = $mol_type_enforce<
-		ReturnType< $giper_baza_app_stat_page['times'] >
-		,
-		ReturnType< $mol_plot_mark_cross['labels'] >
-	>
-	type $mol_plot_mark_cross__graphs_giper_baza_app_stat_page_31 = $mol_type_enforce<
+	type $giper_baza_app_stat_chart__metrics_giper_baza_app_stat_page_24 = $mol_type_enforce<
 		readonly(any)[]
 		,
-		ReturnType< $mol_plot_mark_cross['graphs'] >
+		ReturnType< $giper_baza_app_stat_chart['metrics'] >
 	>
-	type $mol_chart__graphs_giper_baza_app_stat_page_32 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_chart['graphs'] >
-	>
-	type $mol_plot_line__title_giper_baza_app_stat_page_33 = $mol_type_enforce<
+	type $mol_plot_line__title_giper_baza_app_stat_page_25 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_plot_line['title'] >
 	>
-	type $mol_plot_line__series_y_giper_baza_app_stat_page_34 = $mol_type_enforce<
+	type $mol_plot_line__series_y_giper_baza_app_stat_page_26 = $mol_type_enforce<
 		ReturnType< $giper_baza_app_stat_page['port_slaves'] >
 		,
 		ReturnType< $mol_plot_line['series_y'] >
+	>
+	type $mol_plot_line__title_giper_baza_app_stat_page_27 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_plot_line['title'] >
+	>
+	type $mol_plot_line__series_y_giper_baza_app_stat_page_28 = $mol_type_enforce<
+		ReturnType< $giper_baza_app_stat_page['port_masters'] >
+		,
+		ReturnType< $mol_plot_line['series_y'] >
+	>
+	type $giper_baza_app_stat_chart__metrics_giper_baza_app_stat_page_29 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $giper_baza_app_stat_chart['metrics'] >
+	>
+	type $mol_plot_line__title_giper_baza_app_stat_page_30 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_plot_line['title'] >
+	>
+	type $mol_plot_line__series_y_giper_baza_app_stat_page_31 = $mol_type_enforce<
+		ReturnType< $giper_baza_app_stat_page['land_alive'] >
+		,
+		ReturnType< $mol_plot_line['series_y'] >
+	>
+	type $mol_plot_line__title_giper_baza_app_stat_page_32 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_plot_line['title'] >
+	>
+	type $mol_plot_line__series_y_giper_baza_app_stat_page_33 = $mol_type_enforce<
+		ReturnType< $giper_baza_app_stat_page['land_ghost'] >
+		,
+		ReturnType< $mol_plot_line['series_y'] >
+	>
+	type $giper_baza_app_stat_chart__metrics_giper_baza_app_stat_page_34 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $giper_baza_app_stat_chart['metrics'] >
 	>
 	type $mol_plot_line__title_giper_baza_app_stat_page_35 = $mol_type_enforce<
 		string
@@ -41427,86 +41491,16 @@ declare namespace $ {
 		ReturnType< $mol_plot_line['title'] >
 	>
 	type $mol_plot_line__series_y_giper_baza_app_stat_page_36 = $mol_type_enforce<
-		ReturnType< $giper_baza_app_stat_page['port_masters'] >
-		,
-		ReturnType< $mol_plot_line['series_y'] >
-	>
-	type $mol_plot_mark_cross__labels_giper_baza_app_stat_page_37 = $mol_type_enforce<
-		ReturnType< $giper_baza_app_stat_page['times'] >
-		,
-		ReturnType< $mol_plot_mark_cross['labels'] >
-	>
-	type $mol_plot_mark_cross__graphs_giper_baza_app_stat_page_38 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_plot_mark_cross['graphs'] >
-	>
-	type $mol_chart__graphs_giper_baza_app_stat_page_39 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_chart['graphs'] >
-	>
-	type $mol_plot_line__title_giper_baza_app_stat_page_40 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_plot_line['title'] >
-	>
-	type $mol_plot_line__series_y_giper_baza_app_stat_page_41 = $mol_type_enforce<
-		ReturnType< $giper_baza_app_stat_page['land_alive'] >
-		,
-		ReturnType< $mol_plot_line['series_y'] >
-	>
-	type $mol_plot_line__title_giper_baza_app_stat_page_42 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_plot_line['title'] >
-	>
-	type $mol_plot_line__series_y_giper_baza_app_stat_page_43 = $mol_type_enforce<
-		ReturnType< $giper_baza_app_stat_page['land_ghost'] >
-		,
-		ReturnType< $mol_plot_line['series_y'] >
-	>
-	type $mol_plot_mark_cross__labels_giper_baza_app_stat_page_44 = $mol_type_enforce<
-		ReturnType< $giper_baza_app_stat_page['times'] >
-		,
-		ReturnType< $mol_plot_mark_cross['labels'] >
-	>
-	type $mol_plot_mark_cross__graphs_giper_baza_app_stat_page_45 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_plot_mark_cross['graphs'] >
-	>
-	type $mol_chart__graphs_giper_baza_app_stat_page_46 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_chart['graphs'] >
-	>
-	type $mol_plot_line__title_giper_baza_app_stat_page_47 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_plot_line['title'] >
-	>
-	type $mol_plot_line__series_y_giper_baza_app_stat_page_48 = $mol_type_enforce<
 		ReturnType< $giper_baza_app_stat_page['errors'] >
 		,
 		ReturnType< $mol_plot_line['series_y'] >
 	>
-	type $mol_plot_mark_cross__labels_giper_baza_app_stat_page_49 = $mol_type_enforce<
-		ReturnType< $giper_baza_app_stat_page['times'] >
-		,
-		ReturnType< $mol_plot_mark_cross['labels'] >
-	>
-	type $mol_plot_mark_cross__graphs_giper_baza_app_stat_page_50 = $mol_type_enforce<
+	type $giper_baza_app_stat_chart__metrics_giper_baza_app_stat_page_37 = $mol_type_enforce<
 		readonly(any)[]
 		,
-		ReturnType< $mol_plot_mark_cross['graphs'] >
+		ReturnType< $giper_baza_app_stat_chart['metrics'] >
 	>
-	type $mol_chart__graphs_giper_baza_app_stat_page_51 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_chart['graphs'] >
-	>
-	type $mol_gallery__items_giper_baza_app_stat_page_52 = $mol_type_enforce<
+	type $mol_gallery__items_giper_baza_app_stat_page_38 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_gallery['items'] >
@@ -41522,50 +41516,35 @@ declare namespace $ {
 		Cpu_user( ): $mol_plot_line
 		cpu_system( ): readonly(any)[]
 		Cpu_system( ): $mol_plot_line
-		Cpu_ruler_sec( ): $mol_plot_ruler_vert
-		times( ): readonly(any)[]
-		Cpu_mark( ): $mol_plot_mark_cross
-		Cpu( ): $mol_chart
+		Cpu( ): $giper_baza_app_stat_chart
 		mem_free( ): readonly(any)[]
 		Mem_free( ): $mol_plot_line
 		mem_used( ): readonly(any)[]
 		Mem_used( ): $mol_plot_line
-		Mem_ruler( ): $mol_plot_ruler_vert
-		Mem_mark( ): $mol_plot_mark_cross
-		Mem( ): $mol_chart
+		Mem( ): $giper_baza_app_stat_chart
 		fs_free( ): readonly(any)[]
 		Fs_free( ): $mol_plot_line
 		fs_used( ): readonly(any)[]
 		Fs_used( ): $mol_plot_line
-		Fs_usage_ruler( ): $mol_plot_ruler_vert
-		Fs_usage_mark( ): $mol_plot_mark_cross
-		Fs_usage( ): $mol_chart
+		Fs_usage( ): $giper_baza_app_stat_chart
 		fs_reads( ): readonly(any)[]
 		Fs_reads( ): $mol_plot_line
 		fs_writes( ): readonly(any)[]
 		Fs_writes( ): $mol_plot_line
-		Fs_acting_ruler( ): $mol_plot_ruler_vert
-		Fs_acting_mark( ): $mol_plot_mark_cross
-		Fs_acting( ): $mol_chart
+		Fs_acting( ): $giper_baza_app_stat_chart
 		port_slaves( ): readonly(any)[]
 		Port_slaves( ): $mol_plot_line
 		port_masters( ): readonly(any)[]
 		Port_masters( ): $mol_plot_line
-		Port_ruler_pct( ): $mol_plot_ruler_vert
-		Port_mark( ): $mol_plot_mark_cross
-		Ports( ): $mol_chart
+		Ports( ): $giper_baza_app_stat_chart
 		land_alive( ): readonly(any)[]
 		Land_alive( ): $mol_plot_line
 		land_ghost( ): readonly(any)[]
 		Land_ghost( ): $mol_plot_line
-		Land_count_ruler( ): $mol_plot_ruler_vert
-		Land_count_mark( ): $mol_plot_mark_cross
-		Land_count( ): $mol_chart
+		Land_count( ): $giper_baza_app_stat_chart
 		errors( ): readonly(any)[]
 		Errors( ): $mol_plot_line
-		Error_count_ruler( ): $mol_plot_ruler_vert
-		Error_count_mark( ): $mol_plot_mark_cross
-		Error_count( ): $mol_chart
+		Error_count( ): $giper_baza_app_stat_chart
 		Charts( ): $mol_gallery
 		home( ): $giper_baza_app_home
 		head( ): readonly(any)[]
@@ -41592,7 +41571,6 @@ declare namespace $.$$ {
         port_slaves(): number[];
         port_masters(): number[];
         errors(): number[];
-        times(): string[];
     }
 }
 
