@@ -28780,6 +28780,9 @@ var $;
 
 ;
 	($.$giper_baza_app_stat_chart) = class $giper_baza_app_stat_chart extends ($.$mol_chart) {
+		metrics(){
+			return [];
+		}
 		zones_x(){
 			return [];
 		}
@@ -28798,9 +28801,6 @@ var $;
 			(obj.series_y) = () => ((this.zones_y()));
 			return obj;
 		}
-		metrics(){
-			return [];
-		}
 		Ruler_vert(){
 			const obj = new this.$.$mol_plot_ruler_vert();
 			return obj;
@@ -28816,8 +28816,8 @@ var $;
 		}
 		graphs(){
 			return [
-				(this.Zones()), 
 				...(this.metrics()), 
+				(this.Zones()), 
 				(this.Ruler_vert()), 
 				(this.Marks())
 			];

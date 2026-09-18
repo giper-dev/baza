@@ -1963,6 +1963,7 @@ $mol_plot_mark_cross $mol_plot_graph
 
 $giper_baza_app_stat_chart $mol_chart
 	graphs /
+		^ metrics /$mol_plot_graph
 		<= Zones $mol_plot_fill
 			Sample null
 			series_x <= zones_x /
@@ -1971,7 +1972,6 @@ $giper_baza_app_stat_chart $mol_chart
 				100
 				100
 				0
-		^ metrics /$mol_plot_graph
 		<= Ruler_vert $mol_plot_ruler_vert
 		<= Marks $mol_plot_mark_cross
 			labels <= times /

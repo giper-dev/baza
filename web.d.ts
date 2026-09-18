@@ -41295,10 +41295,10 @@ declare namespace $ {
 		ReturnType< $mol_plot_mark_cross['graphs'] >
 	>
 	export class $giper_baza_app_stat_chart extends $mol_chart {
+		metrics( ): readonly($mol_plot_graph)[]
 		zones_x( ): readonly(any)[]
 		zones_y( ): readonly(any)[]
 		Zones( ): $mol_plot_fill
-		metrics( ): readonly($mol_plot_graph)[]
 		Ruler_vert( ): $mol_plot_ruler_vert
 		times( ): readonly(any)[]
 		Marks( ): $mol_plot_mark_cross
