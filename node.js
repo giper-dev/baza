@@ -5127,14 +5127,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    /** @deprecated Use $mol_crypto2_hash */
-    $.$mol_crypto_hash = $mol_crypto2_hash;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
     class $mol_rest_server extends $mol_object {
         log() {
             return this.$.$mol_state_arg.value('mol_rest_server_log') !== null;
@@ -5247,13 +5239,14 @@ var $;
                     });
                     return;
                 }
+                socket.end();
             });
             socket.on('end', onclose);
             socket.on('error', onclose);
             socket.on('data', (chunk) => this.ws_income(chunk, upgrade, socket));
             const key_in = req.headers["sec-websocket-key"];
             const magic = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11';
-            const key_out = $mol_base64_encode($mol_crypto_hash($mol_charset_encode(key_in + magic)));
+            const key_out = $mol_base64_encode($mol_crypto2_hash($mol_charset_encode(key_in + magic)));
             socket.write('HTTP/1.1 101 WS Handshaked\r\n' +
                 'Upgrade: WebSocket\r\n' +
                 'Connection: Upgrade\r\n' +

@@ -1420,11 +1420,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    /** @deprecated Use $mol_crypto2_hash */
-    let $mol_crypto_hash: typeof $mol_crypto2_hash;
-}
-
-declare namespace $ {
     class $mol_rest_server extends $mol_object {
         log(): boolean;
         port(): number;
