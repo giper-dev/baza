@@ -24746,6 +24746,7 @@ var $;
 			const obj = new this.$.$giper_baza_unit_sand_dump();
 			(obj.land) = () => ((this.land()));
 			(obj.sand) = () => ((this.unit_value(id)));
+			(obj.enabled) = () => ((this.can_change()));
 			return obj;
 		}
 		pawn_addons(id){

@@ -39184,27 +39184,32 @@ declare namespace $ {
 		,
 		ReturnType< $giper_baza_unit_sand_dump['sand'] >
 	>
-	type $giper_baza_pawn_dump__tag_giper_baza_pawn_dump_20 = $mol_type_enforce<
+	type $giper_baza_unit_sand_dump__enabled_giper_baza_pawn_dump_20 = $mol_type_enforce<
+		ReturnType< $giper_baza_pawn_dump['can_change'] >
+		,
+		ReturnType< $giper_baza_unit_sand_dump['enabled'] >
+	>
+	type $giper_baza_pawn_dump__tag_giper_baza_pawn_dump_21 = $mol_type_enforce<
 		ReturnType< $giper_baza_pawn_dump['unit_tag'] >
 		,
 		ReturnType< $giper_baza_pawn_dump['tag'] >
 	>
-	type $giper_baza_pawn_dump__addons_giper_baza_pawn_dump_21 = $mol_type_enforce<
+	type $giper_baza_pawn_dump__addons_giper_baza_pawn_dump_22 = $mol_type_enforce<
 		ReturnType< $giper_baza_pawn_dump['pawn_addons'] >
 		,
 		ReturnType< $giper_baza_pawn_dump['addons'] >
 	>
-	type $giper_baza_pawn_dump__pawn_giper_baza_pawn_dump_22 = $mol_type_enforce<
+	type $giper_baza_pawn_dump__pawn_giper_baza_pawn_dump_23 = $mol_type_enforce<
 		ReturnType< $giper_baza_pawn_dump['pawn_inner'] >
 		,
 		ReturnType< $giper_baza_pawn_dump['pawn'] >
 	>
-	type $mol_view__sub_giper_baza_pawn_dump_23 = $mol_type_enforce<
+	type $mol_view__sub_giper_baza_pawn_dump_24 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_view__sub_giper_baza_pawn_dump_24 = $mol_type_enforce<
+	type $mol_view__sub_giper_baza_pawn_dump_25 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >

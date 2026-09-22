@@ -1340,6 +1340,7 @@ $giper_baza_pawn_dump $mol_expander
 					<= Unit_value* $giper_baza_unit_sand_dump
 						land <= land
 						sand <= unit_value* null
+						enabled <= can_change
 				pawn <= pawn_inner* $giper_baza_pawn
 
 $mol_labeler $mol_list
