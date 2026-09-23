@@ -16,12 +16,28 @@ namespace $ {
 		static masters_default = [] as string[]
 		
 		@ $mol_mem
-		static masters() {
+		static masters_seeded() {
 			const all = this.$.$giper_baza_glob.Seed().peers()
 			const self = this.$.$giper_baza_auth.current().pass().lord()
 			const pos = all.findLastIndex( peer => peer.link().str === self.str )
 			const links = all.slice( pos + 1 ).flatMap( peer => peer.urls() )
-			return [ ... this.masters_default, ... links ]
+			return links.length ? links : null
+		}
+		
+		@ $mol_mem
+		static masters_override() {
+			
+			const arg = this.$.$mol_state_arg.value( 'giper_baza_yard_masters' )
+			if( arg == null ) return null
+			
+			const links = arg.split( ',' ).filter( Boolean )
+			return links
+			
+		}
+		
+		@ $mol_mem
+		static masters() {
+			return this.masters_override() ?? this.masters_seeded() ?? this.masters_default
 		}
 		
 		@ $mol_mem
