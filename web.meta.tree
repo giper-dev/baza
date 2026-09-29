@@ -40,21 +40,21 @@
 	deploy \/giper/baza/logo/logo.svg
 	deploy \/giper/baza/logo/logo-512.png
 	deploy \/giper/baza/logo/bg.webp
-	deploy \/giper/baza/diagram/crus-reg.png
-	deploy \/giper/baza/diagram/crus-list.png
-	deploy \/giper/baza/diagram/crus-dict.png
-	deploy \/giper/baza/diagram/crus-tree.png
-	deploy \/giper/baza/diagram/crus-text.png
-	deploy \/giper/baza/diagram/crus-dom.png
-	deploy \/giper/baza/diagram/crus-json.png
-	deploy \/giper/baza/diagram/crus-sync.png
-	deploy \/giper/baza/diagram/crus-pack.png
-	deploy \/giper/baza/diagram/crus-units.png
-	deploy \/giper/baza/diagram/crus-units-pass.png
-	deploy \/giper/baza/diagram/crus-units-gift.png
-	deploy \/giper/baza/diagram/crus-units-sand.png
-	deploy \/giper/baza/diagram/crus-files.png
-	deploy \/giper/baza/diagram/crus-network.png
-	deploy \/giper/baza/diagram/crus-jepsen.png
+	deploy \/giper/baza/diagram/reg.png
+	deploy \/giper/baza/diagram/list.png
+	deploy \/giper/baza/diagram/dict.png
+	deploy \/giper/baza/diagram/tree.png
+	deploy \/giper/baza/diagram/text.png
+	deploy \/giper/baza/diagram/rich.png
+	deploy \/giper/baza/diagram/json.png
+	deploy \/giper/baza/diagram/sync.png
+	deploy \/giper/baza/diagram/pack.png
+	deploy \/giper/baza/diagram/units.png
+	deploy \/giper/baza/diagram/pass.png
+	deploy \/giper/baza/diagram/gift.png
+	deploy \/giper/baza/diagram/sand.png
+	deploy \/giper/baza/diagram/files.png
+	deploy \/giper/baza/diagram/network.png
+	deploy \/giper/baza/diagram/jepsen.png
 	deploy \/giper/baza/docker/deploy.sh
 	deploy \/giper/baza/docker/autopull_and_restart.sh
