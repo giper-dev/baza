@@ -17,7 +17,7 @@
   - **Dirty Read/Write** - violation of transaction atomicity.
   - **Phantom/Fuzzy Read** - violation of operation idempotence.
 
-![](diagram/crus-jepsen.png)
+![](diagram/jepsen.png)
 
 ## Vocabulary
 
@@ -212,7 +212,7 @@ export class $my_app extends $mol_object {
 - **S**olo - регистр, хранящий данные в первом вложенном юните.
 - **K**eys - содержит список ключей, где каждый вложенный юнит отвечает за элемент списка.
 
-![](diagram/crus-units.png)
+![](diagram/units.png)
 
 - `$giper_baza_auth_pass` - public key
 - `$giper_baza_unit_gift` - given rank and secret
@@ -223,7 +223,7 @@ export class $my_app extends $mol_object {
 
 Атомарный регистр - хранит одно последнее установленное значение. Если базе актуально находится несколько юнитов, то работает с первым из них.
 
-![](diagram/crus-reg.png)
+![](diagram/reg.png)
 
 - `$giper_baza_atom` - atomic register
 - `$giper_baza_atom_blob` - atomic non empty binary register
@@ -244,7 +244,7 @@ export class $my_app extends $mol_object {
 
 Список значений может работать и как упорядоченное множество при использовании соответствующих методов.
 
-![](diagram/crus-list.png)
+![](diagram/list.png)
 
 - `$giper_baza_list` - mergeable list of atomic vary type factory
 - `$giper_baza_list_vary` - mergeable list of atomic vary types
@@ -266,7 +266,7 @@ export class $my_app extends $mol_object {
 
 Словарь актуально является упорядоченным множеством ключей, внутри каждого из которых хранится произвольный тип данных.
 
-![](diagram/crus-dict.png)
+![](diagram/dict.png)
 
 - `$giper_baza_dict` - mergeable dictionary Pawn with any keys mapped to any embedded Pawn types
 - `$giper_baza_dict_to` - mergeable dictionary Pawn with any keys mapped to some embedded Pawn type
@@ -274,23 +274,23 @@ export class $my_app extends $mol_object {
 
 ### Tree
 
-![](diagram/crus-tree.png)
+![](diagram/tree.png)
 
 ### Plain Text
 
 Плоский текст является списком параграфов, каждый из которых хранит список токенов. Является частным случаем DOM.
 
-![](diagram/crus-text.png)
+![](diagram/text.png)
 
 - `$giper_baza_text` - mergeable text Pawn
 
-### DOM
+### Rich Text
 
-![](diagram/crus-dom.png)
+![](diagram/rich.png)
 
 ### JSON
 
-![](diagram/crus-json.png)
+![](diagram/json.png)
 
 ## Rights
 
@@ -312,13 +312,13 @@ export class $my_app extends $mol_object {
 
 Сперва два пира обмениваются фейсами (что-то типа "векторных часов"), которые позволяют понять, каких юнитов не хватает партнёру. Далее они докидывают друг другу недостающие юниты по мере их появления. Подтверждение приёма не требуется - полагаемся на транспортный уровень, гарантирующий либо доставку, либо обрыв соединения с последующим реконнектом, обменом фейсами и тд.
 
-![](diagram/crus-sync.png)
+![](diagram/sync.png)
 
 ### Pack
 
 Пакет состоит из произвольного числа частей разных типов. Пакет может передаваться как сообщение другому пиру, может сохраняться в файл. И даже СУБД может хранить данные в том же самом формате.
 
-![](diagram/crus-pack.png)
+![](diagram/pack.png)
 
 # Common Scenarios
 
