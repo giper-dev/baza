@@ -505,11 +505,14 @@ $giper_baza_link_chip $mol_link
 $mol_drop $mol_ghost
 	enabled? true
 	event *
+		^
 		dragenter? <=> enter? null
 		dragover? <=> move? null
 		dragleave? <=> leave? null
 		drop? <=> drop? null
-	attr * mol_drop_status <= status? \ready
+	attr *
+		^
+		mol_drop_status <= status? \ready
 	adopt? *
 	receive? null
 	allow /
@@ -902,16 +905,18 @@ $mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
 
 $mol_drag $mol_ghost
 	event *
+		^
 		dragstart? <=> drag_start? <=> start? null
 		drag? <=> drag_move? <=> move? null
 		dragend? <=> drag_end? <=> end? null
 	attr *
-		draggable true
+		^
+		draggable <= draggable true
 		mol_drag_status <= status? \ready
-	transfer *
-		text/plain \
-		text/html \
-		text/uri-list \
+	transfer *string
+		text/plain <= plain <= title
+		text/html <= html \
+		text/uri-list <= uris \
 	allow_copy true
 	allow_link true
 	allow_move true
