@@ -33,6 +33,7 @@ namespace $ {
 	
 	/** Order units: lord / seal / gift / sand */
 	export function $giper_baza_unit_sort( units: readonly $giper_baza_unit[] ) {
+		if( units.length < 2 ) return units
 		
 		const nodes = new Map< string, $giper_baza_unit >()
 		const graph = new $mol_graph< $giper_baza_unit | null, number >()
