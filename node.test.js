@@ -8433,6 +8433,13 @@ var $;
         let text = '';
         let pos = 0;
         let page_offset = 0;
+        /** Char by char concatenation builds a rope with ~32 bytes per char, kept until flattened. */
+        const codes = [];
+        const flush = () => {
+            text += String.fromCodePoint(...codes);
+            codes.length = 0;
+            return text;
+        };
         const read_code = () => {
             let code = buffer[pos++];
             if (code >= 0x80)
@@ -8444,7 +8451,7 @@ var $;
             if (code >= 0x80)
                 code = ascii_set[code - 0x80];
             if (code === undefined)
-                $mol_fail(new Error('Wrong byte', { cause: { text, pos: pos - 1 } }));
+                $mol_fail(new Error('Wrong byte', { cause: { text: flush(), pos: pos - 1 } }));
             return code;
         };
         while (pos < buffer.length) {
@@ -8460,17 +8467,19 @@ var $;
                         code = ascii_set[code - 0x80];
                     if (mode < tiny_mode) {
                         if (pos === buffer.length)
-                            $mol_fail(new Error('Expected 2 bytes', { cause: { text, pos: pos - 1 } }));
+                            $mol_fail(new Error('Expected 2 bytes', { cause: { text: flush(), pos: pos - 1 } }));
                         code |= read_remap() << 7;
                     }
                     if (mode === full_mode) {
                         if (pos === buffer.length)
-                            $mol_fail(new Error('Expected 3 bytes', { cause: { text, pos: pos - 2 } }));
+                            $mol_fail(new Error('Expected 3 bytes', { cause: { text: flush(), pos: pos - 2 } }));
                         code |= read_remap() << 14;
                     }
                     code += page_offset;
                 }
-                text += String.fromCodePoint(code);
+                codes.push(code);
+                if (codes.length === 1024)
+                    flush();
             }
             else if (code >= tiny_mode) { // Tiny Set
                 mode = code;
@@ -8486,9 +8495,9 @@ var $;
             }
         }
         if (mode !== tiny_mode) {
-            return $mol_fail(new Error('Wrong ending', { cause: { text, mode } }));
+            return $mol_fail(new Error('Wrong ending', { cause: { text: flush(), mode } }));
         }
-        return text;
+        return flush();
     }
     $.$mol_charset_ucf_decode = $mol_charset_ucf_decode;
 })($ || ($ = {}));
