@@ -6624,6 +6624,17 @@ var $;
                 $mol_assert_equal(new $mol_dom_point(div, 1), $mol_dom_point.near(span, -1), new $mol_dom_point(span, 1).jump(-1));
                 $mol_assert_equal(new $mol_dom_point(div, 2), $mol_dom_point.near(span, +1), new $mol_dom_point(span, 1).jump(+1));
             },
+            "Lift points to common parent"($) {
+                const div = $mol_jsx("div", null,
+                    "123",
+                    $mol_jsx("p", null,
+                        $mol_jsx("span", null, "one")),
+                    "456");
+                const para = div.firstChild.nextSibling;
+                const deep = para.firstChild.firstChild;
+                $mol_assert_equal($mol_dom_point.head(deep).lifted_to(div), para);
+                $mol_assert_equal($mol_dom_point.head(div.firstChild).lifted_to(div), div.firstChild);
+            },
             "move by steps to the end"($) {
                 const div = $mol_jsx("div", null,
                     "1",
@@ -6711,6 +6722,30 @@ var $;
                     "456");
                 const span = div.childNodes[1];
                 $mol_assert_equal($mol_dom_range.inside(span).expand(), $mol_dom_range.around(span));
+            },
+            "Order range points"($) {
+                const div = $mol_jsx("div", null,
+                    $mol_jsx("span", null, "one"),
+                    $mol_jsx("span", null, "two"));
+                const one = $mol_dom_point.head(div.firstChild);
+                const two = $mol_dom_point.head(div.lastChild);
+                const forward = new $mol_dom_range(one, two);
+                const backward = new $mol_dom_range(two, one);
+                $mol_assert_equal(forward.ordered(), backward.ordered(), forward);
+            },
+            "Lift to common block parent"($) {
+                const quote = $mol_jsx("blockquote", null,
+                    "123",
+                    $mol_jsx("p", null,
+                        $mol_jsx("span", null, "foo")),
+                    $mol_jsx("p", null,
+                        $mol_jsx("span", null, "bar")),
+                    "456");
+                const foo = quote.firstChild.nextSibling;
+                const bar = quote.lastChild.previousSibling.firstChild.firstChild;
+                const lifted = new $mol_dom_range($mol_dom_point.head(foo), $mol_dom_point.foot(bar)).lifted();
+                const ideal = new $mol_dom_range($mol_dom_point.tail(quote.firstChild), $mol_dom_point.nose(quote.lastChild));
+                $mol_assert_equal(lifted, ideal);
             },
         });
     })($$ = $_1.$$ || ($_1.$$ = {}));

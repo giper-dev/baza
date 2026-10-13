@@ -38168,11 +38168,13 @@ declare namespace $ {
         constructor(node: Node, pos: number);
         /** Iterator for deep comparison. */
         [Symbol.iterator](): ArrayIterator<number | Node>;
+        /** Point before the node. */
+        static nose(node: Node): $mol_dom_point;
         /** Point after start of the node. */
         static head(node: Node): $mol_dom_point;
         /** Point before end of the node. */
         static foot(node: Node): $mol_dom_point;
-        /** Point after end of the node. */
+        /** Point after the node. */
         static tail(node: Node): $mol_dom_point;
         /** Is point after start of the node. */
         is_head(): boolean;
@@ -38187,6 +38189,8 @@ declare namespace $ {
         /** Point after end of the node. */
         tail(): $mol_dom_point;
         native(): readonly [Node, number];
+        /** Finds child of container which contains this point. */
+        lifted_to(container: Node): Node;
         /** Point near the node. -1: before, +1: after. */
         static near(node: Node, axis: -1 | 1): $mol_dom_point | null;
         /** Point near the node. -1: before, +1: after. */
@@ -38201,7 +38205,7 @@ declare namespace $ {
     class $mol_dom_range extends Object {
         readonly anchor: $mol_dom_point;
         readonly extend: $mol_dom_point;
-        constructor(anchor: $mol_dom_point, extend: $mol_dom_point);
+        constructor(anchor: $mol_dom_point, extend?: $mol_dom_point);
         /** Iterator for deep comparison. */
         [Symbol.iterator](): ArrayIterator<$mol_dom_point>;
         /** Makes range from selection with direction storing. */
@@ -38214,6 +38218,10 @@ declare namespace $ {
         static around(node: Node): $mol_dom_range;
         /** Deeper Element which contain whole selection. */
         container(): Node;
+        /** Returns range with points ordered in document order. */
+        ordered(): $mol_dom_range;
+        /** Raises range boundaries to a common parent. */
+        lifted(): $mol_dom_range;
         /** Has now content. */
         is_empty(): boolean;
         /** Swap start and end points. */
