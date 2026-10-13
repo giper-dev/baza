@@ -502,6 +502,12 @@ $giper_baza_link_chip $mol_link
 		<= icon \
 		<= title
 
+$mol_icon_link $mol_icon path \M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z
+
+$mol_icon_link_variant $mol_icon path \M10.59,13.41C11,13.8 11,14.44 10.59,14.83C10.2,15.22 9.56,15.22 9.17,14.83C7.22,12.88 7.22,9.71 9.17,7.76V7.76L12.71,4.22C14.66,2.27 17.83,2.27 19.78,4.22C21.73,6.17 21.73,9.34 19.78,11.29L18.29,12.78C18.3,11.96 18.17,11.14 17.89,10.36L18.36,9.88C19.54,8.71 19.54,6.81 18.36,5.64C17.19,4.46 15.29,4.46 14.12,5.64L10.59,9.17C9.41,10.34 9.41,12.24 10.59,13.41M13.41,9.17C13.8,8.78 14.44,8.78 14.83,9.17C16.78,11.12 16.78,14.29 14.83,16.24V16.24L11.29,19.78C9.34,21.73 6.17,21.73 4.22,19.78C2.27,17.83 2.27,14.66 4.22,12.71L5.71,11.22C5.7,12.04 5.83,12.86 6.11,13.65L5.64,14.12C4.46,15.29 4.46,17.19 5.64,18.36C6.81,19.54 8.71,19.54 9.88,18.36L13.41,14.83C14.59,13.66 14.59,11.76 13.41,10.59C13,10.2 13,9.56 13.41,9.17Z
+
+$mol_bar $mol_view
+
 $mol_drop $mol_ghost
 	enabled? true
 	event *
@@ -524,8 +530,6 @@ $mol_icon_tick $mol_icon path \M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z
 
 $mol_check_box $mol_check
 	Icon $mol_icon_tick
-
-$mol_bar $mol_view
 
 $mol_icon_menu $mol_icon path \M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z
 
@@ -1034,8 +1038,6 @@ $mol_vary_edit $mol_list
 					value? <=> item_val*? null
 					selection? <=> item_selection*? /
 
-$mol_icon_link $mol_icon path \M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z
-
 $giper_baza_vary_edit $mol_vary_edit
 	Vary $mol_vary_class
 	Link_icon $mol_icon_link
@@ -1064,7 +1066,13 @@ $mol_expander $mol_list
 		<= Content $mol_list
 			rows <= content /
 
-$mol_icon_marker $mol_icon path \M18.5,1.15C17.97,1.15 17.46,1.34 17.07,1.73L11.26,7.55L16.91,13.2L22.73,7.39C23.5,6.61 23.5,5.35 22.73,4.56L19.89,1.73C19.5,1.34 19,1.15 18.5,1.15M10.3,8.5L4.34,14.46C3.56,15.24 3.56,16.5 4.36,17.31C3.14,18.54 1.9,19.77 0.67,21H6.33L7.19,20.14C7.97,20.9 9.22,20.89 10,20.12L15.95,14.16
+$mol_icon_undo $mol_icon path \M12.5,8C9.85,8 7.45,9 5.6,10.6L2,7V16H11L7.38,12.38C8.77,11.22 10.54,10.5 12.5,10.5C16.04,10.5 19.05,12.81 20.1,16L22.47,15.22C21.08,11.03 17.15,8 12.5,8Z
+
+$mol_icon_redo $mol_icon path \M18.4,10.6C16.55,9 14.15,8 11.5,8C6.85,8 2.92,11.03 1.54,15.22L3.9,16C4.95,12.81 7.95,10.5 11.5,10.5C13.45,10.5 15.23,11.22 16.62,12.38L13,16H22V7L18.4,10.6Z
+
+$mol_icon_arrow_collapse $mol_icon path \M19.5,3.09L15,7.59V4H13V11H20V9H16.41L20.91,4.5L19.5,3.09M4,13V15H7.59L3.09,19.5L4.5,20.91L9,16.41V20H11V13H4Z
+
+$mol_icon_arrow_collapse_left $mol_icon path \M11.92,19.92L4,12L11.92,4.08L13.33,5.5L7.83,11H22V13H7.83L13.34,18.5L11.92,19.92M4,12V2H2V22H4V12Z
 
 $mol_icon_format_size $mol_icon path \M2 4V7H7V19H10V7H15V4H2M21 9H12V12H15V19H18V12H21V9Z
 
@@ -1080,9 +1088,11 @@ $mol_icon_comment_quote_outline $mol_icon path \M9 22C8.4 22 8 21.6 8 21V18H4C2.
 
 $mol_icon_xml $mol_icon path \M12.89,3L14.85,3.4L11.11,21L9.15,20.6L12.89,3M19.59,12L16,8.41V5.58L22.42,12L16,18.41V15.58L19.59,12M1.58,12L8,5.58V8.41L4.41,12L8,15.58V18.41L1.58,12Z
 
-$mol_icon_arrow_collapse $mol_icon path \M19.5,3.09L15,7.59V4H13V11H20V9H16.41L20.91,4.5L19.5,3.09M4,13V15H7.59L3.09,19.5L4.5,20.91L9,16.41V20H11V13H4Z
+$mol_icon_marker $mol_icon path \M18.5,1.15C17.97,1.15 17.46,1.34 17.07,1.73L11.26,7.55L16.91,13.2L22.73,7.39C23.5,6.61 23.5,5.35 22.73,4.56L19.89,1.73C19.5,1.34 19,1.15 18.5,1.15M10.3,8.5L4.34,14.46C3.56,15.24 3.56,16.5 4.36,17.31C3.14,18.54 1.9,19.77 0.67,21H6.33L7.19,20.14C7.97,20.9 9.22,20.89 10,20.12L15.95,14.16
 
-$mol_icon_arrow_collapse_left $mol_icon path \M11.92,19.92L4,12L11.92,4.08L13.33,5.5L7.83,11H22V13H7.83L13.34,18.5L11.92,19.92M4,12V2H2V22H4V12Z
+$mol_icon_magnify $mol_icon path \M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z
+
+$mol_check_icon $mol_check
 
 $mol_float $mol_view
 	style *
@@ -1114,74 +1124,100 @@ $giper_baza_rich_edit $mol_view
 			-
 			tab? <=> block_rewrap? null
 			shift_tab? <=> block_unwrap? null
+			-
+			ctrl_Z? <=> undo? null
+			ctrl_shift_Z? <=> redo? null
 	sub /
-		<= Tools $mol_float sub /
-			<= Inline_format_menu $mol_pick
-				hint @ \Inline Formating
-				trigger_content /
-					<= Inline_format_menu_icon $mol_icon_marker
-				bubble_content /
-					<= Strong_button $mol_button_minor
-						title @ \Strong
-						hint \Alt+S
-						enabled? <=> selected? false
-						click? <=> inline_toggle*strong?
-					<= Em_button $mol_button_minor
-						title @ \Emphasis
-						hint \Alt+E
-						enabled? <=> selected? false
-						click? <=> inline_toggle*em?
-					<= Ins_button $mol_button_minor
-						title @ \Insertion
-						hint \Alt+I
-						enabled? <=> selected? false
-						click? <=> inline_toggle*ins?
-					<= Del_button $mol_button_minor
-						title @ \Deletion
-						hint \Alt+R
-						enabled? <=> selected? false
-						click? <=> inline_toggle*del?
-					<= Code_button $mol_button_minor
-						title @ \Code
-						hint \Alt+C
-						enabled? <=> selected? false
-						click? <=> inline_toggle*code?
-			<= Section_button $mol_button_minor
-				hint @ \Titled Section (Alt+T)
-				enabled? <=> selected? false
-				click? <=> block_wrap*section?
-				sub /
-					<= Section_icon $mol_icon_format_size
-			<= List_bullet_button $mol_button_minor
-				hint @ \Unordered List (Alt+U)
-				enabled? <=> selected? false
-				click? <=> block_wrap*ul?
-				sub /
-					<= List_bullet_icon $mol_icon_order_bool_ascending
-			<= List_number_button $mol_button_minor
-				hint @ \Ordered List (Alt+O)
-				enabled? <=> selected? false
-				click? <=> block_wrap*ol?
-				sub /
-					<= List_number_icon $mol_icon_order_numeric_ascending
-			<= Quote_button $mol_button_minor
-				hint @ \Quotation (Alt+Q)
-				enabled? <=> selected? false
-				click? <=> block_wrap*blockquote?
-				sub /
-					<= Quote_icon $mol_icon_comment_quote_outline
-			<= Preformat_button $mol_button_minor
-				hint @ \Preformatted Code (Alt+P)
-				enabled? <=> selected? false
-				click? <=> block_wrap*pre?
-				sub /
-					<= Preformat_icon $mol_icon_xml
-			<= Unwrap_button $mol_button_minor
-				hint @ \Unwrap Block (Shift+Tab)
-				enabled? <=> selected? false
-				click? <=> block_unwrap?
-				sub /
-					<= Decrease_icon $mol_icon_arrow_collapse_left
+		<= Tools $mol_float sub <= tools /
+			<= Main $mol_bar sub /
+				<= Undo_button $mol_button_minor
+					hint @ \Undo (Ctrl+Z)
+					enabled? <=> selected? false
+					click? <=> undo?
+					sub /
+						<= Undo_icon $mol_icon_undo
+				<= Redo_button $mol_button_minor
+					hint @ \Redo (Ctrl+Shift+Z)
+					enabled? <=> selected? false
+					click? <=> redo?
+					sub /
+						<= Redo_icon $mol_icon_redo
+				<= Unwrap_button $mol_button_minor
+					hint @ \Unwrap Block (Shift+Tab)
+					enabled? <=> selected? false
+					click? <=> block_unwrap?
+					sub /
+						<= Unwrap_icon $mol_icon_arrow_collapse_left
+				<= Section_button $mol_button_minor
+					hint @ \Titled Section (Alt+T)
+					enabled? <=> selected? false
+					click? <=> block_wrap*section?
+					sub /
+						<= Section_icon $mol_icon_format_size
+				<= List_bullet_button $mol_button_minor
+					hint @ \Unordered List (Alt+U)
+					enabled? <=> selected? false
+					click? <=> block_wrap*ul?
+					sub /
+						<= List_bullet_icon $mol_icon_order_bool_ascending
+				<= List_number_button $mol_button_minor
+					hint @ \Ordered List (Alt+O)
+					enabled? <=> selected? false
+					click? <=> block_wrap*ol?
+					sub /
+						<= List_number_icon $mol_icon_order_numeric_ascending
+				<= Quote_button $mol_button_minor
+					hint @ \Quotation (Alt+Q)
+					enabled? <=> selected? false
+					click? <=> block_wrap*blockquote?
+					sub /
+						<= Quote_icon $mol_icon_comment_quote_outline
+				<= Preformat_button $mol_button_minor
+					hint @ \Preformatted Code (Alt+P)
+					enabled? <=> selected? false
+					click? <=> block_wrap*pre?
+					sub /
+						<= Preformat_icon $mol_icon_xml
+				<= Inline_format_menu $mol_pick
+					hint @ \Inline Formating
+					trigger_content /
+						<= Inline_format_menu_icon $mol_icon_marker
+					bubble_content /
+						<= Strong_button $mol_button_minor
+							title @ \Strong
+							hint \Alt+S
+							enabled? <=> selected? false
+							click? <=> inline_toggle*strong?
+						<= Em_button $mol_button_minor
+							title @ \Emphasis
+							hint \Alt+E
+							enabled? <=> selected? false
+							click? <=> inline_toggle*em?
+						<= Ins_button $mol_button_minor
+							title @ \Insertion
+							hint \Alt+I
+							enabled? <=> selected? false
+							click? <=> inline_toggle*ins?
+						<= Del_button $mol_button_minor
+							title @ \Deletion
+							hint \Alt+R
+							enabled? <=> selected? false
+							click? <=> inline_toggle*del?
+						<= Code_button $mol_button_minor
+							title @ \Code
+							hint \Alt+C
+							enabled? <=> selected? false
+							click? <=> inline_toggle*code?
+				<= Search_toggle $mol_check_icon
+					hint @ \Search / Replace
+					checked? <=> search_active? false
+					sub /
+						<= Search_icon $mol_icon_magnify
+			<= Search_panel $mol_bar sub /
+				<= Search_query $mol_string
+					hint @ \Search...
+				<= Search_replace $mol_string
+					hint @ \Replace...
 		<= Content $mol_view
 			attr *
 				contenteditable <= editable? \true
@@ -1295,6 +1331,11 @@ $giper_baza_flex_form $mol_list
 		<= Field*0 $mol_expander
 			title <= field_name* \
 			expanded? <=> field_expanded*? true
+			Tools <= Field_tools* $mol_bar
+				sub <= field_tools* /
+					<= Field_link* $mol_link
+						uri <= field_uri* \
+						sub / <= Field_link_icon* $mol_icon_link_variant
 			content / <= Field_content* $mol_view sub / <= Field_control* $giper_baza_flex_field
 				pawn? <=> field_pawn*? $giper_baza_pawn
 				prop <= field_prop* $giper_baza_flex_prop
@@ -2062,8 +2103,6 @@ $giper_baza_app_stat_list $mol_book2_catalog
 			sub / <= peer_uptime*
 
 $mol_icon_play $mol_icon path \M8,5.14V19.14L19,12.14L8,5.14Z
-
-$mol_check_icon $mol_check
 
 $giper_baza_auth_slot $mol_page
 	title \🎰 Beautiful Keys Mining
