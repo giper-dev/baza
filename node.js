@@ -13676,7 +13676,7 @@ var $;
     }) {
         /** Persistent URI to file content */
         uri() {
-            return `?BAZA:file=${this.link()};name=${this.name()}`;
+            return `${this.name()}?BAZA:file=${this.link()}`;
         }
         /** File name */
         name(next) {

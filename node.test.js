@@ -13667,7 +13667,7 @@ var $;
     }) {
         /** Persistent URI to file content */
         uri() {
-            return `?BAZA:file=${this.link()};name=${this.name()}`;
+            return `${this.name()}?BAZA:file=${this.link()}`;
         }
         /** File name */
         name(next) {
@@ -19855,7 +19855,7 @@ var $;
                 const res = [];
                 app.GET($mol_rest_message.make({
                     method: () => 'GET',
-                    uri: () => new URL(`http://baza.giper.dev/?BAZA:file=${file.link().str};name=hello.md`),
+                    uri: () => new URL(`http://baza.giper.dev/hello.md?BAZA:file=${file.link().str}`),
                     port: $mol_rest_port.make({
                         send_code: code => res.push(code),
                         send_type: type => res.push(type),
@@ -19870,7 +19870,7 @@ var $;
                 const res = [];
                 app.GET($mol_rest_message.make({
                     method: () => 'GET',
-                    uri: () => new URL(`http://baza.giper.dev/?BAZA:file=${link.str};name=ghost.md`),
+                    uri: () => new URL(`http://baza.giper.dev/ghost.md?BAZA:file=${link.str}`),
                     port: $mol_rest_port.make({
                         send_code: code => res.push(code),
                         send_type: type => res.push(type),
@@ -19888,7 +19888,7 @@ var $;
                 const res = [];
                 app.GET($mol_rest_message.make({
                     method: () => 'GET',
-                    uri: () => new URL(`http://baza.giper.dev/?BAZA:file=${file.link().str};name=secret.bin`),
+                    uri: () => new URL(`http://baza.giper.dev/secret.bin?BAZA:file=${file.link().str}`),
                     port: $mol_rest_port.make({
                         send_code: code => res.push(code),
                         send_type: type => res.push(type),
