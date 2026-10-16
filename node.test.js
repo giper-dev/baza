@@ -10273,6 +10273,8 @@ var $;
         }
         encrypted(next) {
             $mol_wire_solid();
+            if (!this._gift.size)
+                this.loading();
             const gift = this._gift.get(this.link().str);
             const prev = gift?.code_exists() ?? false;
             if (next === undefined)
@@ -13792,7 +13794,10 @@ var $;
             if (!id)
                 return super.GET(msg);
             const link = new $giper_baza_link(id);
-            const file = this.$.$giper_baza_glob.Pawn(link, $giper_baza_file);
+            const land = this.$.$giper_baza_glob.Land(link.land());
+            if (land.encrypted())
+                return msg.port.send_code(403);
+            const file = land.Pawn($giper_baza_file).Head(link.head());
             msg.port.send_code(file.filled() ? 200 : 404);
             msg.port.send_type($giper_baza_file_mime_safe(file.type()));
             msg.port.send_bin(file.buffer());
@@ -19873,6 +19878,24 @@ var $;
                     }),
                 }));
                 $mol_assert_equal(res, [404, 'application/octet-stream', new Uint8Array]);
+            },
+            async 'GET encrypted Land file returns 403 without content'($) {
+                const land = $.$giper_baza_glob.home().land();
+                await $mol_wire_async(land).encrypted(true);
+                const file = land.Pawn($giper_baza_file).Head(new $giper_baza_link('11111111'));
+                file.buffer($mol_charset_encode('secret'));
+                const app = $giper_baza_app_node.make({ $ });
+                const res = [];
+                app.GET($mol_rest_message.make({
+                    method: () => 'GET',
+                    uri: () => new URL(`http://baza.giper.dev/?BAZA:file=${file.link().str};name=secret.bin`),
+                    port: $mol_rest_port.make({
+                        send_code: code => res.push(code),
+                        send_type: type => res.push(type),
+                        send_bin: bin => res.push(bin),
+                    }),
+                }));
+                $mol_assert_equal(res, [403]);
             },
         });
     })($$ = $_1.$$ || ($_1.$$ = {}));

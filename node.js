@@ -10282,6 +10282,8 @@ var $;
         }
         encrypted(next) {
             $mol_wire_solid();
+            if (!this._gift.size)
+                this.loading();
             const gift = this._gift.get(this.link().str);
             const prev = gift?.code_exists() ?? false;
             if (next === undefined)
@@ -13801,7 +13803,10 @@ var $;
             if (!id)
                 return super.GET(msg);
             const link = new $giper_baza_link(id);
-            const file = this.$.$giper_baza_glob.Pawn(link, $giper_baza_file);
+            const land = this.$.$giper_baza_glob.Land(link.land());
+            if (land.encrypted())
+                return msg.port.send_code(403);
+            const file = land.Pawn($giper_baza_file).Head(link.head());
             msg.port.send_code(file.filled() ? 200 : 404);
             msg.port.send_type($giper_baza_file_mime_safe(file.type()));
             msg.port.send_bin(file.buffer());
