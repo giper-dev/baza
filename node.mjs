@@ -13820,7 +13820,9 @@ var $;
             catch { }
             if (!id)
                 return super.GET(msg);
-            const link = new $giper_baza_link(id);
+            const link = $giper_baza_link.check(id);
+            if (!link)
+                return msg.port.send_code(400);
             const land = this.$.$giper_baza_glob.Land(link.land());
             if (land.encrypted())
                 return msg.port.send_code(403);

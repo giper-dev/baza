@@ -13811,7 +13811,9 @@ var $;
             catch { }
             if (!id)
                 return super.GET(msg);
-            const link = new $giper_baza_link(id);
+            const link = $giper_baza_link.check(id);
+            if (!link)
+                return msg.port.send_code(400);
             const land = this.$.$giper_baza_glob.Land(link.land());
             if (land.encrypted())
                 return msg.port.send_code(403);
@@ -19937,6 +19939,18 @@ var $;
                     }),
                 }));
                 $mol_assert_equal(res, [404, 'application/octet-stream', new Uint8Array]);
+            },
+            'GET ?BAZA:file=invalid returns 400'($) {
+                const app = $giper_baza_app_node.make({ $ });
+                const res = [];
+                app.GET($mol_rest_message.make({
+                    method: () => 'GET',
+                    uri: () => new URL('http://baza.giper.dev/ghost.md?BAZA:file=invalid'),
+                    port: $mol_rest_port.make({
+                        send_code: code => res.push(code),
+                    }),
+                }));
+                $mol_assert_equal(res, [400]);
             },
             async 'GET encrypted Land file returns 403 without content'($) {
                 const land = $.$giper_baza_glob.home().land();
