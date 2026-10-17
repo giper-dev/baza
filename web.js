@@ -9378,6 +9378,7 @@ var $;
         send_code(code) { }
         send_type(mime) { }
         send_name(name) { }
+        send_prop(name, value) { }
         origin() { return 'unknown'; }
         address() { return 'unknown'; }
         send_data(data) {

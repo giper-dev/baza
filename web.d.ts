@@ -3847,6 +3847,7 @@ declare namespace $ {
         send_code(code: $mol_rest_code): void;
         send_type(mime: $mol_rest_port_mime): void;
         send_name(name: string): void;
+        send_prop(name: string, value: string): void;
         origin(): string;
         address(): string;
         send_data(data: null | string | Uint8Array<ArrayBuffer> | Element | object): void;

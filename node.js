@@ -2552,6 +2552,7 @@ var $;
         send_code(code) { }
         send_type(mime) { }
         send_name(name) { }
+        send_prop(name, value) { }
         origin() { return 'unknown'; }
         address() { return 'unknown'; }
         send_data(data) {
@@ -4505,6 +4506,11 @@ var $;
                 .replace(/['()*]/g, char => '%' + char.charCodeAt(0).toString(16).toUpperCase());
             this.output.setHeader('content-disposition', `inline; filename*=UTF-8''${utf8}`);
         }
+        send_prop(name, value) {
+            if (this.output.writableEnded)
+                return;
+            this.output.setHeader(name, value);
+        }
         send_bin(data) {
             if (this.output.writableEnded)
                 return;
@@ -4521,6 +4527,9 @@ var $;
     __decorate([
         $mol_action
     ], $mol_rest_port_http.prototype, "send_name", null);
+    __decorate([
+        $mol_action
+    ], $mol_rest_port_http.prototype, "send_prop", null);
     __decorate([
         $mol_action
     ], $mol_rest_port_http.prototype, "send_bin", null);
@@ -13656,12 +13665,10 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    function $giper_baza_file_mime_safe(type) {
-        return ['audio', 'video', 'image', 'font'].includes(type.replace(/\/.*$/, ''))
-            ? type
-            : 'application/octet-stream';
-    }
-    $.$giper_baza_file_mime_safe = $giper_baza_file_mime_safe;
+    $.$giper_baza_file_csp = [
+        'Content-Security-Policy',
+        "sandbox; default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data:; media-src data:; form-action 'none'",
+    ];
     $.$giper_baza_file_query = $hyoo_harp_scheme({
         BAZA: $hyoo_harp_scheme({}),
         file: $hyoo_harp_scheme({}, $mol_data_string),
@@ -13808,7 +13815,8 @@ var $;
                 return msg.port.send_code(403);
             const file = land.Pawn($giper_baza_file).Head(link.head());
             msg.port.send_code(file.filled() ? 200 : 404);
-            msg.port.send_type($giper_baza_file_mime_safe(file.type()));
+            msg.port.send_prop(...$giper_baza_file_csp);
+            msg.port.send_type(file.type());
             msg.port.send_bin(file.buffer());
         }
         _yard() {
