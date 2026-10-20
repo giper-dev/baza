@@ -10302,8 +10302,7 @@ var $;
         }
         encrypted(next) {
             $mol_wire_solid();
-            if (!this._gift.size)
-                this.loading();
+            // if( !this._gift.size ) this.loading()
             const gift = this._gift.get(this.link().str);
             const prev = gift?.code_exists() ?? false;
             if (next === undefined)
@@ -13824,6 +13823,7 @@ var $;
             if (!link)
                 return msg.port.send_code(400);
             const land = this.$.$giper_baza_glob.Land(link.land());
+            land.loading();
             if (land.encrypted())
                 return msg.port.send_code(403);
             const file = land.Pawn($giper_baza_file).Head(link.head());
