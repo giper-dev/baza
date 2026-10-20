@@ -118,6 +118,7 @@
 	deploy \/giper/baza/diagram/pass.png
 	deploy \/giper/baza/diagram/gift.png
 	deploy \/giper/baza/diagram/sand.png
+	deploy \/giper/baza/diagram/seal.png
 	deploy \/giper/baza/diagram/files.png
 	deploy \/giper/baza/diagram/network.png
 	deploy \/giper/baza/diagram/jepsen.png
