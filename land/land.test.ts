@@ -86,7 +86,7 @@ namespace $ {
 			land1.give( auth2.pass(), $giper_baza_rank_read )
 			await $mol_wire_async( land2 ).units_steal( land1 )
 			$mol_assert_equal( ( await $mol_wire_async( land2 ).diff_units() ).length, 7 )
-
+			
 		},
 
 		async 'Gift to new Mate reaches Peer which knows Lord'( $ ) {
