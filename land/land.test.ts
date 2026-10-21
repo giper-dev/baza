@@ -91,9 +91,9 @@ namespace $ {
 
 		async 'Gift to new Mate reaches Peer which knows Lord'( $ ) {
 
-			const auth0 = await $.$giper_baza_auth.grab()
-			const auth1 = await $.$giper_baza_auth.grab()
-			const auth2 = await $.$giper_baza_auth.grab()
+			const auth0 = $.$giper_baza_auth.grab()
+			const auth1 = $.$giper_baza_auth.grab()
+			const auth2 = $.$giper_baza_auth.grab()
 
 			const land0 = $giper_baza_land.make({ $, auth: ()=> auth0 })
 			const land1 = $giper_baza_land.make({ $, link: ()=> land0.link(), auth: ()=> auth1 })

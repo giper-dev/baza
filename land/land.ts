@@ -459,7 +459,9 @@ namespace $ {
 			}
 			
 			
-			for( const gift of this._gift.values() ) collect( gift )
+			for( const gift of this._gift.values() ) {
+				collect( gift )
+			}
 			
 			for( const kids of this._sand.values() ) {
 				for( const peers of kids.values() ) {
@@ -502,14 +504,14 @@ namespace $ {
 			}
 			
 			for( const unit of delta ) {
-
+				
 				if( unit instanceof $giper_baza_unit_gift && unit.mate().str ) {
 					const mate_pass = this.lord_pass( unit.mate() )
 					if( mate_pass ) passes.add( mate_pass )
 				}
-
+				
 				if( skip_faces.has( unit.lord().peer().str ) ) continue
-
+				
 				const pass = this.lord_pass( unit.lord() )
 				if( !pass ) return $mol_fail( new Error( 'No pass for lord' ) )
 				
