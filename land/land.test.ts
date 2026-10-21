@@ -86,7 +86,28 @@ namespace $ {
 			land1.give( auth2.pass(), $giper_baza_rank_read )
 			await $mol_wire_async( land2 ).units_steal( land1 )
 			$mol_assert_equal( ( await $mol_wire_async( land2 ).diff_units() ).length, 7 )
-			
+
+		},
+
+		async 'Gift to new Mate reaches Peer which knows Lord'( $ ) {
+
+			const auth0 = await $.$giper_baza_auth.grab()
+			const auth1 = await $.$giper_baza_auth.grab()
+			const auth2 = await $.$giper_baza_auth.grab()
+
+			const land0 = $giper_baza_land.make({ $, auth: ()=> auth0 })
+			const land1 = $giper_baza_land.make({ $, link: ()=> land0.link(), auth: ()=> auth1 })
+
+			land0.post( $giper_baza_link.hole, $giper_baza_link.hole, new $giper_baza_link( 'AA111111' ), new Uint8Array([ 1 ]) )
+			await $mol_wire_async( land1 ).units_steal( land0 )
+			const face = land1.faces.clone()
+
+			land0.give( auth2.pass(), $giper_baza_rank_post( 'just' ) )
+			const delta = await $mol_wire_async( land0 ).diff_units( face )
+			await $mol_wire_async( land1 ).diff_apply( delta )
+
+			$mol_assert_equal( land1.lord_rank( auth2.pass().lord() ), $giper_baza_rank_post( 'just' ) )
+
 		},
 		
 		async 'Land encryption'( $ ) {
