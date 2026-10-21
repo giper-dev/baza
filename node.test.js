@@ -5165,6 +5165,9 @@ var $;
                     origin: msg.origin(),
                     remote: req.socket.remoteAddress + ':' + req.socket.remotePort
                 });
+            if (Number(req.headers['content-length']) > this.message_limit) {
+                return port.send_code($mol_rest_code["Request Entity Too Large"]);
+            }
             $mol_wire_sync(res).setHeader('Access-Control-Allow-Origin', '*');
             $mol_wire_sync(res).setHeader('Access-Control-Allow-Methods', '*');
             $mol_wire_sync(res).setHeader('Access-Control-Allow-Headers', '*');
@@ -5264,7 +5267,7 @@ var $;
         }
         _ws_income_chunks = new WeakMap;
         _ws_income_frames = new WeakMap;
-        ws_message_size_max = 64 * 1024 * 1024; // 64MiB
+        message_limit = 16 * 1024 * 1024; // 16MiB
         async ws_income(chunk, upgrade, sock) {
             sock.pause();
             try {
@@ -5290,10 +5293,10 @@ var $;
                 for (const frame of frames) {
                     total_size += typeof frame === 'string' ? frame.length : frame.byteLength;
                 }
-                if (total_size > this.ws_message_size_max)
+                if (total_size > this.message_limit)
                     throw new Error('WebSocket message too large', { cause: {
                             size: total_size,
-                            limit: this.ws_message_size_max,
+                            limit: this.message_limit,
                         } });
                 const msg_size = header_size + frame_size;
                 const partial_size = chunks.reduce((sum, buf) => sum + buf.byteLength, 0);
@@ -9557,11 +9560,12 @@ var $;
             for (const gift of this._gift.values()) {
                 collect(gift);
                 if (gift.mate().str) {
-                    if (skip_faces.has(gift.lord().peer().str))
+                    if (skip_faces.has(gift.mate().peer().str))
                         continue;
                     const mate_pass = this.lord_pass(gift.mate());
-                    if (mate_pass)
-                        passes.add(mate_pass);
+                    if (!mate_pass)
+                        return $mol_fail(new Error('No pass for mate'));
+                    passes.add(mate_pass);
                 }
             }
             for (const kids of this._sand.values()) {
@@ -16722,7 +16726,7 @@ var $;
     $mol_test({
         async 'Close socket on oversized fragmented WebSocket message'($) {
             const server = $mol_rest_server.make({
-                ws_message_size_max: 5
+                message_limit: 5
             });
             let closed = false;
             const socket = {
@@ -18393,6 +18397,20 @@ var $;
             })();
             $mol_assert_equal(area.pass_rank(area.auth().pass()), $giper_baza_rank_rule);
             $mol_assert_equal(area.lord_rank($giper_baza_link.hole), $giper_baza_rank_post('just'));
+        },
+        async 'Gift to new Mate reaches Peer which knows Lord'($) {
+            const auth0 = $.$giper_baza_auth.grab();
+            const auth1 = $.$giper_baza_auth.grab();
+            const auth2 = $.$giper_baza_auth.grab();
+            const land0 = $giper_baza_land.make({ $, auth: () => auth0 });
+            const land1 = $giper_baza_land.make({ $, link: () => land0.link(), auth: () => auth1 });
+            land0.post($giper_baza_link.hole, $giper_baza_link.hole, new $giper_baza_link('AA111111'), new Uint8Array([1]));
+            await $mol_wire_async(land1).units_steal(land0);
+            const face = land1.faces.clone();
+            land0.give(auth2.pass(), $giper_baza_rank_post('just'));
+            const delta = await $mol_wire_async(land0).diff_units(face);
+            await $mol_wire_async(land1).diff_apply(delta);
+            $mol_assert_equal(land1.lord_rank(auth2.pass().lord()), $giper_baza_rank_post('just'));
         },
         // async 'Merge text changes'() {
         // 	const base = new $giper_baza_land( 1n, 1 )

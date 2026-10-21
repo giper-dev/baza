@@ -37,6 +37,7 @@
 \/giper/baza/glob
 	deploy \giper/baza/glob/glob.baza
 \/giper/baza/app
+	include \/mol/offline/install
 	deploy \/giper/baza/logo/logo.svg
 	deploy \/giper/baza/logo/logo-512.png
 	deploy \/giper/baza/logo/bg.webp
@@ -57,5 +58,3 @@
 	deploy \/giper/baza/diagram/files.png
 	deploy \/giper/baza/diagram/network.png
 	deploy \/giper/baza/diagram/jepsen.png
-	deploy \/giper/baza/docker/deploy.sh
-	deploy \/giper/baza/docker/autopull_and_restart.sh

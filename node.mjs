@@ -5174,6 +5174,9 @@ var $;
                     origin: msg.origin(),
                     remote: req.socket.remoteAddress + ':' + req.socket.remotePort
                 });
+            if (Number(req.headers['content-length']) > this.message_limit) {
+                return port.send_code($mol_rest_code["Request Entity Too Large"]);
+            }
             $mol_wire_sync(res).setHeader('Access-Control-Allow-Origin', '*');
             $mol_wire_sync(res).setHeader('Access-Control-Allow-Methods', '*');
             $mol_wire_sync(res).setHeader('Access-Control-Allow-Headers', '*');
@@ -5273,7 +5276,7 @@ var $;
         }
         _ws_income_chunks = new WeakMap;
         _ws_income_frames = new WeakMap;
-        ws_message_size_max = 64 * 1024 * 1024; // 64MiB
+        message_limit = 16 * 1024 * 1024; // 16MiB
         async ws_income(chunk, upgrade, sock) {
             sock.pause();
             try {
@@ -5299,10 +5302,10 @@ var $;
                 for (const frame of frames) {
                     total_size += typeof frame === 'string' ? frame.length : frame.byteLength;
                 }
-                if (total_size > this.ws_message_size_max)
+                if (total_size > this.message_limit)
                     throw new Error('WebSocket message too large', { cause: {
                             size: total_size,
-                            limit: this.ws_message_size_max,
+                            limit: this.message_limit,
                         } });
                 const msg_size = header_size + frame_size;
                 const partial_size = chunks.reduce((sum, buf) => sum + buf.byteLength, 0);
@@ -9566,11 +9569,12 @@ var $;
             for (const gift of this._gift.values()) {
                 collect(gift);
                 if (gift.mate().str) {
-                    if (skip_faces.has(gift.lord().peer().str))
+                    if (skip_faces.has(gift.mate().peer().str))
                         continue;
                     const mate_pass = this.lord_pass(gift.mate());
-                    if (mate_pass)
-                        passes.add(mate_pass);
+                    if (!mate_pass)
+                        return $mol_fail(new Error('No pass for mate'));
+                    passes.add(mate_pass);
                 }
             }
             for (const kids of this._sand.values()) {

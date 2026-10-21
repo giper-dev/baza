@@ -15,6 +15,60 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    function $mol_offline(): void;
+}
+
+declare namespace $ {
+    /** Logger event data */
+    type $mol_log3_event<Fields> = {
+        [key in string]: unknown;
+    } & {
+        /** Time of event creation */
+        time?: string;
+        /** Place of event creation */
+        place: unknown;
+        /** Short description of event */
+        message: string;
+    } & Fields;
+    /** Logger function */
+    type $mol_log3_logger<Fields, Res = void> = (this: $, event: $mol_log3_event<Fields>) => Res;
+    /** Log begin of some task */
+    let $mol_log3_come: $mol_log3_logger<{}>;
+    /** Log end of some task */
+    let $mol_log3_done: $mol_log3_logger<{}>;
+    /** Log error */
+    let $mol_log3_fail: $mol_log3_logger<{}>;
+    /** Log warning message */
+    let $mol_log3_warn: $mol_log3_logger<{
+        hint: string;
+    }>;
+    /** Log some generic event */
+    let $mol_log3_rise: $mol_log3_logger<{}>;
+    /** Log begin of log group, returns func to close group */
+    let $mol_log3_area: $mol_log3_logger<{}, () => void>;
+    /** Log begin of collapsed group only when some logged inside, returns func to close group */
+    function $mol_log3_area_lazy(this: $, event: $mol_log3_event<{}>): () => void;
+    let $mol_log3_stack: (() => void)[];
+}
+
+declare namespace $ {
+    /**
+     * Extracts keys from `Input` which values extends `Upper` and extendable by `Lower`.
+     *
+     * 	type MathConstants = $mol_type_keys_extract< Math , number > // "E" | "PI" ...
+     */
+    type $mol_type_keys_extract<Input, Upper, Lower = never> = {
+        [Field in keyof Input]: unknown extends Input[Field] ? never : Input[Field] extends never ? never : Input[Field] extends Upper ? [
+            Lower
+        ] extends [Input[Field]] ? Field : never : never;
+    }[keyof Input];
+}
+
+declare namespace $ {
+    function $mol_log3_web_make(level: $mol_type_keys_extract<Console, Function>, color: string): (this: $, event: $mol_log3_event<{}>) => () => void;
+}
+
+declare namespace $ {
     var $mol_dom_context: typeof globalThis;
 }
 
@@ -23,6 +77,14 @@ declare namespace $ {
 
 declare namespace $ {
     var $mol_dom: typeof globalThis;
+}
+
+declare namespace $ {
+    /** Installs service worker proxy, which caches all requests and respond from cache on http errors. */
+    function $mol_offline_web(): void;
+}
+
+declare namespace $ {
 }
 
 declare namespace $ {
@@ -1069,56 +1131,6 @@ declare namespace $ {
      * Define `Symbol.toPrimitive` to customize.
      */
     function $mol_compare_deep<Value>(left: Value, right: Value): boolean;
-}
-
-declare namespace $ {
-    /** Logger event data */
-    type $mol_log3_event<Fields> = {
-        [key in string]: unknown;
-    } & {
-        /** Time of event creation */
-        time?: string;
-        /** Place of event creation */
-        place: unknown;
-        /** Short description of event */
-        message: string;
-    } & Fields;
-    /** Logger function */
-    type $mol_log3_logger<Fields, Res = void> = (this: $, event: $mol_log3_event<Fields>) => Res;
-    /** Log begin of some task */
-    let $mol_log3_come: $mol_log3_logger<{}>;
-    /** Log end of some task */
-    let $mol_log3_done: $mol_log3_logger<{}>;
-    /** Log error */
-    let $mol_log3_fail: $mol_log3_logger<{}>;
-    /** Log warning message */
-    let $mol_log3_warn: $mol_log3_logger<{
-        hint: string;
-    }>;
-    /** Log some generic event */
-    let $mol_log3_rise: $mol_log3_logger<{}>;
-    /** Log begin of log group, returns func to close group */
-    let $mol_log3_area: $mol_log3_logger<{}, () => void>;
-    /** Log begin of collapsed group only when some logged inside, returns func to close group */
-    function $mol_log3_area_lazy(this: $, event: $mol_log3_event<{}>): () => void;
-    let $mol_log3_stack: (() => void)[];
-}
-
-declare namespace $ {
-    /**
-     * Extracts keys from `Input` which values extends `Upper` and extendable by `Lower`.
-     *
-     * 	type MathConstants = $mol_type_keys_extract< Math , number > // "E" | "PI" ...
-     */
-    type $mol_type_keys_extract<Input, Upper, Lower = never> = {
-        [Field in keyof Input]: unknown extends Input[Field] ? never : Input[Field] extends never ? never : Input[Field] extends Upper ? [
-            Lower
-        ] extends [Input[Field]] ? Field : never : never;
-    }[keyof Input];
-}
-
-declare namespace $ {
-    function $mol_log3_web_make(level: $mol_type_keys_extract<Console, Function>, color: string): (this: $, event: $mol_log3_event<{}>) => () => void;
 }
 
 declare namespace $ {

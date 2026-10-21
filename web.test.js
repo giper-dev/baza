@@ -13,9 +13,6 @@ function require( path ){ return $node[ path ] };
 
 ;
 "use strict";
-
-;
-"use strict";
 var $;
 (function ($_1) {
     function $mol_test(set) {
@@ -109,6 +106,26 @@ var $;
     }
     $.$mol_test_complete = $mol_test_complete;
 })($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($_1) {
+    $mol_test_mocks.push($ => {
+        $.$mol_log3_come = () => { };
+        $.$mol_log3_done = () => { };
+        $.$mol_log3_fail = () => { };
+        $.$mol_log3_warn = () => { };
+        $.$mol_log3_rise = () => { };
+        $.$mol_log3_area = () => () => { };
+    });
+})($ || ($ = {}));
+
+;
+"use strict";
+
+;
+"use strict";
 
 ;
 "use strict";
@@ -413,23 +430,6 @@ var $;
 
 ;
 "use strict";
-
-;
-"use strict";
-
-;
-"use strict";
-var $;
-(function ($_1) {
-    $mol_test_mocks.push($ => {
-        $.$mol_log3_come = () => { };
-        $.$mol_log3_done = () => { };
-        $.$mol_log3_fail = () => { };
-        $.$mol_log3_warn = () => { };
-        $.$mol_log3_rise = () => { };
-        $.$mol_log3_area = () => () => { };
-    });
-})($ || ($ = {}));
 
 ;
 "use strict";
@@ -5102,6 +5102,20 @@ var $;
             })();
             $mol_assert_equal(area.pass_rank(area.auth().pass()), $giper_baza_rank_rule);
             $mol_assert_equal(area.lord_rank($giper_baza_link.hole), $giper_baza_rank_post('just'));
+        },
+        async 'Gift to new Mate reaches Peer which knows Lord'($) {
+            const auth0 = $.$giper_baza_auth.grab();
+            const auth1 = $.$giper_baza_auth.grab();
+            const auth2 = $.$giper_baza_auth.grab();
+            const land0 = $giper_baza_land.make({ $, auth: () => auth0 });
+            const land1 = $giper_baza_land.make({ $, link: () => land0.link(), auth: () => auth1 });
+            land0.post($giper_baza_link.hole, $giper_baza_link.hole, new $giper_baza_link('AA111111'), new Uint8Array([1]));
+            await $mol_wire_async(land1).units_steal(land0);
+            const face = land1.faces.clone();
+            land0.give(auth2.pass(), $giper_baza_rank_post('just'));
+            const delta = await $mol_wire_async(land0).diff_units(face);
+            await $mol_wire_async(land1).diff_apply(delta);
+            $mol_assert_equal(land1.lord_rank(auth2.pass().lord()), $giper_baza_rank_post('just'));
         },
         // async 'Merge text changes'() {
         // 	const base = new $giper_baza_land( 1n, 1 )
