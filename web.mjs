@@ -23906,7 +23906,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("giper/baza/rich/edit/edit.view.css", "[giper_baza_rich_edit] {\n\tflex-direction: column;\n\tflex: 1;\n\tborder-radius: var(--mol_gap_round);\n\tbackground-color: var(--mol_theme_field);\n}\n\n[giper_baza_rich_edit_enabled] {\n\toutline: 1px solid var(--mol_theme_line);\n}\n\n[giper_baza_rich_edit]:focus-within {\n\tz-index: var(--mol_layer_focus);\n\toutline: 1px solid var(--mol_theme_focus);\n}\n\n[giper_baza_rich_edit_tools] {\n\tborder-radius: var(--mol_gap_round);\n\tbottom: 0;\n}\n\n/* [giper_baza_rich_edit]:not(:focus-within) [giper_baza_rich_edit_tools] {\n\tdisplay: none;\n} */\n\n[giper_baza_rich_edit_content] {\n\tflex-direction: column;\n\tflex: 1;\n\twhite-space: pre-wrap;\n\toutline: none;\n\tpadding: var(--mol_gap_block);\n}\n\n[giper_baza_rich_edit_content] a {\n\tcolor: var(--mol_theme_control);\n\ttext-decoration: none;\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] a:hover {\n\tbackground: var(--mol_theme_card);\n\tbox-shadow: 0 0 0 .25rem var(--mol_theme_card);\n}\n\n[giper_baza_rich_edit_content] p {\n\tmargin: 0;\n\tpadding: var(--mol_gap_text);\n}\n\n[giper_baza_rich_edit_content] ul {\n\tmargin: 0;\n\tpadding: 0 1.5rem;\n}\n\n[giper_baza_rich_edit_content] ul > p:before {\n\tcontent: '• ';\n    color: var(--mol_theme_shade);\n\twidth: 0;\n    display: inline-flex;\n    white-space: pre;\n    flex-direction: row-reverse;\n}\n\n[giper_baza_rich_edit_content] ol {\n\tmargin: 0;\n\tpadding: 0 1.5rem;\n\tcounter-reset: giper_baza_rich_edit_content_ol 0;\n}\n\n[giper_baza_rich_edit_content] ol > p:before {\n\tcounter-increment: giper_baza_rich_edit_content_ol 1;\n\tcontent: counters(giper_baza_rich_edit_content_ol, \".\") \". \";\n\tcolor: var(--mol_theme_shade);\n\twidth: 0;\n    display: inline-flex;\n    white-space: pre;\n    flex-direction: row-reverse;\n}\n\n[giper_baza_rich_edit_content] blockquote {\n\tmargin: var(--mol_gap_block);\n\tpadding: var(--mol_gap_block);\n\tbackground: var(--mol_theme_card);\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] pre {\n\tmargin: 0 var(--mol_gap_block);\n\tpadding: 0 var(--mol_gap_block);\n\tborder-radius: var(--mol_gap_round);\n\toverflow-x: auto;\n}\n\n[giper_baza_rich_edit_content] img {\n\tmargin: var(--mol_gap_block);\n\tmax-width: calc( 100% - 2 * var(--mol_gap_block) );\n}\n\n[giper_baza_rich_edit_content] strong {\n\ttext-shadow: 0 0;\n\tfont-weight: normal;\n}\n\n[giper_baza_rich_edit_content] em {\n\tfont-style: italic;\n}\n\n[giper_baza_rich_edit_content] ins {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_special);\n}\n\n[giper_baza_rich_edit_content] del {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_shade);\n}\n\n[giper_baza_rich_edit_content] code {\n\tfont-family: monospace;\n}\n\n[giper_baza_rich_edit_content] hr {\n\tmargin: var(--mol_gap_block);\n\tborder: none;\n\tbox-shadow: 0 -1px 0 0px var(--mol_theme_line);\n    height: 1px;\n}\n\n[giper_baza_rich_edit_content] section {\n\tpadding: 0;\n\tmargin: 0;\n}\n\n[giper_baza_rich_edit_content] section > p:first-child {\n\tfont-size: 2rem;\n\tline-height: 3rem;\n\tfont-weight: normal;\n\tletter-spacing: 2px;\n}\n\n[giper_baza_rich_edit_content] section section > p:first-child {\n\tfont-size: 1.75rem;\n\tline-height: 3rem;\n}\n\n[giper_baza_rich_edit_content] section section section > p:first-child {\n\tfont-size: 1.5rem;\n\tline-height: 3rem;\n}\n\n[giper_baza_rich_edit_content] section section section section > p:first-child {\n\tfont-size: 1.25rem;\n\tline-height: 3rem;\n}\n\n[giper_baza_rich_edit_content] section section section section section > p:first-child {\n\tfont-size: 1.25rem;\n\tline-height: 3rem;\n\tfont-style: italic;\n}\n\n[giper_baza_rich_edit_content] section:not(:last-child) {\n\tbox-shadow: 0 1px 0 0 var(--mol_theme_line);\n}\n\n[giper_baza_rich_edit_content] section:not(:last-child) {\n\tpadding-bottom: var(--mol_gap_block);\n\tmargin-bottom: var(--mol_gap_block);\n\tbox-shadow: 0 1px 0 0 var(--mol_theme_line);\n}\n");
+    $mol_style_attach("giper/baza/rich/edit/edit.view.css", "[giper_baza_rich_edit] {\n\tflex-direction: column;\n\tflex: 1;\n\tborder-radius: var(--mol_gap_round);\n\tbackground-color: var(--mol_theme_field);\n}\n\n[giper_baza_rich_edit_enabled] {\n\toutline: 1px solid var(--mol_theme_line);\n}\n\n[giper_baza_rich_edit]:focus-within {\n\tz-index: var(--mol_layer_focus);\n\toutline: 1px solid var(--mol_theme_focus);\n}\n\n[giper_baza_rich_edit_tools] {\n\tborder-radius: var(--mol_gap_round);\n\tbottom: 0;\n}\n\n/* [giper_baza_rich_edit]:not(:focus-within) [giper_baza_rich_edit_tools] {\n\tdisplay: none;\n} */\n\n[giper_baza_rich_edit_content] {\n\tflex-direction: column;\n\tflex: 1;\n\twhite-space: pre-wrap;\n\toutline: none;\n\tpadding: var(--mol_gap_block);\n}\n\n[giper_baza_rich_edit_content] a {\n\tcolor: var(--mol_theme_control);\n\ttext-decoration: none;\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] a:hover {\n\tbackground: var(--mol_theme_card);\n\tbox-shadow: 0 0 0 .25rem var(--mol_theme_card);\n}\n\n[giper_baza_rich_edit_content] p {\n\tmargin: 0;\n\tpadding: var(--mol_gap_text);\n}\n\n[giper_baza_rich_edit_content] ul {\n\tmargin: 0;\n\tpadding: 0 1.5rem;\n}\n\n/* [giper_baza_rich_edit_content] ul > p:before {\n\tcontent: '• ';\n    color: var(--mol_theme_shade);\n\twidth: 0;\n    display: inline-flex;\n    white-space: pre;\n    flex-direction: row-reverse;\n} */\n\n[giper_baza_rich_edit_content] ol {\n\tmargin: 0;\n\tpadding: 0 1.5rem;\n\tcounter-reset: giper_baza_rich_edit_content_ol 0;\n}\n\n[giper_baza_rich_edit_content] ol > p:before {\n\tcounter-increment: giper_baza_rich_edit_content_ol 1;\n\tcontent: counters(giper_baza_rich_edit_content_ol, \".\") \". \";\n\tcolor: var(--mol_theme_shade);\n\twidth: 0;\n    display: inline-flex;\n    white-space: pre;\n    flex-direction: row-reverse;\n}\n\n[giper_baza_rich_edit_content] blockquote {\n\tmargin: var(--mol_gap_block);\n\tpadding: var(--mol_gap_block);\n\tbackground: var(--mol_theme_card);\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] pre {\n\tmargin: 0 var(--mol_gap_block);\n\tpadding: 0 var(--mol_gap_block);\n\tborder-radius: var(--mol_gap_round);\n\toverflow-x: auto;\n}\n\n[giper_baza_rich_edit_content] img {\n\tmargin: var(--mol_gap_block);\n\tmax-width: calc( 100% - 2 * var(--mol_gap_block) );\n}\n\n[giper_baza_rich_edit_content] strong {\n\ttext-shadow: 0 0;\n\tfont-weight: normal;\n}\n\n[giper_baza_rich_edit_content] em {\n\tfont-style: italic;\n}\n\n[giper_baza_rich_edit_content] ins {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_special);\n}\n\n[giper_baza_rich_edit_content] del {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_shade);\n}\n\n[giper_baza_rich_edit_content] code {\n\tfont-family: monospace;\n}\n\n[giper_baza_rich_edit_content] hr {\n\tmargin: var(--mol_gap_block);\n\tborder: none;\n\tbox-shadow: 0 -1px 0 0px var(--mol_theme_line);\n    height: 1px;\n}\n\n[giper_baza_rich_edit_content] section {\n\tpadding: 0;\n\tmargin: 0;\n}\n\n[giper_baza_rich_edit_content] section > p:first-child {\n\tfont-size: 2rem;\n\tline-height: 3rem;\n\tfont-weight: normal;\n\tletter-spacing: 2px;\n}\n\n[giper_baza_rich_edit_content] section section > p:first-child {\n\tfont-size: 1.75rem;\n\tline-height: 3rem;\n}\n\n[giper_baza_rich_edit_content] section section section > p:first-child {\n\tfont-size: 1.5rem;\n\tline-height: 3rem;\n}\n\n[giper_baza_rich_edit_content] section section section section > p:first-child {\n\tfont-size: 1.25rem;\n\tline-height: 3rem;\n}\n\n[giper_baza_rich_edit_content] section section section section section > p:first-child {\n\tfont-size: 1.25rem;\n\tline-height: 3rem;\n\tfont-style: italic;\n}\n\n[giper_baza_rich_edit_content] section:not(:last-child) {\n\tbox-shadow: 0 1px 0 0 var(--mol_theme_line);\n}\n\n[giper_baza_rich_edit_content] section:not(:last-child) {\n\tpadding-bottom: var(--mol_gap_block);\n\tmargin-bottom: var(--mol_gap_block);\n\tbox-shadow: 0 1px 0 0 var(--mol_theme_line);\n}\n");
 })($ || ($ = {}));
 
 ;
@@ -24037,44 +24037,38 @@ var $;
             // 	} ) )
             // 	obs.observe( this.Body(), { attributes: true, childList: true, subtree: true, characterData: true } )
             // }
-            block_wrap(Type, event) {
+            blocks_selected() {
                 const sel = $mol_dom_range.from_selection();
-                if (!sel.is_empty())
-                    return;
-                let box = sel.container();
-                if (box.nodeType !== box.ELEMENT_NODE)
-                    box = box.parentNode;
-                while (box) {
-                    if (box === this.Content().dom_node()) {
-                        $mol_dom_range.inside(box).surround($mol_jsx("p", null)).surround($mol_jsx(Type, null));
-                        break;
-                    }
-                    if (box.localName === 'p') {
-                        $mol_dom_range.around(box).surround($mol_jsx(Type, null));
-                        break;
-                    }
-                    box = box.parentNode;
-                }
+                const node = sel.container();
+                const box = node.nodeType === node.ELEMENT_NODE ? node : node.parentElement;
+                const paragraph = box.closest('p');
+                return paragraph ? $mol_dom_range.around(paragraph) : sel.lifted();
+            }
+            block_wrap(Type, event) {
+                this.blocks_selected().surround($mol_jsx(Type, null));
                 this.selection_load();
                 this.save();
                 event.preventDefault();
             }
-            block_unwrap(event) {
-                const sel = $mol_dom_range.from_selection();
+            block_rewrap(event) {
+                const range = this.blocks_selected();
+                const box = range.container();
                 const root = this.Content().dom_node();
-                let range = sel.lifted();
-                let container = range.container();
-                const paragraph = container.closest('p');
-                if (paragraph) {
-                    range = $mol_dom_range.around(paragraph);
-                    container = paragraph.parentElement;
-                }
+                const type = box === root ? 'ul' : box.localName;
+                this.block_wrap(type, event);
+            }
+            block_unwrap(event) {
+                event.preventDefault();
+                const range = this.blocks_selected();
+                const root = this.Content().dom_node();
+                const container = range.container();
                 if (container === root)
                     return;
                 if (range.anchor.pos !== 0) {
                     const prev = container.cloneNode();
-                    while (range.anchor.node.previousSibling)
+                    while (range.anchor.node.previousSibling) {
                         prev.insertBefore(range.anchor.node.previousSibling, prev.firstChild);
+                    }
                     prev.insertBefore(range.anchor.node, null);
                     container.before(prev);
                 }
@@ -24089,7 +24083,6 @@ var $;
                 container.remove();
                 this.selection_load();
                 this.save();
-                event.preventDefault();
             }
             /** Wraps selecion to given element type. */
             inline_toggle(Type, event) {

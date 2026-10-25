@@ -38710,7 +38710,9 @@ declare namespace $.$$ {
         selected(): boolean;
         selection_save(): void;
         selection_load(): void;
+        blocks_selected(): $mol_dom_range;
         block_wrap(Type: string, event: KeyboardEvent): void;
+        block_rewrap(event: KeyboardEvent): void;
         block_unwrap(event: KeyboardEvent): void;
         /** Wraps selecion to given element type. */
         inline_toggle(Type: string, event: KeyboardEvent): void;
