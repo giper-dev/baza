@@ -4474,6 +4474,7 @@ var $;
         'zip': 'application/zip',
         '7z': 'application/x-7z-compressed',
     };
+    $.$mol_file_extensions_mime = Object.fromEntries(Object.entries($.$mol_file_extensions).map(([ext, mime]) => [mime, ext]));
 })($ || ($ = {}));
 
 ;
@@ -12837,6 +12838,7 @@ var $;
             return land.Pawn(Pawn).Head(link.head());
         }
         static Seed() {
+            $mol_wire_solid();
             const link = $giper_baza_flex_deck_link.lord();
             const seed = this.Pawn(link, $giper_baza_flex_seed);
             // if( !$mol_wire_sync( seed ).meta() )
@@ -13700,15 +13702,16 @@ var $;
     }) {
         /** Persistent URI to file content */
         uri() {
-            return `${this.name()}?BAZA:file=${this.link()}`;
+            const time = this.last_change()?.valueOf() ?? 0;
+            return `${this.name()}?BAZA:file=${this.link()};time=${time}`;
         }
         /** File name */
         name(next) {
-            const ext = {
-                'text/plain': 'txt',
-                'application/json': 'json',
-            }[this.type()] ?? 'bin';
-            return this.Name(next)?.val(next) ?? `${this.link()}.${ext}`;
+            const name = this.Name(next)?.val(next);
+            if (name)
+                return name.replaceAll(/(\/|\.\.|:)/g, '_');
+            const ext = $mol_file_extensions_mime[this.type()] ?? 'bin';
+            return `${this.link()}.${ext}`;
         }
         /** Mime type */
         type(next) {
@@ -13764,6 +13767,9 @@ var $;
             return next;
         }
     }
+    __decorate([
+        $mol_mem
+    ], $giper_baza_file.prototype, "uri", null);
     $.$giper_baza_file = $giper_baza_file;
 })($ || ($ = {}));
 

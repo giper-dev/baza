@@ -1251,6 +1251,9 @@ declare namespace $ {
 
 declare namespace $ {
     let $mol_file_extensions: Record<string, $mol_rest_port_mime>;
+    let $mol_file_extensions_mime: {
+        [k: string]: string;
+    };
 }
 
 declare namespace $ {
