@@ -4419,7 +4419,7 @@ declare namespace $ {
         toStringPrivate(): string;
         /** Returns Socket from this Chipher. */
         socket(): $mol_crypto2_socket;
-        /** Makes shared secret for combination of Chiper and Soacket. */
+        /** Makes shared secret for combination of Chiper and Socket. */
         secret(pub: $mol_crypto2_socket): Promise<$mol_crypto_sacred>;
     }
 }

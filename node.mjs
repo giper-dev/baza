@@ -6234,7 +6234,7 @@ var $;
         socket() {
             return $mol_crypto2_socket.from(this.asArray());
         }
-        /** Makes shared secret for combination of Chiper and Soacket. */
+        /** Makes shared secret for combination of Chiper and Socket. */
         async secret(pub) {
             return $mol_crypto_sacred.from(new Uint8Array(await $mol_crypto_native.subtle.deriveBits({
                 name: "X25519",
