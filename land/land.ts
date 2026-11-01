@@ -905,7 +905,7 @@ namespace $ {
 					const secret_mutual = this.auth().secret_mutual( mate_pass )
 					if( secret_mutual ) {
 						const salt = $mol_buffer.from( gift.salt().slice() ).mix( this.link().lord().toBin() )
-						const code = $mol_wire_sync( secret_mutual ).close( secret_land, salt )
+						const code = $mol_wire_sync( secret_mutual ).encrypt( secret_land, salt )
 						gift.code().set( code )
 					}
 					
@@ -941,8 +941,14 @@ namespace $ {
 			
 			let open = $giper_baza_link_base( this.link(), ()=> $giper_baza_vary.pack([ vary ]) )
 			
-			const length = encrypted ? Math.ceil( ( open.byteLength + 1 ) / 16 ) * 16 : open.byteLength
-			const sand = $giper_baza_unit_sand.make( length, tag )
+			if( encrypted && ( open.byteLength < 18 ) ) {
+				const padded = new Uint8Array( 18 )
+				padded.set( open )
+				for( let i = open.byteLength; i < 18; ++i ) padded[i] = $mol_vary_spec.none
+				open = padded
+			}
+			
+			const sand = $giper_baza_unit_sand.make( open.byteLength, tag )
 			
 			sand._open = open
 			sand._land = this
@@ -1501,9 +1507,9 @@ namespace $ {
 			unit._land = this
 			
 			if( next ) {
-				const secret = $mol_wire_sync( $mol_crypto_sacred ).make()
+				const secret = $mol_wire_sync( $mol_crypto2_secret ).make()
 				const secret_mutual = auth.secret_mutual( auth.pass() )
-				const secret_closed = $mol_wire_sync( secret_mutual ).close( secret, unit.salt() )
+				const secret_closed = $mol_wire_sync( secret_mutual ).encrypt( secret, unit.salt() )
 				unit.code().set( secret_closed )
 			}
 			
@@ -1528,7 +1534,7 @@ namespace $ {
 			
 			const salt = $mol_buffer.from( gift.salt().slice() ).mix( this.link().lord().toBin() )
 			
-			return new $mol_crypto_sacred( $mol_wire_sync( secret_mutual ).open( gift.code(), salt ).buffer )
+			return new $mol_crypto2_secret( $mol_wire_sync( secret_mutual ).decrypt( gift.code(), salt ).buffer )
 			
 		}
 		

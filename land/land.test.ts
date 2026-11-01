@@ -99,7 +99,7 @@ namespace $ {
 			
 			const material = await land.post( $giper_baza_link.hole, $giper_baza_link.hole, null, new Uint8Array([ 1, 2, 3 ]) )
 			
-			$mol_assert_equal( ( await land.sand_encode( material ) ).data().length, 16 )
+			$mol_assert_equal( ( await land.sand_encode( material ) ).data().length, 18 )
 			$mol_assert_equal( await land.sand_decode( material ), new Uint8Array([ 1, 2, 3 ]) )
 			$mol_assert_equal( ( await land.sand_ordered({ head: $giper_baza_link.hole, peer: $giper_baza_link.hole }) ).length, 1 )
 			
