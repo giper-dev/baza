@@ -3697,31 +3697,32 @@ var $;
 (function ($) {
     $mol_test({
         async 'Sizes'() {
-            const secret = $mol_crypto_sacred.make();
-            const key = secret.asArray();
-            $mol_assert_equal(key.byteLength, $mol_crypto_sacred.size);
+            const secret = $mol_crypto2_secret.make();
+            $mol_assert_equal(secret.asArray().byteLength, $mol_crypto2_secret.size);
             const data = new Uint8Array([1, 2, 3]);
-            const salt = $mol_crypto_salt();
-            const closed = await secret.encrypt(data, salt);
-            $mol_assert_equal(closed.byteLength, $mol_crypto_sacred.size);
-            const self_closed = await secret.close(secret, salt);
-            $mol_assert_equal(self_closed.byteLength, $mol_crypto_sacred.size);
+            const nonce = $mol_crypto2_nonce();
+            const closed = await secret.encrypt(data, nonce);
+            $mol_assert_equal(closed.byteLength, data.byteLength);
+        },
+        'Wrong key size'() {
+            $mol_assert_fail(() => $mol_crypto2_secret.from(new Uint8Array(8)), 'Wrong key size');
         },
         async 'Decrypt self encrypted'() {
-            const secret = $mol_crypto_sacred.make();
+            const secret = $mol_crypto2_secret.make();
+            const nonce = $mol_crypto2_nonce();
             const data = new Uint8Array([1, 2, 3]);
-            const salt = $mol_crypto_salt();
-            const closed = await secret.encrypt(data, salt);
-            const opened = await secret.decrypt(closed, salt);
-            $mol_assert_equal(data, opened);
+            const closed = await secret.encrypt(data, nonce);
+            $mol_assert_equal(closed.byteLength, 3);
+            const opened = await secret.decrypt(closed, nonce);
+            $mol_assert_equal(opened, data);
         },
         async 'Decrypt encrypted with exported key'() {
             const data = new Uint8Array([1, 2, 3]);
-            const salt = $mol_crypto_salt();
-            const Alice = $mol_crypto_sacred.make();
-            const closed = await Alice.encrypt(data, salt);
-            const Bob = $mol_crypto_sacred.from(Alice.asArray());
-            const opened = await Bob.decrypt(closed, salt);
+            const nonce = $mol_crypto2_nonce();
+            const Alice = $mol_crypto2_secret.make();
+            const closed = await Alice.encrypt(data, nonce);
+            const Bob = $mol_crypto2_secret.from(Alice.asArray());
+            const opened = await Bob.decrypt(closed, nonce);
             $mol_assert_equal(data, opened);
         },
     });

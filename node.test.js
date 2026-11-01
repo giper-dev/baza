@@ -6094,99 +6094,56 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    /** @deprecated Use $mol_crypto2_nonce */
-    $.$mol_crypto_salt = $mol_crypto2_nonce;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    /** Symmetric cipher with shortest payload. */
-    class $mol_crypto_sacred extends $mol_buffer {
-        /** Key size in bytes. */
+    /** Symmetric AES-CTR secret. */
+    class $mol_crypto2_secret extends $mol_buffer {
         static size = 16;
         /** Makes new random secret. */
         static make() {
-            return this.from($mol_crypto_salt());
+            return this.from($mol_crypto2_nonce());
         }
-        /** Makes from string of buffer view. */
+        /** Makes from string or buffer view. */
         static from(serial) {
-            if (typeof serial === 'string') {
-                serial = new Uint8Array([
-                    ...$mol_base64_url_decode(serial),
-                ]);
+            if (typeof serial === 'string')
+                serial = $mol_base64_url_decode(serial);
+            if (serial.byteLength !== $mol_crypto2_secret.size) {
+                return $mol_fail(new RangeError('Wrong key size', { cause: { size: serial.byteLength } }));
             }
             if (!(serial instanceof Uint8Array)) {
                 serial = new Uint8Array(serial.buffer, serial.byteOffset, serial.byteLength);
             }
-            ;
-            serial[0] = 0xFF;
-            const sacred = super.from(serial);
-            return sacred;
+            return super.from(serial);
         }
         static async from_native(native) {
-            const buf = await $mol_crypto_native.subtle.exportKey('raw', native).catch($mol_crypto_restack);
-            const sacred = this.from(new Uint8Array(buf));
-            sacred._native = native;
-            return sacred;
-        }
-        constructor(buffer, byteOffset, byteLength) {
-            super(buffer, byteOffset, byteLength);
-            if (this.getUint8(0) !== 0xFF)
-                $mol_fail(new Error('Buffer should starts with 0xFF byte'));
+            const buffer = await $mol_crypto_native.subtle.exportKey('raw', native).catch($mol_crypto_restack);
+            const secret = this.from(new Uint8Array(buffer));
+            secret._native = native;
+            return secret;
         }
         toString() {
             return $mol_base64_url_encode(this.asArray());
         }
         _native;
-        /** Native crypto secret */
+        /** Native crypto secret. */
         async native() {
-            return this._native ?? (this._native = await $mol_crypto_native.subtle.importKey('raw', this, {
-                name: 'AES-CBC',
-                length: 128,
-            }, true, ['encrypt', 'decrypt']).catch($mol_crypto_restack));
+            return this._native ?? (this._native = await $mol_crypto_native.subtle.importKey('raw', // format
+            this, // buffer source
+            'AES-CTR', // algorithm
+            true, // extractable
+            ['encrypt', 'decrypt']).catch($mol_crypto_restack));
         }
-        /** Encrypt any binary message. 16n bytes */
-        async encrypt(open, salt) {
-            return new Uint8Array(await $mol_crypto_native.subtle.encrypt({
-                name: 'AES-CBC',
-                length: 128,
-                tagLength: 32,
-                iv: salt,
-            }, await this.native(), open).catch($mol_crypto_restack));
+        /** Encrypts data without changing its length. */
+        async encrypt(open, nonce) {
+            return new Uint8Array(await $mol_crypto_native.subtle.encrypt({ name: 'AES-CTR', counter: nonce, length: 64 }, await this.native(), open).catch($mol_crypto_restack));
         }
-        /** Decrypt any binary message. */
-        async decrypt(closed, salt) {
-            return new Uint8Array(await $mol_crypto_native.subtle.decrypt({
-                name: 'AES-CBC',
-                length: 128,
-                tagLength: 32,
-                iv: salt,
-            }, await this.native(), closed).catch($mol_crypto_restack));
-        }
-        /** Encrypts 0xFF prefixed buffer. 16 bytes */
-        async close(opened, salt) {
-            if (opened.getUint8(0) !== 0xFF)
-                throw new Error('Closable buffer should starts with 0xFF');
-            const trimed = new Uint8Array(opened.buffer, opened.byteOffset + 1, opened.byteLength - 1);
-            return this.encrypt(trimed, salt);
-        }
-        /** Decrypts 0xFF prefixed buffer. 16 bytes */
-        async open(closed, salt) {
-            const trimed = await this.decrypt(closed, salt);
-            if (trimed.byteLength !== closed.byteLength - 1)
-                throw new Error('Length of opened buffer should be ' + (closed.byteLength - 1));
-            const opened = new Uint8Array(closed.byteLength);
-            opened[0] = 0xFF;
-            opened.set(trimed, 1);
-            return opened;
+        /** Decrypts data without changing its length. */
+        async decrypt(closed, nonce) {
+            return new Uint8Array(await $mol_crypto_native.subtle.decrypt({ name: 'AES-CTR', counter: nonce, length: 64 }, await this.native(), closed).catch($mol_crypto_restack));
         }
     }
     __decorate([
         $mol_memo.method
-    ], $mol_crypto_sacred.prototype, "toString", null);
-    $.$mol_crypto_sacred = $mol_crypto_sacred;
+    ], $mol_crypto2_secret.prototype, "toString", null);
+    $.$mol_crypto2_secret = $mol_crypto2_secret;
 })($ || ($ = {}));
 
 ;
@@ -6227,10 +6184,10 @@ var $;
         }
         /** Makes shared secret for combination of Chiper and Socket. */
         async secret(pub) {
-            return $mol_crypto_sacred.from(new Uint8Array(await $mol_crypto_native.subtle.deriveBits({
+            return $mol_crypto2_secret.from(new Uint8Array(await $mol_crypto_native.subtle.deriveBits({
                 name: "X25519",
                 public: await pub.native(),
-            }, await this.nativePrivate(), $mol_crypto_sacred.size * 8).catch($mol_crypto_restack)));
+            }, await this.nativePrivate(), $mol_crypto2_secret.size * 8).catch($mol_crypto_restack)));
         }
     }
     __decorate([
@@ -9887,7 +9844,7 @@ var $;
                     const secret_mutual = this.auth().secret_mutual(mate_pass);
                     if (secret_mutual) {
                         const salt = $mol_buffer.from(gift.salt().slice()).mix(this.link().lord().toBin());
-                        const code = $mol_wire_sync(secret_mutual).close(secret_land, salt);
+                        const code = $mol_wire_sync(secret_mutual).encrypt(secret_land, salt);
                         gift.code().set(code);
                     }
                 }
@@ -9907,8 +9864,15 @@ var $;
             const lord_pass = this.auth().pass();
             const encrypted = vary === null ? false : this.encrypted();
             let open = $giper_baza_link_base(this.link(), () => $giper_baza_vary.pack([vary]));
-            const length = encrypted ? Math.ceil((open.byteLength + 1) / 16) * 16 : open.byteLength;
-            const sand = $giper_baza_unit_sand.make(length, tag);
+            if (encrypted && (open.byteLength < 16)) {
+                const padded = new Uint8Array(16);
+                padded.set(open);
+                for (let i = open.byteLength; i < 16; ++i) {
+                    padded[i] = Math.floor(Math.random() * 55 - 27); // [ -27; 27 ]
+                }
+                open = padded;
+            }
+            const sand = $giper_baza_unit_sand.make(open.byteLength, tag);
             sand._open = open;
             sand._land = this;
             $giper_baza_unit_trusted_grant(sand);
@@ -10317,9 +10281,9 @@ var $;
             unit.mate(auth.pass().lord());
             unit._land = this;
             if (next) {
-                const secret = $mol_wire_sync($mol_crypto_sacred).make();
+                const secret = $mol_wire_sync($mol_crypto2_secret).make();
                 const secret_mutual = auth.secret_mutual(auth.pass());
-                const secret_closed = $mol_wire_sync(secret_mutual).close(secret, unit.salt());
+                const secret_closed = $mol_wire_sync(secret_mutual).encrypt(secret, unit.salt());
                 unit.code().set(secret_closed);
             }
             this.diff_apply([auth.pass(), unit]);
@@ -10338,7 +10302,7 @@ var $;
             if (!secret_mutual)
                 return $mol_fail(new Error(`Can't decrypt secret`));
             const salt = $mol_buffer.from(gift.salt().slice()).mix(this.link().lord().toBin());
-            return new $mol_crypto_sacred($mol_wire_sync(secret_mutual).open(gift.code(), salt).buffer);
+            return new $mol_crypto2_secret($mol_wire_sync(secret_mutual).decrypt(gift.code(), salt).buffer);
         }
         dump() {
             this.units_saving();
@@ -17099,31 +17063,32 @@ var $;
 (function ($) {
     $mol_test({
         async 'Sizes'() {
-            const secret = $mol_crypto_sacred.make();
-            const key = secret.asArray();
-            $mol_assert_equal(key.byteLength, $mol_crypto_sacred.size);
+            const secret = $mol_crypto2_secret.make();
+            $mol_assert_equal(secret.asArray().byteLength, $mol_crypto2_secret.size);
             const data = new Uint8Array([1, 2, 3]);
-            const salt = $mol_crypto_salt();
-            const closed = await secret.encrypt(data, salt);
-            $mol_assert_equal(closed.byteLength, $mol_crypto_sacred.size);
-            const self_closed = await secret.close(secret, salt);
-            $mol_assert_equal(self_closed.byteLength, $mol_crypto_sacred.size);
+            const nonce = $mol_crypto2_nonce();
+            const closed = await secret.encrypt(data, nonce);
+            $mol_assert_equal(closed.byteLength, data.byteLength);
+        },
+        'Wrong key size'() {
+            $mol_assert_fail(() => $mol_crypto2_secret.from(new Uint8Array(8)), 'Wrong key size');
         },
         async 'Decrypt self encrypted'() {
-            const secret = $mol_crypto_sacred.make();
+            const secret = $mol_crypto2_secret.make();
+            const nonce = $mol_crypto2_nonce();
             const data = new Uint8Array([1, 2, 3]);
-            const salt = $mol_crypto_salt();
-            const closed = await secret.encrypt(data, salt);
-            const opened = await secret.decrypt(closed, salt);
-            $mol_assert_equal(data, opened);
+            const closed = await secret.encrypt(data, nonce);
+            $mol_assert_equal(closed.byteLength, 3);
+            const opened = await secret.decrypt(closed, nonce);
+            $mol_assert_equal(opened, data);
         },
         async 'Decrypt encrypted with exported key'() {
             const data = new Uint8Array([1, 2, 3]);
-            const salt = $mol_crypto_salt();
-            const Alice = $mol_crypto_sacred.make();
-            const closed = await Alice.encrypt(data, salt);
-            const Bob = $mol_crypto_sacred.from(Alice.asArray());
-            const opened = await Bob.decrypt(closed, salt);
+            const nonce = $mol_crypto2_nonce();
+            const Alice = $mol_crypto2_secret.make();
+            const closed = await Alice.encrypt(data, nonce);
+            const Bob = $mol_crypto2_secret.from(Alice.asArray());
+            const opened = await Bob.decrypt(closed, nonce);
             $mol_assert_equal(data, opened);
         },
     });
