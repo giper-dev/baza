@@ -944,7 +944,9 @@ namespace $ {
 			if( encrypted && ( open.byteLength < 16 ) ) {
 				const padded = new Uint8Array( 16 )
 				padded.set( open )
-				for( let i = open.byteLength; i < 16; ++i ) padded[i] = $mol_vary_spec.none
+				for( let i = open.byteLength; i < 16; ++i ) {
+					padded[i] = Math.floor( Math.random() * 55 - 27 ) // [ -27; 27 ]
+				}
 				open = padded
 			}
 			
