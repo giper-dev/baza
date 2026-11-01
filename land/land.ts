@@ -941,10 +941,10 @@ namespace $ {
 			
 			let open = $giper_baza_link_base( this.link(), ()=> $giper_baza_vary.pack([ vary ]) )
 			
-			if( encrypted && ( open.byteLength < 18 ) ) {
-				const padded = new Uint8Array( 18 )
+			if( encrypted && ( open.byteLength < 16 ) ) {
+				const padded = new Uint8Array( 16 )
 				padded.set( open )
-				for( let i = open.byteLength; i < 18; ++i ) padded[i] = $mol_vary_spec.none
+				for( let i = open.byteLength; i < 16; ++i ) padded[i] = $mol_vary_spec.none
 				open = padded
 			}
 			
