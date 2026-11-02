@@ -1058,8 +1058,18 @@ namespace $ {
 		}
 		
 		destructor() {
-			Promise.resolve().then( ()=> {
+			Promise.resolve().then( async ()=> {
+				
 				this.$.$giper_baza_glob.yard().forget_land( this )
+				
+				try {
+					await $mol_wire_async( this ).units_saving()
+				} catch( error ) {
+					$mol_fail_log( error )
+				} finally {
+					$mol_wire_solid_free( this )
+				}
+				
 			} )
 		}
 		
