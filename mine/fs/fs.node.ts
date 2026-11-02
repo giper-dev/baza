@@ -73,14 +73,16 @@ namespace $ {
 		/** Memory allocator. */
 		@ $mol_mem
 		pool( reset?: null ) {
-			$mol_wire_solid()
+			// Scoped solid: released in destructor.
+			$giper_baza_solid()
 			return new $mol_memory_pool
 		}
 		
 		/** Offsets of stored buffers. */
 		@ $mol_mem
 		offsets( reset?: null ) {
-			$mol_wire_solid()
+			// Scoped solid: released in destructor.
+			$giper_baza_solid()
 			return new Map< ArrayBuffer, number >
 		}
 		
@@ -93,14 +95,19 @@ namespace $ {
 		
 		destructor() {
 			
-			if( !this.sides[1].exists() ) return
+			try {
+				
+				if( !this.sides[1].exists() ) return
+				
+				this.sides[1].open( 'write_only' ).flush()
+				this.sides[0].exists( false )
+				
+			} finally {
+				// Release pool, offsets and save_init atoms with the Storage.
+				$giper_baza_solid_free( this )
+			}
 			
-			this.sides[1].open( 'write_only' ).flush()
-			this.sides[0].exists( false )
-			this.pool( null )
-			this.offsets( null )
-			
-		} 
+		}
 		
 		/** Prepare mirrors to read. */
 		@ $mol_mem
@@ -147,7 +154,8 @@ namespace $ {
 		@ $mol_mem
 		save_init() {
 			
-			$mol_wire_solid()
+			// Scoped solid: released with the Storage.
+			$giper_baza_solid()
 			
 			this.load_init()
 			
@@ -174,7 +182,8 @@ namespace $ {
 		
 		@ $mol_mem 
 		store() {
-			$mol_wire_solid()
+			// Scoped solid: released with the Mine.
+			$giper_baza_solid()
 			const land = this.land()
 			const area = land.area()
 			
@@ -257,7 +266,8 @@ namespace $ {
 		}
 		
 		destructor() {
-			this.store().destructor()
+			// Store atom owns the Storage, so it is destructed with the atom.
+			$giper_baza_solid_free( this )
 		}
 		
 	}

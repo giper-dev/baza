@@ -1058,14 +1058,26 @@ namespace $ {
 		}
 		
 		destructor() {
-			Promise.resolve().then( ()=> {
+			Promise.resolve().then( async ()=> {
+				
 				this.$.$giper_baza_glob.yard().forget_land( this )
+				
+				// Release Land: flush unsaved Units, then free solid atoms which hold Land in memory.
+				try {
+					await $mol_wire_async( this ).units_saving()
+				} catch( error ) {
+					$mol_fail_log( error )
+				} finally {
+					$giper_baza_solid_free( this )
+				}
+				
 			} )
 		}
 		
 		@ $mol_mem
 		mine() {
-			$mol_wire_solid()
+			// Scoped solid: lives until Land destructor, then Land can be collected.
+			$giper_baza_solid()
 			return this.$.$giper_baza_mine.land( this.link() )
 		}
 		
@@ -1103,7 +1115,8 @@ namespace $ {
 		
 		@ $mol_mem
 		loading() {
-			$mol_wire_solid()
+			// Scoped solid: Units are loaded once per Land instance and released with it.
+			$giper_baza_solid()
 			
 			let units = $mol_wire_sync( this.mine() ).units_load()
 			if( units.length ) this.persisted( true )
@@ -1259,7 +1272,8 @@ namespace $ {
 		@ $mol_mem
 		persisted( next?: boolean ): boolean {
 			
-			$mol_wire_solid()
+			// Scoped solid: released with Land.
+			$giper_baza_solid()
 			
 			if( next !== undefined ) return next
 			
@@ -1484,7 +1498,8 @@ namespace $ {
 		@ $mol_mem
 		encrypted( next?: boolean ) {
 			
-			$mol_wire_solid()
+			// Scoped solid: released with Land.
+			$giper_baza_solid()
 			// if( !this._gift.size ) this.loading()
 			
 			const gift = this._gift.get( this.link().str )

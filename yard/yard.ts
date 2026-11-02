@@ -1,6 +1,7 @@
 namespace $ {
 	
 	const Passives = new WeakMap< $mol_rest_port, Set< string > >()
+	const Faces = new WeakMap< $mol_rest_port, Map< string, $giper_baza_face_map > >()
 	
 	/** Glob synchronizer */
 	export class $giper_baza_yard extends $mol_object {
@@ -189,7 +190,15 @@ namespace $ {
 				const land_link = new $giper_baza_link( land )
 				this.sync_port_land([ port, land_link ])
 				
-				for( const master of masters ) this.sync_port_land([ master, land_link ])
+				for( const master of masters ) {
+					
+					// Land is forwarded to Master only on behalf of this Port, so it is passive for Master:
+					// Master's answer doesn't pin it, and Land destructor sends Free to Master.
+					if( master !== port ) this.port_lands_passive( master ).add( land )
+					
+					this.sync_port_land([ master, land_link ])
+					
+				}
 				
 			}
 		}
@@ -247,6 +256,9 @@ namespace $ {
 					if( !this.port_lands_active( port ).has( land ) ) break forget
 					
 					this.port_lands_active( port ).delete( land )
+					
+					// Peer forgets Land, so its Faces are not needed anymore.
+					this.face_port_land( [ port, new $giper_baza_link( land ) ], null )
 					
 					if( this.$.$giper_baza_log() ) $mol_wire_sync( this.$ ).$mol_log3_done({
 						place: this,
@@ -345,6 +357,9 @@ namespace $ {
 				if( !this.port_lands_passive( port ).has( land.link().str ) ) continue
 				this.port_lands_passive( port ).delete( land.link().str )
 				
+				// Port forgets Land, so its Faces are not needed anymore.
+				this.face_port_land( [ port, land.link() ], null )
+				
 				if( this.$.$giper_baza_log() ) this.$.$mol_log3_done({
 					place: this,
 					message: 'Send Free',
@@ -411,10 +426,24 @@ namespace $ {
 		@ $mol_mem_key
 		face_port_land(
 			[ port, land ]: [ $mol_rest_port, $giper_baza_link ],
-			next = null as null | $giper_baza_face_map
+			next?: null | $giper_baza_face_map
 		) {
-			$mol_wire_solid()
+			
+			// Faces are kept by Port instead of solid atom: atom may be reaped,
+			// and Faces of closed Port are collected with it.
+			const faces = this.port_faces( port )
+			if( next === undefined ) return faces.get( land.str ) ?? null
+			
+			if( next ) faces.set( land.str, next )
+			else faces.delete( land.str )
+			
 			return next
+		}
+		
+		port_faces( port: $mol_rest_port ) {
+			let faces = Faces.get( port )
+			if( !faces ) Faces.set( port, faces = new Map )
+			return faces
 		}
 		
 		;[ Symbol.for( 'nodejs.util.inspect.custom' ) ]() {
