@@ -1,7 +1,6 @@
 namespace $ {
 	
 	const Passives = new WeakMap< $mol_rest_port, Set< string > >()
-	const Faces = new WeakMap< $mol_rest_port, Map< string, $giper_baza_face_map > >()
 	
 	/** Glob synchronizer */
 	export class $giper_baza_yard extends $mol_object {
@@ -249,8 +248,6 @@ namespace $ {
 					
 					this.port_lands_active( port ).delete( land )
 					
-					this.face_port_land( [ port, new $giper_baza_link( land ) ], null )
-					
 					if( this.$.$giper_baza_log() ) $mol_wire_sync( this.$ ).$mol_log3_done({
 						place: this,
 						message: 'Take Free',
@@ -348,8 +345,6 @@ namespace $ {
 				if( !this.port_lands_passive( port ).has( land.link().str ) ) continue
 				this.port_lands_passive( port ).delete( land.link().str )
 				
-				this.face_port_land( [ port, land.link() ], null )
-				
 				if( this.$.$giper_baza_log() ) this.$.$mol_log3_done({
 					place: this,
 					message: 'Send Free',
@@ -416,22 +411,10 @@ namespace $ {
 		@ $mol_mem_key
 		face_port_land(
 			[ port, land ]: [ $mol_rest_port, $giper_baza_link ],
-			next?: null | $giper_baza_face_map
+			next = null as null | $giper_baza_face_map
 		) {
-			
-			const faces = this.port_faces( port )
-			if( next === undefined ) return faces.get( land.str ) ?? null
-			
-			if( next ) faces.set( land.str, next )
-			else faces.delete( land.str )
-			
+			$mol_wire_solid()
 			return next
-		}
-		
-		port_faces( port: $mol_rest_port ) {
-			let faces = Faces.get( port )
-			if( !faces ) Faces.set( port, faces = new Map )
-			return faces
 		}
 		
 		;[ Symbol.for( 'nodejs.util.inspect.custom' ) ]() {
