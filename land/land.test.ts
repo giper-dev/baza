@@ -215,9 +215,25 @@ namespace $ {
 			await new Promise( done => setTimeout( done, 10 ) )
 			
 			$mol_assert_equal( root.pub_list.length, 0 )
-			
+
 		},
-		
+
+		async 'Destructed Land releases its solid atoms'( $ ) {
+
+			const land = $giper_baza_land.make({ $ })
+			await $mol_wire_async( land ).loading()
+
+			$mol_assert_equal( Boolean( ( land as any )[ 'loading()' ] ), true )
+			$mol_assert_equal( Boolean( ( land as any )[ 'mine()' ] ), true )
+
+			land.destructor()
+			await new Promise( done => setTimeout( done, 50 ) )
+
+			$mol_assert_equal( ( land as any )[ 'loading()' ], null )
+			$mol_assert_equal( ( land as any )[ 'mine()' ], null )
+
+		},
+
 		// async 'Merge text changes'() {
 			
 		// 	const base = new $giper_baza_land( 1n, 1 )
