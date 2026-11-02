@@ -21,30 +21,6 @@ namespace $ {
 	
 	$mol_test({
 		
-		'Land forwarded to Master is passive for it'( $ ) {
-			
-			const master = port_make()
-			const slave = port_make()
-			
-			class $giper_baza_yard_test extends $.$giper_baza_yard {
-				masters() {
-					return [ master ]
-				}
-			}
-			
-			const yard = $giper_baza_yard_test.make({ $ })
-			const land = $.$giper_baza_auth.current().pass().lord().str
-			
-			yard.port_lands_active( slave ).add( land )
-			yard.sync_port_lands( slave )
-			
-			$mol_assert_equal( yard.port_lands_passive( master ).has( land ), true )
-			
-			yard.face_port_sync( master, [[ land, new $giper_baza_pack_part( [], new $giper_baza_face_map ) ]] )
-			$mol_assert_equal( yard.port_lands_active( master ).has( land ), false )
-			
-		},
-		
 		'Port Faces survive atom reaping'( $ ) {
 			
 			const port = port_make()

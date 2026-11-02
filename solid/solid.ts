@@ -7,11 +7,6 @@ namespace $ {
 	
 	const nothing = ()=> {}
 	
-	/**
-	 * Like `$mol_wire_solid`, but scoped to the host object:
-	 * atom is not reaped while host lives, and is destroyed by `$giper_baza_solid_free( host )`.
-	 * `$mol_wire_solid` never lets the atom go, so its sources hold it and its host forever.
-	 */
 	export function $giper_baza_solid() {
 		
 		let current = $mol_wire_auto() as $mol_wire_fiber< any, any, any >
@@ -31,7 +26,6 @@ namespace $ {
 		
 	}
 	
-	/** Destroys all atoms of the host marked by `$giper_baza_solid`. */
 	export function $giper_baza_solid_free( host: object ) {
 		
 		const scope = Keepers.get( host )

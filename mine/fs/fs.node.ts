@@ -73,7 +73,6 @@ namespace $ {
 		/** Memory allocator. */
 		@ $mol_mem
 		pool( reset?: null ) {
-			// Scoped solid: released in destructor.
 			$giper_baza_solid()
 			return new $mol_memory_pool
 		}
@@ -81,7 +80,6 @@ namespace $ {
 		/** Offsets of stored buffers. */
 		@ $mol_mem
 		offsets( reset?: null ) {
-			// Scoped solid: released in destructor.
 			$giper_baza_solid()
 			return new Map< ArrayBuffer, number >
 		}
@@ -103,7 +101,6 @@ namespace $ {
 				this.sides[0].exists( false )
 				
 			} finally {
-				// Release pool, offsets and save_init atoms with the Storage.
 				$giper_baza_solid_free( this )
 			}
 			
@@ -154,7 +151,6 @@ namespace $ {
 		@ $mol_mem
 		save_init() {
 			
-			// Scoped solid: released with the Storage.
 			$giper_baza_solid()
 			
 			this.load_init()
@@ -182,7 +178,6 @@ namespace $ {
 		
 		@ $mol_mem 
 		store() {
-			// Scoped solid: released with the Mine.
 			$giper_baza_solid()
 			const land = this.land()
 			const area = land.area()
@@ -266,7 +261,6 @@ namespace $ {
 		}
 		
 		destructor() {
-			// Store atom owns the Storage, so it is destructed with the atom.
 			$giper_baza_solid_free( this )
 		}
 		

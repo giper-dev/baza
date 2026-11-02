@@ -190,15 +190,7 @@ namespace $ {
 				const land_link = new $giper_baza_link( land )
 				this.sync_port_land([ port, land_link ])
 				
-				for( const master of masters ) {
-					
-					// Land is forwarded to Master only on behalf of this Port, so it is passive for Master:
-					// Master's answer doesn't pin it, and Land destructor sends Free to Master.
-					if( master !== port ) this.port_lands_passive( master ).add( land )
-					
-					this.sync_port_land([ master, land_link ])
-					
-				}
+				for( const master of masters ) this.sync_port_land([ master, land_link ])
 				
 			}
 		}
@@ -257,7 +249,6 @@ namespace $ {
 					
 					this.port_lands_active( port ).delete( land )
 					
-					// Peer forgets Land, so its Faces are not needed anymore.
 					this.face_port_land( [ port, new $giper_baza_link( land ) ], null )
 					
 					if( this.$.$giper_baza_log() ) $mol_wire_sync( this.$ ).$mol_log3_done({
@@ -357,7 +348,6 @@ namespace $ {
 				if( !this.port_lands_passive( port ).has( land.link().str ) ) continue
 				this.port_lands_passive( port ).delete( land.link().str )
 				
-				// Port forgets Land, so its Faces are not needed anymore.
 				this.face_port_land( [ port, land.link() ], null )
 				
 				if( this.$.$giper_baza_log() ) this.$.$mol_log3_done({
@@ -429,8 +419,6 @@ namespace $ {
 			next?: null | $giper_baza_face_map
 		) {
 			
-			// Faces are kept by Port instead of solid atom: atom may be reaped,
-			// and Faces of closed Port are collected with it.
 			const faces = this.port_faces( port )
 			if( next === undefined ) return faces.get( land.str ) ?? null
 			
