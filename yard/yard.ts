@@ -60,92 +60,145 @@ namespace $ {
 			return ( $mol_wire_probe( ()=> this.reconnects() ) ?? 0 ) + 1
 		}
 		
+		/** Delay before racing next master, ms */
+		static master_stagger = 300
+
 		@ $mol_mem
 		master() {
-			
-			this.reconnects()
-			
-			const link = this.master_current()
-			if( !link ) return null
-			
-			const socket = new $mol_dom_context.WebSocket( link.replace( /^http/, 'ws' ), [ '$giper_baza_yard_2' ] )
-			socket.binaryType = 'arraybuffer'
-			
-			const port = new $mol_rest_port_ws_std
-			port.socket = socket
-			
-			socket.onmessage = async( event )=> {
-				
-				if( event.data instanceof ArrayBuffer ) {
-					if( !event.data.byteLength ) return
-					await $mol_wire_async( this ).port_income( port, new Uint8Array( event.data ) )
-				} else {
-					
-					this.$.$mol_log3_fail({	
-						place: this,
-						message: 'Wrong data',
-						data: event.data
-					})
-					
-				}
-				
-			}
-			
-			let interval: any
 
-			socket.onclose = ()=> {
-				clearInterval( interval )
-				setTimeout( ()=> this.reconnects( null ), 1000 )
-			}
-			
-			port.destructor = ()=> {
-				socket.onclose = ()=> {}
-				clearInterval( interval )
-				socket.close()
-			}
-			
-			return new Promise< $mol_rest_port >( ( done, fail )=> {
-				
-				socket.onopen = ()=> {
-					
-					this.$.$mol_log3_come({
-						place: this,
-						message: 'Connected',
-						port: $mol_key( port ),
-						server: link,
-					})
-					
-					interval = setInterval( ()=> socket.send( new Uint8Array ), 30000 )
-					
-					done( port )
+			this.reconnects()
+
+			const links = this.$.$giper_baza_yard.masters()
+			if( !links.length ) return null
+
+			const first = ( $mol_wire_probe( ()=> this.master_cursor() ) ?? 0 ) % links.length
+			const order = links.map( ( _, index )=> ( first + index ) % links.length )
+			const stagger = ( this.constructor as typeof $giper_baza_yard ).master_stagger
+
+			const sockets = new Map< number, WebSocket >()
+			const timers = new Set< any >()
+			let won = false
+			let started = 0
+			let failed = 0
+
+			const stop = ( keep?: number )=> {
+
+				for( const timer of timers ) clearTimeout( timer )
+				timers.clear()
+
+				for( const [ index, socket ] of sockets ) {
+					if( index === keep ) continue
+					socket.onopen = null
+					socket.onerror = null
+					socket.onclose = null
+					socket.close()
 				}
-				
-				socket.onerror = ()=> {
-					
-					socket.onclose = event => {
-						
+
+			}
+
+			const promise = new Promise< $mol_rest_port >( done => {
+
+				const next = ()=> {
+
+					if( won || started >= order.length ) return
+
+					const index = order[ started ++ ]
+					const link = links[ index ]
+
+					const socket = new this.$.$mol_dom_context.WebSocket( link.replace( /^http/, 'ws' ), [ '$giper_baza_yard_2' ] )
+					socket.binaryType = 'arraybuffer'
+					sockets.set( index, socket )
+
+					socket.onopen = ()=> {
+
+						if( won ) return
+						won = true
+
+						stop( index )
+						socket.onerror = null
+
+						this.master_cursor( index )
+						done( this.master_port( socket, link ) )
+
+					}
+
+					socket.onerror = ()=> {
+
+						socket.onopen = null
+						socket.onerror = null
+						if( won ) return
+
 						if( this.$.$giper_baza_log() ) this.$.$mol_log3_warn({
 							place: this,
 							message: 'Master unavailable',
 							hint: 'Relax and wait for reconnect',
 							link,
-							code: event.code,
 						})
 
-						clearInterval( interval )
-						
-						interval = setTimeout( ()=> {
-							// fail( new Error( `Master unavailable`, { cause: { link, code: event.code } } ) )
-							this.master_next()
-							this.reconnects( null )
-						}, 1000 )
-						
+						if( ++ failed >= order.length ) {
+							timers.add( setTimeout( ()=> this.reconnects( null ), 1000 ) )
+							return
+						}
+
+						next()
+
 					}
-					
+
+					if( started < order.length ) timers.add( setTimeout( next, stagger ) )
+
 				}
-				
-			} ) as any as $mol_rest_port
-			
+
+				next()
+
+			} )
+
+			return Object.assign( promise, { destructor: ()=> { if( !won ) stop() } } ) as any as $mol_rest_port
+
+		}
+
+		master_port( socket: WebSocket, link: string ) {
+
+			const port = new $mol_rest_port_ws_std
+			port.socket = socket
+
+			socket.onmessage = async( event )=> {
+
+				if( event.data instanceof ArrayBuffer ) {
+					if( !event.data.byteLength ) return
+					await $mol_wire_async( this ).port_income( port, new Uint8Array( event.data ) )
+				} else {
+
+					this.$.$mol_log3_fail({
+						place: this,
+						message: 'Wrong data',
+						data: event.data
+					})
+
+				}
+
+			}
+
+			const interval = setInterval( ()=> socket.send( new Uint8Array ), 30000 )
+
+			socket.onclose = ()=> {
+				clearInterval( interval )
+				setTimeout( ()=> this.reconnects( null ), 1000 )
+			}
+
+			port.destructor = ()=> {
+				socket.onclose = ()=> {}
+				clearInterval( interval )
+				socket.close()
+			}
+
+			this.$.$mol_log3_come({
+				place: this,
+				message: 'Connected',
+				port: $mol_key( port ),
+				server: link,
+			})
+
+			return port
 		}
 		
 		slaves = new $mol_wire_set< $mol_rest_port >()
