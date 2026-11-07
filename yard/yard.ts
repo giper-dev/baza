@@ -60,15 +60,10 @@ namespace $ {
 			return ( $mol_wire_probe( ()=> this.reconnects() ) ?? 0 ) + 1
 		}
 		
-		master_drop = null as null | ( ()=> void )
-		
 		@ $mol_mem
 		master() {
 			
 			this.reconnects()
-			
-			this.master_drop?.()
-			this.master_drop = null
 			
 			const link = this.master_current()
 			if( !link ) return null
@@ -109,19 +104,13 @@ namespace $ {
 				socket.close()
 			}
 			
-			this.master_drop = ()=> {
-				socket.onopen = null
-				socket.onerror = null
-				socket.onmessage = null
-				socket.onclose = null
-				clearInterval( interval )
-				clearTimeout( interval )
-				socket.close()
-			}
+			let opened = false
 			
-			return new Promise< $mol_rest_port >( ( done, fail )=> {
+			const promise = new Promise< $mol_rest_port >( ( done, fail )=> {
 				
 				socket.onopen = ()=> {
+					
+					opened = true
 					
 					this.$.$mol_log3_come({
 						place: this,
@@ -159,6 +148,12 @@ namespace $ {
 					
 				}
 				
+			} )
+			
+			return Object.assign( promise, {
+				destructor: ()=> {
+					if( !opened ) port.destructor()
+				},
 			} ) as any as $mol_rest_port
 			
 		}
