@@ -68,7 +68,7 @@ namespace $ {
 			const link = this.master_current()
 			if( !link ) return null
 			
-			const socket = new $mol_dom_context.WebSocket( link.replace( /^http/, 'ws' ), [ '$giper_baza_yard_2' ] )
+			const socket = new this.$.$mol_dom_context.WebSocket( link.replace( /^http/, 'ws' ), [ '$giper_baza_yard_2' ] )
 			socket.binaryType = 'arraybuffer'
 			
 			const port = new $mol_rest_port_ws_std
@@ -104,9 +104,13 @@ namespace $ {
 				socket.close()
 			}
 			
-			return new Promise< $mol_rest_port >( ( done, fail )=> {
+			let opened = false
+			
+			const promise = new Promise< $mol_rest_port >( ( done, fail )=> {
 				
 				socket.onopen = ()=> {
+					
+					opened = true
 					
 					this.$.$mol_log3_come({
 						place: this,
@@ -144,6 +148,12 @@ namespace $ {
 					
 				}
 				
+			} )
+			
+			return Object.assign( promise, {
+				destructor: ()=> {
+					if( !opened ) port.destructor()
+				},
 			} ) as any as $mol_rest_port
 			
 		}
