@@ -60,15 +60,20 @@ namespace $ {
 			return ( $mol_wire_probe( ()=> this.reconnects() ) ?? 0 ) + 1
 		}
 		
+		master_drop = null as null | ( ()=> void )
+		
 		@ $mol_mem
 		master() {
 			
 			this.reconnects()
 			
+			this.master_drop?.()
+			this.master_drop = null
+			
 			const link = this.master_current()
 			if( !link ) return null
 			
-			const socket = new $mol_dom_context.WebSocket( link.replace( /^http/, 'ws' ), [ '$giper_baza_yard_2' ] )
+			const socket = new this.$.$mol_dom_context.WebSocket( link.replace( /^http/, 'ws' ), [ '$giper_baza_yard_2' ] )
 			socket.binaryType = 'arraybuffer'
 			
 			const port = new $mol_rest_port_ws_std
@@ -101,6 +106,16 @@ namespace $ {
 			port.destructor = ()=> {
 				socket.onclose = ()=> {}
 				clearInterval( interval )
+				socket.close()
+			}
+			
+			this.master_drop = ()=> {
+				socket.onopen = null
+				socket.onerror = null
+				socket.onmessage = null
+				socket.onclose = null
+				clearInterval( interval )
+				clearTimeout( interval )
 				socket.close()
 			}
 			
