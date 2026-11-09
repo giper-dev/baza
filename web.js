@@ -24850,36 +24850,35 @@ var $;
             }
             paste(event) {
                 event.preventDefault();
-                const sel = $mol_dom_range.from_selection();
                 const trans = $mol_dom_event.wrap(event).transfer();
                 if (trans.files().length) {
                     this.attach_files([trans.files().item(0)]);
+                    return;
                 }
-                else {
-                    const html = trans.get('text/html');
-                    const text = trans.get('text/plain');
-                    let url = true;
-                    try {
-                        new URL(text);
-                    }
-                    catch {
-                        url = false;
-                    }
-                    if (url) {
-                        if (sel.is_empty()) {
-                            sel.paste($mol_jsx("a", { href: text }, text));
-                        }
-                        else {
-                            sel.surround($mol_jsx("a", { href: text }));
-                        }
+                const sel = $mol_dom_range.from_selection();
+                const html = trans.get('text/html');
+                const text = trans.get('text/plain');
+                let url = true;
+                try {
+                    new URL(text);
+                }
+                catch {
+                    url = false;
+                }
+                if (url) {
+                    if (sel.is_empty()) {
+                        sel.paste($mol_jsx("a", { href: text }, text));
                     }
                     else {
-                        const data = html ? $mol_dom_range.inside($mol_dom_parse(html).documentElement).copy() : new Text(text);
-                        sel.paste(data);
+                        sel.surround($mol_jsx("a", { href: text }));
                     }
-                    this.selection_load();
-                    this.save();
                 }
+                else {
+                    const data = html ? $mol_dom_range.inside($mol_dom_parse(html).documentElement).copy() : new Text(text);
+                    sel.paste(data);
+                }
+                this.selection_load();
+                this.save();
             }
             hover(event) {
                 this.editable(event.ctrlKey ? 'false' : null);
