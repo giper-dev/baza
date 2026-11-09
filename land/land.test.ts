@@ -296,6 +296,24 @@ namespace $ {
 		// 	$mol_assert_equal( store.chief.as( $hyoo_crowd_list ).list(), [ 'foo', ' xxxbar' ] )
 			
 		// },
+		
+		async 'Verify seal on different wire host'( $ ) {
+			
+			const auth0 = $.$giper_baza_auth.grab()
+			const auth1 = $.$giper_baza_auth.grab()
+			
+			const land0 = $giper_baza_land.make({ $, auth: ()=> auth0 })
+			const land1 = $giper_baza_land.make({ $, link: ()=> land0.link(), auth: ()=> auth1 })
+			
+			land0.give( auth1.pass(), $giper_baza_rank_rule )
+			$mol_assert_equal( land0.pass_rank( auth1.pass() ), $giper_baza_rank_rule )
+			
+			const units = land0.diff_units()
+			
+			await $mol_wire_async( land1 ).diff_apply( units )
+			$mol_assert_equal( land1.pass_rank( auth1.pass() ), $giper_baza_rank_rule )
+			
+		}
 
 	})
 }
