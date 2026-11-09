@@ -262,6 +262,36 @@ namespace $.$$ {
 			event.preventDefault()
 		}
 		
+		override attach_files( files: readonly File[] ) {
+			
+			const blob = files[0]!
+			const area = this.pawn().land().area_make()
+			const file = area.Data( $giper_baza_file )
+			
+			if( blob.size > 1024**2 ) return [] // 1MB limit
+			
+			if( blob.type.startsWith( 'image/' ) ) { 
+			
+				file.type( blob.type )
+				file.name( blob.name )
+				file.buffer( $mol_wire_sync( blob ).bytes() )
+				
+				file.land().units_saving()
+				
+				const img = $mol_wire_sync( $mol_picture ).load( file.uri() )
+				const [ width, height ] = $mol_picture.sizes( img )
+				
+				const sel = $mol_dom_range.from_selection()!
+				sel.paste( <img src={ file.uri() } width={ width } height={ height } /> )
+				
+			}
+			
+			this.selection_load()
+			this.save()
+			
+			return []
+		}
+		
 		override paste( event: ClipboardEvent ) {
 			
 			event.preventDefault()
@@ -271,26 +301,7 @@ namespace $.$$ {
 			
 			if( trans.files().length ) {
 				
-				const blob = trans.files().item(0)!
-				const area = this.pawn().land().area_make()
-				const file = area.Data( $giper_baza_file )
-				
-				if( blob.size > 1024**2 ) return
-				
-				if( blob.type.startsWith( 'image/' ) ) { 
-				
-					file.type( blob.type )
-					file.name( blob.name )
-					file.buffer( $mol_wire_sync( blob ).bytes() )
-					
-					file.land().units_saving()
-					
-					const img = $mol_wire_sync( $mol_picture ).load( file.uri() )
-					const [ width, height ] = $mol_picture.sizes( img )
-					
-					sel.paste( <img src={ file.uri() } width={ width } height={ height } /> )
-					
-				}
+				this.attach_files([ trans.files().item(0)! ] )
 				
 			} else {
 			
@@ -316,10 +327,10 @@ namespace $.$$ {
 					
 				}
 				
+				this.selection_load()
+				this.save()
+				
 			}
-			
-			this.selection_load()
-			this.save()
 			
 		}
 		

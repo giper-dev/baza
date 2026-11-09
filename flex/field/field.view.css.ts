@@ -2,6 +2,8 @@ namespace $.$$ {
 	
 	$mol_style_define( $giper_baza_flex_field, {
 		
+		minWidth: 0,
+		
 		flex: {
 			grow: 1,
 			shrink: 1,

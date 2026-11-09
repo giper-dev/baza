@@ -108,6 +108,10 @@ $giper_baza_rich_edit $mol_view
 							hint \Alt+C
 							enabled? <=> selected? false
 							click? <=> inline_toggle*code?
+				<= Attach $mol_button_open
+					hint @ \Attach file
+					enabled? <=> selected? false
+					files? <=> attach_files? /
 				- <= Search_toggle $mol_check_icon
 					hint @ \Search / Replace
 					checked? <=> search_active? false

@@ -1,4 +1,5 @@
 [giper_baza_rich_edit] {
+	min-width: 0;
 	flex-direction: column;
 	flex: 1;
 	border-radius: var(--mol_gap_round);
@@ -49,7 +50,7 @@
 
 [giper_baza_rich_edit_content] ul {
 	margin: 0;
-	padding: 0 1.5rem;
+	padding: 0 0 0 1.5rem;
 }
 
 /* [giper_baza_rich_edit_content] ul > p:before {
@@ -63,7 +64,7 @@
 
 [giper_baza_rich_edit_content] ol {
 	margin: 0;
-	padding: 0 1.5rem;
+	padding: 0 0 0 1.5rem;
 	counter-reset: giper_baza_rich_edit_content_ol 0;
 }
 
@@ -94,6 +95,7 @@
 
 [giper_baza_rich_edit_content] img {
 	max-width: 100%;
+	height: auto;
 }
 
 [giper_baza_rich_edit_content] strong {
