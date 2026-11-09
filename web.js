@@ -3046,7 +3046,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/view/view/view.css", "@view-transition {\n\tnavigation: auto;\n}\n\n[mol_view] {\n\ttransition-property: height, width, min-height, min-width, max-width, max-height, transform, scale, translate, rotate;\n\ttransition-duration: .2s;\n\ttransition-timing-function: ease-out;\n\t-webkit-appearance: none;\n\tbox-sizing: border-box;\n\tdisplay: flex;\n\tflex-shrink: 0;\n\tcontain: style;\n\tscrollbar-color: var(--mol_theme_line) transparent;\n\tscrollbar-width: thin;\n\t/* text-wrap-style: pretty; dont work in textarea */\n\tunicode-bidi: plaintext\n}\n\n[mol_view]::selection {\n\tbackground: var(--mol_theme_line);\n}\t\n\n[mol_view]::-webkit-scrollbar {\n\twidth: .25rem;\n\theight: .25rem;\n}\n\n[mol_view]::-webkit-scrollbar-corner {\n\tbackground-color: var(--mol_theme_line);\n}\n\n[mol_view]::-webkit-scrollbar-track {\n\tbackground-color: transparent;\n}\n\n[mol_view]::-webkit-scrollbar-thumb {\n\tbackground-color: var(--mol_theme_line);\n\tborder-radius: var(--mol_gap_round);\n}\n\n[mol_view] > * {\n\tword-break: inherit;\n}\n\n[mol_view_root] {\n\tmargin: 0;\n\tpadding: 0;\n\twidth: 100%;\n\theight: 100%;\n\tbox-sizing: border-box;\n\tfont-family: system-ui, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n\tfont-size: 1rem;\n\tline-height: 1.5rem;\n\t/* background: var(--mol_theme_back);\n\tcolor: var(--mol_theme_text); */\n\tcontain: unset; /** Fixes bg ignoring when applied to body on Chrome */\n\ttab-size: 4;\n\t/*overscroll-behavior: contain; /** Disable navigation gestures **/\n}\n\n@media print {\n\t[mol_view_root] {\n\t\theight: auto;\n\t}\n}\n[mol_view][mol_view_error]:not([mol_view_error=\"Promise\"], [mol_view_error=\"$mol_promise_blocker\"]) {\n\tbackground-image: repeating-linear-gradient(\n\t\t-45deg,\n\t\t#f92323,\n\t\t#f92323 .5rem,\n\t\t#ff3d3d .5rem,\n\t\t#ff3d3d 1.5rem\n\t);\n\tcolor: black;\n\talign-items: center;\n\tjustify-content: center;\n}\n\n@keyframes mol_view_wait {\n\tfrom {\n\t\topacity: .25;\n\t}\n\t20% {\n\t\topacity: .75;\n\t}\n\tto {\n\t\topacity: .25;\n\t}\n}\n\n:where([mol_view][mol_view_error=\"$mol_promise_blocker\"]),\n:where([mol_view][mol_view_error=\"Promise\"]) {\n\tbackground: var(--mol_theme_hover);\n}\n\n[mol_view][mol_view_error=\"Promise\"] {\n\tanimation: mol_view_wait 1s steps(20,end) infinite;\n}\n");
+    $mol_style_attach("mol/view/view/view.css", "@view-transition {\n\tnavigation: auto;\n}\n\n[mol_view] {\n\ttransition-property: height, width, min-height, min-width, max-width, max-height, transform, scale, translate, rotate;\n\ttransition-duration: .2s;\n\ttransition-timing-function: ease-out;\n\t-webkit-appearance: none;\n\tbox-sizing: border-box;\n\tdisplay: flex;\n\tflex-shrink: 0;\n\tcontain: style;\n\tscrollbar-color: var(--mol_theme_line) transparent;\n\tscrollbar-width: thin;\n\t/* text-wrap-style: pretty; dont work in textarea */\n\tunicode-bidi: plaintext;\n}\n\n[mol_view]::selection {\n\tbackground: var(--mol_theme_line);\n}\t\n\n[mol_view]::-webkit-scrollbar {\n\twidth: .25rem;\n\theight: .25rem;\n}\n\n[mol_view]::-webkit-scrollbar-corner {\n\tbackground-color: var(--mol_theme_line);\n}\n\n[mol_view]::-webkit-scrollbar-track {\n\tbackground-color: transparent;\n}\n\n[mol_view]::-webkit-scrollbar-thumb {\n\tbackground-color: var(--mol_theme_line);\n\tborder-radius: var(--mol_gap_round);\n}\n\n[mol_view] > * {\n\tword-break: inherit;\n\tunicode-bidi: inherit;\n}\n\n[mol_view_root] {\n\tmargin: 0;\n\tpadding: 0;\n\twidth: 100%;\n\theight: 100%;\n\tbox-sizing: border-box;\n\tfont-family: system-ui, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n\tfont-size: 1rem;\n\tline-height: 1.5rem;\n\t/* background: var(--mol_theme_back);\n\tcolor: var(--mol_theme_text); */\n\tcontain: unset; /** Fixes bg ignoring when applied to body on Chrome */\n\ttab-size: 4;\n\t/*overscroll-behavior: contain; /** Disable navigation gestures **/\n}\n\n@media print {\n\t[mol_view_root] {\n\t\theight: auto;\n\t}\n}\n[mol_view][mol_view_error]:not([mol_view_error=\"Promise\"], [mol_view_error=\"$mol_promise_blocker\"]) {\n\tbackground-image: repeating-linear-gradient(\n\t\t-45deg,\n\t\t#f92323,\n\t\t#f92323 .5rem,\n\t\t#ff3d3d .5rem,\n\t\t#ff3d3d 1.5rem\n\t);\n\tcolor: black;\n\talign-items: center;\n\tjustify-content: center;\n}\n\n@keyframes mol_view_wait {\n\tfrom {\n\t\topacity: .25;\n\t}\n\t20% {\n\t\topacity: .75;\n\t}\n\tto {\n\t\topacity: .25;\n\t}\n}\n\n:where([mol_view][mol_view_error=\"$mol_promise_blocker\"]),\n:where([mol_view][mol_view_error=\"Promise\"]) {\n\tbackground: var(--mol_theme_hover);\n}\n\n[mol_view][mol_view_error=\"Promise\"] {\n\tanimation: mol_view_wait 1s steps(20,end) infinite;\n}\n");
 })($ || ($ = {}));
 
 ;
@@ -21261,7 +21261,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/textarea/textarea.view.css", "[mol_textarea] {\n\tflex: 1 0 auto;\n\tflex-direction: column;\n\tvertical-align: top;\n\tmin-height: max-content;\n\twhite-space: pre-wrap;\n\tword-break: break-word;\n\tborder-radius: var(--mol_gap_round);\n\tfont-family: monospace;\n\tposition: relative;\n\ttab-size: 4;\n}\n\n[mol_textarea_view] {\n    interactivity: inert;\n\twhite-space: inherit;\n\tfont-family: inherit;\n\ttab-size: inherit;\n}\n\n[mol_textarea_view_copy] {\n    interactivity: initial;\n}\n\n[mol_textarea_clickable] > [mol_textarea_view] {\n    interactivity: initial;\n}\n\n[mol_textarea_clickable] > [mol_textarea_edit] {\n    interactivity: inert;\n}\n\n[mol_textarea_edit] {\n\tfont-family: inherit;\n\tpadding: var(--mol_gap_text);\n\tcolor: transparent !important;\n\tcaret-color: var(--mol_theme_text);\n\tresize: none;\n\ttext-align: inherit;\n\twhite-space: inherit;\n\tborder-radius: inherit;\n\toverflow-anchor: none;\n\tposition: absolute;\n\theight: 100%;\n\twidth: 100%;\n\ttab-size: inherit;\n}\n\n[mol_textarea_sidebar_showed] [mol_textarea_edit] {\n\tleft: 1.75rem;\n\twidth: calc( 100% - 1.75rem );\n}\n\n[mol_textarea_edit]:hover + [mol_textarea_view] {\n\tz-index: var(--mol_layer_hover);\n}\n\n[mol_textarea_edit]:focus + [mol_textarea_view] {\n\tz-index: var(--mol_layer_focus);\n}\n");
+    $mol_style_attach("mol/textarea/textarea.view.css", "[mol_textarea] {\n\tflex: 1 0 auto;\n\tflex-direction: column;\n\tvertical-align: top;\n\tmin-height: max-content;\n\twhite-space: pre-wrap;\n\tword-break: break-word;\n\tborder-radius: var(--mol_gap_round);\n\tfont-family: monospace;\n\tposition: relative;\n\ttab-size: 4;\n}\n\n[mol_textarea_view] {\n    interactivity: inert;\n\twhite-space: inherit;\n\tfont-family: inherit;\n\ttab-size: inherit;\n\tunicode-bidi: normal;\n}\n\n[mol_textarea_view_copy] {\n    interactivity: initial;\n}\n\n[mol_textarea_clickable] > [mol_textarea_view] {\n    interactivity: initial;\n}\n\n[mol_textarea_clickable] > [mol_textarea_edit] {\n    interactivity: inert;\n}\n\n[mol_textarea_edit] {\n\tfont-family: inherit;\n\tpadding: var(--mol_gap_text);\n\tcolor: transparent !important;\n\tcaret-color: var(--mol_theme_text);\n\tresize: none;\n\ttext-align: inherit;\n\twhite-space: inherit;\n\tborder-radius: inherit;\n\toverflow-anchor: none;\n\tposition: absolute;\n\theight: 100%;\n\twidth: 100%;\n\ttab-size: inherit;\n}\n\n[mol_textarea_sidebar_showed] [mol_textarea_edit] {\n\tleft: 1.75rem;\n\twidth: calc( 100% - 1.75rem );\n}\n\n[mol_textarea_edit]:hover + [mol_textarea_view] {\n\tz-index: var(--mol_layer_hover);\n}\n\n[mol_textarea_edit]:focus + [mol_textarea_view] {\n\tz-index: var(--mol_layer_focus);\n}\n");
 })($ || ($ = {}));
 
 ;
@@ -23187,6 +23187,135 @@ var $;
 
 
 ;
+	($.$mol_icon_upload) = class $mol_icon_upload extends ($.$mol_icon) {
+		path(){
+			return "M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z";
+		}
+	};
+
+
+;
+"use strict";
+
+
+;
+	($.$mol_button_open) = class $mol_button_open extends ($.$mol_button_minor) {
+		Icon(){
+			const obj = new this.$.$mol_icon_upload();
+			return obj;
+		}
+		files(next){
+			if(next !== undefined) return next;
+			return [];
+		}
+		files_handled(next){
+			return (this.files(next));
+		}
+		accept(){
+			return "";
+		}
+		multiple(){
+			return true;
+		}
+		Native(){
+			const obj = new this.$.$mol_button_open_native();
+			(obj.files) = (next) => ((this.files_handled(next)));
+			(obj.accept) = () => ((this.accept()));
+			(obj.multiple) = () => ((this.multiple()));
+			return obj;
+		}
+		sub(){
+			return [(this.Icon()), (this.Native())];
+		}
+	};
+	($mol_mem(($.$mol_button_open.prototype), "Icon"));
+	($mol_mem(($.$mol_button_open.prototype), "files"));
+	($mol_mem(($.$mol_button_open.prototype), "Native"));
+	($.$mol_button_open_native) = class $mol_button_open_native extends ($.$mol_view) {
+		accept(){
+			return "";
+		}
+		multiple(){
+			return true;
+		}
+		picked(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		dom_name(){
+			return "input";
+		}
+		files(next){
+			if(next !== undefined) return next;
+			return [];
+		}
+		attr(){
+			return {
+				"type": "file", 
+				"accept": (this.accept()), 
+				"multiple": (this.multiple())
+			};
+		}
+		event(){
+			return {"change": (next) => (this.picked(next))};
+		}
+	};
+	($mol_mem(($.$mol_button_open_native.prototype), "picked"));
+	($mol_mem(($.$mol_button_open_native.prototype), "files"));
+
+
+;
+"use strict";
+
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_button_open extends $.$mol_button_open {
+            files_handled(next) {
+                try {
+                    const files = this.files(next);
+                    this.status([null]);
+                    return files;
+                }
+                catch (error) {
+                    // Calling actions from catch section, if throwing promise breaks idempotency
+                    Promise.resolve().then(() => this.status([error]));
+                    $mol_fail_hidden(error);
+                }
+            }
+        }
+        $$.$mol_button_open = $mol_button_open;
+        /**
+         * File open button
+         * @see https://mol.hyoo.ru/#!section=demos/demo=mol_button_demo
+         */
+        class $mol_button_open_native extends $.$mol_button_open_native {
+            dom_node() {
+                return super.dom_node();
+            }
+            picked() {
+                const files = this.dom_node().files;
+                if (!files || !files.length)
+                    return;
+                this.files([...files]);
+            }
+        }
+        $$.$mol_button_open_native = $mol_button_open_native;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/button/open/open.view.css", "[mol_button_open_native] {\n\tposition: absolute;\n\tleft: 0;\n\ttop: -100%;\n\twidth: 100%;\n\theight: 200%;\n\tcursor: pointer;\n\topacity: 0;\n}\n");
+})($ || ($ = {}));
+
+;
 	($.$mol_float) = class $mol_float extends ($.$mol_view) {
 		style(){
 			return {...(super.style()), "minHeight": "auto"};
@@ -23394,6 +23523,17 @@ var $;
 			]);
 			return obj;
 		}
+		attach_files(next){
+			if(next !== undefined) return next;
+			return [];
+		}
+		Attach(){
+			const obj = new this.$.$mol_button_open();
+			(obj.hint) = () => ((this.$.$mol_locale.text("$giper_baza_rich_edit_Attach_hint")));
+			(obj.enabled) = (next) => ((this.selected(next)));
+			(obj.files) = (next) => ((this.attach_files(next)));
+			return obj;
+		}
 		Main(){
 			const obj = new this.$.$mol_bar();
 			(obj.sub) = () => ([
@@ -23403,7 +23543,8 @@ var $;
 				(this.List_number_button()), 
 				(this.Quote_button()), 
 				(this.Preformat_button()), 
-				(this.Inline_format_menu())
+				(this.Inline_format_menu()), 
+				(this.Attach())
 			]);
 			return obj;
 		}
@@ -23508,6 +23649,8 @@ var $;
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "Del_button"));
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "Code_button"));
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "Inline_format_menu"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "attach_files"));
+	($mol_mem(($.$giper_baza_rich_edit.prototype), "Attach"));
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "Main"));
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "Search_query"));
 	($mol_mem(($.$giper_baza_rich_edit.prototype), "Search_replace"));
@@ -24478,7 +24621,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("giper/baza/rich/edit/edit.view.css", "[giper_baza_rich_edit] {\n\tflex-direction: column;\n\tflex: 1;\n\tborder-radius: var(--mol_gap_round);\n\tbackground-color: var(--mol_theme_field);\n}\n\n[giper_baza_rich_edit_enabled] {\n\toutline: 1px solid var(--mol_theme_line);\n}\n\n[giper_baza_rich_edit]:focus-within {\n\tz-index: var(--mol_layer_focus);\n\toutline: 1px solid var(--mol_theme_focus);\n}\n\n[giper_baza_rich_edit_tools] {\n\tborder-radius: var(--mol_gap_round);\n\tbottom: 0;\n}\n\n/* [giper_baza_rich_edit]:not(:focus-within) [giper_baza_rich_edit_tools] {\n\tdisplay: none;\n} */\n\n[giper_baza_rich_edit_content] {\n\tflex-direction: column;\n\tflex: 1;\n\twhite-space: pre-wrap;\n\toutline: none;\n\tpadding: var(--mol_gap_block);\n}\n\n[giper_baza_rich_edit_content] a {\n\tcolor: var(--mol_theme_control);\n\ttext-decoration: none;\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] a:hover {\n\tbackground: var(--mol_theme_card);\n\tbox-shadow: 0 0 0 .25rem var(--mol_theme_card);\n}\n\n[giper_baza_rich_edit_content] p {\n\tmargin: 0;\n\tpadding: var(--mol_gap_text);\n}\n\n[giper_baza_rich_edit_content] ul {\n\tmargin: 0;\n\tpadding: 0 1.5rem;\n}\n\n/* [giper_baza_rich_edit_content] ul > p:before {\n\tcontent: '• ';\n    color: var(--mol_theme_shade);\n\twidth: 0;\n    display: inline-flex;\n    white-space: pre;\n    flex-direction: row-reverse;\n} */\n\n[giper_baza_rich_edit_content] ol {\n\tmargin: 0;\n\tpadding: 0 1.5rem;\n\tcounter-reset: giper_baza_rich_edit_content_ol 0;\n}\n\n[giper_baza_rich_edit_content] ol > p:before {\n\tcounter-increment: giper_baza_rich_edit_content_ol 1;\n\tcontent: counters(giper_baza_rich_edit_content_ol, \".\") \". \";\n\tcolor: var(--mol_theme_shade);\n\twidth: 0;\n    display: inline-flex;\n    white-space: pre;\n    flex-direction: row-reverse;\n}\n\n[giper_baza_rich_edit_content] blockquote {\n\tmargin: var(--mol_gap_block);\n\tpadding: var(--mol_gap_block);\n\tbackground: var(--mol_theme_card);\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] pre {\n\tmargin: 0 var(--mol_gap_block);\n\tpadding: 0 var(--mol_gap_block);\n\tborder-radius: var(--mol_gap_round);\n\toverflow-x: auto;\n\tbox-shadow: inset 1px 0 var(--mol_theme_line);\n}\n\n[giper_baza_rich_edit_content] img {\n\tmax-width: 100%;\n}\n\n[giper_baza_rich_edit_content] strong {\n\ttext-shadow: 0 0;\n\tfont-weight: normal;\n}\n\n[giper_baza_rich_edit_content] em {\n\tfont-style: italic;\n}\n\n[giper_baza_rich_edit_content] ins {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_special);\n}\n\n[giper_baza_rich_edit_content] del {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_shade);\n}\n\n[giper_baza_rich_edit_content] code {\n\tfont-family: monospace;\n}\n\n[giper_baza_rich_edit_content] hr {\n\tmargin: var(--mol_gap_block);\n\tborder: none;\n\tbox-shadow: 0 -1px 0 0px var(--mol_theme_line);\n    height: 1px;\n}\n\n[giper_baza_rich_edit_content] section {\n\tpadding: 0;\n\tmargin: 0;\n}\n\n[giper_baza_rich_edit_content] section > p:first-child {\n\tfont-size: 2rem;\n\tline-height: 3rem;\n\tfont-weight: normal;\n\tletter-spacing: 2px;\n}\n\n[giper_baza_rich_edit_content] section section > p:first-child {\n\tfont-size: 1.75rem;\n\tline-height: 3rem;\n}\n\n[giper_baza_rich_edit_content] section section section > p:first-child {\n\tfont-size: 1.5rem;\n\tline-height: 3rem;\n}\n\n[giper_baza_rich_edit_content] section section section section > p:first-child {\n\tfont-size: 1.25rem;\n\tline-height: 3rem;\n}\n\n[giper_baza_rich_edit_content] section section section section section > p:first-child {\n\tfont-size: 1.25rem;\n\tline-height: 3rem;\n\tfont-style: italic;\n}\n\n[giper_baza_rich_edit_content] section:not(:last-child) {\n\tbox-shadow: 0 1px 0 0 var(--mol_theme_line);\n}\n\n[giper_baza_rich_edit_content] section:not(:last-child) {\n\tpadding-bottom: var(--mol_gap_block);\n\tmargin-bottom: var(--mol_gap_block);\n\tbox-shadow: 0 1px 0 0 var(--mol_theme_line);\n}\n");
+    $mol_style_attach("giper/baza/rich/edit/edit.view.css", "[giper_baza_rich_edit] {\n\tmin-width: 0;\n\tflex-direction: column;\n\tflex: 1;\n\tborder-radius: var(--mol_gap_round);\n\tbackground-color: var(--mol_theme_field);\n}\n\n[giper_baza_rich_edit_enabled] {\n\toutline: 1px solid var(--mol_theme_line);\n}\n\n[giper_baza_rich_edit]:focus-within {\n\tz-index: var(--mol_layer_focus);\n\toutline: 1px solid var(--mol_theme_focus);\n}\n\n[giper_baza_rich_edit_tools] {\n\tborder-radius: var(--mol_gap_round);\n\tbottom: 0;\n}\n\n/* [giper_baza_rich_edit]:not(:focus-within) [giper_baza_rich_edit_tools] {\n\tdisplay: none;\n} */\n\n[giper_baza_rich_edit_content] {\n\tflex-direction: column;\n\tflex: 1;\n\twhite-space: pre-wrap;\n\toutline: none;\n\tpadding: var(--mol_gap_block);\n}\n\n[giper_baza_rich_edit_content] a {\n\tcolor: var(--mol_theme_control);\n\ttext-decoration: none;\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] a:hover {\n\tbackground: var(--mol_theme_card);\n\tbox-shadow: 0 0 0 .25rem var(--mol_theme_card);\n}\n\n[giper_baza_rich_edit_content] p {\n\tmargin: 0;\n\tpadding: var(--mol_gap_text);\n}\n\n[giper_baza_rich_edit_content] ul {\n\tmargin: 0;\n\tpadding: 0 0 0 1.5rem;\n}\n\n/* [giper_baza_rich_edit_content] ul > p:before {\n\tcontent: '• ';\n    color: var(--mol_theme_shade);\n\twidth: 0;\n    display: inline-flex;\n    white-space: pre;\n    flex-direction: row-reverse;\n} */\n\n[giper_baza_rich_edit_content] ol {\n\tmargin: 0;\n\tpadding: 0 0 0 1.5rem;\n\tcounter-reset: giper_baza_rich_edit_content_ol 0;\n}\n\n[giper_baza_rich_edit_content] ol > p:before {\n\tcounter-increment: giper_baza_rich_edit_content_ol 1;\n\tcontent: counters(giper_baza_rich_edit_content_ol, \".\") \". \";\n\tcolor: var(--mol_theme_shade);\n\twidth: 0;\n    display: inline-flex;\n    white-space: pre;\n    flex-direction: row-reverse;\n}\n\n[giper_baza_rich_edit_content] blockquote {\n\tmargin: var(--mol_gap_block);\n\tpadding: var(--mol_gap_block);\n\tbackground: var(--mol_theme_card);\n\tborder-radius: var(--mol_gap_round);\n}\n\n[giper_baza_rich_edit_content] pre {\n\tmargin: 0 var(--mol_gap_block);\n\tpadding: 0 var(--mol_gap_block);\n\tborder-radius: var(--mol_gap_round);\n\toverflow-x: auto;\n\tbox-shadow: inset 1px 0 var(--mol_theme_line);\n}\n\n[giper_baza_rich_edit_content] img {\n\tmax-width: 100%;\n\theight: auto;\n}\n\n[giper_baza_rich_edit_content] strong {\n\ttext-shadow: 0 0;\n\tfont-weight: normal;\n}\n\n[giper_baza_rich_edit_content] em {\n\tfont-style: italic;\n}\n\n[giper_baza_rich_edit_content] ins {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_special);\n}\n\n[giper_baza_rich_edit_content] del {\n\ttext-decoration: none;\n\tcolor: var(--mol_theme_shade);\n}\n\n[giper_baza_rich_edit_content] code {\n\tfont-family: monospace;\n}\n\n[giper_baza_rich_edit_content] hr {\n\tmargin: var(--mol_gap_block);\n\tborder: none;\n\tbox-shadow: 0 -1px 0 0px var(--mol_theme_line);\n    height: 1px;\n}\n\n[giper_baza_rich_edit_content] section {\n\tpadding: 0;\n\tmargin: 0;\n}\n\n[giper_baza_rich_edit_content] section > p:first-child {\n\tfont-size: 2rem;\n\tline-height: 3rem;\n\tfont-weight: normal;\n\tletter-spacing: 2px;\n}\n\n[giper_baza_rich_edit_content] section section > p:first-child {\n\tfont-size: 1.75rem;\n\tline-height: 3rem;\n}\n\n[giper_baza_rich_edit_content] section section section > p:first-child {\n\tfont-size: 1.5rem;\n\tline-height: 3rem;\n}\n\n[giper_baza_rich_edit_content] section section section section > p:first-child {\n\tfont-size: 1.25rem;\n\tline-height: 3rem;\n}\n\n[giper_baza_rich_edit_content] section section section section section > p:first-child {\n\tfont-size: 1.25rem;\n\tline-height: 3rem;\n\tfont-style: italic;\n}\n\n[giper_baza_rich_edit_content] section:not(:last-child) {\n\tbox-shadow: 0 1px 0 0 var(--mol_theme_line);\n}\n\n[giper_baza_rich_edit_content] section:not(:last-child) {\n\tpadding-bottom: var(--mol_gap_block);\n\tmargin-bottom: var(--mol_gap_block);\n\tbox-shadow: 0 1px 0 0 var(--mol_theme_line);\n}\n");
 })($ || ($ = {}));
 
 ;
@@ -24685,25 +24828,32 @@ var $;
                 this.save();
                 event.preventDefault();
             }
+            attach_files(files) {
+                const blob = files[0];
+                const area = this.pawn().land().area_make();
+                const file = area.Data($giper_baza_file);
+                if (blob.size > 1024 ** 2)
+                    return []; // 1MB limit
+                if (blob.type.startsWith('image/')) {
+                    file.type(blob.type);
+                    file.name(blob.name);
+                    file.buffer($mol_wire_sync(blob).bytes());
+                    file.land().units_saving();
+                    const img = $mol_wire_sync($mol_picture).load(file.uri());
+                    const [width, height] = $mol_picture.sizes(img);
+                    const sel = $mol_dom_range.from_selection();
+                    sel.paste($mol_jsx("img", { src: file.uri(), width: width, height: height }));
+                }
+                this.selection_load();
+                this.save();
+                return [];
+            }
             paste(event) {
                 event.preventDefault();
                 const sel = $mol_dom_range.from_selection();
                 const trans = $mol_dom_event.wrap(event).transfer();
                 if (trans.files().length) {
-                    const blob = trans.files().item(0);
-                    const area = this.pawn().land().area_make();
-                    const file = area.Data($giper_baza_file);
-                    if (blob.size > 1024 ** 2)
-                        return;
-                    if (blob.type.startsWith('image/')) {
-                        file.type(blob.type);
-                        file.name(blob.name);
-                        file.buffer($mol_wire_sync(blob).bytes());
-                        file.land().units_saving();
-                        const img = $mol_wire_sync($mol_picture).load(file.uri());
-                        const [width, height] = $mol_picture.sizes(img);
-                        sel.paste($mol_jsx("img", { src: file.uri(), width: width, height: height }));
-                    }
+                    this.attach_files([trans.files().item(0)]);
                 }
                 else {
                     const html = trans.get('text/html');
@@ -24727,9 +24877,9 @@ var $;
                         const data = html ? $mol_dom_range.inside($mol_dom_parse(html).documentElement).copy() : new Text(text);
                         sel.paste(data);
                     }
+                    this.selection_load();
+                    this.save();
                 }
-                this.selection_load();
-                this.save();
             }
             hover(event) {
                 this.editable(event.ctrlKey ? 'false' : null);
@@ -25416,6 +25566,7 @@ var $;
     var $$;
     (function ($$) {
         $mol_style_define($giper_baza_flex_field, {
+            minWidth: 0,
             flex: {
                 grow: 1,
                 shrink: 1,
@@ -26522,135 +26673,6 @@ var $;
         }
         $$.$giper_baza_land_grab = $giper_baza_land_grab;
     })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-
-;
-	($.$mol_icon_upload) = class $mol_icon_upload extends ($.$mol_icon) {
-		path(){
-			return "M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z";
-		}
-	};
-
-
-;
-"use strict";
-
-
-;
-	($.$mol_button_open) = class $mol_button_open extends ($.$mol_button_minor) {
-		Icon(){
-			const obj = new this.$.$mol_icon_upload();
-			return obj;
-		}
-		files(next){
-			if(next !== undefined) return next;
-			return [];
-		}
-		files_handled(next){
-			return (this.files(next));
-		}
-		accept(){
-			return "";
-		}
-		multiple(){
-			return true;
-		}
-		Native(){
-			const obj = new this.$.$mol_button_open_native();
-			(obj.files) = (next) => ((this.files_handled(next)));
-			(obj.accept) = () => ((this.accept()));
-			(obj.multiple) = () => ((this.multiple()));
-			return obj;
-		}
-		sub(){
-			return [(this.Icon()), (this.Native())];
-		}
-	};
-	($mol_mem(($.$mol_button_open.prototype), "Icon"));
-	($mol_mem(($.$mol_button_open.prototype), "files"));
-	($mol_mem(($.$mol_button_open.prototype), "Native"));
-	($.$mol_button_open_native) = class $mol_button_open_native extends ($.$mol_view) {
-		accept(){
-			return "";
-		}
-		multiple(){
-			return true;
-		}
-		picked(next){
-			if(next !== undefined) return next;
-			return null;
-		}
-		dom_name(){
-			return "input";
-		}
-		files(next){
-			if(next !== undefined) return next;
-			return [];
-		}
-		attr(){
-			return {
-				"type": "file", 
-				"accept": (this.accept()), 
-				"multiple": (this.multiple())
-			};
-		}
-		event(){
-			return {"change": (next) => (this.picked(next))};
-		}
-	};
-	($mol_mem(($.$mol_button_open_native.prototype), "picked"));
-	($mol_mem(($.$mol_button_open_native.prototype), "files"));
-
-
-;
-"use strict";
-
-
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $mol_button_open extends $.$mol_button_open {
-            files_handled(next) {
-                try {
-                    const files = this.files(next);
-                    this.status([null]);
-                    return files;
-                }
-                catch (error) {
-                    // Calling actions from catch section, if throwing promise breaks idempotency
-                    Promise.resolve().then(() => this.status([error]));
-                    $mol_fail_hidden(error);
-                }
-            }
-        }
-        $$.$mol_button_open = $mol_button_open;
-        /**
-         * File open button
-         * @see https://mol.hyoo.ru/#!section=demos/demo=mol_button_demo
-         */
-        class $mol_button_open_native extends $.$mol_button_open_native {
-            dom_node() {
-                return super.dom_node();
-            }
-            picked() {
-                const files = this.dom_node().files;
-                if (!files || !files.length)
-                    return;
-                this.files([...files]);
-            }
-        }
-        $$.$mol_button_open_native = $mol_button_open_native;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_attach("mol/button/open/open.view.css", "[mol_button_open_native] {\n\tposition: absolute;\n\tleft: 0;\n\ttop: -100%;\n\twidth: 100%;\n\theight: 200%;\n\tcursor: pointer;\n\topacity: 0;\n}\n");
 })($ || ($ = {}));
 
 ;
