@@ -296,41 +296,39 @@ namespace $.$$ {
 			
 			event.preventDefault()
 			
-			const sel = $mol_dom_range.from_selection()!
 			const trans = $mol_dom_event.wrap( event ).transfer()!
 			
 			if( trans.files().length ) {
-				
 				this.attach_files([ trans.files().item(0)! ] )
-				
-			} else {
+				return
+			}
 			
-				const html = trans.get( 'text/html' )
-				const text = trans.get( 'text/plain' )
+			const sel = $mol_dom_range.from_selection()!
+			
+			const html = trans.get( 'text/html' )
+			const text = trans.get( 'text/plain' )
+			
+			let url = true
+			try { new URL( text ) }
+			catch { url = false }
+			
+			if( url ) {
 				
-				let url = true
-				try { new URL( text ) }
-				catch { url = false }
-				
-				if( url ) {
-					
-					if( sel.is_empty() ) {
-						sel.paste( <a href={text}>{text}</a> )
-					} else {
-						sel.surround( <a href={text} /> )
-					}
-					
+				if( sel.is_empty() ) {
+					sel.paste( <a href={text}>{text}</a> )
 				} else {
-					
-					const data = html ? $mol_dom_range.inside( $mol_dom_parse( html ).documentElement ).copy() : new Text( text )
-					sel.paste( data )
-					
+					sel.surround( <a href={text} /> )
 				}
 				
-				this.selection_load()
-				this.save()
+			} else {
+				
+				const data = html ? $mol_dom_range.inside( $mol_dom_parse( html ).documentElement ).copy() : new Text( text )
+				sel.paste( data )
 				
 			}
+			
+			this.selection_load()
+			this.save()
 			
 		}
 		
