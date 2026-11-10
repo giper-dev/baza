@@ -1058,8 +1058,18 @@ namespace $ {
 		}
 		
 		destructor() {
-			Promise.resolve().then( ()=> {
+			Promise.resolve().then( async ()=> {
+				
 				this.$.$giper_baza_glob.yard().forget_land( this )
+				
+				try {
+					await $mol_wire_async( this ).units_saving()
+				} catch( error ) {
+					$mol_fail_log( error )
+				} finally {
+					$mol_wire_solid_free( this )
+				}
+				
 			} )
 		}
 		
@@ -1077,8 +1087,14 @@ namespace $ {
 		@ $mol_mem
 		sync_yard() {
 			const root = new $mol_wire_atom( 'sync_yard', ()=> this.$.$giper_baza_glob.yard().sync_land( this.link() ) )
-			setTimeout( ()=> root.fresh() )
-			return root
+			const timer = setTimeout( ()=> root.fresh() )
+			return {
+				root,
+				destructor() {
+					clearTimeout( timer )
+					root.destructor()
+				},
+			}
 		}
 		
 		@ $mol_mem
