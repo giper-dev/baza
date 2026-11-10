@@ -1058,14 +1058,24 @@ namespace $ {
 		}
 		
 		destructor() {
-			Promise.resolve().then( ()=> {
+			Promise.resolve().then( async ()=> {
+				
 				this.$.$giper_baza_glob.yard().forget_land( this )
+				
+				try {
+					await $mol_wire_async( this ).units_saving()
+				} catch( error ) {
+					$mol_fail_log( error )
+				} finally {
+					$giper_baza_solid_free( this )
+				}
+				
 			} )
 		}
 		
 		@ $mol_mem
 		mine() {
-			$mol_wire_solid()
+			$giper_baza_solid()
 			return this.$.$giper_baza_mine.land( this.link() )
 		}
 		
@@ -1077,8 +1087,14 @@ namespace $ {
 		@ $mol_mem
 		sync_yard() {
 			const root = new $mol_wire_atom( 'sync_yard', ()=> this.$.$giper_baza_glob.yard().sync_land( this.link() ) )
-			setTimeout( ()=> root.fresh() )
-			return root
+			const timer = setTimeout( ()=> root.fresh() )
+			return {
+				root,
+				destructor() {
+					clearTimeout( timer )
+					root.destructor()
+				},
+			}
 		}
 		
 		@ $mol_mem
@@ -1103,7 +1119,7 @@ namespace $ {
 		
 		@ $mol_mem
 		loading() {
-			$mol_wire_solid()
+			$giper_baza_solid()
 			
 			let units = $mol_wire_sync( this.mine() ).units_load()
 			if( units.length ) this.persisted( true )
@@ -1259,7 +1275,7 @@ namespace $ {
 		@ $mol_mem
 		persisted( next?: boolean ): boolean {
 			
-			$mol_wire_solid()
+			$giper_baza_solid()
 			
 			if( next !== undefined ) return next
 			
@@ -1484,7 +1500,7 @@ namespace $ {
 		@ $mol_mem
 		encrypted( next?: boolean ) {
 			
-			$mol_wire_solid()
+			$giper_baza_solid()
 			// if( !this._gift.size ) this.loading()
 			
 			const gift = this._gift.get( this.link().str )
