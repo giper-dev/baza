@@ -1077,8 +1077,14 @@ namespace $ {
 		@ $mol_mem
 		sync_yard() {
 			const root = new $mol_wire_atom( 'sync_yard', ()=> this.$.$giper_baza_glob.yard().sync_land( this.link() ) )
-			setTimeout( ()=> root.fresh() )
-			return root
+			const timer = setTimeout( ()=> root.fresh() )
+			return {
+				root,
+				destructor() {
+					clearTimeout( timer )
+					root.destructor()
+				},
+			}
 		}
 		
 		@ $mol_mem

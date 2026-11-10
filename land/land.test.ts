@@ -201,6 +201,23 @@ namespace $ {
 
 		},
 		
+		async 'Reaped sync_yard is not revived by its timer'( $ ) {
+			
+			const land = $giper_baza_land.make({ $ })
+			
+			const keep = new $mol_wire_atom( 'keep', ()=> land.sync_yard() )
+			keep.fresh()
+			
+			const root = ( land as any )[ 'sync_yard()' ].cache.root
+			
+			keep.destructor()
+			$mol_wire_fiber.sync()
+			await new Promise( done => setTimeout( done, 10 ) )
+			
+			$mol_assert_equal( root.pub_list.length, 0 )
+			
+		},
+		
 		// async 'Merge text changes'() {
 			
 		// 	const base = new $giper_baza_land( 1n, 1 )
