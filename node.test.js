@@ -12523,7 +12523,7 @@ var $;
     }, 'Subj') {
         static meta = new $giper_baza_link(`${$.$giper_baza_flex_deck_link.str}_U2e5XejQ`);
         name(next) {
-            return this.Name(next)?.val(next) ?? this.link().str;
+            return this.Name(next)?.val(next) ?? '';
         }
         icon(next) {
             return this.Icon(next)?.val(next) ?? '💫';
