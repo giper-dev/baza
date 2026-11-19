@@ -209,7 +209,7 @@ namespace $ {
 		}
 		
 		hash() {
-			return $giper_baza_link.hash_bin( this.asArray() )
+			return $giper_baza_link.hash_bin( this )
 		}
 		
 		tier_min() {
