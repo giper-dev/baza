@@ -10648,7 +10648,7 @@ var $;
             return new Uint8Array(this.buffer, this.byteOffset + 2, 16); /* tick(2), time(4), lord(10) */
         }
         hash() {
-            return $giper_baza_link.hash_bin(this);
+            return $giper_baza_link.hash_bin(this.asArray());
         }
         tier_min() {
             return $giper_baza_rank_tier.rule;
