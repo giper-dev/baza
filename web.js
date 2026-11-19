@@ -4300,6 +4300,7 @@ var $;
             return next ?? $mol_wire_sync(native).persisted();
         }
         static estimate(next) {
+            $mol_mem_persist();
             const res = $mol_wire_sync(this.native() ?? {}).estimate();
             new this.$.$mol_after_timeout(1000, $mol_wire_async(() => this.estimate(null)));
             return res;
@@ -15205,7 +15206,7 @@ var $;
             return new Uint8Array(this.buffer, this.byteOffset + 2, 16); /* tick(2), time(4), lord(10) */
         }
         hash() {
-            return $giper_baza_link.hash_bin(this.asArray());
+            return $giper_baza_link.hash_bin(this);
         }
         tier_min() {
             return $giper_baza_rank_tier.rule;
