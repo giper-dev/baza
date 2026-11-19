@@ -208,8 +208,17 @@ namespace $ {
 			return new Uint8Array( this.buffer, this.byteOffset + 2, 16 ) /* tick(2), time(4), lord(10) */
 		}
 		
+		_hash_bin = null as null | Uint8Array< ArrayBuffer >
+		_hash = null as null | $giper_baza_link
+
 		hash() {
-			return $giper_baza_link.hash_bin( this )
+
+			const bin = new Uint8Array( this.buffer, this.byteOffset, this.byteLength )
+			if( this._hash && $mol_compare_array( this._hash_bin!, bin ) ) return this._hash
+
+			this._hash_bin = bin.slice()
+			return this._hash = $giper_baza_link.hash_bin( bin )
+
 		}
 		
 		tier_min() {

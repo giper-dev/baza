@@ -68,6 +68,19 @@ namespace $ {
 			$mol_assert_equal( unit.lead(), new $giper_baza_link( 'v6æfj39v' ) )
 			
 		},
-		
+
+		'unit hash follows unit bytes'() {
+
+			const seal = $giper_baza_unit_seal.make( 1, false )
+			const unsigned = seal.hash()
+
+			seal.sign( new Uint8Array( 64 ).fill( 7 ) )
+			const signed = seal.hash()
+
+			$mol_assert_unique( signed.str, unsigned.str )
+			$mol_assert_equal( seal.hash(), signed )
+
+		},
+
 	})
 }
