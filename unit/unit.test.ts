@@ -66,6 +66,7 @@ namespace $ {
 			$mol_assert_equal( unit.head(), new $giper_baza_link( 'ÆPv6æfj3' ) )
 			$mol_assert_equal( unit.self(), new $giper_baza_link( 'Pv6æfj39' ) )
 			$mol_assert_equal( unit.lead(), new $giper_baza_link( 'v6æfj39v' ) )
+			
 		},
 
 		'unit hash follows unit bytes'() {
