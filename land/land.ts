@@ -1328,6 +1328,7 @@ namespace $ {
 						const sign = await auth.signer().sign( sens )
 						seal.sign( sign )
 						
+						seal.hash( null )
 					} while( seal.rate_min() > rate )
 					
 					return seal
