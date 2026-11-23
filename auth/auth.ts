@@ -47,6 +47,9 @@ namespace $ {
 		
 	}
 
+	/** Platform does not support required cryptography */
+	export class $giper_baza_auth_outdated extends $mol_error_mix {}
+
 	/** Private key generated with Proof of Work */
 	export class $giper_baza_auth extends $mol_crypto2_private {
 		
@@ -84,13 +87,12 @@ namespace $ {
 		@ $mol_action
 		static grab() {
 			if( this.embryos.length ) return this.from( this.embryos.pop()! )
-			try {
-				return $mol_wire_sync( this as typeof $giper_baza_auth )._generate()
-			} catch( error: any ) {
-				if( $mol_promise_like( error ) ) $mol_fail_hidden( error )
-				if( error.cause?.name !== 'NotSupportedError' ) $mol_fail_hidden( error )
-				return $mol_fail( new Error( $$.$mol_locale.text( '$giper_baza_auth_outdated' ), { cause: error } ) )
-			}
+			return $mol_error_fence(
+				()=> $mol_wire_sync( this as typeof $giper_baza_auth )._generate(),
+				error => ( error.cause as Error | undefined )?.name === 'NotSupportedError'
+					? new $giper_baza_auth_outdated( 'We use the most modern cryptography. Your browser is outdated and does not support it. Please update your browser and come back.', {}, error )
+					: error,
+			)
 		}
 		
 		static async _generate() {
