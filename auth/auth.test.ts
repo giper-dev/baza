@@ -23,5 +23,36 @@ namespace $ {
 		}
 		$.$giper_baza_auth = $giper_baza_auth_mock
 	} )
+	
+	$mol_test({
+		
+		async "Outdated browser is reported in plain words"() {
+			
+			const fails = ( origin: Error )=> {
+				class Auth extends $giper_baza_auth {
+					static override embryos = []
+					static override async _generate(): Promise< $giper_baza_auth > {
+						throw origin
+					}
+				}
+				return $mol_wire_async( Auth as typeof $giper_baza_auth ).grab().catch( error => error ) as Promise< any >
+			}
+			
+			const text = 'Your browser is outdated'
+			$$.$mol_locale.texts( $$.$mol_locale.lang(), { $giper_baza_auth_outdated: text } )
+			
+			const cause = Object.assign( new Error( 'Unrecognized name' ), { name: 'NotSupportedError' } )
+			const unsupported = new Error( cause.message, { cause } )
+			const outdated = await fails( unsupported )
+			
+			$mol_assert_equal( outdated.cause, unsupported )
+			$mol_assert_equal( outdated.message, text )
+			
+			const other = new Error( 'Other' )
+			$mol_assert_equal( await fails( other ), other )
+			
+		},
+		
+	})
+	
 }
-

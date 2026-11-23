@@ -84,7 +84,13 @@ namespace $ {
 		@ $mol_action
 		static grab() {
 			if( this.embryos.length ) return this.from( this.embryos.pop()! )
-			return $mol_wire_sync( this as typeof $giper_baza_auth )._generate()
+			try {
+				return $mol_wire_sync( this as typeof $giper_baza_auth )._generate()
+			} catch( error: any ) {
+				if( $mol_promise_like( error ) ) $mol_fail_hidden( error )
+				if( error.cause?.name !== 'NotSupportedError' ) $mol_fail_hidden( error )
+				return $mol_fail( new Error( $$.$mol_locale.text( '$giper_baza_auth_outdated' ), { cause: error } ) )
+			}
 		}
 		
 		static async _generate() {
